@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\DI\FactoryDefault\CLI as CliDI,
+use Phalcon\Di\FactoryDefault\Cli as CliDI,
 	Phalcon\Mvc\Model\Transaction\Manager as TransactionManager,
 	Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
 	Phalcon\CLI\Console as ConsoleApp;
@@ -9,22 +9,18 @@ define('VERSION', '1.0.0');
 
 $di = new CliDI();
 
+defined('APP_PATH') || define('APP_PATH', realpath('.'));
 
-defined('APP_PATH')
-|| define('APP_PATH', realpath(dirname(__FILE__)));
-
-
-if (is_readable(APP_PATH . '/app/config/config.php'))
+if (is_readable(APP_PATH . 'config/config.php'))
 {
-	$config = include APP_PATH . '/app/config/config.php';
+	$config = include APP_PATH . 'config/config.php';
 	$di->set('config', $config);
 }
-
 
 $loader = new \Phalcon\Loader();
 $loader->registerDirs(
 	array(
-		APP_PATH . '/app/tasks'
+		APP_PATH . 'tasks'
 	)
 );
 $loader->registerNamespaces((array) $config->namespaces);
