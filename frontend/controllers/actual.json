@@ -1,0 +1,63 @@
+{
+  "price": 148863,
+  "check_in_date": "2015-04-29",
+  "nights": 7,
+  "tourist_group": {
+	"adults": 2,
+	"kids_ages": [],
+	"infants": 1
+  },
+  "meal": {
+	"code": "BB",
+	"name": "BB"
+  },
+  "ya_resort": 11487,
+  "ya_country": 1056,
+  "ya_departure_city": 213,
+  "ya_hotel": 1000007,
+  "room": {
+	"code": "Superior Main Wing",
+	"name": "Superior Main Wing Room"
+  },
+  "ya_operator": 21,
+  "booking_url": "http://online.paks.ru/level_travel/TourDates.aspx?priceKey=958153911&date=2015-04-29&sid=gvd0elunv2fsbchffmbuy2w3&src=local&rate=%24",
+  "fuel_charge": 0,
+  "flights": [
+	{
+	  "to": {
+		"route": [
+		  {
+			"source_code": "SVO",
+			"source_airport_name": "Шереметьево",
+			"destination_code": "BKK",
+			"destination_airport_name": "Бангкок (Суварнабуми)",
+			"departure": "2015-04-29T19:20:00.000+03:00",
+			"arrival": "2015-04-30T08:30:00.000+07:00",
+			"flight_no": "SU 270",
+			"airline": "Аэрофлот"
+		  }
+		],
+		"direct": true
+	  },
+	  "back": {
+		"route": [
+		  {
+			"source_code": "BKK",
+			"source_airport_name": "Бангкок (Суварнабуми)",
+			"destination_code": "SVO",
+			"destination_airport_name": "Шереметьево",
+			"departure": "2015-05-07T10:00:00.000+07:00",
+			"arrival": "2015-05-07T15:50:00.000+03:00",
+			"flight_no": "SU 271",
+			"airline": "Аэрофлот"
+		  }
+		],
+		"direct": true
+	  },
+	  "additional_price": 0
+	}
+  ],
+  "visa": 0,
+  "infant_price": 5870,
+  "transfer_price": 0
+}

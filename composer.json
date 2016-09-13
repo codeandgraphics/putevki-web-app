@@ -1,0 +1,15 @@
+{
+	"name": "code.and.graphics/putevki-app",
+	"description": "online.putevki.ru application",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "George Viazemsky",
+			"email": "code@and.graphics"
+		}
+	],
+	"require": {
+		"mpdf/mpdf": "v6.1.2"
+	}
+}
