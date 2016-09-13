@@ -1,7 +1,5 @@
 <?php
 
-defined('APP_PATH') || define('APP_PATH', realpath('.'));
-
 return new \Phalcon\Config(array(
 
 	'database' => array(
@@ -12,46 +10,45 @@ return new \Phalcon\Config(array(
 		'dbname'		=> 'putevki_xml',
 		'charset'		=> 'utf8'
 	),
-	'cacheDir'				=> APP_PATH . '/app/cache/',
+	'cacheDir'				=> APP_PATH . '/cache/',
 
 	'namespaces'			=> [
-		'Interfaces'				=> APP_PATH . '/app/interfaces/',
-		'Models\Tourvisor'			=> APP_PATH . '/app/models/tourvisor/',
-		'Models\References'			=> APP_PATH . '/app/models/references/',
-		'Models\Yandex'				=> APP_PATH . '/app/models/yandex/',
-		'Models'					=> APP_PATH . '/app/models/',
-		'Utils'						=> APP_PATH . '/app/utils/',
-		'Utils\Email'				=> APP_PATH . '/app/utils/email/',
+		'Interfaces'				=> APP_PATH . '/interfaces/',
+		'Models\Tourvisor'			=> APP_PATH . '/models/tourvisor/',
+		'Models\References'			=> APP_PATH . '/models/references/',
+		'Models\Yandex'				=> APP_PATH . '/models/yandex/',
+		'Models'					=> APP_PATH . '/models/',
+		'Utils'						=> APP_PATH . '/utils/',
+		'Utils\Email'				=> APP_PATH . '/utils/email/',
 	],
 
 	'backend'   => [
 		'env'					=> 'development',// production|development
 		'baseUri'				=> '/admin/',
-		'controllersDir'		=> APP_PATH . '/app/backend/controllers/',
-		'viewsDir'				=> APP_PATH . '/app/backend/views/',
-		'mpdf'					=> APP_PATH . '/app/backend/library/mpdf60/mpdf.php',
+		'controllersDir'		=> APP_PATH . '/backend/controllers/',
+		'viewsDir'				=> APP_PATH . '/backend/views/',
 		'requestEmail'			=> 'online@putevki.ru',
 		'publicURL'				=> 'https://online.putevki.ru/admin/',
 
 		'namespaces'    => [
-			'Backend\Controllers'		=> APP_PATH . '/app/backend/controllers/',
-			'Backend\Models'			=> APP_PATH . '/app/backend/models/',
-			'Backend\Plugins'			=> APP_PATH . '/app/backend/plugins/',
-			'Backend\Utils'				=> APP_PATH . '/app/backend/utils/'
+			'Backend\Controllers'		=> APP_PATH . '/backend/controllers/',
+			'Backend\Models'			=> APP_PATH . '/backend/models/',
+			'Backend\Plugins'			=> APP_PATH . '/backend/plugins/',
+			'Backend\Utils'				=> APP_PATH . '/backend/utils/'
 		],
 	],
 
 	'frontend'   => [
 		'env'					=> 'production',// production|development
 		'baseUri'				=> '/',
-		'controllersDir'		=> APP_PATH . '/app/frontend/controllers/',
-		'viewsDir'				=> APP_PATH . '/app/frontend/views/',
+		'controllersDir'		=> APP_PATH . '/frontend/controllers/',
+		'viewsDir'				=> APP_PATH . '/frontend/views/',
 
 		'namespaces'    => [
-			'Frontend\Models'			=> APP_PATH . '/app/frontend/models/',
-			'Backend\Controllers'		=> APP_PATH . '/app/backend/controllers/',
-			'Backend\Models'			=> APP_PATH . '/app/backend/models/',
-			'Backend\Plugins'			=> APP_PATH . '/app/backend/plugins/'
+			'Frontend\Models'			=> APP_PATH . '/frontend/models/',
+			'Backend\Controllers'		=> APP_PATH . '/backend/controllers/',
+			'Backend\Models'			=> APP_PATH . '/backend/models/',
+			'Backend\Plugins'			=> APP_PATH . '/backend/plugins/'
 		],
 
 		'routes'		=> [
