@@ -299,6 +299,7 @@ class RequestsController extends ControllerBase
 		$request = Requests::findFirst($requestId);
 
 		$this->simpleView->setVar('req', $request);
+		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/booking');
 		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
 
@@ -326,6 +327,7 @@ class RequestsController extends ControllerBase
 		$request = Requests::findFirst($requestId);
 
 		$this->simpleView->setVar('req', $request);
+		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/agreement');
 		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
 

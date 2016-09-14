@@ -2,6 +2,7 @@
 
 namespace Backend\Controllers;
 
+use Models\Branches;
 use Phalcon\Http\Response	as Response,
 	Backend\Models\Requests as Requests,
 	Backend\Models\Payments	as Payments,
@@ -61,6 +62,38 @@ class EmailController extends ControllerBase
 
 			$mailgun = new Mailgun();
 			$mailgun->send($request->manager->email, 'Новая заявка на тур', $body);
+		}
+	}
+
+	public function sendBranchNotification(Requests $request)
+	{
+		if($request->branch_id)
+		{
+			$manager = $request->branch->manager;
+
+			$tour = new \stdClass();
+
+			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
+			$tour->hotel = $request->hotelName;
+			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
+			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
+			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
+			$tour->price = $request->price;
+			$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
+			$tour->manager = $manager;
+			$tour->orderName = $request->subjectName . ' ' . $request->subjectSurname;
+			$tour->phone = $request->subjectPhone;
+			$tour->email = $request->subjectEmail;
+			$tour->id = $request->id;
+
+			$params = [
+				'tour'	=> $tour
+			];
+
+			$body = $this->generate('managerNotification', $params);
+
+			$mailgun = new Mailgun();
+			$mailgun->send($manager->email, 'Новая заявка на тур', $body);
 		}
 	}
 
@@ -135,7 +168,7 @@ class EmailController extends ControllerBase
 		$this->simpleView->setVars([
 			'baseUrl'	=> $this->config->frontend->publicURL,
 			'adminUrl'	=> $this->config->backend->publicURL,
-			'assetsUrl'	=> $this->config->frontend->publicURL . 'assets_frontend_dev', //TODO: replace in production,
+			'assetsUrl'	=> $this->config->frontend->publicURL . 'assets', //TODO: replace in production,
 			'year'		=> date('Y')
 		]);
 

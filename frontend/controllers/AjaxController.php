@@ -65,38 +65,36 @@ class AjaxController extends ControllerFrontend
 		$request->hotelMeal			= $tour->meal;
 		$request->hotelRoom			= $tour->room;
 
-		$flightId = $form->flight;
-		$flight = $tour->flights[$flightId];
+		$flight = $form->flight;
 
 		if($flight)
 		{
-			$request->flightToNumber			= $flight->forward->flightnum;
-			$request->flightToDepartureDate		= $flight->forward->flydate;
-			$request->flightToDepartureTime		= $flight->forward->timefrom;
-			$request->flightToDepartureTerminal	= $flight->forward->terminalfrom;
-			$request->flightToArrivalDate		= $flight->forward->flydate;
-			$request->flightToArrivalTime		= $flight->forward->timeto;
-			$request->flightToArrivalTerminal	= $flight->forward->terminalto;
-			$request->flightToCarrier			= $flight->forward->aircompanyrus;
-			$request->flightToPlane				= $flight->forward->plane;
-			$request->flightToClass				= $flight->forward->class;
+			$request->flightToNumber			= $flight->forward[0]->number;
+			$request->flightToDepartureDate		= $flight->dateforward;
+			$request->flightToDepartureTime		= $flight->forward[0]->departure->time;
+			$request->flightToDepartureTerminal	= $flight->forward[0]->departure->port->id;
+			$request->flightToArrivalDate		= $flight->dateforward;
+			$request->flightToArrivalTime		= $flight->forward[0]->arrival->time;
+			$request->flightToArrivalTerminal	= $flight->forward[0]->arrival->port->id;
+			$request->flightToCarrier			= $flight->forward[0]->company->name;
+			$request->flightToPlane				= $flight->forward[0]->plane;
+			$request->flightToClass				= '';
 
-			$request->flightFromNumber				= $flight->backward->flightnum;
-			$request->flightFromDepartureDate		= $flight->backward->flydate;
-			$request->flightFromDepartureTime		= $flight->backward->timefrom;
-			$request->flightFromDepartureTerminal	= $flight->backward->terminalfrom;
-			$request->flightFromArrivalDate			= $flight->backward->flydate;
-			$request->flightFromArrivalTime			= $flight->backward->timeto;
-			$request->flightFromArrivalTerminal		= $flight->backward->terminalto;
-			$request->flightFromCarrier				= $flight->backward->aircompanyrus;
-			$request->flightFromPlane				= $flight->backward->plane;
-			$request->flightFromClass				= $flight->backward->class;
+			$request->flightFromNumber				= $flight->backward[0]->number;
+			$request->flightFromDepartureDate		= $flight->datebackward;
+			$request->flightFromDepartureTime		= $flight->backward[0]->departure->time;
+			$request->flightFromDepartureTerminal	= $flight->backward[0]->departure->port->id;
+			$request->flightFromArrivalDate			= $flight->datebackward;
+			$request->flightFromArrivalTime			= $flight->backward[0]->arrival->time;
+			$request->flightFromArrivalTerminal		= $flight->backward[0]->arrival->port->id;
+			$request->flightFromCarrier				= $flight->backward[0]->company->name;
+			$request->flightFromPlane				= $flight->backward[0]->plane;
+			$request->flightFromClass				= '';
 		}
 
 		$request->tourOperatorId	= $tour->operatorcode;
 		$request->tourOperatorLink	= $tour->operatorlink;
 		$request->departureId		= $tour->departurecode;
-
 
 		$tourists = [];
 
@@ -133,6 +131,8 @@ class AjaxController extends ControllerFrontend
 
 		if($request->save())
 		{
+
+
 			foreach($tourists as $tourist)
 			{
 				$requestTourist = new RequestTourists();
@@ -147,6 +147,12 @@ class AjaxController extends ControllerFrontend
 				$payment = Payments::findFirst('requestId = ' . $request->id);
 
 				$response->setJsonContent(['res' => '/pay/' . $payment->id ]);
+			}
+			else if($type === 'office')
+			{
+				$mailController = new EmailController();
+				$mailController->sendBranchNotification($request);
+				$response->setJsonContent(['res' => '/' ]);
 			}
 			else
 			{
