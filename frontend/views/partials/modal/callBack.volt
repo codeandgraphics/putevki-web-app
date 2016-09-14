@@ -27,9 +27,9 @@
 						<div class="queries">
 							<h4>Вы искали:</h4>
 							<ul class="list-unstyled">
-								{% for query in lastQueries %}
+{% for query in lastQueries %}
 								<li>{{ query }}<input type="hidden" name="query[]" value="{{query}}" /></li>
-								{% endfor %}
+{% endfor %}
 							</ul>
 						</div>
 						{% endif %}

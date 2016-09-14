@@ -15,23 +15,7 @@
 			<div class="wrap">
 				<div class="modal-body steps">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-
-					<!--<ul class="nav nav-pills" role="tablist">
-						<li class="first">
-							<a href="#find-step-1" data-toggle="tab">Начало</a>
-						</li>
-						<li class="active">
-							<a href="#find-step-2" data-toggle="tab">Шаг 1</a>
-						</li>
-						<li>
-							<a href="#find-step-3" data-toggle="tab">Шаг 2</a>
-						</li>
-						<li>
-							<a href="#find-step-4" data-toggle="tab">Шаг 3</a>
-						</li>
-					</ul>-->
 					<div class="tab-content">
-
 						<div class="tab-pane fade in active" id="find-step-1">
 							<h2 class="title">Мы поможем Вам с выбором идеального путешествия в три простых шага!</h2>
 							<div class="form-group">
@@ -156,17 +140,17 @@
 									<div class="form-group">
 										<label for="find-name">Ваше имя</label>
 										<input class="form-control" type="text" name="find-name" id="find-name"
-												   placeholder="" required />
+											   placeholder="" required />
 									</div>
 									<div class="form-group">
 										<label for="find-email">E-mail</label>
 										<input class="form-control" type="text" name="find-email" id="find-email"
-												   placeholder="" required />
+											   placeholder="" required />
 									</div>
 									<div class="form-group">
 										<label for="find-phone">Телефон</label>
 										<input class="form-control" type="text" name="find-phone" id="find-phone"
-												   placeholder="" required />
+											   placeholder="" required />
 									</div>
 								</div>
 							</div>

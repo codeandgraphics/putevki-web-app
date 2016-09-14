@@ -31,14 +31,12 @@
 <div class="container countries">
 	<h2 class="centered">Куда поехать отдыхать?</h2>
 	<div class="row">
-		{% for country in countries %}
+{% for country in countries %}
 		<div class="col-xs-2 country">
 			<img src="//static.tourvisor.ru/flags/calendar/flag_{{ country.id }}.gif" />
-			<a href="{{ url('search') }}/{{ currentCity.name }}/{{ country.name }}">
-				{{ country.name }}
-			</a>
+			<a href="{{ url('search') }}/{{ currentCity.name }}/{{ country.name }}">{{ country.name }}</a>
 		</div>
-		{% endfor %}
+{% endfor %}
 	</div>
 </div>
 
@@ -65,46 +63,6 @@
 					Все платежи защищены
 				</div>
 			</div>
-			<!--<div class="col-xs-2">
-				<h4>Компания</h4>
-				<ul class="list-unstyled">
-					<li><a target= "_blank" href="#">О нас</a></li>
-					<li><a target= "_blank" href="#">Отзывы</a></li>
-					<li><a target= "_blank" href="#">Контакты</a></li>
-				</ul>
-				<div class="copy">
-					&copy; 2000-<?= date('Y'); ?> <a href="{{ url() }}">putevki.travel</a>
-				</div>
-
-			</div>
-			<div class="col-xs-2">
-				<h4>Помощь</h4>
-				<ul class="list-unstyled">
-					<li><a target= "_blank" href="#">Как заказать тур?</a></li>
-				</ul>
-
-			</div>
-			<div class="col-xs-2"></div>
-			<div class="col-xs-2">
-				<button class="btn btn-primary" data-toggle="modal" data-target="#callBackModal">Заказать звонок</button>
-
-				<div class="phone">
-					<a href="tel:{{ currentCity.phone }}">{{ currentCity.phone }}</a>
-				</div>
-			</div>
-			<div class="col-xs-2"></div>
-			<div class="col-xs-2">
-				<div class="partner">
-					<a href="http://uniteller.ru" target="_blank">
-						<img width="150" src="{{ url() }}assets/img/uniteller.png">
-					</a>
-					Все платежи защищены
-					<a href="//travel.yandex.ru" target="_blank" class="yandex">
-						<img src="{{ url() }}assets/img/yandex.travel.png">
-					</a>
-					Официальный партнер
-				</div>
-			</div>-->
 		</div>
 	</div>
 </footer>

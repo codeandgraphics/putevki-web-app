@@ -9,11 +9,9 @@
 				<div class="wrap">
 					<h5>Не ваш город? Выберите свой:</h5>
 					<ul class="list-unstyled list-inline">
-						{% for city in cities %}
-						<li>
-							<a href="/{{ city['uri'] }}" class="{% if city['main'] == 1%}main-city{% endif %} {% if city['id'] == currentCity.id%}active{% endif %}">{{ city['name'] }}</a>
-						</li>
-						{% endfor %}
+{% for city in cities %}
+						<li><a href="/{{ city['uri'] }}" class="{% if city['main'] == 1%}main-city{% endif %} {% if city['id'] == currentCity.id%}active{% endif %}">{{ city['name'] }}</a></li>
+{% endfor %}
 					</ul>
 				</div>
 				<div class="message">После выбора города, мы сможем подобрать для вас туры из ближайшего аэропорта, и рекомендовать вам ближайшие турагентства</div>

@@ -81,9 +81,9 @@
 								</div>
 								<div class="from form-group">
 									<select name="departure" class="form-control">
-										{% for departure in departures %}
+{% for departure in departures %}
 										<option value="{{ departure.id }}">из {{ departure.name_from }}</option>
-										{% endfor %}
+{% endfor %}
 									</select>
 								</div>
 								<div class="when form-group">
@@ -165,11 +165,11 @@
 							<div class="variant template" data-price="">
 								<div class="operator">
 									<div class="icon">
-										<img src="//tourvisor.ru/pics/operators/searchlogo/18.gif" data-src="//tourvisor.ru/pics/operators/searchlogo/{id}.gif" alt="Biblioglobus">
+										<img src="" data-src="//tourvisor.ru/pics/operators/searchlogo/{id}.gif" alt="">
 									</div>
 									<div class="data">
 										<small>Туроператор:</small>
-										<span>Biblioglobus</span>
+										<span></span>
 									</div>
 								</div>
 								<div class="date">
@@ -177,8 +177,8 @@
 										<i class="ion-plane"></i>
 									</div>
 									<div class="data">
-										<span>1 октября</span>
-										<small>7 ночей</small>
+										<span></span>
+										<small></small>
 									</div>
 								</div>
 								<div class="room">
@@ -187,7 +187,7 @@
 									</div>
 									<div class="data">
 										<small>Номер:</small>
-										<span>family room</span>
+										<span></span>
 									</div>
 								</div>
 								<div class="meal">
@@ -197,12 +197,12 @@
 									</div>
 									<div class="data">
 										<small>Питание:</small>
-										<span>Все Включено</span>
+										<span></span>
 									</div>
 								</div>
 								<div class="price">
 									<div class="data">
-										<a href="/tour/184531291399" class="btn btn-primary order" target="_blank">115 101 р.</a>
+										<a href="" class="btn btn-primary order" target="_blank"></a>
 									</div>
 								</div>
 							</div>
@@ -212,7 +212,7 @@
 
 							<div class="more">
 								<a href="#">
-									Показать еще туры
+									Поиск завершен. Показать все туры &rarr;
 								</a>
 							</div>
 						</div>

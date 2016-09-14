@@ -26,23 +26,13 @@
 					<span>{{ currentDeparture.name_from }}</span><b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="fromDropdown">
-					<li>
-						<a href="#" data-id="1" data-gen="Москвы">из <span>Москвы</span></a>
-					</li>
-					<li>
-						<a href="#" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a>
-					</li>
-					<li>
-						<a href="#" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a>
-					</li>
+					<li><a href="#" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
+					<li><a href="#" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
+					<li><a href="#" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
 					<li role="separator" class="divider"></li>
-					{% for departure in departures %}
-						<li>
-							<a href="#" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">
-								из <span>{{ departure.name_from }}</span>
-							</a>
-						</li>
-					{% endfor %}
+{% for departure in departures %}
+					<li><a href="#" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
+{% endfor %}
 				</ul>
 			</div>
 			<h1 class="title">Куда бы вы хотели поехать?</h1>
@@ -114,7 +104,6 @@
 <div class="page" id="{{ page }}">
 	<section class="block popular" id="popular">
 		<div class="container header">
-			<!--<a href="#" class="pull-right">Все направления &rarr;</a>-->
 			<h2>
 				Самые популярные направления
 			</h2>
@@ -128,9 +117,6 @@
 					<div class="country item">
 						<a href="{{ popular.url }}" target="_blank">
 							<div class="image">
-								<!--<div class="weather">
-									<i class=" popular.icon "></i>  popular.weather °
-								</div>-->
 								<div class="bg" style="background-image: url('//static.tourvisor.ru/minprice/minprice-{{ popular.countryId }}-1.jpg');"></div>
 							</div>
 							<div class="about">
@@ -138,9 +124,6 @@
 									{{ popular.region }}
 								</h4>
 								<small>{{ popular.country }}</small>
-								<!--<div class="price">
-									от<span>  popular.price </span> р/чел.
-								</div>-->
 							</div>
 						</a>
 					</div>
@@ -170,10 +153,6 @@
 							<i class="ion-card"></i> Онлайн-оплата и бронирование
 						</li>
 					</ul>
-					<!--<div class="yandex">
-						Официальный партнер
-						<a href="//travel.yandex.ru" target="_blank"><img src="/assets/img/yandex.travel.png" /></a>
-					</div>-->
 				</div>
 			</div>
 		</div>
@@ -252,9 +231,4 @@
 			</div>
 		</div>
 	</section>
-
 </div>
-
-<!--<div id="TVSearchForm" style="display: none !important;"></div>
-<script src="//tourvisor.ru/module/newform/searchform.min.js"></script>
-<script type="text/javascript"> TV.initModule({ moduleid: 387, width: 980}); </script>-->
