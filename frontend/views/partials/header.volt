@@ -23,16 +23,16 @@
 	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/common.min.css" />
 	{% if config.frontend.env == 'development' %}
 
-		<link rel="stylesheet/less" type="text/css" href="{{ url() }}assets_frontend_dev/less/main.less" />
+		<link rel="stylesheet/less" type="text/css" href="{{ url() }}development-assets-frontend/less/main.less" />
 		{% if page is not empty %}
-		<link rel="stylesheet/less" type="text/css" href="{{ url() }}assets_frontend_dev/less/pages/{{ page }}.less" />
+		<link rel="stylesheet/less" type="text/css" href="{{ url() }}development-assets-frontend/less/pages/{{ page }}.less" />
 		{% endif %}
 		<script>
 			less = {
 				env: "development"
 			};
 		</script>
-		<script src="{{ url() }}assets_frontend_dev/js/less.min.js"></script>
+		<script src="{{ url() }}development-assets-frontend/js/less.min.js"></script>
 		<script>less.watch();</script>
 
 	{% else %}

@@ -37,13 +37,13 @@ class Cities extends Model
 
 	public function beforeValidation()
 	{
-		/*$cases = Morpher::cases($this->name);
+		$cases = Morpher::cases($this->name);
 
 		$this->name_rod = $cases->name_rod;
 		$this->name_dat = $cases->name_dat;
 		$this->name_vin = $cases->name_vin;
 		$this->name_tvo = $cases->name_tvo;
-		$this->name_pre = $cases->name_pre;*/
+		$this->name_pre = $cases->name_pre;
 
 		return true;
 	}

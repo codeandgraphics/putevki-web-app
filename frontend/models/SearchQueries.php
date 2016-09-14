@@ -363,6 +363,11 @@ class SearchQueries extends Model
 			$params->kids = 0;
 			$params->starsId = 2;
 			$params->mealId = 2;
+
+			if(array_key_exists('flight_city', $_COOKIE))
+			{
+				$params->departureId = $_COOKIE['flight_city'];
+			}
 		}
 		
 		return $params;

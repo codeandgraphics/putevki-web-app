@@ -427,6 +427,18 @@ class AjaxController extends ControllerFrontend
 	    
 	    return $response;
     }
+
+    public function tourDetailAction($tourvisorId)
+    {
+	    $response = new Response();
+
+	    $detailData = Utils\Tourvisor::getMethod('actdetail', array(
+		    'tourid' => $tourvisorId
+	    ));
+
+	    $response->setJsonContent($detailData);
+	    return $response;
+    }
     
     public function hotelAction($tourvisorId)
     {

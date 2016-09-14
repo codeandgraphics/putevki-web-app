@@ -64,7 +64,6 @@ class ControllerFrontend extends Controller
 			'order' => 'name'
 		]);
 
-
 		$this->currentDeparture = \Models\Tourvisor\Departures::findFirst('id='.$this->params->departureId);
 
 		$this->view->setVars([

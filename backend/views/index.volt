@@ -34,6 +34,11 @@ $current->action = $this->dispatcher->getActionName();
 	<![endif]-->
 </head>
 
+<body>
+
+<div id="messages">
+	<?php $this->flashSession->output(); ?>
+</div>
 
 {% if current.controller == 'users' and current.action == 'login' %}
 
@@ -41,29 +46,23 @@ $current->action = $this->dispatcher->getActionName();
 
 {% else %}
 
-<body>
-{{ partial("partials/navbar") }}
+	{{ partial("partials/navbar") }}
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar">
-			{{ partial("partials/menu") }}
-		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<div id="messages">
-				<?php $this->flashSession->output(); ?>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				{{ partial("partials/menu") }}
 			</div>
-
-			{{ content() }}
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				{{ content() }}
+			</div>
 		</div>
 	</div>
-</div>
 
-{{ partial("partials/footer") }}
-
-</body>
+	{{ partial("partials/footer") }}
 
 {% endif %}
+</body>
 
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script src="{{ url('/assets/js/bootstrap.min.js') }}"></script>

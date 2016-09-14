@@ -19,15 +19,15 @@
 
 {% else %}
 
-<script src="{{ url() }}assets_frontend_dev/js/common/humanize.util.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/helpers.util.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/form.class.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/hotelForm.class.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/search.class.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/tour.class.js"></script>
-<script src="{{ url() }}assets_frontend_dev/js/common/findTour.class.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/humanize.util.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/helpers.util.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/form.class.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/hotelForm.class.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/search.class.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/tour.class.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/common/findTour.class.js"></script>
 {% if page is not empty %}
-<script src="{{ url() }}assets_frontend_dev/js/pages/{{ page }}.js"></script>
+<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js"></script>
 {% endif %}
 {% endif %}
 

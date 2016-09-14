@@ -9,9 +9,9 @@ class TourController extends ControllerFrontend
 			'flights'		=> 1
 		));
 
-		$detailData = Utils\Tourvisor::getMethod('actdetail', array(
+		/*$detailData = Utils\Tourvisor::getMethod('actdetail', array(
 			'tourid'		=> $tourId
-		));
+		));*/
 
 		$data = (!$result->error) ? $result->data : false ;
 
@@ -20,7 +20,7 @@ class TourController extends ControllerFrontend
 			$tour = $data->tour;
 			$tour->id = $tourId;
 
-			if(property_exists($detailData, 'tourinfo'))
+			/*if(property_exists($detailData, 'tourinfo'))
 			{
 				if(property_exists($detailData->tourinfo, 'flags'))
 				{
@@ -89,7 +89,7 @@ class TourController extends ControllerFrontend
 						unset($flight->forward, $flight->backward);
 					}
 				}
-			}
+			}*/
 
 			$date = \DateTime::createFromFormat('d.m.Y',$tour->flydate);
 			$title =  'Тур ' . $tour->departurename . ' &mdash; ' . $tour->hotelregionname . ' (' . $date->format('d.m.Y') . ') на ';

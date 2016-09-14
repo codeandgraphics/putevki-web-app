@@ -5,9 +5,9 @@ namespace Utils;
 class Morpher
 {
 
-	static $url = 'http://api.morpher.ru/WebService.asmx/GetXml?s=';
+	private static $url = 'http://api.morpher.ru/WebService.asmx/GetXml?s=';
 
-	static function cases($text)
+	public static function cases($text)
 	{
 		$response = file_get_contents(self::$url . $text);
 

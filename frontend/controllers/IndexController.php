@@ -11,7 +11,13 @@ class IndexController extends ControllerFrontend
 {
 	public function indexAction($city = 0)
 	{
-		$this->currentCity = Cities::checkCity($city);
+		if($city !== '')
+		{
+			Cities::checkCity($city);
+
+			$this->response->redirect('/');
+		}
+
 		$this->view->setVar('currentCity', $this->currentCity);
 
 		$regions = $this->db->fetchAll('

@@ -1,19 +1,15 @@
-{% set flightsCount = tour.flights|length %}
+<div class="pay-variants locked">
+	<div class="overflow"></div>
+	<h2 class="hide">
+		Как вам удобнее оплатить?
+	</h2>
 
-{% if flightsCount > 0 %}
-<h2>
-	Как вам удобнее оплатить?
-</h2>
-{% else %}
-<div class="message no-online">
-	Извините, данный тур нельзя оплатить онлайн, но наши менеджеры свяжутся с вами и закажут его для вас!
-</div>
-{% endif %}
+	<div class="message no-online hide">
+		<i class="ion-alert-circled"></i> Извините, данный тур нельзя оплатить онлайн, но наши менеджеры свяжутся с вами и закажут его для вас!
+	</div>
 
-<div class="pay-variants">
 	<ul class="nav nav-pills" id="buy">
-		{% if flightsCount > 0 %}
-		<li class="variant active">
+		<li class="variant active online">
 			<a href="#buy-online">
 				<div class="icon">
 					<i class="ion-card"></i>
@@ -24,8 +20,7 @@
 				</div>
 			</a>
 		</li>
-		{% else %}
-		<li class="variant active">
+		<li class="variant request">
 			<a href="#buy-request">
 				<div class="icon">
 					<i class="ion-ios-telephone"></i>
@@ -36,7 +31,6 @@
 				</div>
 			</a>
 		</li>
-		{% endif %}
 		<li class="variant">
 			<a href="#buy-office">
 				<div class="icon">
@@ -51,7 +45,6 @@
 	</ul>
 
 	<div class="tab-content">
-		{% if flightsCount > 0 %}
 		<div class="tab-pane active" id="buy-online">
 
 			<form method="POST" id="online-form" data-toggle="validator" action="/ajax/formOnline">
@@ -89,8 +82,7 @@
 				</div>
 			</form>
 		</div>
-		{% else %}
-		<div class="tab-pane active" id="buy-request">
+		<div class="tab-pane" id="buy-request">
 			<form method="POST" id="request-form" data-toggle="validator" action="/ajax/formRequest">
 
 				{{ partial('tour/partials/person', ['type': 'request']) }}
@@ -108,7 +100,6 @@
 
 			</form>
 		</div>
-		{% endif %}
 		<div class="tab-pane" id="buy-office">
 			<form method="POST" id="office-form" data-toggle="validator" action="/ajax/formOffice">
 
