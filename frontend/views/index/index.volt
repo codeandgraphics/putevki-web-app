@@ -22,16 +22,16 @@
 			</div>
 			<div class="from dropdown">
 				<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
-				<a id="fromDropdown" href="#" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				<a id="fromDropdown" href="javascript:" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 					<span>{{ currentDeparture.name_from }}</span><b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="fromDropdown">
-					<li><a href="#" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
-					<li><a href="#" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
-					<li><a href="#" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
+					<li><a href="javascript:" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
+					<li><a href="javascript:" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
+					<li><a href="javascript:" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
 					<li role="separator" class="divider"></li>
 {% for departure in departures %}
-					<li><a href="#" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
+					<li><a href="javascript:" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
 {% endfor %}
 				</ul>
 			</div>

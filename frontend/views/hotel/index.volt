@@ -231,7 +231,7 @@
 									Территория
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-territory">
+								<div class="collapse in item" id="collapse-territory">
 									{{ hotel.territory }}
 								</div>
 							</div>
@@ -247,7 +247,7 @@
 									 Питание
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-meallist">
+								<div class="collapse in item" id="collapse-meallist">
 									{{ hotel.meallist }}
 								</div>
 							</div>
@@ -262,7 +262,7 @@
 									В номере
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-inroom">
+								<div class="collapse in item" id="collapse-inroom">
 									{{ hotel.inroom }}
 								</div>
 							</div>
@@ -277,7 +277,7 @@
 									Номерной фонд
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-roomtypes">
+								<div class="collapse in item" id="collapse-roomtypes">
 									{{ hotel.roomtypes }}
 								</div>
 							</div>
@@ -293,7 +293,7 @@
 									Бесплатно
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-servicefree">
+								<div class="collapse in item" id="collapse-servicefree">
 									{{ hotel.servicefree }}
 								</div>
 							</div>
@@ -308,7 +308,7 @@
 									Платно
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-servicepay">
+								<div class="collapse in item" id="collapse-servicepay">
 									{{ hotel.servicepay }}
 								</div>
 							</div>
@@ -323,7 +323,7 @@
 									Услуги отеля
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-services">
+								<div class="collapse in item" id="collapse-services">
 									{{ hotel.services }}
 								</div>
 							</div>
@@ -338,7 +338,7 @@
 									Для детей
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
-								<div class="collapse item" id="collapse-child">
+								<div class="collapse in item" id="collapse-child">
 									{{ hotel.child }}
 								</div>
 							</div>
