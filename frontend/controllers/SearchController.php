@@ -27,7 +27,7 @@ class SearchController extends ControllerFrontend
 			'order' => 'id DESC'
 		]);
 
-		$title = 'Поиск путевок ' . $this->currentCity->departure->name .
+		$title = 'Поиск путевок ' . $searchQuery->departure->name .
 			' &mdash; ' . $searchQuery->buildTitle() . ' на ';
 
 		$this->view->setVars([

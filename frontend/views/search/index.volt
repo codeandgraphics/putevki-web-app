@@ -198,6 +198,7 @@
 						<li>&rarr;</li>
 						<li>3. Перелет и оформление</li>
 					</ul>
+					<div class="departure">{% if params.departure.id != 99 %}Вылет из {% endif %}{{ params.departure.name_from }}</div>
 				</div>
 				<div class="search-banners">
 				</div>

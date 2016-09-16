@@ -82,7 +82,9 @@
 								<div class="from form-group">
 									<select name="departure" class="form-control">
 {% for departure in departures %}
-										<option value="{{ departure.id }}">из {{ departure.name_from }}</option>
+										<option value="{{ departure.id }}"{% if departure.id == params.departureId %} selected="selected"{% endif %}>
+											{% if departure.id != 99 %}из {% endif %}{{ departure.name_from }}
+										</option>
 {% endfor %}
 									</select>
 								</div>
