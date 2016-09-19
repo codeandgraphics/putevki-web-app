@@ -2,15 +2,14 @@
 
 namespace Backend\Controllers;
 
-use Phalcon\Forms\Element\TextArea;
-use \Phalcon\Http\Response	as Response,
-	\Phalcon\Forms\Form,
-	\Phalcon\Forms\Element\Text,
-	\Phalcon\Forms\Element\Select,
-	\Backend\Models\Users,
-	\Models\Cities,
-	\Models\Branches,
-	\Models\Tourvisor;
+use \Phalcon\Forms\Element\TextArea;
+use	\Phalcon\Forms\Form;
+use \Phalcon\Forms\Element\Text;
+use \Phalcon\Forms\Element\Select;
+use \Backend\Models\Users;
+use \Models\Cities;
+use \Models\Branches;
+use \Models\Tourvisor;
 
 class CitiesController extends ControllerBase
 {
@@ -32,11 +31,11 @@ class CitiesController extends ControllerBase
 
 		$departures = Tourvisor\Departures::find(['order'=>'name']);
 
-		$form_dep = [];
+		$formDepartures = [];
 
 		foreach($departures as $departure)
 		{
-			$form_dep[$departure->id] = $departure->name;
+			$formDepartures[$departure->id] = $departure->name;
 		}
 
 		$form->add(new Text("name"));
@@ -45,7 +44,7 @@ class CitiesController extends ControllerBase
 		$form->add(new Text("lat"));
 		$form->add(new Text("lon"));
 		$form->add(new Text("zoom"));
-		$form->add(new Select("flight_city", $form_dep));
+		$form->add(new Select('flight_city', $formDepartures));
 		$form->add(new Text("phone"));
 		$form->add(new Select("main", [0=>"Выкл", 1=>"Вкл"]));
 		$form->add(new Select("active", [0=>"Выкл", 1=>"Вкл"]));
@@ -74,11 +73,11 @@ class CitiesController extends ControllerBase
 
 		$departures = Tourvisor\Departures::find(['order'=>'name']);
 
-		$form_dep = [];
+		$formDepartures = [];
 
 		foreach($departures as $departure)
 		{
-			$form_dep[$departure->id] = $departure->name;
+			$formDepartures[$departure->id] = $departure->name;
 		}
 
 		$form = new Form();
@@ -88,7 +87,7 @@ class CitiesController extends ControllerBase
 		$form->add(new Text("lat"));
 		$form->add(new Text("lon"));
 		$form->add(new Text("zoom"));
-		$form->add(new Select("flight_city", $form_dep));
+		$form->add(new Select('flight_city', $formDepartures));
 		$form->add(new Text("phone"));
 		$form->add(new Select("main", [0=>"Нет", 1=>"Да"]));
 		$form->add(new Select("active", [0=>"Нет", 1=>"Да"]));
@@ -118,8 +117,8 @@ class CitiesController extends ControllerBase
 
 			if($city->save())
 			{
-				$this->flashSession->success("Город успешно добавлен");
-				return $this->response->redirect("cities/city/" . $city->id);
+				$this->flashSession->success('Город успешно добавлен');
+				return $this->response->redirect('cities/city/' . $city->id);
 			}
 			else
 			{
@@ -138,6 +137,8 @@ class CitiesController extends ControllerBase
 	{
 		$city = Cities::findFirst($cityId);
 
+		$yesNoArray = array(0 => 'Нет', 1 => 'Да');
+
 		$form = new Form();
 		$form->add(new Text("name"));
 		$form->add(new Text("address"));
@@ -147,8 +148,8 @@ class CitiesController extends ControllerBase
 		$form->add(new Text("email"));
 		$form->add(new Text("lat"));
 		$form->add(new Text("lon"));
-		$form->add(new Select("main", [0=>"Нет", 1=>"Да"]));
-		$form->add(new Select("active", [0=>"Нет", 1=>"Да"]));
+		$form->add(new Select("main", $yesNoArray));
+		$form->add(new Select("active", $yesNoArray));
 
 		$form->add(new Text("managerName"));
 
@@ -179,7 +180,6 @@ class CitiesController extends ControllerBase
 
 			if($branch->save())
 			{
-				//TODO: Branch manager add
 				$password = $this->security->getToken();
 
 				$manager = new Users();
@@ -210,7 +210,6 @@ class CitiesController extends ControllerBase
 						$this->flashSession->error($message);
 					}
 				}
-				//Branch manager add
 			}
 			else
 			{
@@ -233,22 +232,24 @@ class CitiesController extends ControllerBase
 
 		$oldPassword = $branch->managerPassword;
 
-		$form = new Form($branch);
-		$form->add(new Text("name"));
-		$form->add(new Text("address"));
-		$form->add(new Text("timetable"));
-		$form->add(new Text("phone"));
-		$form->add(new Text("site"));
-		$form->add(new Text("email"));
-		$form->add(new Text("lat"));
-		$form->add(new Text("lon"));
-		$form->add(new Text("managerPassword"));
-		$form->add(new Select("main", [0=>"Нет", 1=>"Да"]));
-		$form->add(new Select("active", [0=>"Нет", 1=>"Да"]));
+		$yesNoArray = array(0=>'Нет', 1=>'Да');
 
-		$form->add(new Text("meta_keywords"));
-		$form->add(new TextArea("meta_text"));
-		$form->add(new TextArea("meta_description"));
+		$form = new Form($branch);
+		$form->add(new Text('name'));
+		$form->add(new Text('address'));
+		$form->add(new Text('timetable'));
+		$form->add(new Text('phone'));
+		$form->add(new Text('site'));
+		$form->add(new Text('email'));
+		$form->add(new Text('lat'));
+		$form->add(new Text('lon'));
+		$form->add(new Text('managerPassword'));
+		$form->add(new Select('main', $yesNoArray));
+		$form->add(new Select('active', $yesNoArray));
+
+		$form->add(new Text('meta_keywords'));
+		$form->add(new TextArea('meta_text'));
+		$form->add(new TextArea('meta_description'));
 
 
 		if($this->request->isPost())
@@ -258,7 +259,24 @@ class CitiesController extends ControllerBase
 			{
 				$branch->save();
 
-				if($oldPassword != $branch->managerPassword)
+				if(!$branch->manager)
+				{
+					$manager = new Users();
+					$manager->role = Users::ROLE_MANAGER;
+					$manager->name = $branch->name;
+					$manager->email = $branch->email;
+					$manager->company = $branch->name;
+					$manager->password = $this->security->hash($branch->managerPassword);
+					$manager->branch_id = $branch->id;
+
+					if($manager->create())
+					{
+						$branch->manager_id = $manager->id;
+						$branch->save();
+					}
+				}
+
+				if($oldPassword !== $branch->managerPassword)
 				{
 					$branch->manager->update([
 						'password'	=> $this->security->hash($branch->managerPassword)
@@ -268,7 +286,7 @@ class CitiesController extends ControllerBase
 					$email->sendPassword($branch->manager->email, $branch->managerPassword);
 				}
 
-				$this->flashSession->success("Филиал успешно сохранен");
+				$this->flashSession->success('Филиал успешно сохранен');
 			}
 		}
 

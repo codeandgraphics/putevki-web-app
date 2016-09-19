@@ -154,7 +154,7 @@
 					</td>
 				</tr>
 				<tr class="data">
-					<td colspan="8">
+					<td colspan="10">
 						<div class="row">
 							<div class="col-sm-4">
 								<div class="info-group label-bottom">
