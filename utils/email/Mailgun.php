@@ -2,7 +2,7 @@
 
 namespace Utils\Email;
 
-use Interfaces\IEmail as IEmail;
+use \Interfaces\IEmail;
 
 class Mailgun implements IEmail
 {
