@@ -44,7 +44,7 @@ class EmailController extends ControllerBase
 			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 			$tour->hotel = $request->hotelName;
 			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
-			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
+			$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
 			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 			$tour->price = $request->price;
 			$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
@@ -78,7 +78,7 @@ class EmailController extends ControllerBase
 			$tour->people = $request->hotelPlacement;
 			$tour->departure = $request->departure->name;
 			$tour->departureFrom = $request->departure->name_from;
-			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
+			$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
 			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 			$tour->price = $request->price;
 			$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
@@ -106,6 +106,8 @@ class EmailController extends ControllerBase
 		$tour->requestId = $request->id;
 		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 		$tour->hotel = $request->hotelName;
+		$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
+		$tour->people = $request->hotelPlacement;
 		$tour->departure = $request->departure->name;
 		$tour->departureFrom = $request->departure->name_from;
 		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
@@ -122,20 +124,20 @@ class EmailController extends ControllerBase
 			$tour->flight->to->number = $request->flightToNumber;
 			$tour->flight->to->plane = $request->flightToPlane;
 			$tour->flight->to->carrier = $request->flightToCarrier;
-			$tour->flight->to->departure->date = $request->flightToDepartureDate;
+			$tour->flight->to->departure->date = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
 			$tour->flight->to->departure->time = $request->flightToDepartureTime;
 			$tour->flight->to->departure->terminal = $request->flightToDepartureTerminal;
-			$tour->flight->to->arrival->date = $request->flightToArrivalDate;
+			$tour->flight->to->arrival->date = Utils\Text::formatToDayMonth($request->flightToArrivalDate, 'Y-m-d');
 			$tour->flight->to->arrival->time = $request->flightToArrivalTime;
 			$tour->flight->to->arrival->terminal = $request->flightToArrivalTerminal;
 
 			$tour->flight->from->number = $request->flightFromNumber;
 			$tour->flight->from->plane = $request->flightFromPlane;
 			$tour->flight->from->carrier = $request->flightFromCarrier;
-			$tour->flight->from->departure->date = $request->flightFromDepartureDate;
+			$tour->flight->from->departure->date = Utils\Text::formatToDayMonth($request->flightFromDepartureDate, 'Y-m-d');
 			$tour->flight->from->departure->time = $request->flightFromDepartureTime;
 			$tour->flight->from->departure->terminal = $request->flightFromDepartureTerminal;
-			$tour->flight->from->arrival->date = $request->flightFromArrivalDate;
+			$tour->flight->from->arrival->date = Utils\Text::formatToDayMonth($request->flightFromArrivalDate, 'Y-m-d');
 			$tour->flight->from->arrival->time = $request->flightFromArrivalTime;
 			$tour->flight->from->arrival->terminal = $request->flightFromArrivalTerminal;
 		}
@@ -148,10 +150,6 @@ class EmailController extends ControllerBase
 		if($type == 'online')
 		{
 			$payment = Payments::findFirst('requestId = ' . $request->id);
-
-			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
-			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'd.m.Y');
-
 			$tour->payLink =  $this->config->frontend->publicURL . 'pay/' . $payment->id;
 
 			$params = [
@@ -167,9 +165,6 @@ class EmailController extends ControllerBase
 		}
 		else
 		{
-			$tour->people = $request->hotelPlacement;
-			$tour->from = $request->hotelDate;
-
 			$params = [
 				'tour'	=> $tour,
 				'year'	=> date('Y'),
