@@ -146,6 +146,7 @@ class CitiesController extends ControllerBase
 		$form->add(new Text("phone"));
 		$form->add(new Text("site"));
 		$form->add(new Text("email"));
+		$form->add(new Text('additionalEmails'));
 		$form->add(new Text("lat"));
 		$form->add(new Text("lon"));
 		$form->add(new Select("main", $yesNoArray));
@@ -168,6 +169,7 @@ class CitiesController extends ControllerBase
 			$branch->phone = $this->request->getPost('phone');
 			$branch->site = $this->request->getPost('site');
 			$branch->email = $this->request->getPost('email');
+			$branch->additionalEmails = $this->request->getPost('additionalEmails');
 			$branch->lat = $this->request->getPost('lat');
 			$branch->lon = $this->request->getPost('lon');
 			$branch->main = $this->request->getPost('main');
@@ -241,6 +243,7 @@ class CitiesController extends ControllerBase
 		$form->add(new Text('phone'));
 		$form->add(new Text('site'));
 		$form->add(new Text('email'));
+		$form->add(new Text('additionalEmails'));
 		$form->add(new Text('lat'));
 		$form->add(new Text('lon'));
 		$form->add(new Text('managerPassword'));

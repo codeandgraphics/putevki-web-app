@@ -75,7 +75,7 @@ class EmailController extends ControllerBase
 
 			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 			$tour->hotel = $request->hotelName;
-			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
+			$tour->people = $request->hotelPlacement;
 			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
 			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 			$tour->price = $request->price;
@@ -93,7 +93,7 @@ class EmailController extends ControllerBase
 			$body = $this->generate('managerNotification', $params);
 
 			$mailgun = new Mailgun();
-			$mailgun->send($manager->email, 'Новая заявка на тур', $body);
+			$mailgun->send($manager->email, 'Новая заявка на тур', $body, $request->branch->additionalEmails);
 		}
 	}
 
@@ -108,8 +108,38 @@ class EmailController extends ControllerBase
 		$tour->price = $request->price;
 		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 
-		$tour->agreementLink = $this->frontendConfig->publicURL . 'tour/agreement/' . $request->id;
-		$tour->bookingLink =  $this->frontendConfig->publicURL . 'tour/booking/' . $request->id;
+		$tour->agreementLink = $this->config->frontend->publicURL . 'tour/agreement/' . $request->id;
+		$tour->bookingLink =  $this->config->frontend->publicURL . 'tour/booking/' . $request->id;
+
+		$tour->flight = new \stdClass();
+
+		if($request->flightToNumber)
+		{
+			$tour->flight->to->number = $request->flightToNumber;
+			$tour->flight->to->plane = $request->flightToPlane;
+			$tour->flight->to->carrier = $request->flightToCarrier;
+			$tour->flight->to->departure->date = $request->flightToDepartureDate;
+			$tour->flight->to->departure->time = $request->flightToDepartureTime;
+			$tour->flight->to->departure->terminal = $request->flightToDepartureTerminal;
+			$tour->flight->to->arrival->date = $request->flightToArrivalDate;
+			$tour->flight->to->arrival->time = $request->flightToArrivalTime;
+			$tour->flight->to->arrival->terminal = $request->flightToArrivalTerminal;
+
+			$tour->flight->from->number = $request->flightFromNumber;
+			$tour->flight->from->plane = $request->flightFromPlane;
+			$tour->flight->from->carrier = $request->flightFromCarrier;
+			$tour->flight->from->departure->date = $request->flightFromDepartureDate;
+			$tour->flight->from->departure->time = $request->flightFromDepartureTime;
+			$tour->flight->from->departure->terminal = $request->flightFromDepartureTerminal;
+			$tour->flight->from->arrival->date = $request->flightFromArrivalDate;
+			$tour->flight->from->arrival->time = $request->flightFromArrivalTime;
+			$tour->flight->from->arrival->terminal = $request->flightFromArrivalTerminal;
+		}
+		else
+		{
+			$tour->flight = false;
+		}
+
 
 		if($type == 'online')
 		{
@@ -118,12 +148,12 @@ class EmailController extends ControllerBase
 			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
 			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'd.m.Y');
 
-			$tour->payLink =  $this->frontendConfig->publicURL . 'pay/' . $payment->id;
+			$tour->payLink =  $this->config->frontend->publicURL . 'pay/' . $payment->id;
 
 			$params = [
 				'tour'	=> $tour,
 				'year'	=> date('Y'),
-				'phone'	=> $this->frontendConfig->phone
+				'phone'	=> $this->config->frontend->phone
 			];
 
 			$body = $this->generate('online', $params);
@@ -139,7 +169,7 @@ class EmailController extends ControllerBase
 			$params = [
 				'tour'	=> $tour,
 				'year'	=> date('Y'),
-				'phone'	=> $this->frontendConfig->phone
+				'phone'	=> $this->config->frontend->phone
 			];
 
 			$body = $this->generate('request', $params);

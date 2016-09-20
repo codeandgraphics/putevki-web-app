@@ -11,6 +11,7 @@ class Branches extends Model
 	public $id;
 	public $name = null;
 	public $email;
+	public $additionalEmails;
 	public $address = null;
 	public $timetable = null;
 	public $phone = 0;

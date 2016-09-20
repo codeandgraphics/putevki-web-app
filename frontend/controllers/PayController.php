@@ -25,8 +25,6 @@ class PayController extends ControllerFrontend
 
 	public function successAction()
 	{
-		$this->view->disable();
-
 		$uniteller = new Uniteller();
 
 		$orderId = $this->request->get('Order_ID');
@@ -45,16 +43,22 @@ class PayController extends ControllerFrontend
 				{
 					$payment->status = $status;
 					$payment->save();
-					echo 'Payment success';
+
+					$this->view->setVar('title', 'Успешный платеж');
+					$this->view->setVar('success', true);
 				}
 			}
 			else
 			{
-				echo 'Payment failed';
+				$this->view->setVar('title', 'Ошибка оплаты');
+				$this->view->setVar('success', false);
 			}
+
+			$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
 		}
 		else
 		{
+			$this->view->disable();
 			//Request payment result
 			$uniteller->getPaymentResult($orderId);
 		}
@@ -64,8 +68,9 @@ class PayController extends ControllerFrontend
 
 	public function failAction()
 	{
-		$this->view->disable();
-		echo 'Payment failed';
+		$this->view->setVar('title', 'Ошибка оплаты');
+
+		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
 	}
 
 	public function notifyAction()

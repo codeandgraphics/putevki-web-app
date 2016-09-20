@@ -9,7 +9,7 @@ define('VERSION', '1.0.0');
 
 $di = new CliDI();
 
-defined('APP_PATH') || define('APP_PATH', realpath('.'));
+defined('APP_PATH') || define('APP_PATH', realpath('.') . DIRECTORY_SEPARATOR);
 
 if (is_readable(APP_PATH . 'config/config.php'))
 {
@@ -34,10 +34,8 @@ $di->set('db', function () use ($config) {
 	return new DbAdapter($config->database->toArray());
 });
 
-
 $console = new ConsoleApp();
 $console->setDI($di);
-
 
 $arguments = array();
 foreach ($argv as $k => $arg)

@@ -1,6 +1,6 @@
 <?php
 
-use \Models\Tourvisor as Tourvisor;
+use \Models\Tourvisor;
 
 class TourvisorTask extends \Phalcon\CLI\Task
 {
@@ -89,7 +89,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nCountries count: " . sizeof($apiCountries) . " \n";
+		echo "\nCountries count: " . count($apiCountries) . " \n";
 	}
 
 	public function regionsAction()
@@ -116,7 +116,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nRegions count: " . sizeof($apiRegions) . " \n";
+		echo "\nRegions count: " . count($apiRegions) . " \n";
 	}
 
 	public function departuresAction()
@@ -143,7 +143,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nDepartures count: " . sizeof($apiDepartures) . " \n";
+		echo "\nDepartures count: " . count($apiDepartures) . " \n";
 	}
 
 	public function operatorsAction()
@@ -172,7 +172,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nOperators count: " . sizeof($apiOperators) . " \n";
+		echo "\nOperators count: " . count($apiOperators) . " \n";
 	}
 
 	public function mealsAction()
@@ -200,7 +200,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nMeals count: " . sizeof($apiArray) . " \n";
+		echo "\nMeals count: " . count($apiArray) . " \n";
 	}
 
 	public function starsAction()
@@ -225,7 +225,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nStars count: " . sizeof($apiArray) . " \n";
+		echo "\nStars count: " . count($apiArray) . " \n";
 	}
 
 }

@@ -9,7 +9,7 @@ class Mailgun implements IEmail
 	const MAILGUN_API_KEY = 'api:key-ec3c86a1517e940537f6f1e643f87ddf';
 	const MAILGUN_SEND_URL = 'https://api.mailgun.net/v3/mg.and.graphics/messages';
 
-	public function send($to, $subject, $message)
+	public function send($to, $subject, $message, $additionalEmails = null)
 	{
 		$query = [
 			'from'		=> 'No-reply <postmaster@mg.and.graphics>',
@@ -17,6 +17,11 @@ class Mailgun implements IEmail
 			'subject'	=> $subject,
 			'html'		=> $message
 		];
+
+		if($additionalEmails)
+		{
+			$query['cc'] = $additionalEmails;
+		}
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, self::MAILGUN_SEND_URL);

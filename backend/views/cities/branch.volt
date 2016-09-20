@@ -66,6 +66,12 @@
 					</div>
 
 					<div class="form-group">
+						<label for="additionalEmails">Дополнительные e-mail</label>
+						<?php echo $form->render('additionalEmails', ["class"=>"form-control"]) ?>
+						<span class="help-block">Дополнительные адреса для отправки писем (через запятую)</span>
+					</div>
+
+					<div class="form-group">
 						<label for="lat">Широта (lat, используется для отображения карты филиалов) </label>
 						<?php echo $form->render('lat', ["class"=>"form-control"]) ?>
 					</div>
