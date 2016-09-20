@@ -76,6 +76,8 @@ class EmailController extends ControllerBase
 			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 			$tour->hotel = $request->hotelName;
 			$tour->people = $request->hotelPlacement;
+			$tour->departure = $request->departure->name;
+			$tour->departureFrom = $request->departure->name_from;
 			$tour->from = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
 			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 			$tour->price = $request->price;
@@ -104,6 +106,8 @@ class EmailController extends ControllerBase
 		$tour->requestId = $request->id;
 		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 		$tour->hotel = $request->hotelName;
+		$tour->departure = $request->departure->name;
+		$tour->departureFrom = $request->departure->name_from;
 		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 		$tour->price = $request->price;
 		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
