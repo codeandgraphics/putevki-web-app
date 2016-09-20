@@ -197,7 +197,7 @@ class EmailController extends ControllerBase
 		$this->simpleView->setVars([
 			'baseUrl'	=> $this->config->frontend->publicURL,
 			'adminUrl'	=> $this->config->backend->publicURL,
-			'assetsUrl'	=> $this->config->frontend->publicURL . 'assets', //TODO: replace in production,
+			'assetsUrl'	=> $this->config->frontend->publicURL . 'assets',
 			'year'		=> date('Y')
 		]);
 

@@ -2,14 +2,12 @@
 
 namespace Backend\Controllers;
 
-use Phalcon\Http\Response			as Response,
-	Phalcon\Forms\Form,
-	Phalcon\Forms\Element\Text,
-	Phalcon\Forms\Element\Select,
-	Phalcon\Paginator\Adapter\Model	as PaginatorModel,
-	Backend\Models\Users			as Users,
-	Backend\Models\Tourists			as Tourists,
-	Models\Tourvisor;
+use \Phalcon\Forms\Form;
+use \Phalcon\Forms\Element\Text;
+use \Phalcon\Forms\Element\Select;
+use \Phalcon\Paginator\Adapter\Model	as PaginatorModel;
+use \Backend\Models\Users;
+use \Backend\Models\Tourists;
 
 class TouristsController extends ControllerBase
 {
@@ -27,24 +25,24 @@ class TouristsController extends ControllerBase
 
 			if($this->user->role == Users::ROLE_MANAGER)
 			{
-				$query .= "AND manager_id = " . $this->user->id . " ";
+				$query .= 'AND manager_id = ' . $this->user->id . ' ';
 			}
 
-			$query .= "ORDER BY creationDate DESC";
+			$query .= 'ORDER BY creationDate DESC';
 
-			$tourists =$this->modelsManager->executeQuery($query, ["search" => '%'.$search.'%']);
+			$tourists =$this->modelsManager->executeQuery($query, ['search' => '%'.$search.'%']);
 
 			$searchAdd = '&search=' . $search;
 		}
 		else
 		{
 			$query = [
-				"order"	=> 'creationDate DESC',
+				'order'	=> 'creationDate DESC',
 			];
 
 			if($this->user->role == Users::ROLE_MANAGER)
 			{
-				$query[] = "manager_id = " . $this->user->id;
+				$query[] = 'manager_id = ' . $this->user->id;
 			}
 
 			$tourists = Tourists::find($query);
@@ -52,9 +50,9 @@ class TouristsController extends ControllerBase
 
 		$paginator = new PaginatorModel(
 			array(
-				"data"  => $tourists,
-				"limit" => 50,
-				"page"  => $this->request->get('page')
+				'data'  => $tourists,
+				'limit' => 50,
+				'page'  => $this->request->get('page')
 			)
 		);
 
@@ -143,9 +141,9 @@ class TouristsController extends ControllerBase
 						LIMIT 1";
 
 			$touristModel = $this->modelsManager->executeQuery($query, [
-				"passport_number" => $tourist['passport_number'],
-				"passport_name" => $tourist['passport_name'],
-				"passport_surname" => $tourist['passport_surname']
+				'passport_number' => $tourist['passport_number'],
+				'passport_name' => $tourist['passport_name'],
+				'passport_surname' => $tourist['passport_surname']
 			])->getFirst();
 
 			if($touristModel)
@@ -206,7 +204,7 @@ class TouristsController extends ControllerBase
 			if($form->isValid())
 			{
 				$tourist->save();
-				$this->flashSession->success("Данные туриста успешно сохранены");
+				$this->flashSession->success('Данные туриста успешно сохранены');
 			}
 		}
 
@@ -246,8 +244,8 @@ class TouristsController extends ControllerBase
 
 			if($tourist->save())
 			{
-				$this->flashSession->success("Турист успешно добавлен");
-				return $this->response->redirect("tourists/edit/" . $tourist->id);
+				$this->flashSession->success('Турист успешно добавлен');
+				return $this->response->redirect('tourists/edit/' . $tourist->id);
 			}
 			else
 			{

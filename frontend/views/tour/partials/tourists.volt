@@ -45,14 +45,25 @@ $people = (int) $tour->adults + (int) $tour->child;
 				<div class="wrap">
 					<div class="left">
 						<div class="cell">
-							<div class="first form-group">
-								<label for="tourist-lastname-<?=$i;?>" class="control-label">Фамилия</label>
-								<input type="text" class="form-control" id="tourist-lastname-<?=$i;?>" name="tourists[<?=$i;?>][lastname]" placeholder="по загранпаспорту" data-inputmask-regex="'mask': '[a-z]'" required>
-							</div>
-							<div class="second form-group">
-								<label for="tourist-firstname-<?=$i;?>" class="control-label">Имя</label>
-								<input type="text" class="form-control" id="tourist-firstname-<?=$i;?>" name="tourists[<?=$i;?>][firstname]" placeholder="по загранпаспорту" required>
-							</div>
+							{% if tour.countrycode == '47' %}
+								<div class="first form-group">
+									<label for="tourist-lastname-<?=$i;?>" class="control-label">Фамилия</label>
+									<input type="text" class="form-control" id="tourist-lastname-<?=$i;?>" name="tourists[<?=$i;?>][lastname]" placeholder="по паспорту" data-inputmask-regex="'mask': '[a-z]'" required>
+								</div>
+								<div class="second form-group">
+									<label for="tourist-firstname-<?=$i;?>" class="control-label">Имя</label>
+									<input type="text" class="form-control" id="tourist-firstname-<?=$i;?>" name="tourists[<?=$i;?>][firstname]" placeholder="по паспорту" required>
+								</div>
+							{% else %}
+								<div class="first form-group">
+									<label for="tourist-lastname-<?=$i;?>" class="control-label">Фамилия</label>
+									<input type="text" class="form-control" id="tourist-lastname-<?=$i;?>" name="tourists[<?=$i;?>][lastname]" placeholder="по загранпаспорту" data-inputmask-regex="'mask': '[a-z]'" required>
+								</div>
+								<div class="second form-group">
+									<label for="tourist-firstname-<?=$i;?>" class="control-label">Имя</label>
+									<input type="text" class="form-control" id="tourist-firstname-<?=$i;?>" name="tourists[<?=$i;?>][firstname]" placeholder="по загранпаспорту" required>
+								</div>
+							{% endif %}
 						</div>
 						<div class="cell">
 							<div class="first form-group">
@@ -79,10 +90,17 @@ $people = (int) $tour->adults + (int) $tour->child;
 								<label for="tourist-nationality-<?=$i;?>" class="control-label">Гражданство</label>
 								<input type="text" class="form-control" name="tourists[<?=$i;?>][nationality]" id="tourist-nationality-<?=$i;?>" placeholder="Россия" required>
 							</div>
-							<div class="second form-group">
-								<label for="tourist-passport-<?=$i;?>" class="control-label">Номер загранпаспорта</label>
-								<input type="text" class="form-control" name="tourists[<?=$i;?>][passport]" id="tourist-passport-<?=$i;?>" placeholder="00№0000000" data-inputmask="'mask': '99№9999999'" required>
-							</div>
+							{% if tour.countrycode == '47' %}
+								<div class="second form-group">
+									<label for="tourist-passport-<?=$i;?>" class="control-label">Номер паспорта</label>
+									<input type="text" class="form-control" name="tourists[<?=$i;?>][passport]" id="tourist-passport-<?=$i;?>" placeholder="00 00 000000" data-inputmask="'mask': '99 99 999999'" required>
+								</div>
+							{% else %}
+								<div class="second form-group">
+									<label for="tourist-passport-<?=$i;?>" class="control-label">Номер загранпаспорта</label>
+									<input type="text" class="form-control" name="tourists[<?=$i;?>][passport]" id="tourist-passport-<?=$i;?>" placeholder="00№0000000" data-inputmask="'mask': '99№9999999'" required>
+								</div>
+							{% endif %}
 						</div>
 						<div class="cell">
 							<div class="first form-group">
