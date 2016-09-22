@@ -6,13 +6,13 @@ use \Interfaces\IEmail;
 
 class Mailgun implements IEmail
 {
-	const MAILGUN_API_KEY = 'api:key-ec3c86a1517e940537f6f1e643f87ddf';
-	const MAILGUN_SEND_URL = 'https://api.mailgun.net/v3/mg.and.graphics/messages';
+	const MAILGUN_API_KEY = 'api:key-90023c0ce2969e63d05d080e32abec60';
+	const MAILGUN_SEND_URL = 'https://api.mailgun.net/v3/mail.putevki.ru/messages';
 
 	public function send($to, $subject, $message, $additionalEmails = null)
 	{
 		$query = [
-			'from'		=> 'No-reply <postmaster@mg.and.graphics>',
+			'from'		=> 'Путевки.ру <postmaster@mail.putevki.ru>',
 			'to'		=> $to,
 			'subject'	=> $subject,
 			'html'		=> $message
