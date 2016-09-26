@@ -7,9 +7,9 @@ return new \Phalcon\Config(array(
 	'database' => array(
 		'adapter'		=> 'Mysql',
 		'host'			=> 'localhost',
-		'username'		=> 'putevki_xml',
-		'password'		=> '7Z6t1L3t',
-		'dbname'		=> 'putevki_xml',
+		'username'		=> 'putevki_spb',
+		'password'		=> '1R6r0V3z',
+		'dbname'		=> 'putevki_spb',
 		'charset'		=> 'utf8'
 	),
 	'cacheDir'				=> APP_PATH . 'cache/',
@@ -30,7 +30,7 @@ return new \Phalcon\Config(array(
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
 		'requestEmail'			=> 'online@putevki.ru',
-		'publicURL'				=> 'https://online.putevki.ru/admin/',
+		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
 			'Backend\Controllers'		=> APP_PATH . 'backend/controllers/',
@@ -144,7 +144,7 @@ return new \Phalcon\Config(array(
 			'password'		=> 'oMGKUvVs771GFvW9yr9qjvNPMw5rwUdsxJZ0qiwt5tEHDIjGwUvMY01CJmHsQ8Kr2jhDDdNvK6OcQUXT',
 		],
 
-		'publicURL' => 'https://online.putevki.ru/',
+		'publicURL' => 'https://spb.putevki.ru/',
 		'phone'		=> '+7 (495) 789 10 39',
 		'cryptKey'	=> '>d#p>aDW[2mQQX 3{',
 		'cookie_remember_timeout'	=> 60*60*24*30,

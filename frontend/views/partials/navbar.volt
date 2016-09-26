@@ -16,7 +16,7 @@
 				<button class="btn btn-primary" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
 			</div>
 			<div class="location navbar-text navbar-right">
-				<i class="ion-location"></i> <a href="#" data-toggle="modal" data-target="#cityModal"><span>{{ currentCity.name }}</span><b class="caret"></b></a>
+				<i class="ion-location"></i> <span>{{ currentCity.name }}</span>
 			</div>
 		</div>
 	</div>

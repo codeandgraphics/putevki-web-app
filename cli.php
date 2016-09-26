@@ -9,7 +9,7 @@ define('VERSION', '1.0.0');
 
 $di = new CliDI();
 
-defined('APP_PATH') || define('APP_PATH', realpath('.') . DIRECTORY_SEPARATOR);
+defined('APP_PATH') || define('APP_PATH', realpath(__DIR__) . DIRECTORY_SEPARATOR);
 
 if (is_readable(APP_PATH . 'config/config.php'))
 {
