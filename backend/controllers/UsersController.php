@@ -41,7 +41,7 @@ class UsersController extends ControllerBase
 				{
 					$this->_registerSession($user);
 					$this->flashSession->success("Вы успешно вошли в систему");
-					return $this->response->redirect("/");
+					return $this->response->redirect("");
 				}
 				else
 				{
