@@ -233,11 +233,6 @@
 	</section>
 
 	<section class="block addresses">
-		<div class="container header">
-			<h2>
-				Все офисы <small>Партнеры "Путёвки.ру"</small>
-			</h2>
-		</div>
 		<div class="content">
 			<div class="container">
 				<div class="row">
