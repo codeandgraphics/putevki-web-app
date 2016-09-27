@@ -212,7 +212,7 @@
 	<section class="block map">
 		<div class="container header">
 			<h2>
-				Наши представительства <small>Более 30 филиалов по всей стране</small>
+				Наши представительства <small>Филиалы по всему городу!</small>
 			</h2>
 		</div>
 
@@ -228,6 +228,80 @@
 			<div class="container">
 				<ul id="mapCities" class="list-unstyled list-inline">
 				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="block addresses">
+		<div class="container header">
+			<h2>
+				Все офисы <small>Партнеры "Путёвки.ру"</small>
+			</h2>
+		</div>
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>8-я линия В.О., дом 35, во дворе</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>проспект Науки, 17, корпус 6</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>ул.Уточкина, д.6, к.1</address>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4 address">
+						<h5>ООО «365»/Турсфера</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>ул.Бухарестская, д.94, корп. 1, пом. 75</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>Ленинский проспект, д.176</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>ул.Чудновского, д.10, ТЦ “Чудный”, 2 этаж</address>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>Петергофское шоссе, д. 53, литера А, офис 58Н</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>ул.Шостаковича, д.5, к.1</address>
+					</div>
+					<div class="col-xs-4 address">
+						<h5>ООО "365"</h5>
+						<span>Партнёр "Путёвки.ру"</span>
+						<address>Санкт-Петербург</address>
+						<address>ул.Садовая, д.38, ТД “Купца Яковлева”, сек. 204</address>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

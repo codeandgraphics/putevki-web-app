@@ -1,13 +1,13 @@
 <table class="footer">
 	<tr>
 		<td class="left">
-			+7 (495) 727-17-83
+			+7 (812) 643-34-09
 		</td>
 		<td>
 			Страница {PAGENO}
 		</td>
 		<td class="right">
-			www.putevki.ru
+			spb.putevki.ru
 		</td>
 	</tr>
 	<tr>

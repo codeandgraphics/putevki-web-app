@@ -4,9 +4,10 @@
 			<img src="{{ assetsUrl }}/img/logo.jpg" />
 		</td>
 		<td class="right">
-			online.putevki.ru<br/>
-			online@putevki.ru<br/>
-			+7 (495) 727-17-83
+			Сеть Турагентств ТУРСФЕРА<br/>
+			spb.putevki.ru<br/>
+			info@toursfera.ru<br/>
+			+7 (812) 643-34-09
 		</td>
 	</tr>
 </table>

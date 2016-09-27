@@ -242,7 +242,7 @@ class AjaxController extends ControllerFrontend
 
 		$hotels = [];
 
-		if(mb_strlen($query,'UTF-8') >= 2)
+		if(mb_strlen($query,'UTF-8') >= 3)
 		{
 			$builder = $this->modelsManager->createBuilder()
 				->columns([

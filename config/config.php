@@ -25,11 +25,11 @@ return new \Phalcon\Config(array(
 	],
 
 	'backend'   => [
-		'env'					=> 'development',// production|development
+		'env'					=> 'production',// production|development
 		'baseUri'				=> '/admin/',
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
-		'requestEmail'			=> 'online@putevki.ru',
+		'requestEmail'			=> 'msnake.dubna@gmail.com',
 		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
@@ -134,18 +134,20 @@ return new \Phalcon\Config(array(
 
 		'uniteller'		=> [
 			'orderPrefix'	=> 'PTVK',
-			'shopId'		=> '00002051', //Идентификатор точки продаж
-			'lifeTime'		=> 3600, //Время жизни формы оплаты
-			'meanType'		=> '', //Тип платежной системы
-			'moneyType'		=> '', //Тип электронной валюты
+			'shopId'		=> '00009500',
+			'lifeTime'		=> 3600,
+			'meanType'		=> '',
+			'moneyType'		=> '',
 			'urlOk'			=> 'pay/success/',
 			'urlNo'			=> 'pay/fail/',
-			'login'			=> '996',
-			'password'		=> 'oMGKUvVs771GFvW9yr9qjvNPMw5rwUdsxJZ0qiwt5tEHDIjGwUvMY01CJmHsQ8Kr2jhDDdNvK6OcQUXT',
+			'login'			=> '1830',
+			'password'		=> 'obHl9HviE4XW5O53hIV1RQJWmT6HRgMvXh79Ml4eelAYVgDpgvNVQSHn9LNiGg1Hnya8kffaNIEZdSbM',
 		],
 
 		'publicURL' => 'https://spb.putevki.ru/',
-		'phone'		=> '+7 (495) 789 10 39',
+		'defaultCity' => 1,
+		'defaultFlightCity' => 5,
+		'phone'		=> '+7 (812) 643-34-09',
 		'cryptKey'	=> '>d#p>aDW[2mQQX 3{',
 		'cookie_remember_timeout'	=> 60*60*24*30,
 		'smtp'	=> array(

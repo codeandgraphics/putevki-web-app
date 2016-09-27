@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model;
 use \Utils\Morpher;
 
@@ -64,7 +65,11 @@ class Cities extends Model
 
 	public static function checkCity($city = null)
 	{
-		$cookie_timeout = 60 * 60 * 24 * 30;
+		$config = Di::getDefault()->get('config');
+		$defaultCity = $config->frontend->defaultCity;
+		$defaultFlightCity = $config->frontend->defaultFlightCity;
+		$cookie_timeout = $config->frontend->cookie_remember_timeout;
+
 		if($city)
 		{
 			$activeCity = self::findFirst("uri = '$city'");
@@ -83,9 +88,9 @@ class Cities extends Model
 				}
 				else
 				{
-					setcookie('city', 1, time() + $cookie_timeout, '/');
-					setcookie('flight_city', 1, time() + $cookie_timeout, '/');
-					$currentCity = self::findFirst(1);
+					setcookie('city', $defaultCity, time() + $cookie_timeout, '/');
+					setcookie('flight_city', $defaultFlightCity, time() + $cookie_timeout, '/');
+					$currentCity = self::findFirst($defaultCity);
 				}
 			}
 		}
@@ -97,9 +102,9 @@ class Cities extends Model
 			}
 			else
 			{
-				setcookie('city', 1, time() + $cookie_timeout, '/');
-				setcookie('flight_city', 1, time() + $cookie_timeout, '/');
-				$currentCity = self::findFirst(1);
+				setcookie('city', $defaultCity, time() + $cookie_timeout, '/');
+				setcookie('flight_city', $defaultFlightCity, time() + $cookie_timeout, '/');
+				$currentCity = self::findFirst($defaultCity);
 			}
 		}
 

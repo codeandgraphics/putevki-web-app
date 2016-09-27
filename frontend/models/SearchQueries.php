@@ -3,6 +3,7 @@
 namespace Frontend\Models;
 
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model,
 	Phalcon\Mvc\Model\Behavior\Timestampable,
 	Models\Tourvisor,
@@ -351,8 +352,9 @@ class SearchQueries extends Model
 		}
 		else
 		{
+			$config = Di::getDefault()->get('config');
 			$params = new \stdClass();
-			$params->departureId = 1;
+			$params->departureId = $config->frontend->defaultFlightCity;
 			$params->countryId = '';
 			$params->regionId = '';
 			$params->nights = 7;
