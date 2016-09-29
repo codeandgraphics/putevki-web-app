@@ -29,7 +29,7 @@ return new \Phalcon\Config(array(
 		'baseUri'				=> '/admin/',
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
-		'requestEmail'			=> 'msnake.dubna@gmail.com',
+		'requestEmail'			=> 'msnake@avantico.ru',
 		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
@@ -58,6 +58,11 @@ return new \Phalcon\Config(array(
 			'/{city}' => [
 				'controller'	=> 'index',
 				'action'		=> 'index'
+			],
+
+			'/agreement' => [
+				'controller'	=> 'index',
+				'action'		=> 'agreement'
 			],
 
 			'/formTest' => [

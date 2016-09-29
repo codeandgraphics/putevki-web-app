@@ -5,20 +5,15 @@
 namespace Backend\Controllers;
 
 use Models\Branches;
-use Phalcon\Http\Response			as Response,
-	Phalcon\Forms\Form,
+use Phalcon\Forms\Form,
 	Phalcon\Forms\Element\Text,
 	Phalcon\Forms\Element\Select,
-	Phalcon\Mvc\View				as View,
 	Phalcon\Paginator\Adapter\Model as PaginatorModel,
-	Backend\Models\Users			as Users,
-	Backend\Models\Requests			as Requests,
-	Backend\Models\RequestStatuses	as RequestStatuses,
-	Backend\Models\RequestTourists	as RequestTourists,
-	Backend\Models\Payments			as Payments,
-	Utils\Text						as TextUtils,
+	Backend\Models\Users,
+	Backend\Models\Requests,
+	Backend\Models\RequestStatuses,
+	Backend\Models\RequestTourists,
 	Models\Tourvisor;
-use Phalcon\Mvc\Model\Validator\Email;
 
 class RequestsController extends ControllerBase
 {
@@ -303,7 +298,7 @@ class RequestsController extends ControllerBase
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/booking');
-		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
+		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
 		$header = $this->simpleView->render('requests/pdf/header');
 		$footer = $this->simpleView->render('requests/pdf/footer');
@@ -331,7 +326,7 @@ class RequestsController extends ControllerBase
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/agreement');
-		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
+		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
 		$header = $this->simpleView->render('requests/pdf/header');
 		$footer = $this->simpleView->render('requests/pdf/footer');

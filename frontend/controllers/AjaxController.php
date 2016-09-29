@@ -183,6 +183,19 @@ class AjaxController extends ControllerFrontend
 		return $response;
 	}
 
+	public function tourHelpAction()
+	{
+		$response = new Response();
+		$phone = $_POST['data']['findPhone'];
+		$queries = $_POST['data']['query'];
+
+		$emailController = new EmailController();
+		$emailController->sendTourHelp($phone, $queries);
+		$response->setJsonContent(['status' => 'ok']);
+
+		return $response;
+	}
+
 	public function destinationsAction()
 	{
 		$response = new Response();
