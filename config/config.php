@@ -29,7 +29,7 @@ return new \Phalcon\Config(array(
 		'baseUri'				=> '/admin/',
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
-		'requestEmail'			=> 'msnake@avantico.ru',
+		'requestEmail'			=> 'morozov@toursfera.com',
 		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
@@ -65,9 +65,9 @@ return new \Phalcon\Config(array(
 				'action'		=> 'agreement'
 			],
 
-			'/formTest' => [
+			'/uniteller' => [
 				'controller'	=> 'index',
-				'action'		=> 'formTest'
+				'action'		=> 'uniteller'
 			],
 
 			'/tour/{id}' => [

@@ -308,7 +308,7 @@ class SearchQueries extends Model
 	public static function buildQueryStringFromParams($params)
 	{
 		$queryString = '';
-		if($params->hotel)
+		if(property_exists($params, 'hotel'))
 		{
 			$queryString .= 'hotel/';
 		}
@@ -320,7 +320,7 @@ class SearchQueries extends Model
 			$queryString .= '(' . $params->region . ')';
 		}
 
-		if($params->hotel)
+		if(property_exists($params, 'hotel'))
 		{
 			$queryString .= '/' . $params->hotel;
 		}
@@ -343,7 +343,7 @@ class SearchQueries extends Model
 	
 	public static function checkParams()
 	{
-		if(array_key_exists('params', $_COOKIE))
+		if(array_key_exists('params', $_COOKIE) && $_COOKIE['params'])
 		{
 			$params = (object) unserialize($_COOKIE['params']);
 			

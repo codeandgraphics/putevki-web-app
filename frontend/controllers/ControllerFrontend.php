@@ -19,7 +19,13 @@ class ControllerFrontend extends Controller
 	public function initialize()
 	{
 		if(array_key_exists('lastQueries', $_COOKIE))
-			$this->lastQueries = array_reverse(unserialize($_COOKIE['lastQueries']));
+		{
+			$queries = unserialize($_COOKIE['lastQueries']);
+			if($queries)
+			{
+				$this->lastQueries = array_reverse($queries);
+			}
+		}
 
 		$this->params = SearchQueries::checkParams();
 		$this->currentCity = Cities::checkCity();

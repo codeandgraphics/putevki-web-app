@@ -38,6 +38,10 @@
 		</div>
 
 		<div class="fuel">
+			<div class="changed">
+				<div class="more hide">Дороже</div>
+				<div class="less hide">Дешевле</div>
+			</div>
 			<div class="data">
 				<div class="charge"></div>
 				<span>Топливный сбор</span>

@@ -105,6 +105,14 @@ class IndexController extends ControllerFrontend
 
 		$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
 	}
+
+	public function unitellerAction()
+	{
+		$this->view->setVars([
+			'title' => 'Онлайн-оплата Uniteller',
+			'page' => 'uniteller'
+		]);
+	}
 	
 	public function formTestAction()
 	{

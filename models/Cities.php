@@ -82,7 +82,7 @@ class Cities extends Model
 			}
 			else
 			{
-				if($_COOKIE['city'])
+				if(array_key_exists('city', $_COOKIE) && $_COOKIE['city'])
 				{
 					$currentCity = self::findFirst($_COOKIE['city']);
 				}
@@ -96,7 +96,7 @@ class Cities extends Model
 		}
 		else
 		{
-			if($_COOKIE['city'])
+			if(array_key_exists('city', $_COOKIE) && $_COOKIE['city'])
 			{
 				$currentCity = self::findFirst($_COOKIE['city']);
 			}
