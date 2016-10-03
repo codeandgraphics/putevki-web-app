@@ -62,7 +62,7 @@
 						<img src="{{ url() }}assets/img/uniteller.png" alt="Uniteller" style="width:150px !important;">
 					</a>
 					ООО «Турфирма ТУРСФЕРА»<br/>
-					ИНН:7802425145 КПП:780201001
+					ИНН:7802<span>425</span>145 КПП:780<span>201</span>001
 				</div>
 			</div>
 		</div>
