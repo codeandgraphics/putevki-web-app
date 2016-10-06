@@ -17,6 +17,7 @@
 			</div>
 			<div class="location navbar-text navbar-right">
 				<i class="ion-location"></i> <span>{{ currentCity.name }}</span>
+				<small><a href="https://putevki.ru/?from_spb" target="_blank">Старая версия сайта<i class="ion-android-open"></i></a></small>
 			</div>
 		</div>
 	</div>
