@@ -34,7 +34,7 @@
 {% for country in countries %}
 		<div class="col-xs-2 country">
 			<img src="//static.tourvisor.ru/flags/calendar/flag_{{ country.id }}.gif" />
-			<a href="{{ url('search') }}/{{ currentCity.name }}/{{ country.name }}">{{ country.name }}</a>
+			<a href="{{ url('search') }}/{{ currentCity.departure.name }}/{{ country.name }}">{{ country.name }}</a>
 		</div>
 {% endfor %}
 	</div>

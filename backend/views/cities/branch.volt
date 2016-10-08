@@ -55,8 +55,8 @@
 
 					<div class="well well-sm">
 						<div class="form-group">
-							<label for="email">E-mail</label>
-							<?php echo $form->render('email', ["class"=>"form-control"]) ?>
+							<label for="email">Логин</label>
+							<input type="text" class="form-control" disabled="disabled" value="{{ branch.manager.email }}" />
 						</div>
 
 						<div class="form-group">
