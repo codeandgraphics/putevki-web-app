@@ -29,7 +29,7 @@ return new \Phalcon\Config(array(
 		'baseUri'				=> '/admin/',
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
-		'requestEmail'			=> 'morozov@toursfera.com',
+		'requestEmail'			=> 'info@toursfera.com',
 		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
@@ -160,7 +160,7 @@ return new \Phalcon\Config(array(
 			'password'	=> 'T52a59W88',
 			'host'		=> 'ssl://smtp.mail.ru',
 			'name'		=> 'Putevki.ru',
-			'to'		=> 'online@putevki.ru'
+			'to'		=> 'info@toursfera.ru'
 		)
 	]
 ));
