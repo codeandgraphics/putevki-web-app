@@ -131,8 +131,6 @@ class AjaxController extends ControllerFrontend
 
 		if($request->save())
 		{
-
-
 			foreach($tourists as $tourist)
 			{
 				$requestTourist = new RequestTourists();
@@ -162,6 +160,7 @@ class AjaxController extends ControllerFrontend
 			//Отправляем email
 			$emailController = new EmailController();
 			$emailController->sendRequest($type, $request);
+			$emailController->sendAdminNotification($request);
 		}
 		else
 		{

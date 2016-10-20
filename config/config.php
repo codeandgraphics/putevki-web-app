@@ -29,7 +29,7 @@ return new \Phalcon\Config(array(
 		'baseUri'				=> '/admin/',
 		'controllersDir'		=> APP_PATH . 'backend/controllers/',
 		'viewsDir'				=> APP_PATH . 'backend/views/',
-		'requestEmail'			=> 'info@toursfera.com',
+		'requestEmail'			=> 'info@toursfera.ru',
 		'publicURL'				=> 'https://spb.putevki.ru/admin/',
 
 		'namespaces'    => [
