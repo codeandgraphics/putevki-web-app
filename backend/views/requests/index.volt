@@ -29,7 +29,7 @@
 						<small>Вылет</small>
 					</th>
 					<th class="text-center">
-						Дата
+						Дата вылета
 						<small>Ночей</small>
 					</th>
 					<th class="text-center">
