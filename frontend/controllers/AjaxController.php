@@ -167,6 +167,8 @@ class AjaxController extends ControllerFrontend
 			$response->setJsonContent(['error' => 'save error' ]);
 		}
 
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
 		return $response;
     }
 
@@ -177,6 +179,8 @@ class AjaxController extends ControllerFrontend
 
 		$emailController = new EmailController();
 		$emailController->sendFindTour($data);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent(['status' => 'ok' ]);
 
 		return $response;
@@ -190,6 +194,8 @@ class AjaxController extends ControllerFrontend
 
 		$emailController = new EmailController();
 		$emailController->sendTourHelp($phone, $queries);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent(['status' => 'ok']);
 
 		return $response;
@@ -220,6 +226,7 @@ class AjaxController extends ControllerFrontend
 			$regions[] = $region;
 		}
 
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent([
 			'countries'	=> $countries,
 			'regions'	=> $regions
@@ -239,6 +246,8 @@ class AjaxController extends ControllerFrontend
 		{
 			$departures[] = $departure;
 		}
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent([
 			'departures'	=> $departures
 		]);
@@ -288,6 +297,7 @@ class AjaxController extends ControllerFrontend
 			}
 		}
 
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent($hotels);
 
 		return $response;
@@ -371,7 +381,8 @@ class AjaxController extends ControllerFrontend
 		}
 		
 		$res->hotels = array_values($hotels);
-		
+
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($res);
 	    
 	    return $response;
@@ -389,7 +400,8 @@ class AjaxController extends ControllerFrontend
 		
 		$res = new stdClass();
 		$res->status = $result->data->status;
-			    
+
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($res);
 	    
 	    return $response;
@@ -411,6 +423,7 @@ class AjaxController extends ControllerFrontend
 		    $path = '/search/hotel/';
 	    }
 
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent(['url' =>  $path . $searchQuery->buildQueryString() ]);
 	    
 	    return $response;
@@ -426,6 +439,7 @@ class AjaxController extends ControllerFrontend
 		$searchQuery->fillFromParams($params);
 		$searchQuery->run();
 
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 		$response->setJsonContent(['tourvisorId' => $searchQuery->tourvisorId, 'query'=>$searchQuery->toArray() ]);
 
 		return $response;
@@ -440,7 +454,8 @@ class AjaxController extends ControllerFrontend
 			'flights'		=> 1
 		);
 		$result = Utils\Tourvisor::getMethod('actualize', $params);
-	    
+
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($result);
 	    
 	    return $response;
@@ -454,6 +469,7 @@ class AjaxController extends ControllerFrontend
 		    'tourid' => $tourvisorId
 	    ));
 
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($detailData);
 	    return $response;
     }
@@ -468,7 +484,8 @@ class AjaxController extends ControllerFrontend
 			'imgheight'		=> 260
 		);
 		$result = Utils\Tourvisor::getMethod('hotel', $params);
-	    
+
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($result);
 	    
 	    return $response;
@@ -479,7 +496,8 @@ class AjaxController extends ControllerFrontend
 	    $response = new Response();
 	    
 		$result = Tourvisor\Regions::find("countryId = $countryId");
-	    
+
+	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    $response->setJsonContent($result->toArray());
 	    
 	    return $response;
