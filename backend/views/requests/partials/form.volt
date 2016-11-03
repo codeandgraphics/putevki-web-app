@@ -59,6 +59,7 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<label for="price">Стоимость тура в рублях</label>
+					{% if req.payments[0] is defined %}
 					{% if req.payments[0].status === 'new' %}
 						<div class="input-group">
 							{{ form.render('price', ['class': 'form-control']) }}
@@ -69,6 +70,7 @@
 							{{ form.render('price', ['class': 'form-control', 'disabled': 'disabled']) }}
 							<div class="input-group-addon">руб.</div>
 						</div>
+					{% endif %}
 					{% endif %}
 					<span class="help-block">Финальная цена тура, на эту сумму будет сформирована ссылка на оплату</span>
 				</div>

@@ -35,6 +35,34 @@ class EmailController extends ControllerBase
 		$mailgun->send($email, 'Регистрация в панели управления Путевки.ру', $body);
 	}
 
+	public function sendAdminNotification(Requests $request)
+	{
+		$tour = new \stdClass();
+
+		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
+		$tour->hotel = $request->hotelName;
+		$tour->people = Utils\Text::humanize('people', $request->tourists->count());
+		$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
+		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
+		$tour->price = $request->price;
+		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
+		$tour->manager = $request->manager;
+		$tour->orderName = $request->subjectName . ' ' . $request->subjectSurname;
+		$tour->phone = $request->subjectPhone;
+		$tour->email = $request->subjectEmail;
+		$tour->id = $request->id;
+
+		$params = [
+			'tour'	=> $tour
+		];
+
+		$body = $this->generate('managerNotification', $params);
+
+		$mailgun = new Mailgun();
+		$mailgun->send($this->config->backend->requestEmail, 'Новая заявка на тур', $body);
+
+	}
+
 	public function sendManagerNotification(Requests $request)
 	{
 		if($request->manager)
