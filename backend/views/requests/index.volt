@@ -71,7 +71,7 @@
 					</td>
 					<td>
 						<a href="{{ url('requests') }}/edit/{{ req.id }}">
-						{% if req.subjectName and req.subjectSurname %}
+						{% if req.subjectName or req.subjectSurname %}
 							{{ req.subjectName }} {{ req.subjectSurname }}
 						{% else %}
 							не указан
@@ -212,17 +212,25 @@
 											<tr>
 												<td>
 													<i class="fa fa-plane"></i>
-													{{ req.flightToDepartureDate }}, {{ req.flightToNumber }},
-													{{ req.flightToDepartureTerminal }} {{ req.flightToDepartureTime }}
-													-  {{ req.flightToArrivalTerminal }} {{ req.flightToArrivalTime }}
+													{% if req.flightToNumder %}
+														{{ req.flightToDepartureDate }}, {{ req.flightToNumber }},
+														{{ req.flightToDepartureTerminal }} {{ req.flightToDepartureTime }}
+														-  {{ req.flightToArrivalTerminal }} {{ req.flightToArrivalTime }}
+													{% else %}
+														нет информации о рейсе
+													{% endif %}
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<i class="fa fa-plane"></i>
-													{{ req.flightFromDepartureDate }}, {{ req.flightFromNumber }},
-													{{ req.flightFromDepartureTerminal }} {{ req.flightFromDepartureTime }}
-													-  {{ req.flightFromArrivalTerminal }} {{ req.flightFromArrivalTime }}
+													{% if req.flightFromNumber %}
+														{{ req.flightFromDepartureDate }}, {{ req.flightFromNumber }},
+														{{ req.flightFromDepartureTerminal }} {{ req.flightFromDepartureTime }}
+														-  {{ req.flightFromArrivalTerminal }} {{ req.flightFromArrivalTime }}
+													{% else %}
+														нет информации о рейсе
+													{% endif %}
 												</td>
 											</tr>
 										</tbody>

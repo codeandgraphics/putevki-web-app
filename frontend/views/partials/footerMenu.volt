@@ -34,7 +34,7 @@
 {% for country in countries %}
 		<div class="col-xs-2 country">
 			<img src="//static.tourvisor.ru/flags/calendar/flag_{{ country.id }}.gif" />
-			<a href="{{ url('search') }}/{{ currentCity.name }}/{{ country.name }}">{{ country.name }}</a>
+			<a href="{{ url('search') }}/{{ currentCity.departure.name }}/{{ country.name }}">{{ country.name }}</a>
 		</div>
 {% endfor %}
 	</div>
@@ -47,18 +47,19 @@
 <footer>
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-2 text-center">
-				<a href="https://putevki.ru"><img src="/assets/img/logo_small.png" alt="Путёвки.ру" width="100"></a>
-				Интернет-магазин туров
+			<div class="col-xs-2 text-center putevki">
+				<a href="https://online.putevki.ru"><img src="/assets/img/logo_small.png" alt="Путёвки.ру" style="width:150px !important;"></a><br/>
+				Интернет-магазин туров<br/>
 				2000-<?= date('Y'); ?> &copy; <a href="https://putevki.ru">putevki.ru</a>
 			</div>
-			<div class="col-xs-8">
-				Путевки на отдых в Испании, Турции, Таиланде, Кубе, Доминикане, на Мальдивах, Шри-Ланке, Греции, Австрии, Андорре, ОАЭ и др. страах. Сайт интернет-магазина "Путёвки.ру" -  по продаже туров  в онлайне следующих направлений: Австрия, Андорра, Болгария, Греция, Доминикана, Испания, Италия, Кипр, Куба, Мальдивы, Мексика, ОАЭ, Турция, Таиланд, Франция, Шри-Ланка. Информация о ценах, указанная на сайте, не является ни рекламой, ни офертой  определяемой положениями Статьи 437 (2) Гражданского кодекса РФ.
+			<div class="col-xs-7">
+				Сайт интернет-магазина "Путёвки.ру" по продаже туров онлайн следующих направлений: Австрия, Андорра, Болгария, Греция, Доминикана, Испания, Италия, Кипр, Куба, Мальдивы, Мексика, ОАЭ, Турция, Таиланд, Франция, Шри-Ланка, и другие страны.
+				Информация о ценах, указанная на сайте, не является ни рекламой, ни офертой  определяемой положениями Статьи 437 (2) Гражданского кодекса РФ.
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-3">
 				<div class="partner">
-					<a href="http://uniteller.ru" target="_blank">
-						<img width="150" src="{{ url() }}assets/img/uniteller.png">
+					<a href="{{ url('uniteller') }}" target="_blank">
+						<img src="{{ url() }}assets/img/uniteller.png" alt="Uniteller" style="width:150px !important;">
 					</a>
 					Все платежи защищены
 				</div>

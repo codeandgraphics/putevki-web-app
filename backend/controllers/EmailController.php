@@ -191,6 +191,19 @@ class EmailController extends ControllerBase
 		$mailgun->send($this->config->backend->requestEmail, 'Заявка на подбор тура на Путевки.ру', $body);
 	}
 
+	public function sendTourHelp($phone, $queries)
+	{
+		$params = [
+			'phone'     => $phone,
+			'queries'   => $queries,
+			'year'      => date('Y')
+		];
+
+		$body = $this->generate('tourHelp', $params);
+
+		$mailgun = new Mailgun();
+		$mailgun->send($this->config->backend->requestEmail, 'Заявка на звонок на Путевки.ру', $body);
+	}
 
 	public function generate($template, $params)
 	{

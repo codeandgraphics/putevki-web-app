@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="spb.putevki.ru" showNewOnSourceInSync="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="online.putevki.ru" showNewOnSourceInSync="false">
     <serverData>
-      <paths name="spb.putevki.ru">
+      <paths name="online.putevki.ru">
         <serverdata>
           <mappings>
             <mapping deploy="/production-app" local="$PROJECT_DIR$" web="/" />

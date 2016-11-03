@@ -20,6 +20,7 @@
 			<tr>
 				<th>Название</th>
 				<th>Адрес</th>
+				<th width="130">Телефон</th>
 				<th>E-mail</th>
 				<th>Координаты</th>
 			</tr>
@@ -29,6 +30,7 @@
 			<tr>
 				<td><a href="{{ url('cities') }}/branch/{{ city.id }}/{{ branch.id }}">{{ branch.name }}</a></td>
 				<td>{{ branch.address }}</td>
+				<td>{{ branch.phone }}</td>
 				<td>{{ branch.email }}</td>
 				<td>{{ branch.lat }}, {{ branch.lon }}</td>
 			</tr>

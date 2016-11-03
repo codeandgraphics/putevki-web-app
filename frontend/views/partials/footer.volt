@@ -10,25 +10,27 @@
 {% if config.frontend.env == 'production' %}
 
 
-<script src="{{ url() }}assets/js/common.min.js"></script>
-<script src="{{ url() }}assets/js/{{ page }}.min.js"></script>
+	<script src="{{ url() }}assets/js/common.min.js"></script>
+	{% if page is not empty %}
+		<script src="{{ url() }}assets/js/{{ page }}.min.js"></script>
+	{% endif %}
 
-<!— Yandex.Metrika counter —>
-<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31486713 = new Ya.Metrika({ id:31486713, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31486713" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!— /Yandex.Metrika counter —>
+	<!— Yandex.Metrika counter —>
+	<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31486713 = new Ya.Metrika({ id:31486713, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31486713" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!— /Yandex.Metrika counter —>
 
 {% else %}
 
-<script src="{{ url() }}development-assets-frontend/js/common/humanize.util.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/helpers.util.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/form.class.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/hotelForm.class.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/search.class.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/tour.class.js"></script>
-<script src="{{ url() }}development-assets-frontend/js/common/findTour.class.js"></script>
-{% if page is not empty %}
-<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js"></script>
-{% endif %}
+	<script src="{{ url() }}development-assets-frontend/js/common/humanize.util.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/helpers.util.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/form.class.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/hotelForm.class.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/search.class.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/tour.class.js"></script>
+	<script src="{{ url() }}development-assets-frontend/js/common/findTour.class.js"></script>
+	{% if page is not empty %}
+		<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js"></script>
+	{% endif %}
 {% endif %}
 
 <script type="text/javascript">

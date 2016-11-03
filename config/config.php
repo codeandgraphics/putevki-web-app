@@ -60,9 +60,14 @@ return new \Phalcon\Config(array(
 				'action'		=> 'index'
 			],
 
-			'/formTest' => [
+			'/agreement' => [
 				'controller'	=> 'index',
-				'action'		=> 'formTest'
+				'action'		=> 'agreement'
+			],
+
+			'/uniteller' => [
+				'controller'	=> 'index',
+				'action'		=> 'uniteller'
 			],
 
 			'/tour/{id}' => [
@@ -146,6 +151,8 @@ return new \Phalcon\Config(array(
 
 		'publicURL' => 'https://online.putevki.ru/',
 		'phone'		=> '+7 (495) 789 10 39',
+		'defaultCity' => 1,
+		'defaultFlightCity' => 1,
 		'cryptKey'	=> '>d#p>aDW[2mQQX 3{',
 		'cookie_remember_timeout'	=> 60*60*24*30,
 		'smtp'	=> array(

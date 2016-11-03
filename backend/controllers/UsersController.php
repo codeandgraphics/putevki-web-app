@@ -6,7 +6,6 @@ use Backend\Models\Users;
 
 class UsersController extends ControllerBase
 {
-
 	private function _registerSession($user)
 	{
 		$this->session->set('auth', [
@@ -27,9 +26,6 @@ class UsersController extends ControllerBase
 	{
 		if($this->request->isPost())
 		{
-
-			/*if($this->security->checkToken())
-			 {*/
 			$email = $this->request->getPost('email');
 			$password = $this->request->getPost('password');
 
@@ -40,33 +36,27 @@ class UsersController extends ControllerBase
 				if ($this->security->checkHash($password, $user->password))
 				{
 					$this->_registerSession($user);
-					$this->flashSession->success("Вы успешно вошли в систему");
-					return $this->response->redirect("");
+					$this->flashSession->success('Вы успешно вошли в систему');
+					return $this->response->redirect('');
 				}
 				else
 				{
-					$this->flashSession->error("Неправильный пароль");
+					$this->flashSession->error('Неправильный пароль');
 				}
 			}
 			else
 			{
-				$this->flashSession->error("Нет такого пользователя");
+				$this->flashSession->error('Нет такого пользователя');
 			}
-			/*}
-			else
-			{
-				$this->flashSession->error("Ошибка входа (неправильный токен)");
-			}*/
-
 		}
 	}
 
 	public function logoutAction()
 	{
 		$this->session->destroy();
-		$this->flashSession->success("Вы вышли из системы");
+		$this->flashSession->success('Вы вышли из системы');
 
-		return $this->response->redirect("/");
+		return $this->response->redirect('/');
 	}
 
 	public function registerAction()
@@ -88,7 +78,7 @@ class UsersController extends ControllerBase
 			$success = $user->save();
 
 			if ($success) {
-				$this->flashSession->success("Вы успешно зарегистрировались!");
+				$this->flashSession->success('Вы успешно зарегистрировались!');
 			} else {
 				foreach ($user->getMessages() as $message) {
 					$this->flashSession->error($message->getMessage());

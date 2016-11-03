@@ -3,6 +3,7 @@
 namespace Frontend\Models;
 
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model,
 	Phalcon\Mvc\Model\Behavior\Timestampable,
 	Models\Tourvisor,
@@ -307,7 +308,7 @@ class SearchQueries extends Model
 	public static function buildQueryStringFromParams($params)
 	{
 		$queryString = '';
-		if($params->hotel)
+		if(property_exists($params, 'hotel'))
 		{
 			$queryString .= 'hotel/';
 		}
@@ -319,7 +320,7 @@ class SearchQueries extends Model
 			$queryString .= '(' . $params->region . ')';
 		}
 
-		if($params->hotel)
+		if(property_exists($params, 'hotel'))
 		{
 			$queryString .= '/' . $params->hotel;
 		}
@@ -342,17 +343,20 @@ class SearchQueries extends Model
 	
 	public static function checkParams()
 	{
-		if(array_key_exists('params', $_COOKIE))
+		if(array_key_exists('params', $_COOKIE) && $_COOKIE['params'])
 		{
 			$params = (object) unserialize($_COOKIE['params']);
 			
 			if(strtotime($params->date) < strtotime('+1 day')) 
+			{
 				$params->date = date('Y-m-d', strtotime('+1 day'));
+			}
 		}
 		else
 		{
+			$config = Di::getDefault()->get('config');
 			$params = new \stdClass();
-			$params->departureId = 1;
+			$params->departureId = $config->frontend->defaultFlightCity;
 			$params->countryId = '';
 			$params->regionId = '';
 			$params->nights = 7;

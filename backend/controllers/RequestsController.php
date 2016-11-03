@@ -303,7 +303,7 @@ class RequestsController extends ControllerBase
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/booking');
-		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
+		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
 		$header = $this->simpleView->render('requests/pdf/header');
 		$footer = $this->simpleView->render('requests/pdf/footer');
@@ -314,9 +314,13 @@ class RequestsController extends ControllerBase
 		$pdf->WriteHTML($html, 2);
 
 		if($download)
-			$pdf->Output('booking-'.$request->getNumber().'.pdf', "D");
+		{
+			$pdf->Output('booking-'.$request->getNumber().'.pdf', 'D');
+		}
 		else
-			$pdf->Output('booking-'.$request->getNumber().'.pdf', "I");
+		{
+			$pdf->Output('booking-'.$request->getNumber().'.pdf', 'I');
+		}
 
 	}
 
@@ -331,7 +335,7 @@ class RequestsController extends ControllerBase
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
 		$html = $this->simpleView->render('requests/pdf/agreement');
-		$css = file_get_contents(__DIR__ . '/../views/requests/pdf/style.css');
+		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
 		$header = $this->simpleView->render('requests/pdf/header');
 		$footer = $this->simpleView->render('requests/pdf/footer');
@@ -342,9 +346,13 @@ class RequestsController extends ControllerBase
 		$pdf->WriteHTML($html, 2);
 
 		if($download)
-			$pdf->Output('agreement-'.$request->getNumber().'.pdf', "D");
+		{
+			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'D');
+		}
 		else
-			$pdf->Output('agreement-'.$request->getNumber().'.pdf', "I");
+		{
+			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
+		}
 	}
 
 
@@ -357,7 +365,7 @@ class RequestsController extends ControllerBase
 			$query = "SELECT * FROM \Models\Tourvisor\Hotels
 						WHERE \Models\Tourvisor\Hotels.name LIKE :search:
 						LIMIT 20";
-			$hotels =$this->modelsManager->executeQuery($query, ["search" => '%'.$search.'%']);
+			$hotels =$this->modelsManager->executeQuery($query, ['search' => '%'.$search.'%']);
 
 			$response = [];
 
@@ -373,6 +381,5 @@ class RequestsController extends ControllerBase
 		{
 			$this->response->redirect('404');
 		}
-
 	}
 }
