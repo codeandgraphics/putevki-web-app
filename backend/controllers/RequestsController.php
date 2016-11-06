@@ -164,7 +164,7 @@ class RequestsController extends ControllerBase
 		}
 		else
 		{
-			$request = Requests::findFirst($requestId);
+			$request = Requests::findFirst('id = ' . $requestId);
 		}
 
 		if(!$request)
@@ -290,6 +290,21 @@ class RequestsController extends ControllerBase
 		$this->view->setVar('tourists', $tourists);
 
 		$this->view->setVar('form', $form);
+	}
+
+	public function deleteAction($requestId) {
+
+		$request = Requests::findFirst($requestId);
+
+		if($request) {
+			$request->deleted = Requests::DELETED;
+			$request->save();
+			$this->flashSession->success('Заявка успешно удалена!');
+		} else {
+			$this->flashSession->error('Заявка не найдена!');
+		}
+
+		return $this->response->redirect('requests');
 	}
 
 	public function bookingAction($requestId, $download = null)
