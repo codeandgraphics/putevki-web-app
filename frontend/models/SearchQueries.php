@@ -236,8 +236,8 @@ class SearchQueries extends Model
 		
 		if($this->nights_range)
 		{
-			$query['nightsfrom'] = $this->nights - 1;
-			$query['nightsto'] = $this->nights + 1;
+			$query['nightsfrom'] = $this->nights - 4;
+			$query['nightsto'] = $this->nights + 4;
 		}
 		else
 		{
@@ -357,9 +357,9 @@ class SearchQueries extends Model
 			$params->departureId = $config->frontend->defaultFlightCity;
 			$params->countryId = '';
 			$params->regionId = '';
-			$params->nights = 7;
+			$params->nights = 11;
 			$params->nights_range = true;
-			$params->date = date('Y-m-d', strtotime('+3 day'));
+			$params->date = date('Y-m-d', strtotime('+10 day'));
 			$params->date_range = true;
 			$params->adults = 2;
 			$params->kids = 0;
@@ -427,7 +427,7 @@ class SearchQueries extends Model
 		$queryString .= ($this->date_range) ? ' (±2 дня)' : '';
 
 		$queryString .= ', ' . Text::humanize('nights', $this->nights);
-		$queryString .= ($this->nights_range) ? ' (±2 ночи)' : '';
+		$queryString .= ($this->nights_range) ? ' (±4 ночи)' : '';
 
 		$queryString .= ', ' . $this->adults . ' ' . Text::humanize('adults', $this->adults);
 

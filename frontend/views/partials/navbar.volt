@@ -13,7 +13,7 @@
 				служба поддержки клиентов
 			</div>
 			<div class="request navbar-text">
-				<button class="btn btn-primary" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#callBackModal"><i class="ion-map"></i> Подберите мне тур</button>
 			</div>
 			<div class="location navbar-text navbar-right">
 				<i class="ion-location"></i> <span>{{ currentCity.name }}</span>

@@ -28,7 +28,7 @@
 				<div class="value"></div>
 			</div>
 			<div class="length form-group popup-nights">
-				<span class="range">± 2</span>
+				<span class="range">± 4</span>
 				<div class="value"></div>
 				<div class="popup nights hidden">
 					<div class="selector">
@@ -38,7 +38,7 @@
 					</div>
 					<div class="range-checkbox">
 						<input type="checkbox" id="nights-range-days" value="1" name="nights-range-days" checked>
-						<label for="nights-range-days">± 2 ночи</label>
+						<label for="nights-range-days">± 4 ночи</label>
 					</div>
 				</div>
 			</div>
