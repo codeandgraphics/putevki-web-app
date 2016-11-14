@@ -32,6 +32,9 @@
 					<span>Лист бронирования</span>
 				</a>
 				&nbsp;
+				<button id="delete-request" data-href="{{ url('requests/delete/') }}{{ req.id }}" class="btn btn-danger btn-xs btn-stroke pull-right">
+					<i class="fa fa-trash"></i> Удалить заявку
+				</button>
 			</div>
 		</div>
 		<!-- Действия с заявкой -->
@@ -49,4 +52,12 @@
 
 {{ partial('requests/partials/touristAddModal') }}
 
-
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#delete-request').off('click').on('click', function(){
+			if(confirm('Вы действительно хотите удалить заявку?')) {
+				window.location.href = $(this).data('href');
+			}
+		});
+	});
+</script>

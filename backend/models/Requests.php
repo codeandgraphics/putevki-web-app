@@ -2,12 +2,11 @@
 
 namespace Backend\Models;
 
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Behavior\Timestampable,
-	Phalcon\Mvc\Model\Behavior\SoftDelete,
-	Utils\Email\Mailgun;
+use Models\BaseModel;
+use Phalcon\Mvc\Model\Behavior\Timestampable,
+	Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Requests extends Model
+class Requests extends BaseModel
 {
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
@@ -81,7 +80,7 @@ class Requests extends Model
 		$this->addBehavior(new SoftDelete(
 			array(
 				'field' => 'deleted',
-				'value' => Tourists::DELETED
+				'value' => Requests::DELETED
 			)
 		));
 
@@ -119,6 +118,11 @@ class Requests extends Model
 			'Models\Tourists',
 			'id'
 		);*/
+	}
+
+	public function getDeleted()
+	{
+		return 'deleted';
 	}
 
 	public function beforeSave()
