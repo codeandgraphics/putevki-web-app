@@ -51,7 +51,7 @@ class ControllerFrontend extends Controller
 		$regionsQuery = $this->db->query('
 			SELECT COUNT(s.id) as queries, r.name FROM search_queries AS s
 			INNER JOIN tourvisor_regions AS r ON s.regionId = r.id
-            INNER JOIN tourvisor_countries AS c ON s.countryId = c.id AND active = 1
+            INNER JOIN tourvisor_countries AS c ON s.countryId = c.id AND c.active = 1
 			WHERE s.queryDate > (NOW() - INTERVAL 1 MONTH)
 			GROUP BY s.regionId
 			ORDER BY queries DESC

@@ -15,14 +15,14 @@ class ApiController extends ControllerFrontend
 
 		$cacheData = new CacheData(
 			array(
-				"lifetime" => 172800
+				'lifetime' => 172800
 			)
 		);
 
 		$this->_cache = new Cache(
 			$cacheData,
 			array(
-				"cacheDir" => "../app/cache/"
+				'cacheDir' => '../app/cache/'
 			)
 		);
 	}
@@ -35,6 +35,63 @@ class ApiController extends ControllerFrontend
 
 		$response->setJsonContent($data);
 
+		return $response;
+	}
+
+	public function dictionariesAction() {
+		$response = new Response();
+		$data = [
+			'departures' => [],
+			'destinations' => []
+		];
+
+		$data['departures'] = \Models\Tourvisor\Departures::find()->toArray();
+
+		$builder = $this->modelsManager->createBuilder()
+			->columns([
+				'region.*',
+				'country.*'
+			])
+			->addFrom(\Models\Tourvisor\Regions::name(), 'region')
+			->join(
+				\Models\Tourvisor\Countries::name(),
+				'region.countryId = country.id',
+				'country'
+			)
+			->where('country.active = 1')
+			->orderBy('country.popular DESC, country.name, region.popular DESC, region.name');
+
+		$items = $builder->getQuery()->execute();
+
+		$regionObject = new stdClass();
+
+		foreach($items as $item) {
+			$country = $item->country;
+			$region = $item->region;
+			$countryId = (int) $region->countryId;
+
+			if(!array_key_exists($countryId, $data['destinations'])) {
+
+				$countryObject = new stdClass();
+				$countryObject->id = $countryId;
+				$countryObject->name = $country->name;
+				$countryObject->popular = (int) $country->popular;
+				$countryObject->regions = [];
+
+				$data['destinations'][$countryId] = $countryObject;
+			}
+
+			$regionObjectClone = clone $regionObject;
+			$regionObjectClone->id = (int) $region->id;
+			$regionObjectClone->name = $region->name;
+			$regionObjectClone->popular = (int) $region->popular;
+
+			$data['destinations'][$region->countryId]->regions[] = $regionObjectClone;
+		}
+
+		$data['destinations'] = array_values($data['destinations']);
+
+		$response->setJsonContent($data);
 		return $response;
 	}
 
