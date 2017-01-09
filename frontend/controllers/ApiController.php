@@ -1,9 +1,10 @@
 <?php
 
-use Phalcon\Http\Response				as Response;
+use Phalcon\Http\Response as Response;
 
-use Phalcon\Cache\Backend\File				as Cache,
-	Phalcon\Cache\Frontend\Data				as CacheData;
+use Models\Tourvisor as Tourvisor;
+use Phalcon\Cache\Backend\File as Cache,
+	Phalcon\Cache\Frontend\Data as CacheData;
 
 class ApiController extends ControllerFrontend
 {
@@ -92,6 +93,55 @@ class ApiController extends ControllerFrontend
 		$data['destinations'] = array_values($data['destinations']);
 
 		$response->setJsonContent($data);
+		return $response;
+	}
+
+	public function hotelsAction()
+	{
+		$response = new Response();
+
+		$query = mb_strtoupper($this->request->get('query'), 'UTF-8');
+
+		$hotels = [];
+
+		if(mb_strlen($query,'UTF-8') >= 2)
+		{
+			$builder = $this->modelsManager->createBuilder()
+				->columns([
+					'hotel.id',
+					'hotel.name',
+					'country.id AS country',
+					'region.id AS region',
+					'country.name AS countryName',
+					'region.name AS regionName'
+				])
+				->addFrom(Tourvisor\Hotels::name(), 'hotel')
+				->join(
+					Tourvisor\Countries::name(),
+					'country.id = hotel.countryId',
+					'country'
+				)
+				->join(
+					Tourvisor\Regions::name(),
+					'region.id = hotel.regionId',
+					'region'
+				)
+				->where('country.active = 1')
+				->andWhere('hotel.name LIKE :query:')
+				->limit(20);
+
+			$dbHotels = $builder->getQuery()->execute([ 'query' => '%' . $query . '%' ]);
+
+			foreach($dbHotels as $hotel)
+			{
+				$hotels[] = $hotel;
+			}
+		}
+
+		$response->setJsonContent($hotels);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
 		return $response;
 	}
 
