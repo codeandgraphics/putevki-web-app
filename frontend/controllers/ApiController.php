@@ -1,10 +1,11 @@
 <?php
 
 use Phalcon\Http\Response as Response;
+use Frontend\Models\ApiSearchQuery;
 
 use Models\Tourvisor as Tourvisor;
-use Phalcon\Cache\Backend\File as Cache,
-	Phalcon\Cache\Frontend\Data as CacheData;
+use Phalcon\Cache\Backend\File as Cache;
+use Phalcon\Cache\Frontend\Data as CacheData;
 
 class ApiController extends ControllerFrontend
 {
@@ -35,6 +36,57 @@ class ApiController extends ControllerFrontend
 		$data = [];
 
 		$response->setJsonContent($data);
+
+		return $response;
+	}
+
+	public function searchAction()
+	{
+		$response = new Response();
+
+		$body = $this->request->getJsonRawBody();
+
+		$params = $body->params;
+
+		$query = new ApiSearchQuery($params);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+		$response->setJsonContent($query->run());
+
+		return $response;
+	}
+
+	public function searchStatusAction() {
+		$response = new Response();
+
+		$requestId = $this->request->get('request');
+
+		$params = array(
+			'requestid'		=> $requestId,
+			'type'			=> 'status'
+		);
+		$result = Utils\Tourvisor::getMethod('result', $params);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+		$response->setJsonContent($result->data);
+
+		return $response;
+	}
+
+	public function searchResultAction() {
+		$response = new Response();
+
+		$requestId = $this->request->get('request');
+
+		$params = array(
+			'requestid'		=> $requestId,
+			'type'			=> 'result',
+			'nodescription' => 1
+		);
+		$result = Utils\Tourvisor::getMethod('result', $params);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+		$response->setJsonContent($result->data);
 
 		return $response;
 	}
