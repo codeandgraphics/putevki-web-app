@@ -85,8 +85,19 @@ class ApiController extends ControllerFrontend
 		);
 		$result = Utils\Tourvisor::getMethod('result', $params);
 
+		$hotels = [];
+
+		if($result->data->result && $result->data->result->hotel) {
+			foreach($result->data->result->hotel as $hotel) {
+				$tour = $hotel->tours->tour[0];
+				unset($hotel->tours);
+				$hotel->tour = $tour;
+				$hotels[] = $hotel;
+			}
+		}
+
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-		$response->setJsonContent($result->data);
+		$response->setJsonContent(['hotels' => $hotels, 'status' => $result->data->status]);
 
 		return $response;
 	}
