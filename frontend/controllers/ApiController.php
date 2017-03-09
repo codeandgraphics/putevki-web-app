@@ -1,11 +1,13 @@
 <?php
 
-use Phalcon\Http\Response as Response;
-use Frontend\Models\ApiSearchQuery;
-
-use Models\Tourvisor as Tourvisor;
+use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
+
+use Models\Api\Error;
+use Models\Api\JSONResponse;
+use Models\Api\SearchQuery;
+use Models\Api\Entities;
 
 class ApiController extends ControllerFrontend
 {
@@ -27,6 +29,8 @@ class ApiController extends ControllerFrontend
 				'cacheDir' => '../app/cache/'
 			)
 		);
+
+		$this->view->disable();
 	}
 
 	public function indexAction()
@@ -40,20 +44,69 @@ class ApiController extends ControllerFrontend
 		return $response;
 	}
 
-	public function searchAction()
-	{
-		$response = new Response();
 
+	public function dictionariesAction() {
+		$response = array(
+			'departures' => [],
+			'destinations' => []
+		);
+
+		/* Departures */
+		$departures = \Models\Tourvisor\Departures::find();
+
+		foreach ($departures as $departure) {
+			$response['departures'][] = new Entities\Departure($departure);
+		}
+
+		/* Destinations */
+		$builder = $this->modelsManager->createBuilder()
+			->columns([
+				'region.*',
+				'country.*'
+			])
+			->addFrom(\Models\Tourvisor\Regions::name(), 'region')
+			->join(
+				\Models\Tourvisor\Countries::name(),
+				'region.countryId = country.id',
+				'country'
+			)
+			->where('country.active = 1')
+			->orderBy('country.popular DESC, country.name, region.popular DESC, region.name');
+
+		$items = $builder->getQuery()->execute();
+
+		foreach($items as $item) {
+			$country = $item->country;
+			$region = $item->region;
+			$countryId = (int) $region->countryId;
+
+			if(!array_key_exists($countryId, $response['destinations'])) {
+				$response['destinations'][$countryId] = new Entities\Country($country);
+			}
+
+			$response['destinations'][$region->countryId]->regions[] = new Entities\Region($region);
+		}
+
+		$response['destinations'] = array_values($response['destinations']);
+
+		return new JSONResponse(Error::NO_ERROR, $response);
+	}
+
+
+	public function initSearchAction()
+	{
 		$body = $this->request->getJsonRawBody();
 
-		$params = $body->params;
+		$query = new SearchQuery($body->params);
 
-		$query = new ApiSearchQuery($params);
+		$searchId = $query->run();
 
-		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-		$response->setJsonContent($query->run());
+		if($searchId) {
+			return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
+		} else {
+			return new JSONResponse(Error::API_ERROR);
+		}
 
-		return $response;
 	}
 
 	public function searchStatusAction() {
@@ -102,62 +155,7 @@ class ApiController extends ControllerFrontend
 		return $response;
 	}
 
-	public function dictionariesAction() {
-		$response = new Response();
-		$data = [
-			'departures' => [],
-			'destinations' => []
-		];
 
-		$data['departures'] = \Models\Tourvisor\Departures::find()->toArray();
-
-		$builder = $this->modelsManager->createBuilder()
-			->columns([
-				'region.*',
-				'country.*'
-			])
-			->addFrom(\Models\Tourvisor\Regions::name(), 'region')
-			->join(
-				\Models\Tourvisor\Countries::name(),
-				'region.countryId = country.id',
-				'country'
-			)
-			->where('country.active = 1')
-			->orderBy('country.popular DESC, country.name, region.popular DESC, region.name');
-
-		$items = $builder->getQuery()->execute();
-
-		$regionObject = new stdClass();
-
-		foreach($items as $item) {
-			$country = $item->country;
-			$region = $item->region;
-			$countryId = (int) $region->countryId;
-
-			if(!array_key_exists($countryId, $data['destinations'])) {
-
-				$countryObject = new stdClass();
-				$countryObject->id = $countryId;
-				$countryObject->name = $country->name;
-				$countryObject->popular = (int) $country->popular;
-				$countryObject->regions = [];
-
-				$data['destinations'][$countryId] = $countryObject;
-			}
-
-			$regionObjectClone = clone $regionObject;
-			$regionObjectClone->id = (int) $region->id;
-			$regionObjectClone->name = $region->name;
-			$regionObjectClone->popular = (int) $region->popular;
-
-			$data['destinations'][$region->countryId]->regions[] = $regionObjectClone;
-		}
-
-		$data['destinations'] = array_values($data['destinations']);
-
-		$response->setJsonContent($data);
-		return $response;
-	}
 
 	public function hotelsAction()
 	{

@@ -10,6 +10,7 @@ class Regions extends Model
 	public $id;
 	public $name;
 	public $countryId;
+	public $popular;
 
 	public function initialize()
 	{

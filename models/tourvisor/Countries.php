@@ -9,6 +9,7 @@ class Countries extends Model
 
 	public $id;
 	public $name;
+	public $popular;
 
 	public function initialize()
 	{

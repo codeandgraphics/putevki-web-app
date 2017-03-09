@@ -19,6 +19,8 @@ return new \Phalcon\Config(array(
 		'Models\Tourvisor'			=> APP_PATH . 'models/tourvisor/',
 		'Models\References'			=> APP_PATH . 'models/references/',
 		'Models\Yandex'				=> APP_PATH . 'models/yandex/',
+		'Models\Api'				=> APP_PATH . 'models/api/',
+		'Models\Api\Entities'		=> APP_PATH . 'models/api/entities/',
 		'Models'					=> APP_PATH . 'models/',
 		'Utils'						=> APP_PATH . 'utils/',
 		'Utils\Email'				=> APP_PATH . 'utils/email/',
