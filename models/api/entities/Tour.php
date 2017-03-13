@@ -8,6 +8,8 @@ class Tour
 	public $name;
 	public $room;
 	public $placement;
+	public $adults;
+	public $child;
 
 	public $meal;
 
@@ -28,6 +30,8 @@ class Tour
 			$this->name = $tour->tourname;
 			$this->room = $tour->room;
 			$this->placement = $tour->placement;
+			$this->adults = $tour->adults;
+			$this->child = $tour->child;
 
 			$this->meal = new \stdClass();
 			$this->meal->type = $tour->meal;
