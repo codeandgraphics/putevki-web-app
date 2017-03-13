@@ -92,7 +92,6 @@ class ApiController extends ControllerFrontend
 		return new JSONResponse(Error::NO_ERROR, $response);
 	}
 
-
 	public function initSearchAction()
 	{
 		$body = $this->request->getJsonRawBody();
@@ -110,50 +109,53 @@ class ApiController extends ControllerFrontend
 	}
 
 	public function searchStatusAction() {
-		$response = new Response();
-
-		$requestId = $this->request->get('request');
+		$searchId = $this->request->get('searchId');
 
 		$params = array(
-			'requestid'		=> $requestId,
+			'requestid'		=> $searchId,
 			'type'			=> 'status'
 		);
+
 		$result = Utils\Tourvisor::getMethod('result', $params);
 
-		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-		$response->setJsonContent($result->data);
-
-		return $response;
+		if(property_exists($result, 'data') && property_exists($result->data, 'status')) {
+			return new JSONResponse(Error::NO_ERROR, ['status' => new Entities\Status($result->data->status)]);
+		} else {
+			return new JSONResponse(Error::API_ERROR);
+		}
 	}
 
 	public function searchResultAction() {
-		$response = new Response();
 
-		$requestId = $this->request->get('request');
+		$searchId = $this->request->get('searchId');
 
 		$params = array(
-			'requestid'		=> $requestId,
-			'type'			=> 'result',
-			'nodescription' => 1
+			'requestid'		=> $searchId,
+			'type'			=> 'result'
 		);
+
 		$result = Utils\Tourvisor::getMethod('result', $params);
 
-		$hotels = [];
+		if(
+			property_exists($result, 'data') &&
+			property_exists($result->data, 'status')
+		) {
 
-		if($result->data->result && $result->data->result->hotel) {
-			foreach($result->data->result->hotel as $hotel) {
-				$tour = $hotel->tours->tour[0];
-				unset($hotel->tours);
-				$hotel->tour = $tour;
-				$hotels[] = $hotel;
+			$status = new Entities\Status($result->data->status);
+			$hotels = [];
+
+			if(property_exists($result->data, 'result')) {
+				foreach($result->data->result->hotel as $hotel) {
+					$hotels[] = new Entities\Hotel($hotel);
+				}
 			}
+
+			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
+		} else {
+			return new JSONResponse(Error::API_ERROR);
 		}
-
-		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-		$response->setJsonContent(['hotels' => $hotels, 'status' => $result->data->status]);
-
-		return $response;
 	}
+
 
 
 
