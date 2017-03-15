@@ -48,7 +48,15 @@ class ApiController extends ControllerFrontend
 	public function dictionariesAction() {
 		$response = array(
 			'departures' => [],
-			'destinations' => []
+			'destinations' => [],
+			'stars' => [],
+			'meal' => [],
+			'rating' => [
+				new Entities\Rating(2, '3.0 и выше'),
+				new Entities\Rating(3, '3.5 и выше'),
+				new Entities\Rating(4, '4.0 и выше'),
+				new Entities\Rating(5, '4.5 и выше')
+			]
 		);
 
 		/* Departures */
@@ -88,6 +96,16 @@ class ApiController extends ControllerFrontend
 		}
 
 		$response['destinations'] = array_values($response['destinations']);
+
+		$meals = \Models\Tourvisor\Meals::find();
+		foreach($meals as $meal) {
+			$response['meal'][] = new Entities\Meal($meal);
+		}
+
+		$stars = \Models\Tourvisor\Stars::find();
+		foreach($stars as $star) {
+			$response['stars'][] = new Entities\Star($star);
+		}
 
 		return new JSONResponse(Error::NO_ERROR, $response);
 	}

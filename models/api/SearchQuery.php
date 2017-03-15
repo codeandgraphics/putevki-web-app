@@ -1,6 +1,7 @@
 <?php
 namespace Models\Api;
 
+use Models\Api\Entities\Filters;
 use Models\Api\Entities\People;
 use Models\Api\Entities\When;
 use Models\Api\Entities\Where;
@@ -12,6 +13,7 @@ class SearchQuery
 	public $where;
 	public $when;
 	public $people;
+	public $filters;
 
 	public function __construct($params = null)
 	{
@@ -24,6 +26,8 @@ class SearchQuery
 			$this->when = new When($params->when);
 
 			$this->people = new People($params->people);
+
+			$this->filters = new Filters($params->filters);
 		}
 	}
 
@@ -47,7 +51,11 @@ class SearchQuery
 			'dateto'        => $this->when->dateTo,
 			'nightsfrom'    => $this->when->nightsFrom,
 			'nightsto'      => $this->when->nightsTo,
-			'rating'		=> 3
+			'rating'		=> $this->filters->rating,
+			'stars'         => $this->filters->stars,
+			'starsbetter'   => 1,
+			'meal'          => $this->filters->meal,
+			'mealbetter'    => 1
 		);
 
 		if(count($this->where->regions) > 0)
@@ -70,7 +78,8 @@ class SearchQuery
 			$query['hotels'] = $this->where->hotels;
 
 			unset(
-				$query['rating']
+				$query['rating'],
+				$query['starsbetter']
 			);
 		}
 
