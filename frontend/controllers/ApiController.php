@@ -202,6 +202,38 @@ class ApiController extends ControllerFrontend
 		}
 	}
 
+	public function fullSearchResultAction() {
+
+		$searchId = $this->request->get('searchId');
+
+		$params = array(
+			'requestid'		=> $searchId,
+			'type'			=> 'result',
+			'onpage'        => 999
+		);
+
+		$result = Utils\Tourvisor::getMethod('result', $params);
+
+		if(
+			property_exists($result, 'data') &&
+			property_exists($result->data, 'status')
+		) {
+
+			$status = new Entities\Status($result->data->status);
+			$hotels = [];
+
+			if(property_exists($result->data, 'result')) {
+				foreach($result->data->result->hotel as $hotel) {
+					$hotels[] = new Entities\Hotel($hotel);
+				}
+			}
+
+			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
+		} else {
+			return new JSONResponse(Error::API_ERROR);
+		}
+	}
+
 	public function hotelAction() {
 
 		$hotelId = $this->request->get('hotelId');
