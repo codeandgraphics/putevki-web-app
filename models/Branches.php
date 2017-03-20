@@ -2,9 +2,7 @@
 
 namespace Models;
 
-use Phalcon\Mvc\Model;
-
-class Branches extends Model
+class Branches extends BaseModel
 {
 	const DELAY_TIME = 600;
 

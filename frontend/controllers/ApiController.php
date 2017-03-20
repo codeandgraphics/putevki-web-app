@@ -47,6 +47,7 @@ class ApiController extends ControllerFrontend
 
 	public function dictionariesAction() {
 		$response = array(
+			'cities' => [],
 			'departures' => [],
 			'destinations' => [],
 			'stars' => [],
@@ -58,6 +59,33 @@ class ApiController extends ControllerFrontend
 				new Entities\Rating(5, '4.5 и выше')
 			]
 		);
+
+		/* Offices */
+		$citiesBuilder = $this->modelsManager->createBuilder()
+			->columns([
+				'branch.*',
+				'city.*'
+			])
+			->addFrom(\Models\Cities::name(), 'city')
+			->join(
+				\Models\Branches::name(),
+				'branch.cityId = city.id',
+				'branch'
+			)
+			->where('city.active = 1 AND branch.active = 1');
+
+		$cityItems = $citiesBuilder->getQuery()->execute();
+
+		$cities = [];
+		foreach ($cityItems as $item) {
+			if(!array_key_exists($item->city->id, $cities)) {
+				$cities[$item->city->id] = new Entities\City($item->city);
+			}
+
+			$cities[$item->city->id]->offices[] = new Entities\Office($item->branch);
+		}
+
+		$response['cities'] = array_values($cities);
 
 		/* Departures */
 		$departures = \Models\Tourvisor\Departures::find();

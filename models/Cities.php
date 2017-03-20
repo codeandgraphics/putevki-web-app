@@ -3,10 +3,9 @@
 namespace Models;
 
 use Phalcon\Di;
-use Phalcon\Mvc\Model;
 use \Utils\Morpher;
 
-class Cities extends Model
+class Cities extends BaseModel
 {
 	const DELAY_TIME = 600;
 
