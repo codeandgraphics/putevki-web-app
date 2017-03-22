@@ -239,8 +239,7 @@ class ApiController extends ControllerFrontend
 		$hotelId = $this->request->get('hotelId');
 
 		$params = array(
-			'hotelcode'		=> $hotelId,
-			'removetags'    => 1
+			'hotelcode'		=> $hotelId
 		);
 
 		$result = Utils\Tourvisor::getMethod('hotel', $params);

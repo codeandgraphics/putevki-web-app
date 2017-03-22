@@ -22,7 +22,7 @@ class HotelFull
 	{
 		if($hotel) {
 			$this->name = $hotel->name;
-			$this->description = $hotel->description;
+			$this->description = Hotel::removeEntities($hotel->description);
 			$this->stars = (int) $hotel->stars;
 			$this->rating = $hotel->rating;
 
@@ -33,7 +33,7 @@ class HotelFull
 			$this->params = new \stdClass();
 			$this->params->build = $hotel->build;
 			$this->params->repair = $hotel->repair;
-			$this->params->placement = $hotel->placement;
+			$this->params->placement = Hotel::removeEntities($hotel->placement);
 			$this->params->square = $hotel->square;
 			$this->params->phone = $hotel->phone;
 			$this->params->site = $hotel->site;
@@ -41,14 +41,14 @@ class HotelFull
 			$this->params->lon = $hotel->coord2;
 
 			$this->about = new \stdClass();
-			$this->about->territory = $hotel->territory;
-			$this->about->inroom = $hotel->inroom;
-			$this->about->roomtypes = $hotel->roomtypes;
-			$this->about->services = $hotel->services;
-			$this->about->servicefree = $hotel->servicefree;
-			$this->about->child = $hotel->child;
-			$this->about->beach = $hotel->beach;
-			$this->about->meallist = $hotel->meallist;
+			$this->about->territory = Hotel::removeEntities($hotel->territory);
+			$this->about->inroom = Hotel::removeEntities($hotel->inroom);
+			$this->about->roomtypes = Hotel::removeEntities($hotel->roomtypes);
+			$this->about->services = Hotel::removeEntities($hotel->services);
+			$this->about->servicefree = Hotel::removeEntities($hotel->servicefree);
+			$this->about->child = Hotel::removeEntities($hotel->child);
+			$this->about->beach = Hotel::removeEntities($hotel->beach);
+			$this->about->meallist = Hotel::removeEntities($hotel->meallist);
 
 			$this->country = new \stdClass();
 			$this->country->id = $hotel->countrycode;

@@ -22,7 +22,7 @@ class Hotel
 		if($hotel) {
 			$this->id = $hotel->hotelcode;
 			$this->name = $hotel->hotelname;
-			$this->description = $hotel->hoteldescription;
+			$this->description = self::removeEntities($hotel->hoteldescription);
 			$this->stars = $hotel->hotelstars;
 			$this->rating = $hotel->hotelrating;
 			$this->picture = $hotel->picturelink;
@@ -43,5 +43,9 @@ class Hotel
 
 			$this->tours = json_encode($this->tours);
 		}
+	}
+
+	public static function removeEntities($text) {
+		return trim(strip_tags(html_entity_decode($text)));
 	}
 }
