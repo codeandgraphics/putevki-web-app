@@ -234,6 +234,22 @@ class ApiController extends ControllerFrontend
 		}
 	}
 
+	public function actualizeTourAction() {
+		$tourId = $this->request->get('tourId');
+
+		$params = array(
+			'tourid'		=> $tourId
+		);
+
+		$result = Utils\Tourvisor::getMethod('actdetail', $params);
+
+		if(property_exists($result, 'iserror')) {
+			return new JSONResponse(Error::API_PARAMS_MISSED);
+		} else {
+			return new JSONResponse(Error::NO_ERROR, ['details' => new Entities\TourDetails($result)]);
+		}
+	}
+
 	public function hotelAction() {
 
 		$hotelId = $this->request->get('hotelId');

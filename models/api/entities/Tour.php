@@ -22,7 +22,6 @@ class Tour
 
 	public $operator;
 
-
 	public function __construct($tour = null)
 	{
 		if($tour) {
