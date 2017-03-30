@@ -243,7 +243,7 @@ class ApiController extends ControllerFrontend
 
 		$result = Utils\Tourvisor::getMethod('actdetail', $params);
 
-		if(property_exists($result, 'iserror')) {
+		if(property_exists($result, 'iserror') && $result->iserror) {
 			return new JSONResponse(Error::API_PARAMS_MISSED);
 		} else {
 			return new JSONResponse(Error::NO_ERROR, ['details' => new Entities\TourDetails($result)]);
