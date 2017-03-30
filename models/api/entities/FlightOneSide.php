@@ -11,6 +11,8 @@ class FlightOneSide
 	public $departure;
 	public $arrival;
 
+	public $onDemand = false;
+
 	public function __construct($oneSide = null)
 	{
 		if($oneSide) {
@@ -35,6 +37,8 @@ class FlightOneSide
 			$this->arrival->port = new \stdClass();
 			$this->arrival->port->id = $oneSide->arrival->port->id;
 			$this->arrival->port->name = $oneSide->arrival->port->name;
+
+			$this->onDemand = $oneSide->onDemand;
 		}
 	}
 }
