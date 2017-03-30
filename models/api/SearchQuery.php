@@ -60,7 +60,7 @@ class SearchQuery
 
 		if(count($this->where->regions) > 0)
 		{
-			$query['regions'] = $this->where->regions;
+			$query['regions'] = implode(',', $this->where->regions);
 		}
 
 		$childCount = count($this->people->children);
