@@ -5,7 +5,7 @@ class Where {
 
 	public $country;
 	public $regions = [];
-	public $hotels = [];
+	public $hotels;
 
 	public function __construct($where = null)
 	{
@@ -15,8 +15,8 @@ class Where {
 			if(is_array($where->regions)) {
 				$this->regions = $where->regions;
 			}
-			if(is_array($where->hotels)) {
-				$this->hotels = $where->hotels;
+			if(property_exists($where->hotel, 'id')) {
+				$this->hotels = $where->hotel->id;
 			}
 		}
 	}

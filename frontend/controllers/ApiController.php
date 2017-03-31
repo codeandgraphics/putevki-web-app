@@ -289,14 +289,14 @@ class ApiController extends ControllerFrontend
 					'country.name AS countryName',
 					'region.name AS regionName'
 				])
-				->addFrom(Tourvisor\Hotels::name(), 'hotel')
+				->addFrom(\Models\Tourvisor\Hotels::name(), 'hotel')
 				->join(
-					Tourvisor\Countries::name(),
+					\Models\Tourvisor\Countries::name(),
 					'country.id = hotel.countryId',
 					'country'
 				)
 				->join(
-					Tourvisor\Regions::name(),
+					\Models\Tourvisor\Regions::name(),
 					'region.id = hotel.regionId',
 					'region'
 				)
