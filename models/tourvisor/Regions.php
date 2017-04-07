@@ -18,7 +18,7 @@ class Regions extends Model
 			'alias' => 'country'
 		));
 
-		$this->setSource("tourvisor_regions");
+		$this->setSource('tourvisor_regions');
 	}
 
 	public function format()

@@ -13,7 +13,11 @@ class Countries extends Model
 
 	public function initialize()
 	{
-		$this->setSource("tourvisor_countries");
+		$this->hasMany('id', Regions::name(), 'countryId', [
+			'alias' => 'regions'
+		]);
+
+		$this->setSource('tourvisor_countries');
 	}
 
 	public function format()

@@ -1,31 +1,28 @@
 <ol class="breadcrumb">
 	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li class="active">Популярные страны</li>
+	<li><a href="{{ url('/populars') }}">Популярные страны</a></li>
+	<li class="active">{{ country.name }}</li>
 </ol>
 
 <div class="panel">
 	<div class="panel-heading">
-		<h4 class="panel-title">Популярные страны</h4>
-		<p>Выбор популярных стран для отображения в приложении </p>
+		<h4 class="panel-title">{{ country.name }} — Популярные регионы</h4>
+		<p>Выбор популярных регионов для отображения в приложении </p>
 	</div>
 	<div class="panel-body">
 		<table class="table" id="populars" data-url="{{ url('populars/_setPopular') }}">
 			<thead>
 			<tr>
 				<th>Страна</th>
-				<th>Популярная</th>
+				<th>Популярный</th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for country in countries %}
+			{% for region in country.regions %}
 				<tr>
+					<td>{{ region.name }}</td>
 					<td>
-						<a href="{{ url('populars/country/') }}{{ country.id }}">
-							{{ country.name }}
-						</a>
-					</td>
-					<td>
-						<input type="checkbox" data-id="{{ country.id }}" {% if country.popular %} checked{% endif %}/>
+						<input type="checkbox" data-id="{{ region.id }}" {% if region.popular %} checked{% endif %}/>
 					</td>
 				</tr>
 			{% endfor %}
@@ -46,7 +43,7 @@
 			var checked = $item.is(':checked');
 
 			$.post(url, {
-				type: 'country',
+				type: 'region',
 				id: id,
 				checked: (checked) ? 1 : 0
 			}, function(response){

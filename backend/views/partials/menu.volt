@@ -2,9 +2,9 @@
 	<div class="media-left">
 		<a href="#">
 			{% if user.imageUrl %}
-			<img src="{{ user.imageUrl }}" alt="{{ user.company }}" class="media-object img-circle"/>
+				<img src="{{ user.imageUrl }}" alt="{{ user.company }}" class="media-object img-circle"/>
 			{% else %}
-			<img src="//placehold.it/48x48" alt="{{ user.company }}" class="media-object img-circle">
+				<img src="//placehold.it/48x48" alt="{{ user.company }}" class="media-object img-circle">
 			{% endif %}
 		</a>
 	</div>
@@ -25,10 +25,10 @@
 </ul>
 
 {% if user.role is 'Admin' %}
-<h5 class="sidebar-title">Платежи</h5>
-<ul class="nav nav-sidebar">
-	<li{% if(current.controller == 'payments' AND current.action != 'add') %} class="active"{% endif %}><a href="{{ url('payments') }}"><i class="fa fa-credit-card"></i> Все платежи</a></li>
-</ul>
+	<h5 class="sidebar-title">Платежи</h5>
+	<ul class="nav nav-sidebar">
+		<li{% if(current.controller == 'payments' AND current.action != 'add') %} class="active"{% endif %}><a href="{{ url('payments') }}"><i class="fa fa-credit-card"></i> Все платежи</a></li>
+	</ul>
 {% endif %}
 
 <h5 class="sidebar-title">Туристы</h5>
@@ -39,18 +39,17 @@
 
 {% if user.role is 'Admin' %}
 
-<h5 class="sidebar-title">Настройки</h5>
-<ul class="nav nav-sidebar">
-	<li{% if(current.controller == 'cities') %} class="active"{% endif %}><a href="{{ url('cities') }}"><i class="fa fa-building-o"></i> Города</a></li>
-	<!--<li{% if(current.controller == 'populars') %} class="active"{% endif %}>><a href="{{ url('populars') }}"><i class="fa fa-star-o"></i> Курорты</a></li>-->
-</ul>
+	<h5 class="sidebar-title">Настройки</h5>
+	<ul class="nav nav-sidebar">
+		<li{% if(current.controller == 'cities') %} class="active"{% endif %}><a href="{{ url('cities') }}"><i class="fa fa-building-o"></i>Города</a></li>
+		<li{% if(current.controller == 'populars') %} class="active"{% endif %}><a href="{{ url('populars') }}"><i class="fa fa-star-o"></i>Курорты</a></li>
+	</ul>
 
-
-<h5 class="sidebar-title">Яндекс</h5>
-<ul class="nav nav-sidebar">
-	<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'countries') %} class="active"{% endif %}><a href="{{ url('yandex/type/countries') }}">Страны</a></li>
-	<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'departures') %} class="active"{% endif %}><a href="{{ url('yandex/type/departures') }}">Города вылета</a></li>
-	<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'operators') %} class="active"{% endif %}><a href="{{ url('yandex/type/operators') }}">Операторы</a></li>
-	<li{% if(current.controller == 'yandex' AND current.action == 'hotels') %} class="active"{% endif %}><a href="{{ url('yandex/hotels') }}">Отели</a></li>
-</ul>
+	<h5 class="sidebar-title">Яндекс</h5>
+	<ul class="nav nav-sidebar">
+		<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'countries') %} class="active"{% endif %}><a href="{{ url('yandex/type/countries') }}">Страны</a></li>
+		<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'departures') %} class="active"{% endif %}><a href="{{ url('yandex/type/departures') }}">Города вылета</a></li>
+		<li{% if(current.controller == 'yandex' AND current.action == 'type' AND type == 'operators') %} class="active"{% endif %}><a href="{{ url('yandex/type/operators') }}">Операторы</a></li>
+		<li{% if(current.controller == 'yandex' AND current.action == 'hotels') %} class="active"{% endif %}><a href="{{ url('yandex/hotels') }}">Отели</a></li>
+	</ul>
 {% endif %}
