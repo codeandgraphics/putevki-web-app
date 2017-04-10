@@ -1,7 +1,9 @@
 {{ partial('partials/header') }}
 
 <main>
+	{% if page !== 'main' %}
 	{{ partial('partials/navbar') }}
+	{% endif %}
 
 	{{ content() }}
 

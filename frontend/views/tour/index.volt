@@ -5,6 +5,7 @@ $hotelLink = "/hotel/" . $name . "-" . $tour->hotelcode;
 $date = DateTime::createFromFormat('d.m.Y',$tour->flydate);
 ?>
 <div class="hero little">
+	<div class="hero-overlay"></div>
 	<div class="container">
 
 	</div>

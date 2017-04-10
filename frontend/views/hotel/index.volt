@@ -1,4 +1,5 @@
 <div class="hero little">
+	<div class="hero-overlay"></div>
 	<div class="container">
 	</div>
 </div>
