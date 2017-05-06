@@ -38,19 +38,19 @@ class CitiesController extends ControllerBase
 			$formDepartures[$departure->id] = $departure->name;
 		}
 
-		$form->add(new Text("name"));
-		$form->add(new Text("name_gen"));
-		$form->add(new Text("uri"));
-		$form->add(new Text("lat"));
-		$form->add(new Text("lon"));
-		$form->add(new Text("zoom"));
+		$form->add(new Text('name'));
+		$form->add(new Text('name_gen'));
+		$form->add(new Text('uri'));
+		$form->add(new Text('lat'));
+		$form->add(new Text('lon'));
+		$form->add(new Text('zoom'));
 		$form->add(new Select('flight_city', $formDepartures));
-		$form->add(new Text("phone"));
-		$form->add(new Select("main", [0=>"Выкл", 1=>"Вкл"]));
-		$form->add(new Select("active", [0=>"Выкл", 1=>"Вкл"]));
-		$form->add(new Text("meta_keywords"));
-		$form->add(new TextArea("meta_text"));
-		$form->add(new TextArea("meta_description"));
+		$form->add(new Text('phone'));
+		$form->add(new Select('main', [0=>'Выкл', 1=>'Вкл']));
+		$form->add(new Select('active', [0=>'Выкл', 1=>'Вкл']));
+		$form->add(new Text('meta_keywords'));
+		$form->add(new TextArea('meta_text'));
+		$form->add(new TextArea('meta_description'));
 
 		if($this->request->isPost())
 		{
@@ -58,7 +58,7 @@ class CitiesController extends ControllerBase
 			if($form->isValid())
 			{
 				$city->save();
-				$this->flashSession->success("Город успешно сохранен");
+				$this->flashSession->success('Город успешно сохранен');
 			}
 		}
 
@@ -81,19 +81,19 @@ class CitiesController extends ControllerBase
 		}
 
 		$form = new Form();
-		$form->add(new Text("name"));
-		$form->add(new Text("name_gen"));
-		$form->add(new Text("uri"));
-		$form->add(new Text("lat"));
-		$form->add(new Text("lon"));
-		$form->add(new Text("zoom"));
+		$form->add(new Text('name'));
+		$form->add(new Text('name_gen'));
+		$form->add(new Text('uri'));
+		$form->add(new Text('lat'));
+		$form->add(new Text('lon'));
+		$form->add(new Text('zoom'));
 		$form->add(new Select('flight_city', $formDepartures));
-		$form->add(new Text("phone"));
-		$form->add(new Select("main", [0=>"Нет", 1=>"Да"]));
-		$form->add(new Select("active", [0=>"Нет", 1=>"Да"]));
-		$form->add(new Text("meta_keywords"));
-		$form->add(new TextArea("meta_text"));
-		$form->add(new TextArea("meta_description"));
+		$form->add(new Text('phone'));
+		$form->add(new Select('main', [0=>'Нет', 1=>'Да']));
+		$form->add(new Select('active', [0=>'Нет', 1=>'Да']));
+		$form->add(new Text('meta_keywords'));
+		$form->add(new TextArea('meta_text'));
+		$form->add(new TextArea('meta_description'));
 
 
 		if($this->request->isPost())
@@ -140,23 +140,23 @@ class CitiesController extends ControllerBase
 		$yesNoArray = array(0 => 'Нет', 1 => 'Да');
 
 		$form = new Form();
-		$form->add(new Text("name"));
-		$form->add(new Text("address"));
-		$form->add(new Text("timetable"));
-		$form->add(new Text("phone"));
-		$form->add(new Text("site"));
-		$form->add(new Text("email"));
+		$form->add(new Text('name'));
+		$form->add(new Text('address'));
+		$form->add(new Text('timetable'));
+		$form->add(new Text('phone'));
+		$form->add(new Text('site'));
+		$form->add(new Text('email'));
 		$form->add(new Text('additionalEmails'));
-		$form->add(new Text("lat"));
-		$form->add(new Text("lon"));
-		$form->add(new Select("main", $yesNoArray));
-		$form->add(new Select("active", $yesNoArray));
+		$form->add(new Text('lat'));
+		$form->add(new Text('lon'));
+		$form->add(new Select('main', $yesNoArray));
+		$form->add(new Select('active', $yesNoArray));
 
-		$form->add(new Text("managerName"));
+		$form->add(new Text('managerName'));
 
-		$form->add(new Text("meta_keywords"));
-		$form->add(new TextArea("meta_text"));
-		$form->add(new TextArea("meta_description"));
+		$form->add(new Text('meta_keywords'));
+		$form->add(new TextArea('meta_text'));
+		$form->add(new TextArea('meta_description'));
 
 
 		if($this->request->isPost())
@@ -180,7 +180,7 @@ class CitiesController extends ControllerBase
 			$branch->meta_text = $this->request->getPost('meta_text');
 			$branch->meta_keywords = $this->request->getPost('meta_keywords');
 
-			if($branch->save())
+			if($branch->create())
 			{
 				$password = $this->security->getToken();
 
@@ -202,11 +202,12 @@ class CitiesController extends ControllerBase
 					$email = new EmailController();
 					$email->sendPassword($manager->email, $password);
 
-					$this->flashSession->success("Филиал успешно добавлен");
-					return $this->response->redirect("cities/city/" . $city->id);
+					$this->flashSession->success('Филиал успешно добавлен');
+					return $this->response->redirect('cities/city/' . $city->id);
 				}
 				else
 				{
+					$branch->delete();
 					foreach($manager->getMessages() as $message)
 					{
 						$this->flashSession->error($message);

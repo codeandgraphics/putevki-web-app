@@ -9,16 +9,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="PHP">
+      <library name="PHP" type="php">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/mpdf/mpdf" />
-          <root url="file://$MODULE_DIR$/vendor/setasign/fpdi" />
+          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/stubs/Phalcon" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/mpdf/mpdf" />
-          <root url="file://$MODULE_DIR$/vendor/setasign/fpdi" />
+          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/stubs/Phalcon" />
         </SOURCES>
       </library>
     </orderEntry>
