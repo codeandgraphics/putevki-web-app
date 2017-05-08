@@ -44,6 +44,67 @@ class ApiController extends ControllerFrontend
 		return $response;
 	}
 
+	public function requestAction(){
+		if($this->request->isPost()) {
+
+			$data = $this->request->getJsonRawBody();
+
+			$request = new \Backend\Models\Requests();
+
+			$order = $data->order;
+
+			//Клиент
+			$request->subjectName			= $order->subject->name;
+			$request->subjectPhone			= $order->subject->phone;
+			$request->subjectEmail			= $order->subject->email;
+
+			//Данные тура
+			$request->hotelName			= $order->hotel->name;
+			$request->hotelCountry		= $order->hotel->country;
+			$request->hotelRegion		= $order->hotel->region;
+
+			$request->hotelDate			= $order->hotel->date;
+			$request->hotelNights		= $order->hotel->nights;
+			$request->hotelPlacement	= $order->hotel->placement;
+			$request->hotelMeal			= $order->hotel->meal;
+			$request->hotelRoom			= $order->hotel->room;
+
+			if($order->flight)
+			{
+				$request->flightToNumber			= $order->flight->to->number;
+				$request->flightToDepartureDate		= $order->flight->to->departure->date;
+				$request->flightToDepartureTime		= $order->flight->to->departure->time;
+				$request->flightToDepartureTerminal	= $order->flight->to->departure->port;
+				$request->flightToArrivalDate		= $order->flight->to->arrival->date;
+				$request->flightToArrivalTime		= $order->flight->to->arrival->time;
+				$request->flightToArrivalTerminal	= $order->flight->to->arrival->port;
+				$request->flightToCarrier			= $order->flight->to->carrier;
+				$request->flightToPlane				= $order->flight->to->plane;
+
+				$request->flightFromNumber				= $order->flight->from->number;
+				$request->flightFromDepartureDate		= $order->flight->from->departure->date;
+				$request->flightFromDepartureTime		= $order->flight->from->departure->time;
+				$request->flightFromDepartureTerminal	= $order->flight->from->departure->port;
+				$request->flightFromArrivalDate			= $order->flight->from->arrival->date;
+				$request->flightFromArrivalTime			= $order->flight->from->arrival->time;
+				$request->flightFromArrivalTerminal		= $order->flight->from->arrival->port;
+				$request->flightFromCarrier				= $order->flight->from->carrier;
+				$request->flightFromPlane				= $order->flight->from->plane;
+				$request->flightFromClass				= '';
+			}
+
+			$request->tourOperatorId = $order->tour->operator;
+			$request->price = $order->tour->price;
+			$request->departureId		= $order->tour->from;
+
+			if($request->save()) {
+				return new JSONResponse(Error::NO_ERROR, ['success' => true]);
+			} else {
+				return new JSONResponse(Error::API_ERROR);
+			}
+		}
+	}
+
 
 	public function dictionariesAction() {
 		$response = array(

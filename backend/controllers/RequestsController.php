@@ -294,7 +294,7 @@ class RequestsController extends ControllerBase
 
 	public function deleteAction($requestId) {
 
-		$request = Requests::findFirst($requestId);
+		$request = Requests::findFirst('id = ' . $requestId);
 
 		if($request) {
 			$request->deleted = Requests::DELETED;
@@ -313,7 +313,7 @@ class RequestsController extends ControllerBase
 
 		$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-		$request = Requests::findFirst($requestId);
+		$request = Requests::findFirst('id = ' . $requestId);
 
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
@@ -345,7 +345,7 @@ class RequestsController extends ControllerBase
 
 		$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-		$request = Requests::findFirst($requestId);
+		$request = Requests::findFirst('id = ' . $requestId);
 
 		$this->simpleView->setVar('req', $request);
 		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
