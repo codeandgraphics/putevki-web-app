@@ -82,7 +82,7 @@ return new \Phalcon\Config(array(
 				'action'		=> 'index'
 			],
 
-			'/pay/{requestId}' => [
+			'/pay/{requestId:[0-9]+}' => [
 				'controller'	=> 'pay',
 				'action'		=> 'index'
 			],
@@ -141,7 +141,7 @@ return new \Phalcon\Config(array(
 
 		'uniteller'		=> [
 			'orderPrefix'	=> 'PTVK',
-			'shopId'		=> '00002051', //Идентификатор точки продаж
+			'shopId'		=> '00010915', //Идентификатор точки продаж
 			'lifeTime'		=> 3600, //Время жизни формы оплаты
 			'meanType'		=> '', //Тип платежной системы
 			'moneyType'		=> '', //Тип электронной валюты

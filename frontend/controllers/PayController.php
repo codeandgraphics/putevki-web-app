@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Http\Response;
+use Phalcon\Mvc\View;
 use Backend\Models\Payments;
 use Backend\Plugins\Uniteller;
 
@@ -8,8 +9,7 @@ class PayController extends ControllerFrontend
 {
 	public function indexAction($paymentId = 0)
 	{
-
-		$payment = Payments::findFirst($paymentId);
+		$payment = Payments::findFirstById($paymentId);
 
 		$uniteller = new Uniteller();
 
@@ -19,7 +19,7 @@ class PayController extends ControllerFrontend
 		$this->view->setVar('uniteller', $uniteller);
 		$this->view->setVar('title', 'Перенаправление на оплату');
 
-		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
 	}
 
@@ -37,7 +37,7 @@ class PayController extends ControllerFrontend
 			if($signature === $uniteller->notifySignature($orderId, $status))
 			{
 				$paymentId = $uniteller->getPaymentId($orderId);
-				$payment = Payments::findFirst($paymentId);
+				$payment = Payments::findFirstById($paymentId);
 
 				if($payment)
 				{
@@ -54,7 +54,7 @@ class PayController extends ControllerFrontend
 				$this->view->setVar('success', false);
 			}
 
-			$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+			$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 		}
 		else
 		{
@@ -69,13 +69,13 @@ class PayController extends ControllerFrontend
 	public function failAction()
 	{
 		$this->view->setVar('title', 'Ошибка оплаты');
-
-		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 	}
 
 	public function notifyAction()
 	{
 		$response = new Response();
+		$this->view->disable();
 
 		if($this->request->isPost())
 		{
@@ -88,7 +88,7 @@ class PayController extends ControllerFrontend
 
 			if($localSignature == $Signature)
 			{
-				$payment = Payments::findFirst($uniteller->getPaymentId($Order_ID));
+				$payment = Payments::findFirstById($uniteller->getPaymentId($Order_ID));
 
 				if($payment)
 				{
@@ -102,24 +102,25 @@ class PayController extends ControllerFrontend
 					else
 					{
 						$response->setStatusCode(500);
-						$response->setContent('Ошибка сохранения данных');
+						$response->setContent('Data save failed');
 					}
 				}
 				else
 				{
 					$response->setStatusCode(404);
-					$response->setContent('Платеж не найден');
+					$response->setContent('Payment not found');
 				}
 			}
 			else
 			{
 				$response->setStatusCode(401);
-				$response->setContent('Ошибка подписи запроса');
+				$response->setContent('Request signature failure');
 			}
 		}
 		else
 		{
 			$response->setStatusCode(405);
+			$response->setContent('Method not allowed');
 		}
 
 		$response->send();
