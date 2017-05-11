@@ -7,6 +7,7 @@ class Office {
 	public $id;
 	public $name;
 	public $address;
+	public $timetable;
 	public $lat;
 	public $lon;
 
@@ -16,6 +17,7 @@ class Office {
 			$this->id = (int) $branch->id;
 			$this->name = $branch->name;
 			$this->address = $branch->address;
+			$this->timetable = $branch->timetable;
 			$this->lat = $branch->lat;
 			$this->lon = $branch->lon;
 		}
