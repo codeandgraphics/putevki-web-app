@@ -38,7 +38,7 @@ class EmailController extends ControllerBase
 	public function sendAdminNotification(Requests $request)
 	{
 		$tour = new \stdClass();
-		
+
 		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 		$tour->hotel = $request->hotelName;
 		$tour->people = $request->hotelPlacement;
