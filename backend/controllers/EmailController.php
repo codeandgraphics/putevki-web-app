@@ -38,10 +38,10 @@ class EmailController extends ControllerBase
 	public function sendAdminNotification(Requests $request)
 	{
 		$tour = new \stdClass();
-
+		
 		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 		$tour->hotel = $request->hotelName;
-		$tour->people = Utils\Text::humanize('people', $request->tourists->count());
+		$tour->people = $request->hotelPlacement;
 		$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
 		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 		$tour->price = $request->price;
@@ -71,7 +71,7 @@ class EmailController extends ControllerBase
 
 			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
 			$tour->hotel = $request->hotelName;
-			$tour->people = Utils\Text::humanize('people', $request->tourists->count());
+			$tour->people = $request->hotelPlacement;
 			$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
 			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 			$tour->price = $request->price;
