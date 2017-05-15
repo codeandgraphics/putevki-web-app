@@ -95,7 +95,7 @@ class ApiController extends ControllerFrontend
 
 			$request->tourOperatorId = $order->tour->operator;
 			$request->price = $order->tour->price;
-			$request->departureId		= $order->tour->from;
+			$request->departureId = $order->tour->from;
 
 			if($request->save()) {
 				return new JSONResponse(Error::NO_ERROR, ['success' => true]);

@@ -63,138 +63,142 @@
 					{% if paid == 0 %}
 						{% set payStatus = 'no' %}
 					{% endif %}
-				<tr class="header">
-					<td>
-						<button class="btn btn-default more">
-							<i class="fa fa-arrow-down"></i>
-						</button>
-					</td>
-					<td>
-						<a href="{{ url('requests') }}/edit/{{ req.id }}">
-						{% if req.subjectName or req.subjectSurname %}
-							{{ req.subjectName }} {{ req.subjectSurname }}
-						{% else %}
-							не указан
-						{% endif %}
+					<tr class="header">
+						<td>
+							<button class="btn btn-default more">
+								<i class="fa fa-arrow-down"></i>
+							</button>
+						</td>
+						<td>
+							<a href="{{ url('requests') }}/edit/{{ req.id }}">
+								{% if req.subjectName or req.subjectSurname %}
+									{{ req.subjectName }} {{ req.subjectSurname }}
+								{% else %}
+									не указан
+								{% endif %}
+								<small>
+									{% if req.subjectPhone %}
+										{{ req.subjectPhone }}
+									{% else %}
+										не указан
+									{% endif %}
+								</small>
+							</a>
+
+						</td>
+						<td>
+							{{ req.creationDate }}
+						</td>
+						<td>
+							{% if req.hotelCountry %}
+								{{ req.hotelCountry }}
+							{% else %}
+								не указана
+							{% endif %}
 							<small>
-							{% if req.subjectAddress %}
-								{{ req.subjectAddress }}
+								{% if req.departure %}
+									{% if req.departure.id == 99 %}
+										Без перелета
+									{% else %}
+										из {{ req.departure.name_from }}
+									{% endif %}
+								{% else %}
+									не указан
+								{% endif %}
+							</small>
+						</td>
+						<td class="text-center">
+							{% if req.flightToDepartureDate %}
+								<?=Utils\Text::formatToDayMonth($req->flightToDepartureDate, 'd.m.Y');?>
+							{% else %}
+								не указана
+							{% endif %}
+							<small>
+								{% if req.hotelNights %}
+									<?=Utils\Text::humanize('nights', $req->hotelNights);?>
+								{% else %}
+									не указано
+								{% endif %}
+							</small>
+						</td>
+						<td class="text-center">
+							{% if req.tourOperator %}
+								{{ req.tourOperator.name }}
 							{% else %}
 								не указан
 							{% endif %}
-							</small>
-						</a>
-
-					</td>
-					<td>
-						{{ req.creationDate }}
-					</td>
-					<td>
-						{% if req.hotelCountry %}
-							{{ req.hotelCountry }}
-						{% else %}
-							не указана
-						{% endif %}
-						<small>
-						{% if req.departure %}
-							из {{ req.departure.name_from }}
-						{% else %}
-							не указан
-						{% endif %}
-						</small>
-					</td>
-					<td class="text-center">
-						{% if req.flightToDepartureDate %}
-							<?=Utils\Text::formatToDayMonth($req->flightToDepartureDate, 'd.m.Y');?>
-						{% else %}
-							не указана
-						{% endif %}
-						<small>
-						{% if req.hotelNights %}
-							<?=Utils\Text::humanize('nights', $req->hotelNights);?>
-						{% else %}
-							не указано
-						{% endif %}
-						</small>
-					</td>
-					<td class="text-center">
-						{% if req.tourOperator %}
-							{{ req.tourOperator.name }}
-						{% else %}
-							не указан
-						{% endif %}
-					</td>
-					<td class="text-center text-middle">
-						{% if req.status %}
-						<div class="label {{ req.status.class }}">
-							{{ req.status.name }}
-						</div>
-						{% else %}
-						не указан
-						{% endif %}
-					</td>
-					<td class="text-center price {{ payStatus }}">
-						{{ req.getSum() }} руб.
-						<small>{{ paid }} руб.</small>
-					</td>
-					<td class="text-center">
-						{% if req.branch %}
-						{{ req.branch.name }}
-							{% if req.branch.manager %}
-								<small>{{ req.branch.manager.name }}</small>
+						</td>
+						<td class="text-center text-middle">
+							{% if req.status %}
+								<div class="label {{ req.status.class }}">
+									{{ req.status.name }}
+								</div>
+							{% else %}
+								не указан
 							{% endif %}
-						{% else %}
-						не указан
-						{% endif %}
-					</td>
-					<td>
-						<a href="{{ url('requests') }}/edit/{{ req.id }}" class="btn btn-warning edit pull-right">
-							<i class="fa fa-edit"></i>
-						</a>
-					</td>
-				</tr>
-				<tr class="data">
-					<td colspan="10">
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="info-group label-bottom">
-									Заказчик
-									<label>{{ req.subjectName }} {{ req.subjectPatronymic }} {{ req.subjectSurname }}</label>
+						</td>
+						<td class="text-center price {{ payStatus }}">
+							{{ req.getSum() }} руб.
+							<small>{{ paid }} руб.</small>
+						</td>
+						<td class="text-center">
+							{% if req.branch %}
+								{{ req.branch.name }}
+								{% if req.branch.manager %}
+									<small>{{ req.branch.manager.name }}</small>
+								{% endif %}
+							{% else %}
+								не указан
+							{% endif %}
+						</td>
+						<td>
+							<a href="{{ url('requests') }}/edit/{{ req.id }}" class="btn btn-warning edit pull-right">
+								<i class="fa fa-edit"></i>
+							</a>
+						</td>
+					</tr>
+					<tr class="data">
+						<td colspan="10">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="info-group label-bottom">
+										Заказчик
+										<label>{{ req.subjectName }} {{ req.subjectPatronymic }} {{ req.subjectSurname }}</label>
 
-									Телефон
-									<label>{{ req.subjectPhone }}</label>
+										Телефон
+										<label>{{ req.subjectPhone }}</label>
 
-									E-mail
-									<label><a href="mailto:{{ req.subjectEmail }}">{{ req.subjectEmail }}</a></label>
+										E-mail
+										<label><a href="mailto:{{ req.subjectEmail }}">{{ req.subjectEmail }}</a></label>
 
-									Адрес
-									<label>{{ req.subjectAddress }}</label>
-								</div><br/>
-								<a class="btn btn-warning btn-stroke btn-block" href="{{ url('requests/edit/') }}{{ req.id }}">
-									<i class="fa fa-edit"></i>
-									Редактировать
-								</a>
-							</div>
-							<div class="col-sm-8">
-								<div class="info-group">
-									<p>
-										<a href="{{ url('requests/agreement/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
-											<i class="fa fa-file-pdf-o"></i>
-											<span>Договор с заказчиком</span>
-										</a>
-										&nbsp;
-										<a href="{{ url('requests/booking/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
-											<i class="fa fa-file-pdf-o"></i>
-											<span>Лист бронирования</span>
-										</a>
-									</p>
-									<table class="table">
-										<thead>
+										Адрес
+										<label>{{ req.subjectAddress }}</label>
+									</div><br/>
+									<a class="btn btn-warning btn-stroke btn-block" href="{{ url('requests/edit/') }}{{ req.id }}">
+										<i class="fa fa-edit"></i>
+										Редактировать
+									</a>
+								</div>
+								<div class="col-sm-8">
+									<div class="info-group">
+										<p>
+											<a href="{{ url('requests/agreement/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
+												<i class="fa fa-file-pdf-o"></i>
+												<span>Договор с заказчиком</span>
+											</a>
+											&nbsp;
+											<a href="{{ url('requests/booking/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
+												<i class="fa fa-file-pdf-o"></i>
+												<span>Лист бронирования</span>
+											</a>
+										</p>
+										<table class="table">
+											<thead>
 											<tr>
 												<th>Данные заказа</th>
 											</tr>
-										</thead>
-										<tbody>
+											</thead>
+											<tbody>
 											<tr>
 												<td>
 													<i class="fa fa-hotel"></i>
@@ -212,7 +216,7 @@
 											<tr>
 												<td>
 													<i class="fa fa-plane"></i>
-													{% if req.flightToNumder %}
+													{% if req.flightToNumber %}
 														{{ req.flightToDepartureDate }}, {{ req.flightToNumber }},
 														{{ req.flightToDepartureTerminal }} {{ req.flightToDepartureTime }}
 														-  {{ req.flightToArrivalTerminal }} {{ req.flightToArrivalTime }}
@@ -233,70 +237,70 @@
 													{% endif %}
 												</td>
 											</tr>
-										</tbody>
-									</table>
-									<br/>
-									<table class="table">
-										<thead>
-										<tr>
-											<th>Турист</th>
-											<th>Дата рождения</th>
-											<th>Загранпаспорт</th>
-											<th>Действителен до</th>
-										</tr>
-										</thead>
-										<tbody>
-										{% for tourist in req.tourists %}
-										<tr>
-											<td>{{ tourist.tourist.passport_surname }} {{ tourist.tourist.passport_name }}</td>
-											<td>{{ tourist.tourist.birthDate }}</td>
-											<td>{{ tourist.tourist.passport_number }}</td>
-											<td>{{ tourist.tourist.passport_endDate }}</td>
-										</tr>
-										{% endfor %}
-										</tbody>
-									</table>
+											</tbody>
+										</table>
+										<br/>
+										<table class="table">
+											<thead>
+											<tr>
+												<th>Турист</th>
+												<th>Дата рождения</th>
+												<th>Загранпаспорт</th>
+												<th>Действителен до</th>
+											</tr>
+											</thead>
+											<tbody>
+											{% for tourist in req.tourists %}
+												<tr>
+													<td>{{ tourist.tourist.passport_surname }} {{ tourist.tourist.passport_name }}</td>
+													<td>{{ tourist.tourist.birthDate }}</td>
+													<td>{{ tourist.tourist.passport_number }}</td>
+													<td>{{ tourist.tourist.passport_endDate }}</td>
+												</tr>
+											{% endfor %}
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
-					</td>
-				</tr>
+						</td>
+					</tr>
 				{% endfor %}
 				</tbody>
 			</table>
 
 			{% if page.items %}
-			<ul class="pagination">
-				{% if page.before != page.current %}
-				<li class="paginate_button">
-					<a href="{{ url('requests') }}?page={{ page.before }}">назад</a>
-				</li>
-				{% else %}
-				<li class="paginate_button disabled">
+				<ul class="pagination">
+					{% if page.before != page.current %}
+						<li class="paginate_button">
+							<a href="{{ url('requests') }}?page={{ page.before }}">назад</a>
+						</li>
+					{% else %}
+						<li class="paginate_button disabled">
 					<span>
 						назад
 					</span>
-				</li>
-				{% endif %}
+						</li>
+					{% endif %}
 
-				{% for i in 1..page.total_pages %}
-				<li class="paginate_button{% if page.current == i %} active{% endif %}">
-					<a href="{{ url('requests') }}?page={{ i }}">{{ i }}</a>
-				</li>
-				{% endfor %}
+					{% for i in 1..page.total_pages %}
+						<li class="paginate_button{% if page.current == i %} active{% endif %}">
+							<a href="{{ url('requests') }}?page={{ i }}">{{ i }}</a>
+						</li>
+					{% endfor %}
 
-				{% if page.next != page.current %}
-				<li>
-					<a href="{{ url('requests') }}?page={{ page.next }}">вперед</a>
-				</li>
-				{% else %}
-				<li class="disabled">
+					{% if page.next != page.current %}
+						<li>
+							<a href="{{ url('requests') }}?page={{ page.next }}">вперед</a>
+						</li>
+					{% else %}
+						<li class="disabled">
 					<span>
 						вперед
 					</span>
-				</li>
-				{% endif %}
-			</ul>
+						</li>
+					{% endif %}
+				</ul>
 			{% endif %}
 		</div>
 	</div>
