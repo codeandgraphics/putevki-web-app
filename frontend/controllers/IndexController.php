@@ -86,24 +86,28 @@ class IndexController extends ControllerFrontend
 	{
 		$this->view->disable();
 
-		$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
+		if($this->request->has('mobile')) {
+			echo $this->simpleView->render('index/agreement');
+		} else {
+			$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-		$request = new \Backend\Models\Requests();
+			$request = new \Backend\Models\Requests();
 
-		$this->simpleView->setVar('req', $request);
-		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
-		$html = $this->simpleView->render('requests/pdf/agreement');
-		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
+			$this->simpleView->setVar('req', $request);
+			$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
+			$html = $this->simpleView->render('requests/pdf/agreement');
+			$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
-		$header = $this->simpleView->render('requests/pdf/header');
-		$footer = $this->simpleView->render('requests/pdf/footer');
+			$header = $this->simpleView->render('requests/pdf/header');
+			$footer = $this->simpleView->render('requests/pdf/footer');
 
-		$pdf->WriteHTML($css, 1);
-		$pdf->SetHTMLHeader($header);
-		$pdf->SetHTMLFooter($footer);
-		$pdf->WriteHTML($html, 2);
+			$pdf->WriteHTML($css, 1);
+			$pdf->SetHTMLHeader($header);
+			$pdf->SetHTMLFooter($footer);
+			$pdf->WriteHTML($html, 2);
 
-		$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
+			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
+		}
 	}
 
 	public function unitellerAction()
