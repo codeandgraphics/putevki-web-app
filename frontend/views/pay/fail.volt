@@ -17,7 +17,9 @@
 </head>
 <body>
 <div style='font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; width: 500px; margin: 50px auto; text-align: center;'>
-	Данный платеж не может быть проведен.<br/> Попробуйте позже, или свяжитесь с менеджером.<br/><br/>
+	Данный платеж не может быть проведен.<br/><br/>
+	Попробуйте позже, или свяжитесь с менеджером по телефону
+	<a href="tel:{{ config.frontend.phoneLink }}">{{ config.frontend.phone }}</a>.<br/><br/>
 	<a href="{{ url() }}" style="font-size: 11px;">Путевки.ру</a>
 </div>
 </body>

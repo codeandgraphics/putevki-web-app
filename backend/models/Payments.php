@@ -2,6 +2,7 @@
 
 namespace Backend\Models;
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model,
 	Phalcon\Mvc\Model\Behavior\Timestampable;
 
@@ -42,6 +43,11 @@ class Payments extends Model
 		}
 	}
 
+	public function isSuccess() {
+		return ($this->status === 'authorized' || $this->status === 'paid');
+	}
 
-
+	public function getOrder() {
+		return Di::getDefault()->get('config')->frontend->uniteller->orderPrefix . $this->id;
+	}
 }

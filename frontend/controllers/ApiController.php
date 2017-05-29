@@ -4,6 +4,7 @@ use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
 
+use Backend\Controllers\EmailController;
 use Models\Api\Error;
 use Models\Api\JSONResponse;
 use Models\Api\SearchQuery;
@@ -98,6 +99,12 @@ class ApiController extends ControllerFrontend
 			$request->departureId = $order->tour->from;
 
 			if($request->save()) {
+
+				//Отправляем email
+				$emailController = new EmailController();
+				$emailController->sendRequest('app', $request);
+				$emailController->sendAdminNotification($request);
+
 				return new JSONResponse(Error::NO_ERROR, ['success' => true]);
 			} else {
 				return new JSONResponse(Error::API_ERROR);

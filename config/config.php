@@ -149,10 +149,12 @@ return new \Phalcon\Config(array(
 			'urlNo'			=> 'pay/fail/',
 			'login'			=> '996',
 			'password'		=> 'oMGKUvVs771GFvW9yr9qjvNPMw5rwUdsxJZ0qiwt5tEHDIjGwUvMY01CJmHsQ8Kr2jhDDdNvK6OcQUXT',
+			'preAuth'       => '1',
 		],
 
 		'publicURL' => 'https://online.putevki.ru/',
 		'phone'		=> '+7 (495) 749-10-11',
+		'phoneLink' => '+74957491011',
 		'defaultCity' => 1,
 		'defaultFlightCity' => 1,
 		'cryptKey'	=> '>d#p>aDW[2mQQX 3{',

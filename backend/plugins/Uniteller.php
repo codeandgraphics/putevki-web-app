@@ -35,7 +35,7 @@ class Uniteller extends Plugin
 	public $MeanType = '';
 	public $EMoneyType = '';
 	public $BillLifetime;
-	public $Language = "ru";
+	public $Language = 'ru';
 	public $FirstName;
 	public $LastName;
 	public $MiddleName;
@@ -43,10 +43,13 @@ class Uniteller extends Plugin
 	public $Email;
 	public $Address;
 	public $IData = '';
+	public $Preauth = '1';
 
 	public function __construct()
 	{
 		$this->orderPrefix = $this->config->frontend->uniteller->orderPrefix;
+
+		$this->Preauth = $this->config->frontend->uniteller->preAuth;
 
 		$this->Shop_IDP = $this->config->frontend->uniteller->shopId;
 		$this->Lifetime = $this->config->frontend->uniteller->lifeTime;
@@ -58,7 +61,6 @@ class Uniteller extends Plugin
 
 		$this->URL_RETURN_OK = $this->config->frontend->publicURL . $this->config->frontend->uniteller->urlOk;
 		$this->URL_RETURN_NO = $this->config->frontend->publicURL . $this->config->frontend->uniteller->urlNo;
-
 	}
 
 	public function setPayment($paymentId)
@@ -110,6 +112,7 @@ class Uniteller extends Plugin
 			'Shop_ID='			. $this->Shop_IDP .
 			'&Login='			. $this->Login .
 			'&Password='		. $this->Password .
+			'&Preauth='		    . $this->Preauth .
 			'&Format=1' 		.
 			'&ShopOrderNumber='	. $Order_ID .
 			'&S_FIELDS=Status;ApprovalCode;BillNumber';

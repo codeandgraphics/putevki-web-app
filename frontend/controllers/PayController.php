@@ -28,42 +28,13 @@ class PayController extends ControllerFrontend
 		$uniteller = new Uniteller();
 
 		$orderId = $this->request->get('Order_ID');
-		$status = $this->request->getPost('Status');
-		$signature = $this->request->getPost('Signature');
 
-		if($status && $signature)
-		{
-			//Check payment status
-			if($signature === $uniteller->notifySignature($orderId, $status))
-			{
-				$paymentId = $uniteller->getPaymentId($orderId);
-				$payment = Payments::findFirstById($paymentId);
+		$paymentId = $uniteller->getPaymentId($orderId);
+		$payment = Payments::findFirstById($paymentId);
 
-				if($payment)
-				{
-					$payment->status = $status;
-					$payment->save();
+		$this->view->setVar('payment', $payment);
 
-					$this->view->setVar('title', 'Успешный платеж');
-					$this->view->setVar('success', true);
-				}
-			}
-			else
-			{
-				$this->view->setVar('title', 'Ошибка оплаты');
-				$this->view->setVar('success', false);
-			}
-
-			$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-		}
-		else
-		{
-			$this->view->disable();
-			//Request payment result
-			$uniteller->getPaymentResult($orderId);
-		}
-
-
+		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 	}
 
 	public function failAction()

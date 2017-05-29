@@ -1,3 +1,7 @@
+{% set title = 'Ожидаем подтверждение платежа' %}
+{% if payment.isSuccess() %}
+	{% set title = 'Успешная оплата' %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,14 +17,18 @@
 	<title>{{ title }} – Путевки.ру</title>
 
 	<link rel="stylesheet" type="text/css" href="/assets/css/putevki.min.css" />
-
 </head>
 <body>
 <div style='font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; width: 500px; margin: 50px auto; text-align: center;'>
-	{% if success %}
-		Оплата прошла успешно! Наш менеджер скоро свяжется с вами. Спасибо и удачного путешествия!
+	Номер заказа: {{ payment.getOrder() }}<br/><br/>
+	{% if payment.isSuccess() %}
+		Оплата прошла успешно!<br/><br/>
+		Наш менеджер скоро свяжется с вами.<br/>Спасибо и удачного путешествия!<br/><br/>
 	{% else %}
-		Данный платеж не может быть проведен.<br/> Попробуйте позже, или свяжитесь с менеджером.<br/><br/>
+		Ожидаем подтверждение платежа. <br/>
+		Попробуйте <a href="javascript:location.reload();">обновить страницу</a> через 10 секунд.<br/><br/>
+		Если платеж не проходит, свяжитесь с менеджером по телефону
+		<a href="tel:{{ config.frontend.phoneLink }}">{{ config.frontend.phone }}</a> и назовите номер заказа.<br/><br/>
 	{% endif %}
 	<a href="{{ url() }}" style="font-size: 11px;">Путевки.ру</a>
 </div>
