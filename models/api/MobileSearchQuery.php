@@ -16,9 +16,12 @@ class MobileSearchQuery extends BaseModel
 	public static function checkExists(SearchQuery $query) {
 		$searchQuery = json_encode($query);
 
-		$existed = self::findFirst("query = '$searchQuery'");
+		$existed = self::findFirst(array(
+			"query = '$searchQuery'",
+			'order' => 'date DESC'
+		));
 
-		if($existed || (time() - strtotime($existed->date)) <= self::DELAY_TIME) {
+		if($existed && (time() - strtotime($existed->date)) <= self::DELAY_TIME) {
 			return $existed->searchId;
 		}
 
