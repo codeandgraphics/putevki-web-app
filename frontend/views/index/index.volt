@@ -164,7 +164,10 @@
 					?>
 					<ul class="list-unstyled">
 						<li>
-							<i class="ion-compass"></i> Более <?=$interval->format('%y');?> лет на рынке туристических услуг
+							<i class="ion-compass"></i>
+							<a href="https://putevki.ru/o-kompanii" target="_blank">
+								Более <?=$interval->format('%y');?> лет на рынке туристических услуг
+							</a>
 						</li>
 						<li>
 							<i class="ion-heart"></i> Персональный подход к каждому клиенту
