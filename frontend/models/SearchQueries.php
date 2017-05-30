@@ -287,7 +287,8 @@ class SearchQueries extends Model
 
 		if($this->hotelId)
 		{
-			$queryString .= '/' . str_replace(' ', '_', $this->hotel->name) . '-' . $this->hotel->id;
+			$hotelName = str_replace(array(' ', '&'), array('_', 'AND'), $this->hotel->name);
+			$queryString .= '/' . $hotelName . '-' . $this->hotel->id;
 		}
 
 		$queryString .= $this->date_range ? '/~' : '/';

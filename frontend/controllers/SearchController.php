@@ -55,7 +55,7 @@ class SearchController extends ControllerFrontend
 		$searchQuery = new SearchQueries();
 		$searchQuery->fillFromParams($params);
 		$searchQuery->run();
-		
+
 		$response = new Phalcon\Http\Response();
 
 		$url = $this->config->frontend->publicURL . 'hotel/' . $hotelName . '-' . $hotelId . '#tours';
