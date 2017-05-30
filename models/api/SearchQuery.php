@@ -9,6 +9,8 @@ use Utils\Tourvisor;
 
 class SearchQuery
 {
+	const DELAY_TIME = 600;
+
 	public $from;
 	public $where;
 	public $when;
@@ -33,12 +35,24 @@ class SearchQuery
 
 	public function run()
 	{
-		$response = Tourvisor::getMethod('search', $this->buildTourvisorQuery());
-		if(property_exists($response, 'result') && property_exists($response->result, 'requestid')) {
-			return $response->result->requestid;
-		} else {
+		$existed = MobileSearchQuery::checkExists($this);
+
+		if(!$existed) {
+			$response = Tourvisor::getMethod('search', $this->buildTourvisorQuery());
+			if(property_exists($response, 'result') && property_exists($response->result, 'requestid')) {
+
+				$query = new MobileSearchQuery();
+				$query->query = json_encode($this);
+				$query->searchId = $response->result->requestid;
+				$query->date = date('Y-m-d H:i:s');
+				$query->save();
+
+				return $query->searchId;
+			}
 			return false;
 		}
+
+		return $existed;
 	}
 
 	public function buildTourvisorQuery()
