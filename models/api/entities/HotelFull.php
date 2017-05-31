@@ -15,6 +15,8 @@ class HotelFull
 
 	public $about;
 
+	public $reviews = [];
+
 	public $country;
 	public $region;
 
@@ -49,6 +51,12 @@ class HotelFull
 			$this->about->child = Hotel::removeEntities($hotel->child);
 			$this->about->beach = Hotel::removeEntities($hotel->beach);
 			$this->about->meallist = Hotel::removeEntities($hotel->meallist);
+
+			if(property_exists($hotel, 'reviews') && property_exists($hotel->reviews, 'review')) {
+				foreach($hotel->reviews->review as $review) {
+					$this->reviews[] = new Review($review);
+				}
+			}
 
 			$this->country = new \stdClass();
 			$this->country->id = $hotel->countrycode;
