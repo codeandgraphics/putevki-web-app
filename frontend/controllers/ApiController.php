@@ -13,6 +13,7 @@ use Models\Api\Entities;
 class ApiController extends ControllerFrontend
 {
 	protected $_cache;
+	protected $_KEY = 'u67x9raC(Y|Mt;R|?3+1y|Vv:O|}5>r/JwBLtE>,E+y-Z>Hnf_J<<9.rkrbv~dMF';
 
 	public function initialize()
 	{
@@ -220,6 +221,34 @@ class ApiController extends ControllerFrontend
 			return new JSONResponse(Error::API_ERROR);
 		}
 
+	}
+
+	public function initSearchSignedAction()
+	{
+		$body = $this->request->getJsonRawBody();
+
+		$params = $body->params;
+		$sign = $params->sign;
+		unset($params->sign);
+
+		$string = json_encode($params);
+
+		$sec = new \Phalcon\Security();
+		$serverHMAC = $sec->computeHmac($string, $this->_KEY, 'sha512');
+
+		if($serverHMAC === $sign) {
+			$query = new SearchQuery($params);
+
+			$searchId = $query->run();
+
+			if($searchId) {
+				return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
+			} else {
+				return new JSONResponse(Error::API_ERROR);
+			}
+		} else {
+			return new JSONResponse(Error::API_AUTH_ERROR);
+		}
 	}
 
 	public function searchStatusAction() {
