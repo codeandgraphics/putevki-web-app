@@ -188,8 +188,25 @@
 
 	</section>
 
-	<section class="block hot" id="hot">
+	<?php if($_GET['mobileTest'] == 1) { ?>
+	<section class="block mobile-promo" id="mobile-promo">
+		<div class="container">
+			<div class="promo-block">
+				<img class="mobile" alt="Путевки.ру" src="/assets/img/app/mobile.png" />
+				<div class="text">
+					<h3>Все путёвки в твоем смартфоне!</h3>
+					<p>Ищите самые выгодные цены на путёвки в любом месте,<br/>где бы вы не находились!</p>
+				</div>
+				<a target="_blank" href="https://itunes.apple.com/ru/app/%D0%BF%D1%83%D1%82%D1%91%D0%B2%D0%BA%D0%B8-%D1%80%D1%83/id1195053087?mt=8" class="appstore">
+					<img alt="Путевки.ру в App Store" src="/assets/img/app/appstore.png" />
+				</a>
+				<img class="google-play" alt="Путевки.ру в Google Play" src="/assets/img/app/google-play.png" />
+			</div>
+		</div>
+	</section>
+	<?php } ?>
 
+	<section class="block hot" id="hot">
 		<div class="container header">
 			<h2>
 				Горящие туры <small>Самые выгодные предложения для вас!</small>
