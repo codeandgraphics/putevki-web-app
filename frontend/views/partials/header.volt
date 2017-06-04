@@ -1,3 +1,4 @@
+{% set version = config.frontend.version %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -21,7 +22,7 @@
 
 	<title>{{ title }} Путевки.ру</title>
 
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/common.min.css" />
+	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/common.min.css?v{{ version }}" />
 	{% if config.frontend.env == 'development' %}
 
 		<link rel="stylesheet/less" type="text/css" href="{{ url() }}development-assets-frontend/less/main.less" />
@@ -38,11 +39,10 @@
 
 	{% else %}
 
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/putevki.min.css" />
+	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/putevki.min.css?v{{ version }}" />
 	{% if page is not empty %}
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/{{ page }}.min.css" />
+	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/{{ page }}.min.css?v{{ version }}" />
 	{% endif %}
 	{% endif %}
-
 </head>
 <body>

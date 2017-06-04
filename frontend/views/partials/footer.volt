@@ -1,7 +1,7 @@
 </main>
 
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-<script src="{{ url() }}assets/js/libraries.min.js"></script>
+<script src="{{ url() }}assets/js/libraries.min.js?v{{ version }}"></script>
 
 <script type="text/javascript">
 	var env = '{{ config.frontend.env }}';
@@ -10,9 +10,9 @@
 {% if config.frontend.env == 'production' %}
 
 
-	<script src="{{ url() }}assets/js/common.min.js"></script>
+	<script src="{{ url() }}assets/js/common.min.js?v{{ version }}"></script>
 	{% if page is not empty %}
-		<script src="{{ url() }}assets/js/{{ page }}.min.js"></script>
+		<script src="{{ url() }}assets/js/{{ page }}.min.js?v{{ version }}"></script>
 	{% endif %}
 
 	<!— Yandex.Metrika counter —>
@@ -29,7 +29,7 @@
 	<script src="{{ url() }}development-assets-frontend/js/common/tour.class.js"></script>
 	<script src="{{ url() }}development-assets-frontend/js/common/findTour.class.js"></script>
 	{% if page is not empty %}
-		<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js"></script>
+		<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js?v{{ version }}"></script>
 	{% endif %}
 {% endif %}
 

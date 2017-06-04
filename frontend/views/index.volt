@@ -14,4 +14,6 @@
 	{{ partial('partials/find-tour-modal') }}
 </main>
 
+{{ partial('partials/mobile-overlay') }}
+
 {{ partial('partials/footer') }}

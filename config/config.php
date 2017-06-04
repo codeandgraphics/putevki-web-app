@@ -44,6 +44,7 @@ return new \Phalcon\Config(array(
 
 	'frontend'   => [
 		'env'					=> 'production',// production|development
+		'version'               => '2.3.1',
 		'baseUri'				=> '/',
 		'controllersDir'		=> APP_PATH . 'frontend/controllers/',
 		'viewsDir'				=> APP_PATH . 'frontend/views/',
@@ -65,6 +66,11 @@ return new \Phalcon\Config(array(
 			'/agreement' => [
 				'controller'	=> 'index',
 				'action'		=> 'agreement'
+			],
+
+			'/app'  => [
+				'controller'    => 'index',
+				'action'        => 'app',
 			],
 
 			'/uniteller' => [
@@ -166,5 +172,8 @@ return new \Phalcon\Config(array(
 			'name'		=> 'Putevki.ru',
 			'to'		=> 'online@putevki.ru'
 		)
-	]
+	],
+
+	'appStore' => 'https://appsto.re/ru/FaXohb.i',
+	'googlePlay' => '',
 ));

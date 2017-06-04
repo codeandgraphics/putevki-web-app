@@ -6,6 +6,7 @@ use Phalcon\Http\Response			as Response,
 	Models\Cities					as Cities,
 	Frontend\Models\SearchQueries	as SearchQueries,
 	Frontend\Models\Populars		as Populars;
+use Mobile_Detect;
 
 class IndexController extends ControllerFrontend
 {
@@ -108,6 +109,18 @@ class IndexController extends ControllerFrontend
 
 			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
 		}
+	}
+
+	public function appAction() {
+		$this->view->disable();
+		$detect = new Mobile_Detect();
+
+		if($detect->isiOS()) {
+			$this->response->redirect($this->config->appStore);
+		} else {
+			$this->response->redirect('/');
+		}
+
 	}
 
 	public function unitellerAction()

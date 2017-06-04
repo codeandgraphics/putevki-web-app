@@ -10,6 +10,7 @@
 		}
 	],
 	"require": {
-		"mpdf/mpdf": "v6.1.2"
+		"mpdf/mpdf": "v6.1.2",
+		"mobiledetect/mobiledetectlib": "^2.8"
 	}
 }
