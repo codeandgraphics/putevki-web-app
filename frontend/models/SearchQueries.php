@@ -155,13 +155,13 @@ class SearchQueries extends Model
 		$this->nights = (int) $nights;
 		
 		$this->adults = (int) $params->adults;
-		$this->kids = $params->kids;
-		
+		$this->kids = str_replace(' ', '+', $params->kids);
+
 		if(!$this->kids)
 		{
 			$this->kids = 0;
 		}
-		
+
 		$this->starsId = $params->stars;
 		$this->mealId = $params->meal;
 	}
