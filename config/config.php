@@ -44,7 +44,7 @@ return new \Phalcon\Config(array(
 
 	'frontend'   => [
 		'env'					=> 'production',// production|development
-		'version'               => '2.3.1',
+		'version'               => '2.3.2',
 		'baseUri'				=> '/',
 		'controllersDir'		=> APP_PATH . 'frontend/controllers/',
 		'viewsDir'				=> APP_PATH . 'frontend/views/',
