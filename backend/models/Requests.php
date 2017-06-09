@@ -11,6 +11,11 @@ class Requests extends BaseModel
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
 
+	const ORIGIN_WEB = 'web';
+	const ORIGIN_ANDROID = 'android';
+	const ORIGIN_IOS = 'ios';
+	const ORIGIN_MOBILE = 'mobile';
+
 	public $id;
 
 	public $manager_id;
@@ -62,6 +67,8 @@ class Requests extends BaseModel
 	public $comment;
 
 	public $branch_id;
+
+	public $origin;
 
 	public $creationDate = null;
 	public $deleted = Tourists::NOT_DELETED;

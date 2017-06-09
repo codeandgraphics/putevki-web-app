@@ -179,7 +179,10 @@
 							<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
 						</li>
 						<li>
-							<i class="ion-card"></i> Онлайн-оплата и бронирование
+							<i class="ion-card"></i>
+							<a href="https://online.putevki.ru/uniteller" target="_blank">
+								Онлайн-оплата и бронирование
+							</a>
 						</li>
 					</ul>
 				</div>

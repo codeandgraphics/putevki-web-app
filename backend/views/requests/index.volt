@@ -87,7 +87,12 @@
 
 						</td>
 						<td>
-							{{ req.creationDate }}
+							{% if req.origin == 'mobile' %}
+								<i class="fa fa-mobile"></i>
+							{% else %}
+								<i class="fa fa-desktop"></i>
+							{% endif %}
+							&nbsp;{{ req.creationDate }}
 						</td>
 						<td>
 							{% if req.hotelCountry %}

@@ -37,6 +37,8 @@ class SearchQuery
 	{
 		$existed = MobileSearchQuery::checkExists($this);
 
+		// $existed = false;
+
 		if(!$existed) {
 			$response = Tourvisor::getMethod('search', $this->buildTourvisorQuery());
 			if(property_exists($response, 'result') && property_exists($response->result, 'requestid')) {

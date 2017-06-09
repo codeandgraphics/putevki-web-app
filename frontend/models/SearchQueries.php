@@ -198,7 +198,11 @@ class SearchQueries extends Model
 
 		$this->addLastQueries();
 
-		setcookie('params', serialize($this->toArray()), time() + $this->getDI()->get('config')->frontend->cookie_remember_timeout, '/');
+		$cookie_timeout = $this->getDI()->get('config')->frontend->cookie_remember_timeout;
+
+		setcookie('params', serialize($this->toArray()), time() + $cookie_timeout, '/');
+		setcookie('flight_city', $this->departureId, time() + $cookie_timeout, '/');
+
 	}
 	
 	public function buildTourvisorQuery()
@@ -347,6 +351,11 @@ class SearchQueries extends Model
 		if(array_key_exists('params', $_COOKIE) && $_COOKIE['params'])
 		{
 			$params = (object) unserialize($_COOKIE['params']);
+
+			if(array_key_exists('flight_city', $_COOKIE))
+			{
+				$params->departureId = $_COOKIE['flight_city'];
+			}
 			
 			if(strtotime($params->date) < strtotime('+1 day')) 
 			{

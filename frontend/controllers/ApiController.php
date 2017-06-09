@@ -53,6 +53,9 @@ class ApiController extends ControllerFrontend
 
 			$request = new \Backend\Models\Requests();
 
+			// TODO: split to mobile systems
+			$request->origin = \Backend\Models\Requests::ORIGIN_MOBILE;
+
 			$order = $data->order;
 
 			//Клиент

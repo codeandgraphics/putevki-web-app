@@ -2,7 +2,7 @@
 
 use Phalcon\Http\Response				as Response,
 	Models\Tourvisor					as Tourvisor,
-	Backend\Models\Requests				as Requests,
+	Backend\Models\Requests,
 	Backend\Models\Payments				as Payments,
 	Backend\Models\Tourists				as Tourists,
 	Backend\Models\RequestTourists		as RequestTourists,
@@ -46,6 +46,8 @@ class AjaxController extends ControllerFrontend
 		$tour = $form->tour;
 
 		$request = new Requests();
+
+		$request->origin = Requests::ORIGIN_WEB;
 
 		//Клиент
 		$request->subjectSurname		= $form->person->surname;
