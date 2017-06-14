@@ -2,24 +2,20 @@
 	<div class="hero-overlay"></div>
 	<div class="main-header">
 		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">
-					<img alt="Путевки.ру" src="/assets/img/logo.png">
-				</a>
+			<a class="brand" href="/">
+				<img alt="Путевки.ру" src="/assets/img/logo.png">
+			</a>
+			<div class="phone">
+				<div class="number">
+					<a href="tel:{{ currentCity.phone }}">{{ currentCity.phone }}</a>
+				</div>
+				служба поддержки клиентов
 			</div>
-			<div class="collapse navbar-collapse">
-				<div class="phone navbar-text">
-					<div class="number">
-						<a href="tel:{{ currentCity.phone }}">{{ currentCity.phone }}</a>
-					</div>
-					служба поддержки клиентов
-				</div>
-				<div class="request navbar-text">
-					<button class="btn btn-primary" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
-				</div>
-				<div class="location navbar-text navbar-right">
-					<i class="ion-location"></i> <a href="#" data-toggle="modal" data-target="#cityModal"><span>{{ currentCity.name }}</span><b class="caret"></b></a>
-				</div>
+			<div class="request">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
+			</div>
+			<div class="location">
+				<i class="ion-location"></i> <a href="#" data-toggle="modal" data-target="#cityModal"><span>{{ currentCity.name }}</span><b class="caret"></b></a>
 			</div>
 		</div>
 	</div>
@@ -128,19 +124,61 @@
 	</div>
 </div>
 <div class="page" id="{{ page }}">
+	<section class="block benefits" id="benefits">
+		<div class="container header">
+			<h2>Наши преимущества <span>Почему мы?</span></h2>
+		</div>
+
+		<div class="content ">
+			<div class="container">
+				<?php
+					$datetime1 = new DateTime('1997-04-01');
+					$datetime2 = new DateTime();
+					$interval = $datetime1->diff($datetime2);
+				?>
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="ion-compass"></i>
+						<a href="https://putevki.ru/o-kompanii" target="_blank">
+							Более <?=$interval->format('%y');?> лет на рынке туристических услуг
+						</a>
+					</div>
+					<div class="col-xs-6">
+						<i class="ion-card"></i>
+						<a href="https://online.putevki.ru/uniteller" target="_blank">
+							Онлайн-оплата и бронирование
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
+					</div>
+					<div class="col-xs-6">
+						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+						<i class="ion-heart"></i> Персональный подход к каждому клиенту
+					</div>
+				</div>
+			</div></div>
+
+	</section>
+
 	<section class="block popular" id="popular">
 		<div class="container header">
 			<h2>
 				Самые популярные направления
 			</h2>
-			<h2 class="second">Наши преимущества <span>Почему мы?</span></h2>
 		</div>
 
 		<div class="content">
 			<div class="container">
-				<div class="items">
+				<div class="row items">
 					{% for popular in populars %}
-						<div class="country item">
+						<div class="item col-xs-2">
 							<a href="{{ popular.url }}" target="_blank">
 								<div class="image">
 									<div class="bg" style="background-image: url('//static.tourvisor.ru/minprice/minprice-{{ popular.countryId }}-1.jpg');"></div>
@@ -154,37 +192,6 @@
 							</a>
 						</div>
 					{% endfor %}
-				</div>
-
-				<div class="our-benefits">
-					<?php
-					$datetime1 = new DateTime('1997-04-01');
-					$datetime2 = new DateTime();
-					$interval = $datetime1->diff($datetime2);
-					?>
-					<ul class="list-unstyled">
-						<li>
-							<i class="ion-compass"></i>
-							<a href="https://putevki.ru/o-kompanii" target="_blank">
-								Более <?=$interval->format('%y');?> лет на рынке туристических услуг
-							</a>
-						</li>
-						<li>
-							<i class="ion-heart"></i> Персональный подход к каждому клиенту
-						</li>
-						<li>
-							<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
-						</li>
-						<li>
-							<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
-						</li>
-						<li>
-							<i class="ion-card"></i>
-							<a href="https://online.putevki.ru/uniteller" target="_blank">
-								Онлайн-оплата и бронирование
-							</a>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>

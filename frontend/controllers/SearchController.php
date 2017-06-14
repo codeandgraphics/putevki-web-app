@@ -30,10 +30,21 @@ class SearchController extends ControllerFrontend
 		$title = 'Поиск путевок ' . $searchQuery->departure->name .
 			' &mdash; ' . $searchQuery->buildTitle() . ' на ';
 
+		$departures = Tourvisor\Departures::find([
+			'id NOT IN (:moscowId:, :spbId:, :noId:)',
+			'bind' => [
+				'moscowId'	=> 1,
+				'spbId'		=> 5,
+				'noId'		=> 99
+			],
+			'order'	=> 'name'
+		]);
+
 		$this->view->setVars([
 			'tourvisorId'	=> $searchQuery->tourvisorId,
 			'params'		=> $searchQuery,
 			'meals'			=> $meals,
+			'departures'    => $departures,
 			'title'			=> $title,
 			'page'			=> 'search'
 		]);

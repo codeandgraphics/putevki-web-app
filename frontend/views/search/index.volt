@@ -84,6 +84,21 @@
 				<div class="search-button">
 					<button class="btn btn-default">Искать туры</button>
 				</div>
+				<div class="from dropdown search" id="searchFrom">
+					<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
+					<a id="fromDropdown" href="javascript:" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<span>{{ params.departure.name_from }}</span><b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu pull-right" aria-labelledby="fromDropdown">
+						<li><a href="javascript:" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
+						<li><a href="javascript:" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
+						<li><a href="javascript:" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
+						<li role="separator" class="divider"></li>
+						{% for departure in departures %}
+							<li><a href="javascript:" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
+						{% endfor %}
+					</ul>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -195,13 +210,11 @@
 			<section class="main right">
 				<div class="steps head">
 					<ul class="list-inline">
-						<li>1. Выбор направления</li>
+						<li class="current">Выбор тура</li>
 						<li>&rarr;</li>
-						<li class="current">2. Выбор тура</li>
-						<li>&rarr;</li>
-						<li>3. Перелет и оформление</li>
+						<li>Перелет и оформление</li>
 					</ul>
-					<div class="departure">{% if params.departure.id != 99 %}Вылет из {% endif %}{{ params.departure.name_from }}</div>
+					<div class="departure"></div>
 				</div>
 				<div class="search-banners">
 				</div>
