@@ -144,6 +144,7 @@ class ApiController extends ControllerFrontend
 				'branch.cityId = city.id',
 				'branch'
 			)
+			->orderBy('city.main DESC, city.name')
 			->where('city.active = 1 AND branch.active = 1');
 
 		$cityItems = $citiesBuilder->getQuery()->execute();
