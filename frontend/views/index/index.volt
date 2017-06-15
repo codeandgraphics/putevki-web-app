@@ -126,7 +126,7 @@
 <div class="page" id="{{ page }}">
 	<section class="block benefits" id="benefits">
 		<div class="container header">
-			<h2>Наши преимущества <span>Почему мы?</span></h2>
+			<h2 style="text-align: center;">Наши преимущества</h2>
 		</div>
 
 		<div class="content ">
@@ -144,22 +144,28 @@
 						</a>
 					</div>
 					<div class="col-xs-6">
-						<i class="ion-card"></i>
-						<a href="https://online.putevki.ru/uniteller" target="_blank">
-							Онлайн-оплата и бронирование
+						<i class="ion-iphone" style="padding-left: 10px"></i>
+						<a href="#" id="mobile-promo-link">
+							Удобное мобильное приложение
 						</a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
-						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
+						<i class="ion-card"></i>
+						<a href="https://online.putevki.ru/uniteller" target="_blank">
+							Онлайн-оплата и бронирование
+						</a>
 					</div>
 					<div class="col-xs-6">
-						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
+						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-6 col-xs-offset-3">
+					<div class="col-xs-6">
+						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
+					</div>
+					<div class="col-xs-6">
 						<i class="ion-heart"></i> Персональный подход к каждому клиенту
 					</div>
 				</div>
@@ -169,7 +175,7 @@
 
 	<section class="block popular" id="popular">
 		<div class="container header">
-			<h2>
+			<h2 style="text-align: center;">
 				Самые популярные направления
 			</h2>
 		</div>
@@ -216,8 +222,8 @@
 
 	<section class="block hot" id="hot">
 		<div class="container header">
-			<h2>
-				Горящие туры <small>Самые выгодные предложения для вас!</small>
+			<h2 style="text-align: center;">
+				Горящие туры<br/><small>Самые выгодные предложения для вас!</small>
 			</h2>
 		</div>
 		<div class="content">
@@ -265,8 +271,8 @@
 
 	<section class="block map">
 		<div class="container header">
-			<h2>
-				Наши представительства <small>Более 30 филиалов по всей стране</small>
+			<h2 style="text-align: center;">
+				Наши представительства<br/><small>Более 30 филиалов по всей стране</small>
 			</h2>
 		</div>
 
