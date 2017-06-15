@@ -31,6 +31,11 @@
 					</div>
 
 					<div class="form-group">
+						<label for="addressDetails">Дополнительный адрес</label>
+						<?php echo $form->render('addressDetails', ["class"=>"form-control"]) ?>
+					</div>
+
+					<div class="form-group">
 						<label for="timetable">Время работы</label>
 						<?php echo $form->render('timetable', ["class"=>"form-control"]) ?>
 					</div>

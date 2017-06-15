@@ -142,6 +142,7 @@ class CitiesController extends ControllerBase
 		$form = new Form();
 		$form->add(new Text('name'));
 		$form->add(new Text('address'));
+		$form->add(new Text('addressDetails'));
 		$form->add(new Text('timetable'));
 		$form->add(new Text('phone'));
 		$form->add(new Text('site'));
@@ -165,6 +166,7 @@ class CitiesController extends ControllerBase
 
 			$branch->name = $this->request->getPost('name');
 			$branch->address = $this->request->getPost('address');
+			$branch->addressDetails = $this->request->getPost('addressDetails');
 			$branch->timetable = $this->request->getPost('timetable');
 			$branch->phone = $this->request->getPost('phone');
 			$branch->site = $this->request->getPost('site');
@@ -240,6 +242,7 @@ class CitiesController extends ControllerBase
 		$form = new Form($branch);
 		$form->add(new Text('name'));
 		$form->add(new Text('address'));
+		$form->add(new Text('addressDetails'));
 		$form->add(new Text('timetable'));
 		$form->add(new Text('phone'));
 		$form->add(new Text('site'));

@@ -11,6 +11,7 @@ class Branches extends BaseModel
 	public $email;
 	public $additionalEmails;
 	public $address = null;
+	public $addressDetails = null;
 	public $timetable = null;
 	public $phone = 0;
 	public $site = null;
