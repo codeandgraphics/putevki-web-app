@@ -11,7 +11,7 @@
 			<p>Все путёвки в твоём смартфоне!</p>
 
 			<a href="https://online.putevki.ru/app" class="btn btn-primary">
-				<i class="ion-iphone"></i> Скачать в App Store
+				<i class="ion-iphone"></i>&nbsp;&nbsp;Установить приложение
 			</a>
 		</div>
 

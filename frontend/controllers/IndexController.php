@@ -117,6 +117,8 @@ class IndexController extends ControllerFrontend
 
 		if($detect->isiOS()) {
 			$this->response->redirect($this->config->appStore);
+		} else if($detect->isAndroidOS()) {
+			$this->response->redirect($this->config->googlePlay);
 		} else {
 			$this->response->redirect('/');
 		}

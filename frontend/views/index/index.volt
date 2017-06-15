@@ -215,7 +215,9 @@
 				<a target="_blank" href="{{ config.appStore }}" class="appstore">
 					<img alt="Путевки.ру в App Store" src="/assets/img/app/appstore.png" />
 				</a>
-				<img class="google-play" alt="Путевки.ру в Google Play" src="/assets/img/app/google-play.png" />
+				<a target="_blank" href="{{ config.googlePlay }}" class="google-play">
+					<img alt="Путевки.ру в Google Play" src="/assets/img/app/google-play.png" />
+				</a>
 			</div>
 		</div>
 	</section>

@@ -175,5 +175,5 @@ return new \Phalcon\Config(array(
 	],
 
 	'appStore' => 'https://appsto.re/ru/FaXohb.i',
-	'googlePlay' => '',
+	'googlePlay' => 'https://play.google.com/store/apps/details?id=graphics.and.code.putevki',
 ));
