@@ -99,6 +99,7 @@ class ApiController extends ControllerFrontend
 			}
 
 			$request->tourOperatorId = $order->tour->operator;
+			$request->tourOperatorLink = $order->tour->operatorLink;
 			$request->price = $order->tour->price;
 			$request->departureId = $order->tour->from;
 
@@ -342,11 +343,15 @@ class ApiController extends ControllerFrontend
 			'tourid'		=> $tourId
 		);
 
-		$result = Utils\Tourvisor::getMethod('actdetail', $params);
+		$actdetail = Utils\Tourvisor::getMethod('actdetail', $params);
+		//$actualize = Utils\Tourvisor::getMethod('actualize', $params);
 
 		//return new JSONResponse(Error::NO_ERROR, ['result' => $result]);
 
-		return new JSONResponse(Error::NO_ERROR, ['details' => new Entities\TourDetails($result)]);
+		return new JSONResponse(Error::NO_ERROR, [
+			'details' => new Entities\TourDetails($actdetail),
+			//'actualize' => $actualize,
+		]);
 	}
 
 	public function hotelAction() {

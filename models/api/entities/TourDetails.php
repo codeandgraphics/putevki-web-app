@@ -6,6 +6,8 @@ class TourDetails
 {
 	public $flights = [];
 	public $info;
+	public $addPayments;
+	public $contents;
 	public $actualized = false;
 
 	public function __construct($details = null)
@@ -21,6 +23,9 @@ class TourDetails
 			$this->info->flags->insurance = !$details->flags->nomedinsurance;
 			$this->info->flags->flight = !$details->flags->noflight;
 			$this->info->flags->transfer = !$details->flags->notransfer;
+
+			$this->addPayments = $details->addpayments;
+			$this->contents = $details->contents;
 
 			$this->actualized = true;
 
