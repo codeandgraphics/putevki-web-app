@@ -106,73 +106,29 @@
 				</div>
 				<div class="from dropdown">
 					<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
-					<a id="fromDropdown" href="javascript:" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-						<span>{{ currentDeparture.name_from }}</span><b class="caret"></b>
+					<a id="fromDropdown" href="javascript:">
+						<span>
+							{{ currentDeparture.name_from }}
+						</span><b class="caret"></b>
+						<select title="from-select">
+							<optgroup label="Популярные">
+								<option value="1" data-gen="Москвы">из Москвы</option>
+								<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>
+								<option value="99" data-gen="Без перелета">Без перелета</option>
+							</optgroup>
+							<optgroup label="Все">
+								{% for departure in departures %}
+									<option value="{{ departure.id }}" data-gen="{{ departure.name_from }}">из {{ departure.name_from }}</option>
+								{% endfor %}
+							</optgroup>
+						</select>
 					</a>
-					<ul class="dropdown-menu pull-right" aria-labelledby="fromDropdown">
-						<li><a href="javascript:" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
-						<li><a href="javascript:" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
-						<li><a href="javascript:" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
-						<li role="separator" class="divider"></li>
-						{% for departure in departures %}
-							<li><a href="javascript:" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
-						{% endfor %}
-					</ul>
 				</div>
 			</div>
 		</form>
 	</div>
 </div>
 <div class="page" id="{{ page }}">
-	<section class="block benefits" id="benefits">
-		<div class="container header">
-			<h2 style="text-align: center;">Наши преимущества</h2>
-		</div>
-
-		<div class="content ">
-			<div class="container">
-				<?php
-					$datetime1 = new DateTime('1997-04-01');
-					$datetime2 = new DateTime();
-					$interval = $datetime1->diff($datetime2);
-				?>
-				<div class="row">
-					<div class="col-xs-6">
-						<i class="ion-compass"></i>
-						<a href="https://putevki.ru/o-kompanii" target="_blank">
-							Более <?=$interval->format('%y');?> лет на рынке туристических услуг
-						</a>
-					</div>
-					<div class="col-xs-6">
-						<i class="ion-iphone" style="padding-left: 10px"></i>
-						<a href="#" id="mobile-promo-link">
-							Удобное мобильное приложение
-						</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6">
-						<i class="ion-card"></i>
-						<a href="https://online.putevki.ru/uniteller" target="_blank">
-							Онлайн-оплата и бронирование
-						</a>
-					</div>
-					<div class="col-xs-6">
-						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6">
-						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
-					</div>
-					<div class="col-xs-6">
-						<i class="ion-heart"></i> Персональный подход к каждому клиенту
-					</div>
-				</div>
-			</div></div>
-
-	</section>
-
 	<section class="block popular" id="popular">
 		<div class="container header">
 			<h2 style="text-align: center;">
@@ -293,4 +249,54 @@
 			</div>
 		</div>
 	</section>
+	
+	<section class="block benefits" id="benefits">
+		<div class="container header">
+			<h2 style="text-align: center;">Наши преимущества</h2>
+		</div>
+
+		<div class="content ">
+			<div class="container">
+				<?php
+					$datetime1 = new DateTime('1997-04-01');
+					$datetime2 = new DateTime();
+					$interval = $datetime1->diff($datetime2);
+				?>
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="ion-compass"></i>
+						<a href="https://putevki.ru/o-kompanii" target="_blank">
+							Более <?=$interval->format('%y');?> лет на рынке туристических услуг
+						</a>
+					</div>
+					<div class="col-xs-6">
+						<i class="ion-iphone" style="padding-left: 10px"></i>
+						<a href="#" id="mobile-promo-link">
+							Удобное мобильное приложение
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="ion-card"></i>
+						<a href="https://online.putevki.ru/uniteller" target="_blank">
+							Онлайн-оплата и бронирование
+						</a>
+					</div>
+					<div class="col-xs-6">
+						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
+					</div>
+					<div class="col-xs-6">
+						<i class="ion-heart"></i> Персональный подход к каждому клиенту
+					</div>
+				</div>
+			</div></div>
+
+	</section>
+
 </div>

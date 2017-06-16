@@ -1,4 +1,4 @@
-<div class="benefits container">
+<!--<div class="benefits container">
 
 	<h2 class="centered">Онлайн-магазин Путевки.ру</h2>
 
@@ -25,8 +25,7 @@
 			</div>
 		</div>
 	</div>
-
-</div>
+</div>-->
 
 <div class="container countries">
 	<h2 class="centered">Куда поехать отдыхать?</h2>
