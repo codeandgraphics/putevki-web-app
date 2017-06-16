@@ -86,18 +86,21 @@
 				</div>
 				<div class="from dropdown search" id="searchFrom">
 					<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
-					<a id="fromDropdown" href="javascript:" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<a id="fromDropdown" href="javascript:">
 						<span>{{ params.departure.name_from }}</span><b class="caret"></b>
+						<select title="from-select">
+							<optgroup label="Популярные">
+								<option value="1" data-gen="Москвы">из Москвы</option>
+								<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>
+								<option value="99" data-gen="Без перелета">Без перелета</option>
+							</optgroup>
+							<optgroup label="Все">
+								{% for departure in departures %}
+									<option value="{{ departure.id }}" data-gen="{{ departure.name_from }}">из {{ departure.name_from }}</option>
+								{% endfor %}
+							</optgroup>
+						</select>
 					</a>
-					<ul class="dropdown-menu pull-right" aria-labelledby="fromDropdown">
-						<li><a href="javascript:" data-id="1" data-gen="Москвы">из <span>Москвы</span></a></li>
-						<li><a href="javascript:" data-id="5" data-gen="Санкт-Петербурга">из <span>Санкт-Петербурга</span></a></li>
-						<li><a href="javascript:" data-id="99" data-gen="Без перелета"><span>Без перелета</span></a></li>
-						<li role="separator" class="divider"></li>
-						{% for departure in departures %}
-							<li><a href="javascript:" data-id="{{ departure.id }}" data-gen="{{ departure.name_from }}">из <span>{{ departure.name_from }}</span></a></li>
-						{% endfor %}
-					</ul>
 				</div>
 			</div>
 		</form>
