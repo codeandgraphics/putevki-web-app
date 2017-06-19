@@ -2,6 +2,8 @@
 
 namespace Frontend\Controllers;
 
+use Models\Tourvisor\Countries;
+use Models\Tourvisor\Departures;
 use Phalcon\Mvc\Controller,
 	Models\Cities,
 	Models\Branches,
@@ -22,7 +24,7 @@ class BaseController extends Controller
 	{
 		if(array_key_exists('lastQueries', $_COOKIE))
 		{
-			$queries = unserialize($_COOKIE['lastQueries']);
+			$queries = json_decode($_COOKIE['lastQueries']);
 			if($queries)
 			{
 				$this->lastQueries = array_reverse($queries);
@@ -67,12 +69,12 @@ class BaseController extends Controller
 		}
 		$this->formRegions = implode(',', $this->formRegions);
 
-		$countries = \Models\Tourvisor\Countries::find([
+		$countries = Countries::find([
 			'active = 1',
 			'order' => 'name'
 		]);
 
-		$this->currentDeparture = \Models\Tourvisor\Departures::findFirst('id='.$this->params->departureId);
+		$this->currentDeparture = Departures::findFirst('id='.$this->params->departureId);
 
 		$this->view->setVars([
 			'branches'			=> $this->branches->toArray(),

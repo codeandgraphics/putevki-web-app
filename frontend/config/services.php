@@ -6,7 +6,7 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Dispatcher as Dispatcher;
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Session as FlashSession;
@@ -133,6 +133,6 @@ $di->set('simpleView', function() use ($config)
 {
 	$view = new Phalcon\Mvc\View\Simple();
 	$view->setViewsDir($config->backend->viewsDir);
-	$view->registerEngines(array(".volt" => 'Phalcon\Mvc\View\Engine\Volt'));
+	$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
 	return $view;
 });

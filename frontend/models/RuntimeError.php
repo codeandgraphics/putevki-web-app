@@ -2,11 +2,12 @@
 
 namespace Models;
 
-class RuntimeError extends \Phalcon\Mvc\Model 
-{
+use Phalcon\Mvc\Model;
 
+class RuntimeError extends Model
+{
 	public function initialize()
 	{
-		$this->setSource("runtimeError");
+		$this->setSource('runtimeError');
 	}
 }

@@ -2,9 +2,9 @@
 
 namespace Models\Tourvisor;
 
-use \Phalcon\Mvc\Model as Model;
+use Models\BaseModel;
 
-class Stars extends Model
+class Stars extends BaseModel
 {
 
 	public $id;

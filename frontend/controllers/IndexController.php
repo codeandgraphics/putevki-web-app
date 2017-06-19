@@ -2,10 +2,12 @@
 
 namespace Frontend\Controllers;
 
+use Backend\Models\Requests;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
 use Frontend\Models\SearchQueries;
 use Mobile_Detect;
+use Phalcon\Db;
 
 class IndexController extends BaseController
 {
@@ -29,7 +31,7 @@ class IndexController extends BaseController
 			GROUP BY s.regionId
 			ORDER BY COUNT(s.id) DESC
 			LIMIT 6
-		', \Phalcon\Db::FETCH_OBJ);
+		', Db::FETCH_OBJ);
 
 		$popularItems = [];
 		$popularCountries = [];
@@ -91,7 +93,7 @@ class IndexController extends BaseController
 		} else {
 			$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-			$request = new \Backend\Models\Requests();
+			$request = new Requests();
 
 			$this->simpleView->setVar('req', $request);
 			$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');

@@ -2,9 +2,9 @@
 
 namespace Models\Tourvisor;
 
-use \Phalcon\Mvc\Model as Model;
+use Models\BaseModel;
 
-class Departures extends Model
+class Departures extends BaseModel
 {
 
 	public $id;

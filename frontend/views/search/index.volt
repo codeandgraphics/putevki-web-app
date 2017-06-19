@@ -113,7 +113,7 @@
 		<div class="row no-gutter">
 			<aside class="sidebar left">
 				<div class="progressbar head">
-					<div class="bar" style="width:0%;"></div>
+					<div class="bar" style="width:0;"></div>
 					<div class="percent">
 						<span class="count">0</span> <span class="text">отелей найдено</span>
 					</div>

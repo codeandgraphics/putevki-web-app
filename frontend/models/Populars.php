@@ -2,6 +2,7 @@
 
 namespace Frontend\Models;
 
+use Models\Tourvisor\Regions;
 use Phalcon\Mvc\Model;
 
 class Populars extends Model
@@ -18,39 +19,11 @@ class Populars extends Model
 	
 	public function initialize()
 	{
-		$this->belongsTo('countryId', 'Models\Tourvisor\Countries', 'id', [
+		$this->belongsTo('countryId', Regions::name(), 'id', [
             'alias' => 'country'
         ]);
-		$this->belongsTo('regionId', 'Models\Tourvisor\Regions', 'id', [
+		$this->belongsTo('regionId', Regions::name(), 'id', [
             'alias' => 'region'
         ]);
 	}
-
-	public static function loadWeather($ids)
-	{
-		
-		$frontCache = new \Phalcon\Cache\Frontend\Data([
-			'lifetime'	=> 3600
-		]);
-		
-		$cache = new \Phalcon\Cache\Backend\File($frontCache, [
-			'cacheDir'	=> "../app/cache/"
-		]);
-		
-		$cacheKey = 'weather'.implode('-',$ids).'.cache';
-		$data = $cache->get($cacheKey);
-		
-		
-		if($data === null)
-		{		
-			$data = file_get_contents('http://api.openweathermap.org/data/2.5/group?id='.implode(',',$ids).'&units=metric');
-			
-			$cache->save($cacheKey, $data);
-		}
-		
-		$weather = json_decode($data);
-		
-		return $weather;
-	}
-	
 }

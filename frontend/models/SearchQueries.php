@@ -34,31 +34,31 @@ class SearchQueries extends Model
 	
 	public function initialize()
 	{	
-		$this->belongsTo('countryId', 'Models\Tourvisor\Countries', 'id', array(
+		$this->belongsTo('countryId', Tourvisor\Countries::name(), 'id', array(
             'alias' => 'country'
         ));
         
-		$this->belongsTo('regionId', 'Models\Tourvisor\Regions', 'id', array(
+		$this->belongsTo('regionId', Tourvisor\Regions::name(), 'id', array(
             'alias' => 'region'
         ));
 		
-		$this->belongsTo('departureId', 'Models\Tourvisor\Departures', 'id', array(
+		$this->belongsTo('departureId', Tourvisor\Departures::name(), 'id', array(
             'alias' => 'departure'
         ));
 
-		$this->belongsTo('hotelId', 'Models\Tourvisor\Hotels', 'id', array(
+		$this->belongsTo('hotelId', Tourvisor\Hotels::name(), 'id', array(
 			'alias' => 'hotel'
 		));
 
-		$this->belongsTo('operatorId', 'Models\Tourvisor\Operators', 'id', array(
+		$this->belongsTo('operatorId', Tourvisor\Operators::name(), 'id', array(
 			'alias' => 'operator'
 		));
 		
-		$this->belongsTo('starsId', 'Models\Tourvisor\Stars', 'id', array(
+		$this->belongsTo('starsId', Tourvisor\Stars::name(), 'id', array(
             'alias' => 'stars'
         ));
 		
-		$this->belongsTo('mealId', 'Models\Tourvisor\Meals', 'id', array(
+		$this->belongsTo('mealId', Tourvisor\Meals::name(), 'id', array(
             'alias' => 'meal'
         ));
 		
@@ -94,8 +94,9 @@ class SearchQueries extends Model
 		{
 			$this->countryId = (int) $params->country;
 
-			if(isset($params->region) && is_numeric($params->region))
+			if(isset($params->region) && is_numeric($params->region)) {
 				$this->regionId = $params->region;
+			}
 		}
 		else
 		{
@@ -200,7 +201,7 @@ class SearchQueries extends Model
 
 		$cookieTimeout = $this->getDI()->get('config')->common->cookieTimeout;
 
-		setcookie('params', serialize($this->toArray()), time() + $cookieTimeout, '/');
+		setcookie('params', json_encode($this->toArray()), time() + $cookieTimeout, '/');
 		setcookie('flight_city', $this->departureId, time() + $cookieTimeout, '/');
 
 	}
@@ -350,7 +351,7 @@ class SearchQueries extends Model
 	{
 		if(array_key_exists('params', $_COOKIE) && $_COOKIE['params'])
 		{
-			$params = (object) unserialize($_COOKIE['params']);
+			$params = (object) json_decode($_COOKIE['params']);
 
 			if(array_key_exists('flight_city', $_COOKIE))
 			{
@@ -391,7 +392,7 @@ class SearchQueries extends Model
 	{
 		if(array_key_exists('lastQueries',$_COOKIE))
 		{
-			$lastQueries = unserialize($_COOKIE['lastQueries']);
+			$lastQueries = json_decode($_COOKIE['lastQueries']);
 			$lastQueries[] = $this->buildHumanizedQuery();
 
 			if(count($lastQueries) > 3)
@@ -404,7 +405,7 @@ class SearchQueries extends Model
 			$lastQueries = [ $this->buildHumanizedQuery() ];
 		}
 
-		setcookie('lastQueries', serialize($lastQueries), time() + $this->getDI()->get('config')->common->cookieTimeout, '/');
+		setcookie('lastQueries', json_encode($lastQueries), time() + $this->getDI()->get('config')->common->cookieTimeout, '/');
 	}
 		
 	public function buildTitle()
@@ -426,27 +427,31 @@ class SearchQueries extends Model
 	{
 		$queryString = $this->departure->name . ' — ' ;
 
-		if($this->countryId)
+		if($this->countryId) {
 			$queryString .=  $this->country->name;
+		}
 
-		if($this->regionId)
+		if($this->regionId) {
 			$queryString .= ' (' . $this->region->name . ')';
+		}
 
-		if($this->hotelId)
+		if($this->hotelId) {
 			$queryString .= ' ' . $this->hotel->name . '';
+		}
 
 		$queryString .= ', ' . implode('.', array_reverse(explode('-',$this->date))); //Хз что быстрее, strtotime или это
-		$queryString .= ($this->date_range) ? ' (±2 дня)' : '';
+		$queryString .= $this->date_range ? ' (±2 дня)' : '';
 
 		$queryString .= ', ' . Text::humanize('nights', $this->nights);
-		$queryString .= ($this->nights_range) ? ' (±2 ночи)' : '';
+		$queryString .= $this->nights_range ? ' (±2 ночи)' : '';
 
 		$queryString .= ', ' . $this->adults . ' ' . Text::humanize('adults', $this->adults);
 
-		$kidsCount = count(explode('+',$this->kids));
+		$kidsCount = substr_count($this->kids, '+') + 1; // count(explode('+',$this->kids));
 
-		if($kidsCount > 0)
+		if($kidsCount > 0) {
 			$queryString .= ', ' . $kidsCount . ' ' . Text::humanize('kids', $kidsCount);
+		}
 
 		$queryString .= ', ' . $this->starsId . ' звезд и выше';
 		$queryString .= ', ' . $this->meal->name;

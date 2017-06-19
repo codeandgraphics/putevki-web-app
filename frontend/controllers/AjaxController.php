@@ -2,14 +2,15 @@
 
 namespace Frontend\Controllers;
 
-use Phalcon\Http\Response				as Response,
-	Models\Tourvisor					as Tourvisor,
-	Backend\Models\Requests,
-	Backend\Models\Payments				as Payments,
-	Backend\Models\Tourists				as Tourists,
-	Backend\Models\RequestTourists		as RequestTourists,
-	Frontend\Models\SearchQueries		as SearchQueries,
-	Backend\Controllers\EmailController	as EmailController;
+use Phalcon\Db;
+use Phalcon\Http\Response;
+use Models\Tourvisor;
+use Backend\Models\Requests;
+use Backend\Models\Payments;
+use Backend\Models\Tourists;
+use Backend\Models\RequestTourists;
+use Frontend\Models\SearchQueries;
+use Backend\Controllers\EmailController;
 
 class AjaxController extends BaseController
 {
@@ -227,13 +228,14 @@ class AjaxController extends BaseController
 		$dbRegions = $this->db->fetchAll('
 			SELECT r.name, r.id, r.countryId, c.name AS country_name FROM tourvisor_regions AS r
 			INNER JOIN tourvisor_countries AS c ON c.active = 1 AND c.id = r.countryId;
-		', \Phalcon\Db::FETCH_OBJ);
+		', Db::FETCH_OBJ);
 
 		$regions = [];
-		foreach($dbRegions as $region)
+		foreach($dbRegions as $item)
 		{
-			$region->country = $region->countryId;
-			$region->country_name = $region->country_name;
+			$region = new \stdClass();
+			$region->country = $item->countryId;
+			$region->country_name = $item->country_name;
 			$regions[] = $region;
 		}
 
@@ -326,8 +328,12 @@ class AjaxController extends BaseController
 			'type'			=> 'result'
 		];
 		
-		if(isset($_GET['page'])) $params['page'] = $_GET['page'];
-		if(isset($_GET['limit'])) $params['onpage'] = $_GET['limit'];
+		if (isset($_GET['page'])) {
+			$params['page'] = $_GET['page'];
+		}
+		if (isset($_GET['limit'])) {
+			$params['onpage'] = $_GET['limit'];
+		}
 		
 		$result = \Utils\Tourvisor::getMethod('result', $params);
 		
@@ -337,7 +343,7 @@ class AjaxController extends BaseController
 		
 		$res->status = $result->data->status;
 		
-		if(!empty($result->data->result->hotel))
+		if (!empty($result->data->result->hotel))
 		{
 			foreach($result->data->result->hotel as $hotel)
 			{
@@ -346,10 +352,12 @@ class AjaxController extends BaseController
 				$resultHotel->name = $hotel->hotelname;
 				$resultHotel->stars = $hotel->hotelstars;
 				$resultHotel->rating = $hotel->hotelrating;
-				if($hotel->isdescription) 
+				if($hotel->isdescription) {
 					$resultHotel->description = $hotel->hoteldescription;
-				if($hotel->isphoto) 
+				}
+				if($hotel->isphoto) {
 					$resultHotel->image = $hotel->picturelink;
+				}
 				$resultHotel->price = $hotel->price;
 				
 				$resultHotel->country = new \stdClass();
@@ -362,7 +370,7 @@ class AjaxController extends BaseController
 				$resultHotel->tours = $hotel->tours->tour;
 
 				$urlName = str_ireplace([' ','&'], ['_','And'], ucwords(strtolower($resultHotel->name)));
-				$resultHotel->hotelLink = "/hotel/" . $urlName . "-" . $resultHotel->id;
+				$resultHotel->hotelLink = '/hotel/' . $urlName . '-' . $resultHotel->id;
 				
 				$hotels[$hotel->hotelcode] = $resultHotel;	
 			}

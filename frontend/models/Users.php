@@ -3,15 +3,13 @@
 namespace Models;
 
 
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Message,
-	Phalcon\Mvc\Model\Relation,
-	Phalcon\Mvc\Model\Validator\InclusionIn,
-	Phalcon\Mvc\Model\Validator\Uniqueness,
-	Phalcon\Mvc\Model\Validator\Regex,
-	Phalcon\Mvc\Model\Validator\Email as EmailValidator,
-	Phalcon\Mvc\Model\Behavior\SoftDelete,
-	Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Validator\InclusionIn;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
+use Phalcon\Mvc\Model\Validator\Regex;
+use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Mvc\Model\Behavior\Timestampable;
 
 class Users extends Model
 {
@@ -60,37 +58,37 @@ class Users extends Model
 	public function validation()
 	{	
 		$this->validate(new InclusionIn(array(
-				"field"		=> "sex",
-				"domain"	=> array(self::SEX_MALE, self::SEX_FEMALE, self::SEX_UNDEFINED),
-				"message"	=> "Sex must be 1, 0 or -1"
+				'field'		=> 'sex',
+				'domain'	=> array(self::SEX_MALE, self::SEX_FEMALE, self::SEX_UNDEFINED),
+				'message'	=> 'Sex must be 1, 0 or -1'
 			)
 		));
 		
 		if($this->email)
 		{
 			$this->validate(new Uniqueness(array(
-					"field"		=> "email",
-					"message"	=> "E-mail must be unique"
+					'field'		=> 'email',
+					'message'	=> 'E-mail must be unique'
 				)
 			));
 			
 			$this->validate(new EmailValidator(array(
-					"field"		=> "email",
-					"message"	=> "Wrong e-mail format"
+					'field'		=> 'email',
+					'message'	=> 'Wrong e-mail format'
 				)
 			));
 		}
 		
 		$this->validate(new Uniqueness(array(
-				"field"		=> "phone",
-				"message"	=> "Phone must be unique"
+				'field'		=> 'phone',
+				'message'	=> 'Phone must be unique'
 			)
 		));
 		
 		$this->validate(new Regex(array(
-				"field"		=> "phone",
-				"pattern"	=> '/\+7[0-9]+/',
-				"message"	=> 'Phone must be in format +7[0-9]+'
+				'field'		=> 'phone',
+				'pattern'	=> '/\+7[0-9]+/',
+				'message'	=> 'Phone must be in format +7[0-9]+'
 			)
 		));
 		

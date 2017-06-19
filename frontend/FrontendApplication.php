@@ -180,7 +180,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		{
 			$view = new Phalcon\Mvc\View\Simple();
 			$view->setViewsDir($this->getConfig()->backend->viewsDir);
-			$view->registerEngines(array(".volt" => 'Phalcon\Mvc\View\Engine\Volt'));
+			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
 			return $view;
 		});
 	}

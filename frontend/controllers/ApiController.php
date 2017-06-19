@@ -2,6 +2,15 @@
 
 namespace Frontend\Controllers;
 
+use Backend\Models\Requests;
+use Models\Branches;
+use Models\Cities;
+use Models\Tourvisor\Countries;
+use Models\Tourvisor\Departures;
+use Models\Tourvisor\Hotels;
+use Models\Tourvisor\Meals;
+use Models\Tourvisor\Regions;
+use Models\Tourvisor\Stars;
 use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
@@ -12,6 +21,7 @@ use Models\Api\JSONResponse;
 use Models\Api\SearchQuery;
 use Models\Api\Entities;
 
+use Phalcon\Security;
 use Utils\Tourvisor as TourvisorUtils;
 
 class ApiController extends BaseController
@@ -55,10 +65,10 @@ class ApiController extends BaseController
 
 			$data = $this->request->getJsonRawBody();
 
-			$request = new \Backend\Models\Requests();
+			$request = new Requests();
 
 			// TODO: split to mobile systems
-			$request->origin = \Backend\Models\Requests::ORIGIN_MOBILE;
+			$request->origin = Requests::ORIGIN_MOBILE;
 
 			$order = $data->order;
 
@@ -115,9 +125,9 @@ class ApiController extends BaseController
 				$emailController->sendAdminNotification($request);
 
 				return new JSONResponse(Error::NO_ERROR, ['success' => true]);
-			} else {
-				return new JSONResponse(Error::API_ERROR);
 			}
+
+			return new JSONResponse(Error::API_ERROR);
 		}
 	}
 
@@ -143,9 +153,9 @@ class ApiController extends BaseController
 				'branch.*',
 				'city.*'
 			])
-			->addFrom(\Models\Cities::name(), 'city')
+			->addFrom(Cities::name(), 'city')
 			->join(
-				\Models\Branches::name(),
+				Branches::name(),
 				'branch.cityId = city.id',
 				'branch'
 			)
@@ -166,7 +176,7 @@ class ApiController extends BaseController
 		$response['cities'] = array_values($cities);
 
 		/* Departures */
-		$departures = \Models\Tourvisor\Departures::find();
+		$departures = Departures::find();
 
 		foreach ($departures as $departure) {
 			$response['departures'][] = new Entities\Departure($departure);
@@ -178,9 +188,9 @@ class ApiController extends BaseController
 				'region.*',
 				'country.*'
 			])
-			->addFrom(\Models\Tourvisor\Regions::name(), 'region')
+			->addFrom(Regions::name(), 'region')
 			->join(
-				\Models\Tourvisor\Countries::name(),
+				Countries::name(),
 				'region.countryId = country.id',
 				'country'
 			)
@@ -203,12 +213,12 @@ class ApiController extends BaseController
 
 		$response['destinations'] = array_values($response['destinations']);
 
-		$meals = \Models\Tourvisor\Meals::find();
+		$meals = Meals::find();
 		foreach($meals as $meal) {
 			$response['meal'][] = new Entities\Meal($meal);
 		}
 
-		$stars = \Models\Tourvisor\Stars::find();
+		$stars = Stars::find();
 		foreach($stars as $star) {
 			$response['stars'][] = new Entities\Star($star);
 		}
@@ -226,10 +236,9 @@ class ApiController extends BaseController
 
 		if($searchId) {
 			return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
-		} else {
-			return new JSONResponse(Error::API_ERROR);
 		}
 
+		return new JSONResponse(Error::API_ERROR);
 	}
 
 	public function initSearchSignedAction()
@@ -242,7 +251,7 @@ class ApiController extends BaseController
 
 		$string = json_encode($params);
 
-		$sec = new \Phalcon\Security();
+		$sec = new Security();
 		$serverHMAC = $sec->computeHmac($string, $this->_KEY, 'sha512');
 
 		if($serverHMAC === $sign) {
@@ -252,12 +261,12 @@ class ApiController extends BaseController
 
 			if($searchId) {
 				return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
-			} else {
-				return new JSONResponse(Error::API_ERROR);
 			}
-		} else {
-			return new JSONResponse(Error::API_AUTH_ERROR);
+
+			return new JSONResponse(Error::API_ERROR);
 		}
+
+		return new JSONResponse(Error::API_AUTH_ERROR);
 	}
 
 	public function searchStatusAction() {
@@ -272,9 +281,9 @@ class ApiController extends BaseController
 
 		if(property_exists($result, 'data') && property_exists($result->data, 'status')) {
 			return new JSONResponse(Error::NO_ERROR, ['status' => new Entities\Status($result->data->status)]);
-		} else {
-			return new JSONResponse(Error::API_ERROR);
 		}
+
+		return new JSONResponse(Error::API_ERROR);
 	}
 
 	public function searchResultAction() {
@@ -303,9 +312,9 @@ class ApiController extends BaseController
 			}
 
 			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
-		} else {
-			return new JSONResponse(Error::API_ERROR);
 		}
+
+		return new JSONResponse(Error::API_ERROR);
 	}
 
 	public function fullSearchResultAction() {
@@ -335,9 +344,9 @@ class ApiController extends BaseController
 			}
 
 			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
-		} else {
-			return new JSONResponse(Error::API_ERROR);
 		}
+
+		return new JSONResponse(Error::API_ERROR);
 	}
 
 	public function actualizeTourAction() {
@@ -377,9 +386,9 @@ class ApiController extends BaseController
 			$hotel = new Entities\HotelFull($result->data->hotel);
 			$hotel->id = (int) $hotelId;
 			return new JSONResponse(Error::NO_ERROR, ['hotel' => $hotel]);
-		} else {
-			return new JSONResponse(Error::API_ERROR);
 		}
+
+		return new JSONResponse(Error::API_ERROR);
 	}
 
 	public function hotelsAction()
@@ -401,14 +410,14 @@ class ApiController extends BaseController
 					'country.name AS countryName',
 					'region.name AS regionName'
 				])
-				->addFrom(\Models\Tourvisor\Hotels::name(), 'hotel')
+				->addFrom(Hotels::name(), 'hotel')
 				->join(
-					\Models\Tourvisor\Countries::name(),
+					Countries::name(),
 					'country.id = hotel.countryId',
 					'country'
 				)
 				->join(
-					\Models\Tourvisor\Regions::name(),
+					Regions::name(),
 					'region.id = hotel.regionId',
 					'region'
 				)
@@ -452,7 +461,7 @@ class ApiController extends BaseController
 		else
 		{
 			$content = [
-				'error'	=> "Method not exists"
+				'error'	=> 'Method not exists'
 			];
 		}
 
