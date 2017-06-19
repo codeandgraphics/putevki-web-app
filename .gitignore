@@ -30,3 +30,4 @@ Temporary Items
 composer.phar
 /vendor/
 
+node_modules/
