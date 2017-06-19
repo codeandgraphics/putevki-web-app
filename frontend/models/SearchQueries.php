@@ -90,7 +90,7 @@ class SearchQueries extends Model
 			$this->departureId = $departure->id;
 		}
 
-		if(is_numeric($params->country))
+		if(property_exists($params, 'country') && is_numeric($params->country))
 		{
 			$this->countryId = (int) $params->country;
 
@@ -198,10 +198,10 @@ class SearchQueries extends Model
 
 		$this->addLastQueries();
 
-		$cookie_timeout = $this->getDI()->get('config')->frontend->cookie_remember_timeout;
+		$cookieTimeout = $this->getDI()->get('config')->common->cookieTimeout;
 
-		setcookie('params', serialize($this->toArray()), time() + $cookie_timeout, '/');
-		setcookie('flight_city', $this->departureId, time() + $cookie_timeout, '/');
+		setcookie('params', serialize($this->toArray()), time() + $cookieTimeout, '/');
+		setcookie('flight_city', $this->departureId, time() + $cookieTimeout, '/');
 
 	}
 	
@@ -366,7 +366,7 @@ class SearchQueries extends Model
 		{
 			$config = Di::getDefault()->get('config');
 			$params = new \stdClass();
-			$params->departureId = $config->frontend->defaultFlightCity;
+			$params->departureId = $config->defaults->flightCity;
 			$params->countryId = '';
 			$params->regionId = '';
 			$params->nights = 7;
@@ -404,7 +404,7 @@ class SearchQueries extends Model
 			$lastQueries = [ $this->buildHumanizedQuery() ];
 		}
 
-		setcookie('lastQueries', serialize($lastQueries), time() + $this->getDI()->get('config')->frontend->cookie_remember_timeout, '/');
+		setcookie('lastQueries', serialize($lastQueries), time() + $this->getDI()->get('config')->common->cookieTimeout, '/');
 	}
 		
 	public function buildTitle()

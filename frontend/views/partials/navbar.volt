@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top main">
 	<div class="container">
 			<a class="brand" href="/">
-				<img alt="Путевки.ру" src="/assets/img/logo.png">
+				<img alt="Путевки.ру" src="{{ static_url() }}img/logo.png">
 			</a>
 			<div class="phone">
 				<div class="number">

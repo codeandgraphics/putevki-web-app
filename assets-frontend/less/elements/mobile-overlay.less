@@ -1,0 +1,86 @@
+.disable-scroll {
+	/* disable scrollbar on both x and y axis */
+	overflow: hidden;
+
+	/* disable scroll */
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#mobile-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 999999;
+	background: white;
+	text-align: center;
+
+	.mobile-container {
+		background: 50% no-repeat #fff;
+		background-size: cover;
+		width: 100vw;
+		height: 80%;
+		opacity: 1;
+		will-change: opacity;
+		transition: opacity .3s ease-in;
+		background-image: url('../img/hero-bg.png');
+		padding: 20px;
+	}
+
+	.border {
+		position: absolute;
+		left:0;
+		right: 0;
+		bottom: 20%;
+		border: 50vw solid #fff;
+		border-bottom: 1px solid #fff;
+		border-top: 10vw solid transparent;
+		z-index: 10002;
+	}
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 80%;
+		background-color: @color-bg-dark-alpha;
+		width: 100%;
+		z-index: 10001;
+	}
+
+	.content {
+		position: relative;
+		z-index: 10003;
+
+		.logo {
+			margin-top: 20px;
+			margin-bottom: 80px;
+		}
+
+		p {
+			color: white;
+			font-size: 20px;
+			font-weight: 300;
+			margin-bottom: 80px;
+		}
+
+		.btn {
+			width: 80%;
+			height: 44px;
+			line-height: 32px;
+		}
+	}
+
+	.close-overlay {
+		position: absolute;
+		top: 88%;
+		left: 0;
+		right: 0;
+	}
+}

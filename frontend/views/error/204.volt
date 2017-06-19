@@ -3,7 +3,7 @@
 
 <div class="error-message">
 	<div class="error">
-		<img src="/assets/img/logo_small.png" alt="Путёвки.ру">
+		<img src="{{ static_url() }}img/logo_small.png" alt="Путёвки.ру">
 		<div class="code">204</div>
 		<div class="description">Тур устарел</div>
 	</div>

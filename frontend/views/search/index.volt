@@ -313,7 +313,7 @@
 							<div class="info">
 								<div class="image">
 									<a href="#" target="_blank">
-										<div class="bg" style="background-image: url();"></div>
+										<div class="bg" style="background-image: url('');"></div>
 									</a>
 								</div>
 								<div class="price">

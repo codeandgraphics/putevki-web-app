@@ -1,11 +1,13 @@
 <?php
 
+namespace Frontend\Controllers;
+
 use Phalcon\Http\Response;
 use Phalcon\Mvc\View;
 use Backend\Models\Payments;
 use Backend\Plugins\Uniteller;
 
-class PayController extends ControllerFrontend
+class PayController extends BaseController
 {
 	public function indexAction($paymentId = 0)
 	{

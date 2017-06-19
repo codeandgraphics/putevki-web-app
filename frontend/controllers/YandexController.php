@@ -1,9 +1,11 @@
 <?php
 
+namespace Frontend\Controllers;
+
 use Phalcon\Http\Response			as Response,
 	Models\Tourvisor				as Tourvisor;
 
-class YandexController extends ControllerFrontend
+class YandexController extends BaseController
 {
 	public function indexAction()
 	{

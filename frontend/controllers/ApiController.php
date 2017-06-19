@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Controllers;
+
 use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
@@ -10,7 +12,9 @@ use Models\Api\JSONResponse;
 use Models\Api\SearchQuery;
 use Models\Api\Entities;
 
-class ApiController extends ControllerFrontend
+use Utils\Tourvisor as TourvisorUtils;
+
+class ApiController extends BaseController
 {
 	protected $_cache;
 	protected $_KEY = 'u67x9raC(Y|Mt;R|?3+1y|Vv:O|}5>r/JwBLtE>,E+y-Z>Hnf_J<<9.rkrbv~dMF';
@@ -264,7 +268,7 @@ class ApiController extends ControllerFrontend
 			'type'			=> 'status'
 		);
 
-		$result = Utils\Tourvisor::getMethod('result', $params);
+		$result = TourvisorUtils::getMethod('result', $params);
 
 		if(property_exists($result, 'data') && property_exists($result->data, 'status')) {
 			return new JSONResponse(Error::NO_ERROR, ['status' => new Entities\Status($result->data->status)]);
@@ -282,7 +286,7 @@ class ApiController extends ControllerFrontend
 			'type'			=> 'result'
 		);
 
-		$result = Utils\Tourvisor::getMethod('result', $params);
+		$result = TourvisorUtils::getMethod('result', $params);
 
 		if(
 			property_exists($result, 'data') &&
@@ -314,7 +318,7 @@ class ApiController extends ControllerFrontend
 			'onpage'        => 999
 		);
 
-		$result = Utils\Tourvisor::getMethod('result', $params);
+		$result = TourvisorUtils::getMethod('result', $params);
 
 		if(
 			property_exists($result, 'data') &&
@@ -343,7 +347,7 @@ class ApiController extends ControllerFrontend
 			'tourid'		=> $tourId
 		);
 
-		$actdetail = Utils\Tourvisor::getMethod('actdetail', $params);
+		$actdetail = TourvisorUtils::getMethod('actdetail', $params);
 		//$actualize = Utils\Tourvisor::getMethod('actualize', $params);
 
 		//return new JSONResponse(Error::NO_ERROR, ['result' => $result]);
@@ -364,7 +368,7 @@ class ApiController extends ControllerFrontend
 			'reviews'       => 1
 		);
 
-		$result = Utils\Tourvisor::getMethod('hotel', $params);
+		$result = TourvisorUtils::getMethod('hotel', $params);
 
 		if(
 			property_exists($result, 'data') &&

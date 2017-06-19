@@ -1,13 +1,11 @@
 <?php
 
-use Phalcon\Http\Response			as Response,
-	Phalcon\Mvc\View				as View,
-	Models\Tourvisor				as Tourvisor,
-	Models\Cities					as Cities,
-	Frontend\Models\SearchQueries	as SearchQueries,
-	Frontend\Models\Populars		as Populars;
+namespace Frontend\Controllers;
 
-class ExportsController extends ControllerFrontend
+use Phalcon\Mvc\View;
+use Models\Cities;
+
+class ExportsController extends BaseController
 {
 	public function testAction() {
 		$css = file_get_contents('https://online.putevki.ru/exports/css');

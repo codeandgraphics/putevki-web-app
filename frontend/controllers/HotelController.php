@@ -1,15 +1,16 @@
 <?php
 
-use Phalcon\Http\Response			as Response,
-	Models\Tourvisor				as Tourvisor,
-	Models\Cities					as Cities,
-	Frontend\Models\SearchQueries	as SearchQueries;
+namespace Frontend\Controllers;
 
-class HotelController extends ControllerFrontend
+use Models\Tourvisor;
+use Utils\Tourvisor as TourvisorUtils;
+use Utils\Text as TextUtils;
+
+class HotelController extends BaseController
 {
 	public function indexAction($name, $id)
 	{
-		$result = Utils\Tourvisor::getMethod('hotel', array(
+		$result = TourvisorUtils::getMethod('hotel', array(
 			'hotelcode'		=> $id,
 			'imgwidth'		=> 400,
 			'imgheight'		=> 260
@@ -19,7 +20,7 @@ class HotelController extends ControllerFrontend
 
 		$dbHotel = Tourvisor\Hotels::findFirst($id);
 		
-		$dbTypes = new stdClass();
+		$dbTypes = new \stdClass();
 		
 		$dbTypes->active = $dbHotel->active;
 		$dbTypes->relax = $dbHotel->relax;
@@ -35,7 +36,7 @@ class HotelController extends ControllerFrontend
 		{
 			if($value == 1)
 			{
-				$types[$key] = Utils\Text::humanize('types',$key);
+				$types[$key] = TextUtils::humanize('types',$key);
 			}
 			
 		}
@@ -44,9 +45,14 @@ class HotelController extends ControllerFrontend
 		
 		$hotel->types = $types;
 
+		if(!array_key_exists('deluxe', $hotel->types))
+		{
+			$hotel->types['deluxe'] = false;
+		}
+
 		$hotel->db = $dbHotel;
 		
-		$hotel->humanizeRating = Utils\Text::humanize('rating',$hotel->rating);
+		$hotel->humanizeRating = TextUtils::humanize('rating',$hotel->rating);
 		
 		$hotel->coord1 = str_replace(',','.',$hotel->coord1);
 		$hotel->coord2 = str_replace(',','.',$hotel->coord2);

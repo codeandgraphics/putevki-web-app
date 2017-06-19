@@ -4,7 +4,7 @@
 	</div>
 </div>
 
-<div class="page" id="hotel" data-hotelId="{{ hotelId }}">
+<div class="page" id="hotel" data-hotelId="{{ hotel.db.id }}">
 	<div class="container tour">
 		<div class="row no-gutter">
 			<section class="main left">

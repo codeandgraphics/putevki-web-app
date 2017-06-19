@@ -47,7 +47,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-2 text-center putevki">
-				<a href="https://online.putevki.ru"><img src="/assets/img/logo_small.png" alt="Путёвки.ру" style="width:150px !important;"></a><br/>
+				<a href="https://online.putevki.ru"><img src="{{ static_url() }}img/logo_small.png" alt="Путёвки.ру" style="width:150px !important;"></a><br/>
 				Интернет-магазин туров<br/>
 				2000-<?= date('Y'); ?> &copy; <a href="https://putevki.ru">putevki.ru</a>
 			</div>
@@ -58,7 +58,7 @@
 			<div class="col-xs-3">
 				<div class="partner">
 					<a href="{{ url('uniteller') }}" target="_blank">
-						<img src="{{ url() }}assets/img/uniteller.png" alt="Uniteller" style="width:150px !important;">
+						<img src="{{ static_url() }}img/uniteller.png" alt="Uniteller" style="width:150px !important;">
 					</a>
 					Все платежи защищены
 				</div>

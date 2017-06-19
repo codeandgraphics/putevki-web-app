@@ -1,14 +1,13 @@
 <?php
 
-use Phalcon\Http\Response			as Response,
-	Models\Tourvisor				as Tourvisor,
-	Models\Tourvisor\Departures		as TourvisorDepartures,
-	Models\Cities					as Cities,
-	Frontend\Models\SearchQueries	as SearchQueries,
-	Frontend\Models\Populars		as Populars;
+namespace Frontend\Controllers;
+
+use Models\Tourvisor\Departures	as TourvisorDepartures;
+use Models\Cities;
+use Frontend\Models\SearchQueries;
 use Mobile_Detect;
 
-class IndexController extends ControllerFrontend
+class IndexController extends BaseController
 {
 	public function indexAction($city = 0)
 	{

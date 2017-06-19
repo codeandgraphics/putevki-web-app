@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Controllers;
+
 use Phalcon\Http\Response				as Response,
 	Models\Tourvisor					as Tourvisor,
 	Backend\Models\Requests,
@@ -9,7 +11,7 @@ use Phalcon\Http\Response				as Response,
 	Frontend\Models\SearchQueries		as SearchQueries,
 	Backend\Controllers\EmailController	as EmailController;
 
-class AjaxController extends ControllerFrontend
+class AjaxController extends BaseController
 {
 	
     public function indexAction()
@@ -322,9 +324,9 @@ class AjaxController extends ControllerFrontend
 		if(isset($_GET['page'])) $params['page'] = $_GET['page'];
 		if(isset($_GET['limit'])) $params['onpage'] = $_GET['limit'];
 		
-		$result = Utils\Tourvisor::getMethod('result', $params);
+		$result = \Utils\Tourvisor::getMethod('result', $params);
 		
-		$res = new stdClass();
+		$res = new \stdClass();
 		
 		$hotels = [];
 		
@@ -334,7 +336,7 @@ class AjaxController extends ControllerFrontend
 		{
 			foreach($result->data->result->hotel as $hotel)
 			{
-				$resultHotel = new stdClass();
+				$resultHotel = new \stdClass();
 				$resultHotel->id = $hotel->hotelcode;
 				$resultHotel->name = $hotel->hotelname;
 				$resultHotel->stars = $hotel->hotelstars;
@@ -345,11 +347,11 @@ class AjaxController extends ControllerFrontend
 					$resultHotel->image = $hotel->picturelink;
 				$resultHotel->price = $hotel->price;
 				
-				$resultHotel->country = new stdClass();
+				$resultHotel->country = new \stdClass();
 				$resultHotel->country->id = $hotel->countrycode;
 				$resultHotel->country->name = $hotel->countryname;
 				
-				$resultHotel->region = new stdClass();
+				$resultHotel->region = new \stdClass();
 				$resultHotel->region->id = $hotel->regioncode;
 				$resultHotel->region->name = $hotel->regionname;
 				$resultHotel->tours = $hotel->tours->tour;
@@ -372,7 +374,7 @@ class AjaxController extends ControllerFrontend
 					
 				foreach($dbHotels as $dbHotel)
 				{
-					$types = new stdClass();
+					$types = new \stdClass();
 					$types->active = $dbHotel->active;
 					$types->relax = $dbHotel->relax;
 					$types->family = $dbHotel->family;
@@ -403,9 +405,9 @@ class AjaxController extends ControllerFrontend
 			'requestid'		=> $tourvisorId,
 			'type'			=> 'status'
 		);
-		$result = Utils\Tourvisor::getMethod('result', $params);
+		$result = \Utils\Tourvisor::getMethod('result', $params);
 		
-		$res = new stdClass();
+		$res = new \stdClass();
 		$res->status = $result->data->status;
 			    
 	    $response->setJsonContent($res);
@@ -463,7 +465,7 @@ class AjaxController extends ControllerFrontend
 			'tourid'		=> $tourvisorId,
 			'flights'		=> 1
 		);
-		$result = Utils\Tourvisor::getMethod('actualize', $params);
+		$result = \Utils\Tourvisor::getMethod('actualize', $params);
 	    
 	    $response->setJsonContent($result);
 
@@ -476,7 +478,7 @@ class AjaxController extends ControllerFrontend
     {
 	    $response = new Response();
 
-	    $detailData = Utils\Tourvisor::getMethod('actdetail', array(
+	    $detailData = \Utils\Tourvisor::getMethod('actdetail', array(
 		    'tourid' => $tourvisorId
 	    ));
 
@@ -496,7 +498,7 @@ class AjaxController extends ControllerFrontend
 			'imgwidth'		=> 400,
 			'imgheight'		=> 260
 		);
-		$result = Utils\Tourvisor::getMethod('hotel', $params);
+		$result = \Utils\Tourvisor::getMethod('hotel', $params);
 	    
 	    $response->setJsonContent($result);
 

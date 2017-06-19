@@ -8,7 +8,7 @@
 	<meta name="apple-itunes-app" content="app-id=1195053087">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="icon" type="image/png" href="/assets/img/yo.png">
+	<link rel="icon" type="image/png" href="{{ static_url() }}/img/yo.png">
 
 	<meta name="mobile-web-app-capable" content="yes">
 
@@ -22,27 +22,11 @@
 
 	<title>{{ title }} Путевки.ру</title>
 
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/common.min.css?v{{ version }}" />
-	{% if config.frontend.env == 'development' %}
-
-		<link rel="stylesheet/less" type="text/css" href="{{ url() }}development-assets-frontend/less/main.less" />
-		{% if page is not empty %}
-		<link rel="stylesheet/less" type="text/css" href="{{ url() }}development-assets-frontend/less/pages/{{ page }}.less" />
-		{% endif %}
-		<script>
-			less = {
-				env: "development"
-			};
-		</script>
-		<script src="{{ url() }}development-assets-frontend/js/less.min.js"></script>
-		<script>less.watch();</script>
-
-	{% else %}
-
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/putevki.min.css?v{{ version }}" />
+	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/common.min.css" />
+	
+	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />
 	{% if page is not empty %}
-	<link rel="stylesheet" type="text/css" href="{{ url() }}assets/css/{{ page }}.min.css?v{{ version }}" />
-	{% endif %}
+	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/{{ page }}.min.css" />
 	{% endif %}
 </head>
 <body>

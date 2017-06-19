@@ -65,17 +65,17 @@ class Cities extends BaseModel
 	public static function checkCity($city = null)
 	{
 		$config = Di::getDefault()->get('config');
-		$defaultCity = $config->frontend->defaultCity;
-		$defaultFlightCity = $config->frontend->defaultFlightCity;
-		$cookie_timeout = $config->frontend->cookie_remember_timeout;
+		$defaultCity = $config->defaults->city;
+		$defaultFlightCity = $config->defaults->flightCity;
+		$cookieTimeout = $config->common->cookieTimeout;
 		if($city)
 		{
 			$activeCity = self::findFirst("uri = '$city'");
 
 			if($activeCity)
 			{
-				setcookie('city', $activeCity->id, time() + $cookie_timeout, '/');
-				setcookie('flight_city', $activeCity->flight_city, time() + $cookie_timeout, '/');
+				setcookie('city', $activeCity->id, time() + $cookieTimeout, '/');
+				setcookie('flight_city', $activeCity->flight_city, time() + $cookieTimeout, '/');
 				$currentCity = $activeCity;
 			}
 			else
@@ -86,22 +86,22 @@ class Cities extends BaseModel
 				}
 				else
 				{
-					setcookie('city', $defaultCity, time() + $cookie_timeout, '/');
-					setcookie('flight_city', $defaultFlightCity, time() + $cookie_timeout, '/');
+					setcookie('city', $defaultCity, time() + $cookieTimeout, '/');
+					setcookie('flight_city', $defaultFlightCity, time() + $cookieTimeout, '/');
 					$currentCity = self::findFirst($defaultCity);
 				}
 			}
 		}
 		else
 		{
-			if($_COOKIE['city'])
+			if(array_key_exists('city', $_COOKIE) && $_COOKIE['city'])
 			{
 				$currentCity = self::findFirst($_COOKIE['city']);
 			}
 			else
 			{
-				setcookie('city', 1, time() + $cookie_timeout, '/');
-				setcookie('flight_city', 1, time() + $cookie_timeout, '/');
+				setcookie('city', 1, time() + $cookieTimeout, '/');
+				setcookie('flight_city', 1, time() + $cookieTimeout, '/');
 				$currentCity = self::findFirst(1);
 			}
 		}

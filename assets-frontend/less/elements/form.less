@@ -1,0 +1,303 @@
+.form-group{
+	.close{
+		display: none;
+		font-size: 40px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 10px 15px;
+		z-index: 101;
+	}
+}
+
+.suggestions{
+	text-transform: capitalize;
+}
+
+.popup{
+	margin-top: 10px;
+	border: none;
+	position: absolute;
+	border-radius: 0 0 10px 10px;
+	border-top: 1px solid @color-text-light;
+	top: 50px;
+	left: 0;
+	background: @color-bg;
+	z-index: 100;
+	.box-shadow(0 2px 2px 0 @color-shadow-alpha);
+	
+	padding: 0px;
+					
+	.range-checkbox{
+		margin-top: 20px;
+		padding: 10px;
+		text-align: center;
+		border-top: 1px solid @color-border;
+	}
+	
+	.kids{
+		margin-top: 20px;
+		
+		.kid{
+			border: 1px solid @color-bg-main-alpha;
+			margin: 10px;
+			padding-left: 10px;
+			border-radius: 4px;
+			height: 28px;
+			line-height: 26px;
+			
+			i{
+				float: right;
+				font-size: 24px;
+				line-height: 28px;
+				padding: 0 10px;
+				cursor: pointer;
+				
+				&:hover{
+					color: @color-main-blue;
+				}
+			}
+			
+			
+			&.template{
+				display: none;
+			}
+		}
+	}
+	.add-kids{
+		margin-top: 10px;
+		padding: 10px;
+		text-align: center;
+		border-top: 1px solid @color-border;
+		
+		.info{
+			display: none;
+			font-size: 11px;
+			color: @color-text-gray;
+		}
+	}
+	
+	&.people{
+		.selector{
+			width: 180px;
+		}
+	}
+	
+	.selector{
+		border-radius: 4px;
+		width: 160px;
+		height: 30px;
+		padding: 10px;
+		.clearfix;
+		
+		.minus,
+		.plus{
+			background: @color-bg-main-alpha;
+			color: @color-bg;
+			display: block;
+			width: 28px;
+			height: 28px;
+			border: 1px solid @color-main-blue;
+			font-size: 18px;
+			text-align: center;
+			line-height: 24px;
+			cursor: pointer;
+			
+			.user-select(none);
+			
+			&:hover{
+				background: @color-main-blue;
+				color: @color-bg;
+			}
+			
+			&.disabled{
+				background: @color-border;
+				
+				&:hover{
+					background: @color-border;
+				}
+			}
+		}
+		.minus{
+			float:left;
+			border-radius: 4px 0px 0px 4px;
+			border-right: 0;
+		}
+		.plus{
+			float:right;
+			border-radius: 0px 4px 4px 0px;
+			border-left: none;
+		}
+		
+		.param{
+			margin-left: 28px;
+			margin-right: 28px;
+			border: 1px solid @color-main-blue;
+			border-left: none;
+			border-right: none;
+			height: 28px;
+			font-size: 15px;
+			text-align: center;
+			line-height: 24px;
+		}
+	}
+	
+}
+
+.twitter-typeahead{
+	z-index: 100;
+	
+	.tt-menu{
+		background: white;
+		width: 620px;
+		margin-left: -60px;
+		border-radius: 10px 0 10px 10px;
+		border-top: 1px solid @color-text-light;
+		margin-top: 0;
+
+		.box-shadow(0 2px 2px 0 @color-shadow-alpha);
+		
+		.tt-dataset{
+			margin: 0 10px;
+
+			.clearfix;
+			
+			&+.tt-dataset{
+				border-top: 1px solid @color-border;
+			}
+			
+			h3{
+				width: 100px;
+				float: left;
+				font-size: 15px;
+				padding: 10px;
+				color: @color-text-gray;
+			}
+			.tt-suggestion{
+				overflow: hidden;
+				padding:0 7px;
+				margin-top: 2px;
+				margin-bottom: 2px;
+				margin-left: 100px;
+				height: 36px;
+				line-height: 36px;
+				
+				&:hover{
+					background: @color-bg-main-alpha;
+					border-radius: 4px;
+					color: @color-bg;
+					
+					i{
+						color: @color-bg;
+					}
+				}
+				
+				&.tt-cursor{
+					background: @color-bg-main-alpha;
+					border-radius: 4px;
+					color: @color-bg;
+					
+					i{
+						color: @color-bg;
+					}
+				}
+
+				span{
+					width: 350px;
+					float: left;
+					overflow: hidden;
+					display: inline-block;
+					text-transform: capitalize;
+				}
+
+				i{
+					width: 150px;
+					text-align: right;
+					float: right;
+					font-style: normal;
+					color: @color-text-gray;
+					font-size: 13px;
+
+					& strong{
+						font-weight: normal;
+					}
+				}
+			}
+		}
+	}
+	
+	.tt-input{
+		z-index: 101;
+	}
+	
+}
+
+.pickmeup-twitter-bootstrap{
+	margin-top: 0;
+	z-index: 100;
+	
+	&.well{
+		box-shadow: none;
+		background: @color-bg;
+		border: none;
+		border-radius: 0 0 10px 10px;
+		border-top: 1px solid @color-text-light;
+
+		.box-shadow(0 2px 2px 0 @color-shadow-alpha);
+	}
+	
+	.pmu-day-of-week{
+		color: @color-main-blue;
+	}
+	
+	nav{
+		.pmu-button{
+			&:hover{
+				color: @color-text-main !important;
+			}
+		}
+	}
+	
+	.pmu-days{
+		.pmu-button{
+		
+			.transition(all 0.1s ease);
+			
+			&:hover{
+				background: @color-bg-main-alpha !important;
+				color: @color-bg;
+				
+				.transition(all 0.1s ease);
+			}
+			&.pmu-selected{
+				background: @color-bg-main-alpha !important;
+				color: @color-bg;
+				
+				.transition(all 0.1s ease);
+			}
+		}
+	}
+	
+	
+	.pmu-sunday,
+	.pmu-saturday{
+		color: @color-main-orange;
+		
+		&.pmu-selected{
+			color: white;
+		}
+	}
+	
+	.pmu-disabled{
+		color: @color-text-light;
+	}
+	.pmu-not-in-month{
+		color: @color-text-gray;
+	}
+	
+	.range-checkbox{
+		padding: 10px;
+		text-align: center;
+		border-top: 1px solid @color-border;
+	}
+}

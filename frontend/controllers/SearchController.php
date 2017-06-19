@@ -1,10 +1,12 @@
 <?php
 
-use Phalcon\Http\Response,
-	Models\Tourvisor,
-	Frontend\Models\SearchQueries;
+namespace Frontend\Controllers;
 
-class SearchController extends ControllerFrontend
+use Phalcon\Http\Response;
+use Models\Tourvisor;
+use Frontend\Models\SearchQueries;
+
+class SearchController extends BaseController
 {
 	public function indexAction($from, $where, $date, $nights, $adults, $kids, $stars, $meal)
 	{
@@ -67,9 +69,9 @@ class SearchController extends ControllerFrontend
 		$searchQuery->fillFromParams($params);
 		$searchQuery->run();
 
-		$response = new Phalcon\Http\Response();
+		$response = new Response();
 
-		$url = $this->config->frontend->publicURL . 'hotel/' . $hotelName . '-' . $hotelId . '#tours';
+		$url = $this->url->get('hotel/' . $hotelName . '-' . $hotelId . '#tours');
 
 		$response->setHeader('Location', $url);
 
@@ -78,7 +80,7 @@ class SearchController extends ControllerFrontend
 
 	public function hotelShortAction($from, $where, $hotelName, $hotelId)
 	{
-		$response = new Phalcon\Http\Response();
+		$response = new Response();
 
 		$this->params->hotel = $hotelName . '-' . $hotelId;
 		$this->params->departure = $from;
@@ -93,7 +95,7 @@ class SearchController extends ControllerFrontend
 
 	public function shortAction($from, $where)
 	{
-		$response = new Phalcon\Http\Response();
+		$response = new Response();
 
 		$this->params->departure = $from;
 		$this->params->country = $where;

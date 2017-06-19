@@ -1,11 +1,13 @@
 <?php
 
+namespace Frontend\Controllers;
+
 use Phalcon\Mvc\Controller,
 	Models\Cities,
 	Models\Branches,
 	Frontend\Models\SearchQueries;
 
-class ControllerFrontend extends Controller
+class BaseController extends Controller
 {
 	public $currentCity;
 	public $currentDeparture;

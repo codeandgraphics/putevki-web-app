@@ -1,0 +1,163 @@
+nav.main{
+	background-color: @color-bg;
+	background-image: url(../img/top-bg.jpg);
+	background-repeat: no-repeat;
+	height: 80px;
+
+	&.affix-top {
+		opacity: 1;
+	}
+	
+	/*.brand{
+		height: auto;
+		padding: 18px 0;
+		
+		img{
+			width: auto;
+			height: 44px;
+		}
+	}
+	
+	.phone{
+		font-weight: @font-thin;
+		text-align: center;
+		width: 500px;
+
+		
+		a{
+			text-decoration: none;
+		}
+		
+		.number{
+			font-size: 20px;
+			color: @color-main-blue;
+		}
+		
+	}
+	
+	.request{
+		margin-top: 22px;
+	}
+	
+	.location{
+		padding: 10px 0;
+		font-size: 16px;
+		color: @color-main-blue;
+		
+		a{
+			font-size: 18px;
+			font-weight: @font-thin;
+			color: @color-text-main;
+			text-decoration: none;
+			border-bottom: 1px dashed @color-main-blue;
+		}
+	}*/
+
+	.brand{
+		height: auto;
+		padding: 18px 0;
+		width: 20%;
+		margin: 0;
+		float: left;
+
+		img{
+			width: auto;
+			height: 44px;
+		}
+	}
+
+	.phone{
+		margin: 16px 0 0 0;
+		font-weight: @font-thin;
+		text-align: center;
+		width: 30%;
+		float:left;
+
+		a{
+			text-decoration: none;
+		}
+
+		.number{
+			font-size: 20px;
+			color: @color-main-blue;
+		}
+
+	}
+
+	.request{
+		margin: 22px 0 0 0;
+		width: 27%;
+		min-width: 220px;
+		float:left;
+		text-align: center;
+	}
+
+	.location{
+		margin: 16px 0 0 0;
+		padding: 10px 0;
+		font-size: 16px;
+		color: @color-main-blue;
+		min-width: 200px;
+		text-align: right;
+		float:right;
+
+		a{
+			font-size: 18px;
+			font-weight: @font-thin;
+			color: @color-main-blue;
+			text-decoration: none;
+			border-bottom: 1px dashed @color-main-blue;
+		}
+	}
+}
+
+#cityModal{
+	
+	button{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+	
+	.modal-body{
+		padding: 0;
+	
+		
+		.wrap{
+			padding: 15px;
+		
+			h5{
+				margin-top: 10px;
+				margin-bottom: 10px;
+				text-decoration: none;
+				text-transform: none;
+			}
+
+			ul{
+				li{
+					a{
+						font-size: 16px;
+						
+						&.active{
+							color: @color-main-orange-light;
+						}
+						
+						&.main-city{
+							font-size: 20px;
+						}
+					}
+				}
+			}
+		}
+		
+		.message{
+			padding: 15px;
+			background: @color-bg-light;
+			color: @color-text-gray;
+			border-radius: 0px 0px 6px 6px;
+			font-size: 12px;
+		}
+		
+	}
+	
+}

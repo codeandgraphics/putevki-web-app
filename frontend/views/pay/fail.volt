@@ -6,13 +6,13 @@
 	<meta name="viewport" content="width=1230">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="icon" type="image/png" href="/assets/img/yo.png">
+	<link rel="icon" type="image/png" href="{{ static_url() }}img/yo.png">
 
 	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>{{ title }} – Путевки.ру</title>
 
-	<link rel="stylesheet" type="text/css" href="/assets/css/putevki.min.css" />
+	<link rel="stylesheet" type="text/css" href="{{ static_url() }}ss/putevki.min.css" />
 
 </head>
 <body>

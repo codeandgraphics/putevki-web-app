@@ -3,7 +3,7 @@
 	<div class="main-header">
 		<div class="container">
 			<a class="brand" href="/">
-				<img alt="Путевки.ру" src="/assets/img/logo.png">
+				<img alt="Путевки.ру" src="{{ static_url() }}img/logo.png">
 			</a>
 			<div class="phone">
 				<div class="number">
@@ -163,16 +163,16 @@
 	<section class="block mobile-promo" id="mobile-promo">
 		<div class="container">
 			<div class="promo-block">
-				<img class="mobile" alt="Путевки.ру" src="/assets/img/app/mobile.png" />
+				<img class="mobile" alt="Путевки.ру" src="{{ static_url() }}img/app/mobile.png" />
 				<div class="text">
 					<h3>Все путёвки в твоем смартфоне!</h3>
 					<p>Ищите самые выгодные цены на путёвки в любом месте,<br/>где бы вы не находились!</p>
 				</div>
-				<a target="_blank" href="{{ config.appStore }}" class="appstore">
-					<img alt="Путевки.ру в App Store" src="/assets/img/app/appstore.png" />
+				<a target="_blank" href="{{ config.defaults.appStore }}" class="appstore">
+					<img alt="Путевки.ру в App Store" src="{{ static_url() }}img/app/appstore.png" />
 				</a>
-				<a target="_blank" href="{{ config.googlePlay }}" class="google-play">
-					<img alt="Путевки.ру в Google Play" src="/assets/img/app/google-play.png" />
+				<a target="_blank" href="{{ config.defaults.googlePlay }}" class="google-play">
+					<img alt="Путевки.ру в Google Play" src="{{ static_url() }}img/app/google-play.png" />
 				</a>
 			</div>
 		</div>
@@ -201,7 +201,7 @@
 								<div class="discount">
 
 								</div>
-								<div class="bg" style="background-image: url();"></div>
+								<div class="bg" style="background-image: url('');"></div>
 							</div>
 							<div class="about">
 								<h4 class="title">

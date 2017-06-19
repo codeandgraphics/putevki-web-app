@@ -1,6 +1,8 @@
 <?php
 
-class ErrorController extends ControllerFrontend
+namespace Frontend\Controllers;
+
+class ErrorController extends BaseController
 {
 	public function error404Action()
 	{

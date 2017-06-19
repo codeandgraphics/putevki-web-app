@@ -1,10 +1,14 @@
 <?php
 
-class TourController extends ControllerFrontend
+namespace Frontend\Controllers;
+
+use Utils\Tourvisor as TourvisorUtils;
+
+class TourController extends BaseController
 {
 	public function indexAction($tourId)
 	{
-		$result = Utils\Tourvisor::getMethod('actualize', array(
+		$result = TourvisorUtils::getMethod('actualize', array(
 			'tourid'		=> $tourId,
 			'flights'		=> 1
 		));
@@ -13,7 +17,7 @@ class TourController extends ControllerFrontend
 			'tourid'		=> $tourId
 		));*/
 
-		$data = (!$result->error) ? $result->data : false ;
+		$data = (!property_exists($result, 'error') || !$result->error) ? $result->data : false ;
 
 		if($data)
 		{
