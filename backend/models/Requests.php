@@ -165,7 +165,7 @@ class Requests extends BaseModel
 	{
 	}
 
-	public function getDeleted()
+	public static function getDeleted()
 	{
 		return 'deleted';
 	}

@@ -1,13 +1,14 @@
 <?php
 
 use Phalcon\Config\Adapter\Ini as Config;
+use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
 
 
-class Application extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface {
+class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface {
 
 	const ENV_DEVELOPMENT = 'development';
 	const ENV_PRODUCTION = 'production';
@@ -33,19 +34,11 @@ class Application extends \Phalcon\Mvc\Application implements \Phalcon\Di\Inject
 			'loader',
 			'url',
 			'managers',
-			'metadata',
 			'router',
 			'session',
-			'events',
 			'db',
 			'view',
-			'acl',
-			'auth',
 			'dispatcher',
-			'crypt',
-			'logger',
-			'flash',
-			'cache'
 		];
 
 		foreach ($services as $service) {
@@ -53,6 +46,8 @@ class Application extends \Phalcon\Mvc\Application implements \Phalcon\Di\Inject
 				$this->$service();
 			}
 		}
+
+		//die();
 	}
 
 	/** Methods */
@@ -137,6 +132,17 @@ class Application extends \Phalcon\Mvc\Application implements \Phalcon\Di\Inject
 		$loader->register();
 	}
 
+	protected function session() {
+		$this->getDI()->set(
+			'session',
+			function() {
+				$session = new SessionAdapter();
+				$session->start();
+				return $session;
+			}
+		);
+	}
+
 	protected function dispatcher() {
 		$this->getDI()->set(
 			'dispatcher',
@@ -167,6 +173,14 @@ class Application extends \Phalcon\Mvc\Application implements \Phalcon\Di\Inject
 				));
 				return $volt;
 			}));
+			return $view;
+		});
+
+		$this->getDI()->set('simpleView', function()
+		{
+			$view = new Phalcon\Mvc\View\Simple();
+			$view->setViewsDir($this->getConfig()->backend->viewsDir);
+			$view->registerEngines(array(".volt" => 'Phalcon\Mvc\View\Engine\Volt'));
 			return $view;
 		});
 	}

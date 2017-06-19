@@ -24,20 +24,11 @@ if(!extension_loaded('apc') && !ini_get('apc.enabled')) {
 }
 
 try {
-	require_once APP_PATH . 'frontend/Application.php';
+	require_once APP_PATH . 'frontend/FrontendApplication.php';
 
-	$app = new Application();
+	$app = new FrontendApplication();
 	$response = $app->handle();
 	$response->send();
-
-	/*require_once APP_PATH . 'vendor/autoload.php';
-	$config = include APP_PATH . 'config/config.php';
-	include APP_PATH . 'frontend/config/loader.php';
-	include APP_PATH . 'frontend/config/services.php';
-
-	$application = new \Phalcon\Mvc\Application($di);
-
-	echo $application->handle()->getContent();*/
 
 } catch (\Exception $e) {
 	echo $e->getMessage();

@@ -98,4 +98,11 @@ $router->add(
 	]
 );
 
+$router->notFound(
+	array(
+		'controller' => 'error',
+		'action'     => 'error404'
+	)
+);
+
 return $router;

@@ -13,8 +13,13 @@ use Phalcon\Http\Response				as Response,
 
 class AjaxController extends BaseController
 {
-	
-    public function indexAction()
+
+	public function initialize()
+	{
+		$this->view->disable();
+	}
+
+	public function indexAction()
     {
 	   /* $response = new Response();
 	    
@@ -367,7 +372,7 @@ class AjaxController extends BaseController
 			if(!empty($hotelIds))
 			{			
 				$dbHotels = $this->modelsManager->createBuilder()
-					->from('Models\Tourvisor\Hotels')
+					->from(Tourvisor\Hotels::name())
 					->inWhere('id', $hotelIds)
 					->getQuery()
 					->execute();
