@@ -2,9 +2,10 @@
 
 namespace Models\Tourvisor;
 
-use Models\BaseModel as Model;
+use Models\BaseModel;
+use Phalcon\Mvc\Model;
 
-class Regions extends Model
+class Regions extends BaseModel
 {
 
 	public $id;
@@ -30,5 +31,14 @@ class Regions extends Model
 		$region->country = $this->country->format();
 
 		return $region;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Regions|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
 	}
 }

@@ -2,25 +2,25 @@
 
 namespace Frontend\Models;
 
-
 use Phalcon\Di;
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Behavior\Timestampable,
-	Models\Tourvisor,
-	Utils\Text;
+use Phalcon\Mvc\Model;
+use Models\BaseModel;
+use Models\Tourvisor;
+use Utils\Text;
 
-class SearchQueries extends Model
+
+class SearchQueries extends BaseModel
 {
 	const DELAY_TIME = 600;
 	
 	public $id;
 	public $tourvisorId;
-	public $departureId = null;
-	public $countryId = null;
-	public $regionId = null;
-	public $hotelId = null;
-	public $operatorId = null;
-	public $date = null;
+	public $departureId;
+	public $countryId;
+	public $regionId;
+	public $hotelId;
+	public $operatorId;
+	public $date;
 	public $date_range = 0;
 	public $nights = 0;
 	public $nights_range = 0;
@@ -62,7 +62,7 @@ class SearchQueries extends Model
             'alias' => 'meal'
         ));
 		
-		$this->addBehavior(new Timestampable(
+		$this->addBehavior(new Model\Behavior\Timestampable(
 			array(
 				'beforeValidationOnCreate'	=> array(
 					'field'			=> 'queryDate',
@@ -463,5 +463,14 @@ class SearchQueries extends Model
 	public function isHotelQuery()
 	{
 		return $this->_isHotelQuery;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return SearchQueries|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
 	}
 }

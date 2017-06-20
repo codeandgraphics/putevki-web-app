@@ -22,11 +22,12 @@
 
 	<title>{{ title }} Путевки.ру</title>
 
-	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/common.min.css" />
+	<!--<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/common.min.css" />
 	
 	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />
 	{% if page is not empty %}
 	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/{{ page }}.min.css" />
 	{% endif %}
+	-->
 </head>
 <body>

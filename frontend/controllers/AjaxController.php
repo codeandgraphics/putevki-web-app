@@ -20,29 +20,6 @@ class AjaxController extends BaseController
 		$this->view->disable();
 	}
 
-	public function indexAction()
-    {
-	   /* $response = new Response();
-	    
-	    $str2 = '{"ts_client_surname":"\u0412\u044f\u0437\u0435\u043c\u0441\u043a\u0438\u0439","ts_client_name":"\u0413\u0435\u043e\u0440\u0433\u0438\u0439","ts_client_otch":"\u0418\u0433\u043e\u0440\u0435\u0432\u0438\u0447","ts_client_adr":"\u0414\u0443\u0431\u043d\u0430, \u0443\u043b. \u0421\u0430\u0445\u0430\u0440\u043e\u0432\u0430 11, 21","ts_client_phone":"89263488996","ts_client_email":"msnake@avantico.ru","ts_operator_code":"23","ts_country_code":"47","ts_country_name":"\u0420\u043e\u0441\u0441\u0438\u044f","ts_departure_code":"1","ts_hotel_code":"30297","ts_hotel_name":"\u041a\u0420\u042b\u041c\u0421\u041a\u0418\u0415 \u0417\u041e\u0420\u0418","ts_flydate":"24.07.2015","ts_nights":"7","ts_tour_text":"MSK, \u041a\u0440\u044b\u043c, 05.06-22.09.15,, \u0430\/\u043a \"\u0422\u0440\u0430\u043d\u0441\u0430\u044d\u0440\u043e\"","ts_meal":"BB","ts_room":"1-\u043c\u0435\u0441\u0442\u043d\u044b\u0439 \u0432 \u0431\u043b\u043e\u043a\u0435","ts_placement":"1 \u0432\u0437\u0440\u043e\u0441\u043b\u044b\u0439","ts_adults":"1","ts_child":"0","ts_price_usd":0,"ts_tour_id":"234029608242","ts_visa_rub":0,"ts_comments":"\u041f\u0440\u0438\u0432\u0435\u0442!","ts_flight_id":0,"ts_people_count":1,"tourist_surname":["\u0412\u044f\u0437\u0435\u043c\u0441\u043a\u0438\u0439"],"tourist_name":["\u0413\u0435\u043e\u0440\u0433\u0438\u0439"],"tourist_sex":["m"],"tourist_passport_series":[""],"tourist_passport_number":["12\u21161312331"],"tourist_passport_issue_date":[0],"tourist_passport_end_date":["11.08.2010"],"tourist_birth_date":["11.08.1989"],"tourist_passport_issue_by":["\u041e\u0423\u0424\u041c\u0421 \u0414\u0443\u0431\u043d\u044b"],"tourist_birth_country":[""],"tourist_citizen":["\u0420\u043e\u0441\u0441\u0438\u044f"],"tourist_visa":[0],"ts_price_rub":23313}';
-	    
-	    $tour = json_decode($str2);
-	    $date = new \DateTime();
-	    
-		$order = new \Models\Orders();
-		$order->date = $date->format('Y-m-d H:i:s');
-		$order->tour = $tour;
-		$order->status = 1;
-		$order->save();
-		
-	    echo 'asd';
-		//$response->setJsonContent();
-	    
-	    return $response;*/
-	    
-	    echo 'asd';
-    }
-    
     public function formOnlineAction()
     {
 		$response = new Response();

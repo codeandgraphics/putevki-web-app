@@ -2,13 +2,12 @@
 
 namespace Backend\Models;
 
+use Models\BaseModel;
 use Phalcon\Di;
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Mvc\Model;
 
-class Payments extends Model
+class Payments extends BaseModel
 {
-
 	public $id;
 	public $requestId;
 	public $sum;
@@ -20,7 +19,7 @@ class Payments extends Model
 
 	public function initialize()
 	{
-		$this->addBehavior(new Timestampable(
+		$this->addBehavior(new Model\Behavior\Timestampable(
 			array(
 				'beforeCreate'  => array(
 					'field'     => 'creationDate',
@@ -29,14 +28,14 @@ class Payments extends Model
 			)
 		));
 
-		$this->belongsTo('requestId', 'Backend\Models\Requests', 'id', array(
+		$this->belongsTo('requestId', Requests::name(), 'id', array(
 			'alias' => 'request'
 		));
 	}
 
 	public function beforeSave()
 	{
-		if($this->status == 'authorized' || $this->status == 'paid')
+		if($this->status === 'authorized' || $this->status === 'paid')
 		{
 			//Send Email
 			// Utils\Email::send
@@ -49,5 +48,14 @@ class Payments extends Model
 
 	public function getOrder() {
 		return Di::getDefault()->get('config')->frontend->uniteller->orderPrefix . $this->id;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Payments|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
 	}
 }

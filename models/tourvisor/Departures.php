@@ -3,6 +3,7 @@
 namespace Models\Tourvisor;
 
 use Models\BaseModel;
+use Phalcon\Mvc\Model;
 
 class Departures extends BaseModel
 {
@@ -25,6 +26,15 @@ class Departures extends BaseModel
 		$departure->name_from = $this->name_from;
 
 		return $departure;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Departures|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
 	}
 
 }

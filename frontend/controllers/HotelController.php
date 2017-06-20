@@ -34,7 +34,7 @@ class HotelController extends BaseController
 		
 		foreach($dbTypes as $key=>$value)
 		{
-			if($value == 1)
+			if($value === 1)
 			{
 				$types[$key] = TextUtils::humanize('types',$key);
 			}
@@ -56,15 +56,6 @@ class HotelController extends BaseController
 		
 		$hotel->coord1 = str_replace(',','.',$hotel->coord1);
 		$hotel->coord2 = str_replace(',','.',$hotel->coord2);
-
-		/*$hotel->description = isset($hotel->description) ? $hotel->description : '';
-		$hotel->build = isset($hotel->build) ? $hotel->build : '';
-		$hotel->repair = isset($hotel->repair) ? $hotel->repair : '';
-		$hotel->phone = isset($hotel->phone) ? $hotel->phone : '';
-		$hotel->site = isset($hotel->site) ? $hotel->site : '';*/
-
-		//print_r($hotel);
-		//die();
 
 		$title = 'Туры в ' . $hotel->name . ' из ' . $this->currentCity->name_rod . ' на ';
 

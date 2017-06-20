@@ -6,6 +6,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\Dispatcher;
 
 
 class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface {
@@ -147,9 +148,28 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		$this->getDI()->set(
 			'dispatcher',
 			function () {
-				$dispatcher = new \Phalcon\Mvc\Dispatcher();
+				$eventsManager = $this->getDI()->getShared('eventsManager');
+				$eventsManager->attach(
+					'dispatch:beforeException',
+					function($event, $dispatcher, $exception)
+					{
+						switch ($exception->getCode()) {
+							case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+							case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+								$dispatcher->forward(
+									array(
+										'controller' => 'error',
+										'action'     => 'error404',
+									)
+								);
+								return false;
+						}
+					}
+				);
+
+				$dispatcher = new Dispatcher();
 				$dispatcher->setDefaultNamespace('Frontend\Controllers');
-				$dispatcher->setEventsManager($this->getDI()->getShared('eventsManager'));
+				$dispatcher->setEventsManager($eventsManager);
 				return $dispatcher;
 			}
 		);

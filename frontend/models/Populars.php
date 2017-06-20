@@ -8,14 +8,14 @@ use Phalcon\Mvc\Model;
 class Populars extends Model
 {	
 	public $id;
-	public $countryId = null;
-	public $regionId = null;
-	public $date = null;
+	public $countryId;
+	public $regionId;
+	public $date;
 	public $nights = 7; //TODO
-	public $people = null;
+	public $people;
 	public $active = 1;
 	
-	public $weather = null;
+	public $weather;
 	
 	public function initialize()
 	{

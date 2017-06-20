@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 	var config = ini.parse(fs.readFileSync('../config.ini', 'utf-8'));
 	var staticPath = config.app.staticPath;
 	var version = config.frontend.version;
+	var env = config.frontend.env;
 
 	var assetsPath = staticPath + version + '/';
 

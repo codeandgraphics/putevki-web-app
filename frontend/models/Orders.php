@@ -3,15 +3,13 @@
 namespace Models;
 
 
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Message,
-	Phalcon\Mvc\Model\Relation;
+use Phalcon\Mvc\Model;
 
 class Orders extends Model
 {	
 	public $id;
-	public $date = null;
-	public $tour = null;
+	public $date;
+	public $tour;
 	public $status = 0;
 	
 	public function initialize()

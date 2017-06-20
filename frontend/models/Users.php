@@ -25,7 +25,7 @@ class Users extends Model
 	public $password;
 	
 	public $name;
-	public $email = null;
+	public $email;
 	public $sex = self::SEX_UNDEFINED;
 	public $imageUrl;
 	
@@ -102,7 +102,7 @@ class Users extends Model
 	{
 		$this->id = (int) $this->id;
 		$this->sex = (int) $this->sex;
-		$this->requestCount = (int) $this->requestCount;
+		$this->requestsCount = (int) $this->requestsCount;
 		$this->smsCount = (int) $this->smsCount;
 		$this->messagesNotificationsEnabled = (int) $this->messagesNotificationsEnabled;
 		$this->commentsNotificationsEnabled = (int) $this->commentsNotificationsEnabled;

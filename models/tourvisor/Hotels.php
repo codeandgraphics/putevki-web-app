@@ -2,9 +2,10 @@
 
 namespace Models\Tourvisor;
 
-use Models\BaseModel as Model;
+use Models\BaseModel;
+use Phalcon\Mvc\Model;
 
-class Hotels extends Model
+class Hotels extends BaseModel
 {
 
 	public $id;
@@ -57,6 +58,15 @@ class Hotels extends Model
 		$hotel->deluxe = $this->deluxe;
 
 		return $hotel;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Hotels|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
 	}
 
 }
