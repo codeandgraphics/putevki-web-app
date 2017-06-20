@@ -20,14 +20,16 @@
 	{% endif %}
 	<meta name="author" content="Путевки.ру" />
 
-	<title>{{ title }} Путевки.ру</title>
+	<script type="text/javascript">
+      var env = '{{ config.frontend.env }}';
+      var version = '{{ config.frontend.version }}';
+      var branches = {{ branches|json_encode }};
+      var cities = {{ cities|json_encode }};
+      var currentCity = {{ currentCity|json_encode }};
+	</script>
 
-	<!--<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/common.min.css" />
-	
-	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />
-	{% if page is not empty %}
-	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/{{ page }}.min.css" />
-	{% endif %}
-	-->
+	<script src="{{ static_url() }}bundle.js"></script>
+
+	<title>{{ title }} Путевки.ру</title>
 </head>
 <body>

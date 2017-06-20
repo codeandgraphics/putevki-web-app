@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<form class="form-inline" method="get" id="searchForm"
+		<form class="form-inline" id="searchForm"
 			  data-departure="{{ params.departureId }}"
 			  data-country="{{ params.countryId }}"
 			  data-region="{{ params.regionId }}"
@@ -118,9 +118,9 @@
 								<option value="99" data-gen="Без перелета">Без перелета</option>
 							</optgroup>
 							<optgroup label="Все">
-								{% for departure in departures %}
+                                {% for departure in departures %}
 									<option value="{{ departure.id }}" data-gen="{{ departure.name_from }}">из {{ departure.name_from }}</option>
-								{% endfor %}
+                                {% endfor %}
 							</optgroup>
 						</select>
 					</a>
@@ -140,7 +140,7 @@
 		<div class="content">
 			<div class="container">
 				<div class="row items">
-					{% for popular in populars %}
+                    {% for popular in populars %}
 						<div class="item col-xs-2">
 							<a href="{{ popular.url }}" target="_blank">
 								<div class="image">
@@ -148,17 +148,16 @@
 								</div>
 								<div class="about">
 									<h4 class="title">
-										{{ popular.region }}
+                                        {{ popular.region }}
 									</h4>
 									<small>{{ popular.country }}</small>
 								</div>
 							</a>
 						</div>
-					{% endfor %}
+                    {% endfor %}
 				</div>
 			</div>
 		</div>
-
 	</section>
 
 	<section class="block mobile-promo" id="mobile-promo">
@@ -225,7 +224,6 @@
 				</div>
 			</div>
 		</div>
-
 	</section>
 
 	<section class="block map">
@@ -250,7 +248,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="block benefits" id="benefits">
 		<div class="container header">
 			<h2 style="text-align: center;">Наши преимущества</h2>
@@ -296,8 +294,7 @@
 						<i class="ion-heart"></i> Персональный подход к каждому клиенту
 					</div>
 				</div>
-			</div></div>
-
+			</div>
+		</div>
 	</section>
-
 </div>

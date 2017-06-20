@@ -7,7 +7,6 @@ export default class BranchesMap {
   constructor() {
     this.map = null;
     this.ymaps = global.ymaps;
-    this.$branchesMap = $('#branchesMap');
     this.$mapCities = $('#mapCities');
 
     this.city = global.currentCity;
@@ -19,7 +18,7 @@ export default class BranchesMap {
   }
 
   createMap() {
-    this.map = new this.ymaps.Map('branchesMap', {
+    this.map = new this.ymaps.Map('mainMap', {
       center: [parseFloat(this.city.lat), parseFloat(this.city.lon)],
       zoom: parseInt(this.city.zoom, 10),
       controls: ['zoomControl'],
@@ -29,6 +28,7 @@ export default class BranchesMap {
     this.map.behaviors.disable('drag');
 
     this.addBranches();
+    this.addCities();
   }
 
   addBranches() {
@@ -39,6 +39,8 @@ export default class BranchesMap {
       if (branch.email) branchText += `E-mail: <a href="mailto:${branch.email}">${branch.email}</a><br/>`;
       if (branch.timetable) branchText += `Время работы: ${branch.timetable}<br/>`;
 
+      console.log(branch.main, "1", 1);
+
       this.map.geoObjects.add(
         new global.ymaps.Placemark([parseFloat(branch.lat), parseFloat(branch.lon)], {
           balloonContentHeader: branch.name,
@@ -47,7 +49,7 @@ export default class BranchesMap {
           hintContent: branch.name,
         }, {
           iconLayout: 'default#image',
-          iconImageHref: (branch.main === 0) ? pin : partnerPin,
+          iconImageHref: (branch.main !== '0') ? pin : partnerPin,
           iconImageSize: [36, 44],
           iconImageOffset: [-18, -44],
         }),

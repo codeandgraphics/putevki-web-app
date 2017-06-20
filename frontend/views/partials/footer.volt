@@ -2,16 +2,6 @@
 
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-<script type="text/javascript">
-  var env = '{{ config.frontend.env }}';
-  var version = '{{ config.frontend.version }}';
-  var branches = {{ branches|json_encode }};
-  var cities = {{ cities|json_encode }};
-  var currentCity = {{ currentCity|json_encode }};
-</script>
-
-<script src="{{ static_url() }}bundle.js"></script>
-
 <!--
 {% if config.frontend.env == 'production' %}
 
