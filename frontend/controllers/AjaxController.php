@@ -211,6 +211,8 @@ class AjaxController extends BaseController
 		foreach($dbRegions as $item)
 		{
 			$region = new \stdClass();
+			$region->id = $item->id;
+			$region->name = $item->name;
 			$region->country = $item->countryId;
 			$region->country_name = $item->country_name;
 			$regions[] = $region;

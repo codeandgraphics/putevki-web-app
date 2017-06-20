@@ -43,16 +43,18 @@
 					</div>
 				</div>
 				<div class="where form-group">
-					<input type="text" class="form-control" placeholder="Страна, регион или отель">
+					<input title="where" class="form-control" placeholder="Страна, регион или отель">
 				</div>
 				<div class="when form-group">
 					<span class="range">± 2 дня</span>
 					<div class="value"></div>
+					<input title="when" />
 				</div>
 				<div class="length form-group popup-nights">
 					<span class="range">± 2</span>
 					<div class="value"></div>
-					<div class="popup nights hidden">
+					<div class="popup nights">
+						<i class="popup-pointer"></i>
 						<div class="selector">
 							<div class="minus">-</div>
 							<div class="plus">+</div>
@@ -66,7 +68,8 @@
 				</div>
 				<div class="people form-group popup-people" data-adults="2" data-kids="">
 					<div class="value"></div>
-					<div class="popup people hidden">
+					<div class="popup people">
+						<i class="popup-pointer"></i>
 						<div class="adults selector">
 							<div class="minus">-</div>
 							<div class="plus">+</div>
@@ -77,7 +80,7 @@
 						</div>
 						<div class="add-kids">
 							<div class="add">
-								<select>
+								<select title="kids">
 									<option value="">Добавить ребенка</option>
 									<option value="1">до 2х лет</option>
 									<option value="2">2 года</option>
@@ -107,9 +110,7 @@
 				<div class="from dropdown">
 					<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
 					<a id="fromDropdown" href="javascript:">
-						<span>
-							{{ currentDeparture.name_from }}
-						</span><b class="caret"></b>
+						<span>{{ currentDeparture.name_from }}</span><b class="caret"></b>
 						<select title="from-select">
 							<optgroup label="Популярные">
 								<option value="1" data-gen="Москвы">из Москвы</option>

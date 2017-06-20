@@ -10,6 +10,10 @@
 	}
 }
 
+.datepicker {
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 .suggestions{
 	text-transform: capitalize;
 }
@@ -18,15 +22,37 @@
 	margin-top: 10px;
 	border: none;
 	position: absolute;
-	border-radius: 0 0 10px 10px;
+	border-radius: 4px;
 	border-top: 1px solid @color-text-light;
-	top: 50px;
+	top: 62px;
 	left: 0;
 	background: @color-bg;
 	z-index: 100;
+	padding: 0;
+	opacity: 0;
+
 	.box-shadow(0 2px 2px 0 @color-shadow-alpha);
-	
-	padding: 0px;
+	.transform(translateY(8px));
+	.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
+
+	.popup-pointer {
+		position: absolute;
+		background: #fff;
+		border-top: 1px solid #dbdbdb;
+		border-right: 1px solid #dbdbdb;
+		width: 10px;
+		height: 10px;
+		left: 10px;
+		z-index: -1;
+		bottom: calc(100% - 4px);
+		.transform(rotate(315deg));
+	}
+
+	&.active {
+		opacity: 1;
+		transform: translate(0);
+		.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
+	}
 					
 	.range-checkbox{
 		margin-top: 20px;
@@ -148,17 +174,51 @@
 	z-index: 100;
 	
 	.tt-menu{
+		position: relative;
 		background: white;
 		width: 620px;
-		margin-left: -60px;
-		border-radius: 10px 0 10px 10px;
+		margin-left: 0;
+		border-radius: 4px;
 		border-top: 1px solid @color-text-light;
-		margin-top: 0;
+		margin-top: 14px;
+		opacity: 0;
+		display: block !important;
+
+		&:before {
+			content: ' ';
+			position: absolute;
+			background: #fff;
+			border-top: 1px solid #dbdbdb;
+			border-right: 1px solid #dbdbdb;
+			width: 10px;
+			height: 10px;
+			left: 10px;
+			top: -6px;
+			z-index: -1;
+			bottom: calc(100% - 4px);
+
+			.transform(rotate(315deg));
+		}
+
+		.transform(translateY(8px));
+		.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
+
+		&.tt-open {
+			opacity: 1;
+			.transform(translate(0));
+			.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
+		}
+
+		&.tt-empty {
+			opacity: 0;
+			min-height: 10px;
+		}
 
 		.box-shadow(0 2px 2px 0 @color-shadow-alpha);
 		
 		.tt-dataset{
-			margin: 0 10px;
+			margin: 0;
+			padding: 0 3px 0 10px;
 
 			.clearfix;
 			
@@ -170,7 +230,7 @@
 				width: 100px;
 				float: left;
 				font-size: 15px;
-				padding: 10px;
+				padding: 10px 0;
 				color: @color-text-gray;
 			}
 			.tt-suggestion{
@@ -211,10 +271,11 @@
 				}
 
 				i{
-					width: 150px;
+					width: 128px;
 					text-align: right;
 					float: right;
 					font-style: normal;
+					font-weight: normal;
 					color: @color-text-gray;
 					font-size: 13px;
 
