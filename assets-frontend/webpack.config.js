@@ -8,6 +8,10 @@ const staticPath = config.app.staticPath;
 const version = config.frontend.version;
 const env = config.frontend.env;
 
+const publicPath = '//' +
+  config.app.staticDomain +
+  config.frontend.staticUri.replace('%version%', version);
+
 const assetsPath = `${staticPath + version}/`;
 
 module.exports = {
@@ -15,6 +19,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: assetsPath,
+    publicPath: publicPath,
   },
   plugins: [
     new webpack.ProvidePlugin({

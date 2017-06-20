@@ -25,6 +25,8 @@
 		"bootstrap": "^3.3.7",
 		"bootstrap-webpack": "^0.0.6",
 		"jquery": "^3.2.1",
-		"moment": "^2.18.1"
+		"jquery.scrollto": "^2.1.2",
+		"moment": "^2.18.1",
+		"typeahead.js": "^0.11.1"
 	}
 }
