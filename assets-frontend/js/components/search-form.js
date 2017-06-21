@@ -433,7 +433,7 @@ export default class SearchForm {
     const limits = this.limits.people;
     let adults = this.data.people.adults;
     const kids = this.data.people.children;
-    let people = adults;
+    let people = parseInt(adults, 10);
     if (kids.length) people += kids.length;
 
     const $popup = this.$.people.find('.popup');
@@ -466,7 +466,7 @@ export default class SearchForm {
     this.setText('people', people);
 
     for (let i = 0; i < kids.length; i += 1) {
-      const $kid = SearchForm.createKid($kidTemplate, Humanize('age', kids[i]), kids[i], kidDelete);
+      const $kid = SearchForm.createKid($kidTemplate, Humanize.age(kids[i]), kids[i], kidDelete);
 
       this.$.people.find('.kids').append($kid);
     }
@@ -594,10 +594,9 @@ export default class SearchForm {
         $.getJSON(`${this.endpoint}search/`, {
           params: data,
         }, (res) => {
-          console.log(res);
-          /*if (res.url) {
+          if (res.url) {
             window.location.href = res.url;
-          }*/
+          }
         });
       }
 
@@ -693,10 +692,10 @@ export default class SearchForm {
   }
 
   static nightsToRange(from, to) {
-    const range = (from === to);
+    const range = (from !== to);
     return {
       range,
-      nights: range ? from : (from - to) / 2,
+      nights: range ? from + DATE_RANGE : parseInt(from, 10),
     };
   }
 

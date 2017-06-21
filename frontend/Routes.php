@@ -64,7 +64,7 @@ $router->add(
 	]
 );
 $router->add(
-	'/search/hotel/{from}/{where}/{hotelName}-{id:[0-9]+}',
+	'/search/hotel/{from}/{where}/{hotelName}-{hotelId:[0-9]+}',
 	[
 		'controller' => 'search',
 		'action'     => 'hotelShort',
@@ -78,21 +78,21 @@ $router->add(
 	]
 );
 $router->add(
-	'/search/{from}/{where}/{date}/{nights}/{adults}/{kids}/{starsbetter}/{mealbetter}',
+	'/search/{from}/{where}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
 		'action'     => 'index',
 	]
 );
 $router->add(
-	'/search/hotel/{from}/{where}/{hotelName}-{id:[0-9]+}/{date}/{nights}/{adults}/{kids}/{starsbetter}/{mealbetter}',
+	'/search/hotel/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
 		'action'     => 'hotel',
 	]
 );
 $router->add(
-	'/search/{from}/{where}/{hotelName}-{id:[0-9]+}/{date}/{nights}/{adults}/{kids}/{starsbetter}/{mealbetter}',
+	'/search/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
 		'action'     => 'hotel',

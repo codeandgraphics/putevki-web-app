@@ -2,34 +2,30 @@
 
 namespace Frontend\Controllers;
 
+use Frontend\Models\Params;
+use Models\Api\SearchQuery;
 use Phalcon\Http\Response;
 use Models\Tourvisor;
 use Frontend\Models\SearchQueries;
 
 class SearchController extends BaseController
 {
-	public function indexAction($from, $where, $date, $nights, $adults, $kids, $stars, $meal)
+	public function indexAction()
 	{
-		$params = new \stdClass();
-		$params->from = $from;
-		$params->where = $where;
-		$params->date = $date;
-		$params->nights = $nights;
-		$params->adults = $adults;
-		$params->kids = $kids;
-		$params->stars = $stars;
-		$params->meal = $meal;
-		
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
-		$searchQuery->run();
+	    $params = Params::getInstance();
+	    $params->search->fromDispatcher($this->dispatcher);
+	    $params->store();
+
+	    $searchQuery = new SearchQuery();
+	    $searchQuery->fromParams($params->search);
+	    $searchId = $searchQuery->run();
 
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
 		]);
 
-		$title = 'Поиск путевок ' . $searchQuery->departure->name .
-			' &mdash; ' . $searchQuery->buildTitle() . ' на ';
+		// $title = 'Поиск путевок ' . $searchQuery->departure->name .
+		//	' &mdash; ' . $searchQuery->buildTitle() . ' на ';
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
@@ -42,8 +38,8 @@ class SearchController extends BaseController
 		]);
 
 		$this->view->setVars([
-			'tourvisorId'	=> $searchQuery->tourvisorId,
-			'params'		=> $searchQuery,
+			'tourvisorId'	=> $searchId,
+			'params'		=> $params,
 			'meals'			=> $meals,
 			'departures'    => $departures,
 			'title'			=> $title,

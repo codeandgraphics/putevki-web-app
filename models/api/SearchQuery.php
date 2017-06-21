@@ -1,6 +1,7 @@
 <?php
 namespace Models\Api;
 
+use Frontend\Models\SearchParams;
 use Models\Api\Entities\Filters;
 use Models\Api\Entities\People;
 use Models\Api\Entities\When;
@@ -33,11 +34,23 @@ class SearchQuery
 		}
 	}
 
+    /**
+     * @param $params SearchParams
+     */
+    public function fromParams($params) {
+	    $this->from = $params->from;
+	    $this->where = $params->where;
+	    $this->when = $params->when;
+	    $this->people = $params->people;
+	    $this->filters = $params->filters;
+    }
+
 	public function run()
 	{
 		$existed = MobileSearchQuery::checkExists($this);
 
 		// $existed = false;
+        var_dump($this);
 
 		if(!$existed) {
 			$response = Tourvisor::getMethod('search', $this->buildTourvisorQuery());

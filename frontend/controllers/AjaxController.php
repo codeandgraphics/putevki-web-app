@@ -412,7 +412,6 @@ class AjaxController extends BaseController
 
     public function searchAction()
     {
-        echo '<pre />';
 	    $response = new Response();
 
         $formParams = (object) $this->request->get('params');

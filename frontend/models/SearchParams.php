@@ -11,6 +11,7 @@ use Models\Tourvisor\Departures;
 use Models\Tourvisor\Hotels;
 use Models\Tourvisor\Regions;
 use Phalcon\Di;
+use Phalcon\Mvc\Dispatcher;
 
 class SearchParams {
     public $from;
@@ -49,18 +50,32 @@ class SearchParams {
 
     public function fromStored($object) {
         $this->from = $object->from ? : (int) $this->config->defaults->from;
-        $this->where->fromStored($object->where);
-        $this->when->fromStored($object->when);
-        $this->people->fromStored($object->people);
-        $this->filters->fromStored($object->filters);
+        $this->where->fromStored((object) $object->where);
+        $this->when->fromStored((object) $object->when);
+        $this->people->fromStored((object) $object->people);
+        $this->filters->fromStored((object) $object->filters);
     }
 
     public function fromSearchForm($object) {
         $this->from = $object->from ? : $this->from;
-        $this->where->fromStored($object->where);
-        $this->when->fromStored($object->when);
-        $this->people->fromStored($object->people);
-        $this->filters->fromStored($object->filters);
+        $this->where->fromStored((object) $object->where);
+        $this->when->fromStored((object) $object->when);
+        $this->people->fromStored((object) $object->people);
+        $this->filters->fromStored((object) $object->filters);
+    }
+
+    /**
+     * @param $dispatcher Dispatcher
+     */
+    public function fromDispatcher($dispatcher) {
+        $from = $dispatcher->getParam('from');
+        $fromEntity = Departures::findFirst("name='$from'");
+        $this->from = $fromEntity ? (int) $fromEntity->id : $this->from;
+
+        $this->whereFromQuery($dispatcher->getParam('where'), $dispatcher->getParam('hotelId'));
+        $this->whenFromQuery($dispatcher->getParam('date'), $dispatcher->getParam('nights'));
+        $this->peopleFromQuery($dispatcher->getParam('adults'), $dispatcher->getParam('children'));
+        $this->filtersFromQuery($dispatcher->getParam('stars'), $dispatcher->getParam('meal'));
     }
 
     public function buildQueryString()
@@ -81,10 +96,10 @@ class SearchParams {
         }
 
         $queryString .= $this->when->isDateRange() ? '/~' : '/';
-        $queryString .= implode('.', array_reverse(explode('.',$this->when->dateTo))); //Хз что быстрее, strtotime или это
+        $queryString .= $this->when->isDateRange() ? $this->when->notRangeDate() : $this->when->dateFrom;
 
         $queryString .= $this->when->isNightsRange() ? '/~' : '/';
-        $queryString .= $this->when->nightsFrom;
+        $queryString .= $this->when->isNightsRange() ? $this->when->notRangeNights() : $this->when->nightsFrom;
 
         $queryString .= '/' . $this->people->adults;
         $queryString .= '/' . $this->people->getChildrenString();
@@ -98,7 +113,6 @@ class SearchParams {
     public function isHotelQuery() {
         return (bool) $this->where->hotels;
     }
-
 
     public function fromEntity() {
         return Departures::findFirst("id='$this->from'");
@@ -114,6 +128,80 @@ class SearchParams {
 
     public function hotelEntity() {
         return Hotels::findFirst("id='" . $this->where->hotels . "'");
+    }
+
+    private function whereFromQuery($where, $hotelId) {
+        preg_match_all('/\((.*?)\)/', $where, $matches);
+
+        $regionName = false;
+
+        if($matches[1])
+        {
+            $regionName = $matches[1][0] ?: false;
+        }
+
+        if($regionName)
+        {
+            $region = Regions::findFirst("name='$regionName'");
+            if($region)
+            {
+                $this->where->country = (int) $region->countryId;
+                $this->where->regions = [(int) $region->id];
+            }
+        }
+        else
+        {
+            $countryName = $where;
+            $country = Countries::findFirst("name='$countryName'");
+            if($country)
+            {
+                $this->where->country = (int) $country->id;
+                $this->where->regions = [];
+            }
+        }
+
+        $this->where->hotels = $hotelId ? : null;
+    }
+
+    private function whenFromQuery($date, $nights) {
+        if(strpos($date,'~') === 0)
+        {
+            $date = \DateTime::createFromFormat('d.m.Y', str_replace('~', '', $date));
+            $this->when->dateFrom = $date->sub(new \DateInterval('P' . When::DATE_RANGE . 'D'))->format('d.m.Y');
+            $this->when->dateTo = $date->add(new \DateInterval('P' . (When::DATE_RANGE * 2) . 'D'))->format('d.m.Y');
+        } else {
+            $this->when->dateFrom = $date;
+            $this->when->dateTo = $date;
+        }
+
+        if(strpos($nights,'~') === 0)
+        {
+            $nights = str_replace('~', '', $nights);
+            $this->when->nightsFrom = $nights - When::NIGHTS_RANGE;
+            $this->when->nightsTo = $nights + When::NIGHTS_RANGE;
+        } else {
+            $this->when->nightsFrom = (int) $nights;
+            $this->when->nightsTo = (int) $nights;
+        }
+    }
+
+    private function peopleFromQuery($adults, $children) {
+        if($adults) {
+            $this->people->adults = $adults;
+        }
+
+        if($children) {
+            $this->people->children = explode(People::CHILDREN_SEPARATOR, $children);
+        }
+    }
+
+    private function filtersFromQuery($stars, $meal) {
+        if($stars) {
+            $this->filters->stars = $stars;
+        }
+        if($meal) {
+            $this->filters->meal = $meal;
+        }
     }
 
     private function defaultWhere() {

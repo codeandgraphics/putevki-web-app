@@ -3,11 +3,13 @@ namespace Models\Api\Entities;
 
 class When {
 
+    const DATE_RANGE = 2;
+    const NIGHTS_RANGE = 2;
+
 	public $dateFrom;
 	public $dateTo;
 	public $nightsFrom;
 	public $nightsTo;
-
 
 	public function __construct($when = null)
 	{
@@ -30,6 +32,15 @@ class When {
 
 	public function isDateRange() {
 	    return $this->dateFrom !== $this->dateTo;
+    }
+
+    public function notRangeDate() {
+	    $date = \DateTime::createFromFormat('d.m.Y', $this->dateFrom);
+	    return $date->add(new \DateInterval('P' . self::DATE_RANGE . 'D'))->format('d.m.Y');
+    }
+
+    public function notRangeNights() {
+	    return $this->nightsFrom + self::NIGHTS_RANGE;
     }
 
     public function isNightsRange() {
