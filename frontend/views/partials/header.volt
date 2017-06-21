@@ -23,6 +23,7 @@
 	<script type="text/javascript">
       var env = '{{ config.frontend.env }}';
       var version = '{{ config.frontend.version }}';
+      var route = '{{ page }}';
       var branches = {{ branches|json_encode }};
       var cities = {{ cities|json_encode }};
       var currentCity = {{ currentCity|json_encode }};

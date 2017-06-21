@@ -10,7 +10,6 @@ class SearchController extends BaseController
 {
 	public function indexAction($from, $where, $date, $nights, $adults, $kids, $stars, $meal)
 	{
-
 		$params = new \stdClass();
 		$params->from = $from;
 		$params->where = $where;

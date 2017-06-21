@@ -1,18 +1,15 @@
-<form class="form-inline" action="" method="get" id="searchForm"
-      data-departure="{{ params.departureId }}"
-      data-country="{{ params.countryId }}"
-      data-region="{{ params.regionId }}"
-      data-date="<?=implode('.', array_reverse(explode('-',$params->date)));?>"
-      data-date-range="{{ params.date_range }}"
-      data-nights="{{ params.nights }}"
-      data-nights-range="{{ params.nights_range }}"
-      data-adults="{{ params.adults }}"
-      data-kids="{{ params.kids }}"
-      data-stars="{{ params.starsId }}"
-      data-meal="{{ params.mealId }}"
+<form class="form-inline search-form" id="searchForm"
       data-countries="{{ formCountries }}"
       data-regions="{{ formRegions }}"
+      data-from="{{ params.search.from }}"
+      data-where='{{ params.search.where|json_encode }}'
+      data-when='{{ params.search.when|json_encode }}'
+      data-people='{{ params.search.people|json_encode }}'
+      data-filters='{{ params.search.filters|json_encode }}'
 >
+    {% if page === 'main' %}
+    <h1 class="title">Куда бы вы хотели поехать?</h1>
+    {% endif %}
     <div class="search-form">
         <div class="loader">
             <div class="wrap">
@@ -20,7 +17,7 @@
             </div>
         </div>
         <div class="where form-group">
-            <input type="text" class="form-control" placeholder="Страна, регион или отель">
+            <input title="where" class="form-control" placeholder="Страна, регион или отель">
         </div>
         <div class="when form-group">
             <span class="range">± 2 дня</span>
@@ -30,32 +27,33 @@
         <div class="length form-group popup-nights">
             <span class="range">± 2</span>
             <div class="value"></div>
-            <div class="popup nights hidden">
+            <div class="popup nights">
+                <i class="popup-pointer"></i>
                 <div class="selector">
-                    <div class="minus">-</div>
+                    <div class="minus">–</div>
                     <div class="plus">+</div>
-                    <div class="param"></div>
                 </div>
                 <div class="range-checkbox">
-                    <input type="checkbox" id="nights-range-days" value="1" name="nights-range-days" checked>
+                    <input type="checkbox" id="nights-range-days" checked>
                     <label for="nights-range-days">± 2 ночи</label>
                 </div>
             </div>
         </div>
         <div class="people form-group popup-people">
             <div class="value"></div>
-            <div class="popup people hidden">
+            <div class="popup people">
+                <i class="popup-pointer"></i>
                 <div class="adults selector">
                     <div class="minus">-</div>
                     <div class="plus">+</div>
-                    <div class="param"></div>
+                    <div class="param"><span></span> <i class="ion-man"></i></div>
                 </div>
                 <div class="kids">
                     <div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
                 </div>
                 <div class="add-kids">
                     <div class="add">
-                        <select>
+                        <select title="kids">
                             <option value="">Добавить ребенка</option>
                             <option value="1">до 2х лет</option>
                             <option value="2">2 года</option>
@@ -82,10 +80,10 @@
         <div class="search-button">
             <button class="btn btn-default">Искать туры</button>
         </div>
-        <div class="from dropdown search" id="searchFrom">
-            <span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
+        <div class="from dropdown{% if page === 'search' %} search{% endif %}">
+            <span class="from-text"{% if departure.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
             <a id="fromDropdown" href="javascript:">
-                <span>{{ params.departure.name_from }}</span><b class="caret"></b>
+                <span>{{ departure.name_from }}</span><b class="caret"></b>
                 <select title="from-select">
                     <optgroup label="Популярные">
                         <option value="1" data-gen="Москвы">из Москвы</option>
@@ -93,8 +91,8 @@
                         <option value="99" data-gen="Без перелета">Без перелета</option>
                     </optgroup>
                     <optgroup label="Все">
-                        {% for departure in departures %}
-                            <option value="{{ departure.id }}" data-gen="{{ departure.name_from }}">из {{ departure.name_from }}</option>
+                        {% for item in departures %}
+                            <option value="{{ item.id }}" data-gen="{{ item.name_from }}">из {{ item.name_from }}</option>
                         {% endfor %}
                     </optgroup>
                 </select>

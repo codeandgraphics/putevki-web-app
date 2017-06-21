@@ -3,6 +3,7 @@
 namespace Models;
 
 use Phalcon\Di;
+use Phalcon\Mvc\Model;
 use \Utils\Morpher;
 
 class Cities extends BaseModel
@@ -61,6 +62,14 @@ class Cities extends BaseModel
 
 		return $messages;
 	}
+
+    /**
+     * @param $uri
+     * @return Cities|Model
+     */
+    public static function findFirstByUri($uri) {
+	    return self::findFirst("uri = '$uri'");
+    }
 
 	public static function checkCity($city = null)
 	{

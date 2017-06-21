@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import moment from 'moment';
+import 'ion-rangeslider';
+import 'sticky-kit/dist/sticky-kit';
 
 import { IS_DEV } from '../../app';
 import { isScrolledIntoView } from '../utils/helpers';
@@ -133,7 +135,7 @@ export default class Search {
         if (IS_DEV) console.log(`[ПОИСК] Нашел туры, получаем первые результаты. Прошло с начала: ${new Date() - self.startDate}мс`);
 
         this.getResults(this.first.hotelsTotal, (data) => {
-          if (IS_DEV) console.log(`[ПОИСК] Получили первые результаты, ${this.first.hotelsTotal}${Humanize('hotelsText', status.hotelsfound)}. Прошло с начала: ${new Date() - this.startDate}мс`);
+          if (IS_DEV) console.log(`[ПОИСК] Получили первые результаты, ${this.first.hotelsTotal}${Humanize.hotelsFound(status.hotelsfound)}. Прошло с начала: ${new Date() - this.startDate}мс`);
 
           this.first.hotels = data.hotels;
           this.renderFirst();
@@ -230,13 +232,13 @@ export default class Search {
           .find('.cheaper-found')
           .show()
           .find('.price-found')
-          .text(`${Humanize('price', priceDiff)} р.`);
+          .text(`${Humanize.price(priceDiff)} р.`);
       } else {
         this.$.process
           .find('.other-found')
           .show()
           .find('.price-found')
-          .text(`${Humanize('price', this.all.minPrice)} р.`);
+          .text(`${Humanize.price(this.all.minPrice)} р.`);
       }
 
       this.$.process.show(300);
@@ -353,7 +355,7 @@ export default class Search {
 
     if (hotel.hotelrating !== 0) {
       $item.find('.review strong').text(hotel.rating);
-      $item.find('.review span').text(Humanize('rating', hotel.rating));
+      $item.find('.review span').text(Humanize.rating(hotel.rating));
     } else {
       $item.find('.review').hide();
     }
@@ -398,11 +400,11 @@ export default class Search {
 
         $variant.attr('data-price', tour.price);
 
-        $variant.find('.price a').text(`${Humanize('price', tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
+        $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
 
         const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
         $variant.find('.date span').text(dateTo.format('D MMMM'));
-        $variant.find('.date small').text(Humanize('nights', tour.nights));
+        $variant.find('.date small').text(Humanize.nights(tour.nights));
 
         $variant.find('.room span').text(tour.room);
 
@@ -418,7 +420,7 @@ export default class Search {
     // Min price
     const tour = tours[0];
 
-    $item.find('.sum .order').text(`${Humanize('price', tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
+    $item.find('.sum .order').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
 
     if (tour.price < this.filters.params.minPrice) {
       this.filters.params.minPrice = parseInt(tour.price, 10);
@@ -431,7 +433,7 @@ export default class Search {
 
     const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
     $item.find('.icons .date span').text(dateTo.format('D MMMM'));
-    $item.find('.icons .date small').text(Humanize('nights', tour.nights));
+    $item.find('.icons .date small').text(Humanize.nights(tour.nights));
     $item.find('.icons .room span').text(tour.room);
     $item.find('.icons .meal span').text(tour.mealrussian);
 
@@ -448,7 +450,7 @@ export default class Search {
 
   bindFiltersActions() {
     const params = this.filters.params;
-    const $stars = self.$.params.find('.stars');
+    const $stars = this.$.params.find('.stars');
 
     this.$.search.find('.sidebar .content').stick_in_parent({
       offset_top: 80,
@@ -466,7 +468,7 @@ export default class Search {
       return false;
     });
 
-    const $meals = self.$params.find('.meals');
+    const $meals = this.$.params.find('.meals');
 
     $meals.find('a').on('click', (e) => {
       const $el = $(e.target);
@@ -481,7 +483,7 @@ export default class Search {
     });
 
 
-    self.$filters.find('#types input').on('change', (e) => {
+    this.$.filters.find('#types input').on('change', (e) => {
       const $el = $(e.target);
       const checked = $el.is(':checked');
       const type = $el.val();
@@ -527,7 +529,7 @@ export default class Search {
       to: 0,
       postfix: ' р.',
       hide_min_max: true,
-      onFinish(data) {
+      onFinish: (data) => {
         this.filterPrice(data.from, data.to);
       },
     });
@@ -536,7 +538,7 @@ export default class Search {
   }
 
   filterPrice(from, to) {
-    this.$items.find('.item:not(.template)').addClass('hiddenPrice').each((i, item) => {
+    this.$.items.find('.item:not(.template)').addClass('hiddenPrice').each((i, item) => {
       const price = parseInt($(item).attr('data-price'), 10);
 
       if (price >= from && price <= to) { $(item).removeClass('hiddenPrice'); }
@@ -552,10 +554,10 @@ export default class Search {
 
   rebuildFilters() {
     this.priceSlider.update({
-      min: self.filters.params.minPrice,
-      max: self.filters.params.maxPrice,
-      from: self.filters.params.minPrice,
-      to: self.filters.params.maxPrice,
+      min: this.filters.params.minPrice,
+      max: this.filters.params.maxPrice,
+      from: this.filters.params.minPrice,
+      to: this.filters.params.maxPrice,
     });
   }
 }

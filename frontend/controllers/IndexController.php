@@ -3,6 +3,7 @@
 namespace Frontend\Controllers;
 
 use Backend\Models\Requests;
+use Frontend\Models\Params;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
 use Frontend\Models\SearchQueries;
@@ -11,17 +12,8 @@ use Phalcon\Db;
 
 class IndexController extends BaseController
 {
-	public function indexAction($city = 0)
+	public function indexAction()
 	{
-		if($city !== '')
-		{
-			Cities::checkCity($city);
-
-			$this->response->redirect('/');
-		}
-
-		$this->view->setVar('currentCity', $this->currentCity);
-
 		$regions = $this->db->fetchAll('
 			SELECT r.id AS id, r.name AS name, c.name AS country_name, c.id as country_id
 			FROM search_queries AS s
@@ -67,12 +59,12 @@ class IndexController extends BaseController
 		]);
 
 		$add = '';
-		if($this->currentCity->name_rod != $this->currentCity->departure->name_from)
+		if($this->city->name_rod !== $this->city->departure->name_from)
 		{
-			$add = ' с вылетом из ' . $this->currentCity->departure->name_from;
+			$add = ' с вылетом из ' . $this->city->departure->name_from;
 		}
 
-		$title = 'Туры из ' . $this->currentCity->name_rod . $add . ' на ';
+		$title = 'Туры из ' . $this->city->name_rod . $add . ' на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
@@ -83,6 +75,21 @@ class IndexController extends BaseController
 			'page'				=> 'main'
 		]);
 	}
+
+	public function cityAction() {
+	    $this->view->disable();
+        $cityUri = $this->dispatcher->getParam('city');
+
+        $params = Params::getInstance();
+	    $city = Cities::findFirstByUri($cityUri);
+	    if($city) {
+            $params->city = (int) $city->id;
+            $params->searchParams->from = (int) $city->flight_city;
+        }
+        $params->store();
+
+        $this->response->redirect('');
+    }
 
 	public function agreementAction()
 	{

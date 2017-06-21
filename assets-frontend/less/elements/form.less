@@ -43,8 +43,8 @@
 		width: 10px;
 		height: 10px;
 		left: 10px;
+		top: -5px;
 		z-index: -1;
-		bottom: calc(100% - 4px);
 		.transform(rotate(315deg));
 	}
 
@@ -111,8 +111,8 @@
 	
 	.selector{
 		border-radius: 4px;
-		width: 160px;
-		height: 30px;
+		width: 115px;
+		height: 36px;
 		padding: 10px;
 		.clearfix;
 		
@@ -121,12 +121,12 @@
 			background: @color-bg-main-alpha;
 			color: @color-bg;
 			display: block;
-			width: 28px;
-			height: 28px;
+			width: 47.5px;
+			height: 36px;
 			border: 1px solid @color-main-blue;
-			font-size: 18px;
+			font-size: 24px;
 			text-align: center;
-			line-height: 24px;
+			line-height: 34px;
 			cursor: pointer;
 			
 			.user-select(none);
@@ -146,25 +146,35 @@
 		}
 		.minus{
 			float:left;
-			border-radius: 4px 0px 0px 4px;
-			border-right: 0;
+			border-radius: 4px 0 0 4px;
+			border-right: 1px solid @color-main-blue;
+			line-height: 30px;
 		}
 		.plus{
 			float:right;
-			border-radius: 0px 4px 4px 0px;
+			border-radius: 0 4px 4px 0;
 			border-left: none;
 		}
 		
 		.param{
-			margin-left: 28px;
-			margin-right: 28px;
+			margin-left: 47px;
+			margin-right: 47px;
 			border: 1px solid @color-main-blue;
 			border-left: none;
 			border-right: none;
-			height: 28px;
-			font-size: 15px;
+			height: 36px;
+			font-size: 18px;
 			text-align: center;
-			line-height: 24px;
+			line-height: 34px;
+
+			span {
+				font-size: 16px;
+				color: @color-main-blue;
+			}
+
+			i {
+				color: @color-text-gray;
+			}
 		}
 	}
 	
@@ -176,7 +186,7 @@
 	.tt-menu{
 		position: relative;
 		background: white;
-		width: 620px;
+		width: 520px;
 		margin-left: 0;
 		border-radius: 4px;
 		border-top: 1px solid @color-text-light;
@@ -263,7 +273,7 @@
 				}
 
 				span{
-					width: 350px;
+					width: 250px;
 					float: left;
 					overflow: hidden;
 					display: inline-block;

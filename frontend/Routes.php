@@ -6,11 +6,19 @@ $router = new Router();
 
 $router->removeExtraSlashes(true);
 
+
 $router->add(
-	'/{city}',
+    '/',
+    [
+        'controller' => 'index',
+        'action'     => 'index',
+    ]
+);
+$router->add(
+	'/{city:[a-z\-]+}',
 	[
 		'controller' => 'index',
-		'action'     => 'index',
+		'action'     => 'city',
 	]
 );
 $router->add(

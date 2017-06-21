@@ -20,4 +20,12 @@ class Where {
 			}
 		}
 	}
+
+	public function fromStored($where = null) {
+	    if($where) {
+	        $this->country = $where->country ? : $this->country;
+            $this->regions = $where->regions ? : $this->regions;
+            $this->hotels = $where->hotels ? : $this->hotels;
+        }
+    }
 }

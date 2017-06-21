@@ -6,6 +6,9 @@ import 'air-datepicker';
 import { IS_DEV, DATE_FORMAT, DATE_VISIBLE_FORMAT } from '../../app';
 import * as Humanize from '../utils/humanize';
 
+const DATE_RANGE = 2;
+const NIGHTS_RANGE = 2;
+
 export default class SearchForm {
 
   constructor() {
@@ -43,42 +46,23 @@ export default class SearchForm {
   }
 
   initData() {
-    this.data.departure = this.$.form.data('departure');
-
-    this.data.country = this.$.form.data('country');
-    this.data.region = this.$.form.data('region');
-    this.data.hotel = this.$.form.data('hotel');
-
-    this.data.date = this.$.form.data('date');
-    this.data.date_range = this.$.form.data('date-range');
-
-    this.data.nights = this.$.form.data('nights');
-    this.data.nights_range = this.$.form.data('nights-range');
-
-    this.data.adults = this.$.form.data('adults');
-    this.data.kids = (typeof this.$.form.data('kids') === 'number') ?
-      [this.$.form.data('kids')] :
-      $.map(this.$.form.data('kids').split('+'), value => parseInt(value, 10));
-
-    if (this.data.kids[0] === 0) {
-      this.data.kids = [];
-    }
-
-    this.data.stars = this.$.form.data('stars');
-    this.data.meal = this.$.form.data('meal');
-
-    this.data.hotel = this.$.form.data('hotel');
-
+    this.data.from = this.$.form.data('from');
+    this.data.where = this.$.form.data('where');
+    this.data.when = this.$.form.data('when');
+    this.data.people = this.$.form.data('people');
+    this.data.filters = this.$.form.data('filters');
     this.data.operator = this.$.form.data('operator');
+
+    this.range = this.data.when.dateFrom === this.data.when.dateTo ? DATE_RANGE : 0;
   }
 
   bindActions() {
     this.fromActions();
     this.whereActions();
+    this.whenActions();
     this.nightsActions();
     this.peopleActions();
 
-    this.dateActions();
 
     this.submitActions();
 
@@ -87,7 +71,9 @@ export default class SearchForm {
 
       if (!container.is(e.target)
         && container.has(e.target).length === 0) {
-        container.removeClass('active');
+        if (container.hasClass('active')) {
+          container.removeClass('active');
+        }
       }
     });
   }
@@ -113,7 +99,7 @@ export default class SearchForm {
           this.$.form.find('.search-button button').click();
         }
       })
-      .find(`option[value=${this.getValue('from')}]`)
+      .find(`option[value=${this.data.from}]`)
       .prop('selected', true);
   }
 
@@ -126,8 +112,9 @@ export default class SearchForm {
 
     $close.on('click', () => {
       $whereInput.typeahead('val', '').focus();
-      this.setValue('country', false);
-      this.setValue('region', false);
+      this.data.where.country = null;
+      this.data.where.regions = [];
+      this.data.where.hotel = null;
       $close.hide();
       return false;
     });
@@ -239,31 +226,25 @@ export default class SearchForm {
         let regionId = false;
         let countryId = false;
 
-        let where = false;
-
         if (object.isCountry) {
           countryId = object.id;
-          where = object.name;
         }
 
         if (object.isRegion) {
           regionId = object.id;
           countryId = object.country;
-          where = `${countriesList[countryId]}(${regionsList[regionId].name})`;
         }
 
         if (object.isHotel) {
           hotelId = object.id;
           regionId = object.region;
           countryId = object.country;
-          where = `${countriesList[countryId]}(${regionsList[regionId].name})`;
         }
 
         $where.removeClass('error');
-        this.setValue('country', countryId);
-        this.setValue('region', regionId);
-        this.setValue('hotel', hotelId);
-        this.setValue('where', where);
+        this.data.where.country = countryId;
+        this.data.where.regions = [regionId];
+        this.data.where.hotel = hotelId;
         $close.show();
 
         return false;
@@ -275,21 +256,19 @@ export default class SearchForm {
           regions.get(value).length === 0 &&
           !this.getValue('hotel')
         ) {
-          this.setValue('country', false);
-          this.setValue('region', false);
-          this.setValue('hotel', false);
-          this.setValue('where', false);
+          this.data.where.country = null;
+          this.data.where.regions = [];
+          this.data.where.hotel = null;
           $whereInput.typeahead('val', '');
           $close.hide();
         }
       });
 
-      const country = this.getValue('country');
-      const region = this.getValue('region') || false;
-      let where = countriesList[country].name;
+      const country = this.data.where.country;
+      const region = this.data.where.regions[0] || false;
+
 
       if (regionsList[region]) {
-        where += `(${regionsList[region].name})`;
         $whereInput.typeahead('val', regionsList[region].name);
         $close.show();
       } else if (country) {
@@ -297,20 +276,91 @@ export default class SearchForm {
         $close.show();
       }
 
-      this.setValue('where', where);
-
       this.formReady();
     });
   }
 
+  whenActions() {
+    const minDate = moment().add(1, 'days');
+    const maxDate = moment().add(1, 'year');
+    const startDate = moment(this.data.when.dateFrom, DATE_FORMAT);
+    const endDate = moment(this.data.when.dateTo, DATE_FORMAT);
+
+    const datepicker = this.$.form.find('.when input')
+      .datepicker({
+        minDate: minDate.toDate(),
+        maxDate: maxDate.toDate(),
+        onRenderCell: (date, cellType) => {
+          const currentDate = moment(date);
+          const dateFrom = moment(this.data.when.dateFrom, DATE_FORMAT);
+          const dateTo = moment(this.data.when.dateTo, DATE_FORMAT);
+
+          if (
+            cellType === 'day' &&
+            (currentDate.isSameOrAfter(minDate) && currentDate.isBefore(maxDate)) &&
+            (currentDate.isSameOrBefore(dateTo) && currentDate.isSameOrAfter(dateFrom))
+          ) {
+            return {
+              html: `<span class="selected">${currentDate.format('D')}</span>`,
+            };
+          }
+          return currentDate.format('D');
+        },
+        onSelect: (formattedDate, date) => {
+          const momentDate = moment(date);
+          this.$.form.find('.when .value').text(momentDate.format(DATE_VISIBLE_FORMAT));
+          const { from, to } = this.rangeToDate(momentDate);
+          this.data.when.dateFrom = from;
+          this.data.when.dateTo = to;
+        },
+      }).data('datepicker');
+
+    const $rangePicker = $('<div class="range-checkbox" />');
+    $rangePicker.append(
+      `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.getValue('date_range')) ? 'checked="checked"' : ''}> 
+       <label for="date-range-days">± ${DATE_RANGE} дня</label>`,
+    );
+
+    datepicker.$datepicker.append($rangePicker);
+
+    if (this.getValue('date_range')) this.$.form.find('.when .range').show();
+
+    $rangePicker.find('label').off('click').on('click', (e) => {
+      const $el = $(e.target);
+      const $input = $el.siblings('input[type="checkbox"]');
+
+      if ($input.is(':checked')) {
+        this.$.form.find('.when .range').hide();
+        this.range = 0;
+      } else {
+        this.$.form.find('.when .range').show();
+        this.range = DATE_RANGE;
+      }
+
+      datepicker.selectDate(datepicker.selectedDates[0]);
+    });
+
+    // TODO: add datepicker range
+    datepicker.selectDate([startDate.toDate(), endDate.toDate()]);
+  }
+
   nightsActions() {
+    let { range, nights } = SearchForm.nightsToRange(
+      this.data.when.nightsFrom,
+      this.data.when.nightsTo,
+    );
+
     const limits = this.limits.nights;
-    let nights = this.getValue('nights');
-    const range = this.getValue('nights_range');
 
     const $popup = this.$.nights.find('.popup');
     const $selector = $popup.find('.selector');
     const $range = $popup.find('.range-checkbox input');
+
+    const setNights = (n, r) => {
+      const { from, to } = SearchForm.rangeToNights(n, r);
+      this.data.when.nightsFrom = from;
+      this.data.when.nightsTo = to;
+    };
 
     this.$.nights.find('.range').toggle(range);
     $range.prop('checked', range);
@@ -336,6 +386,7 @@ export default class SearchForm {
           nights -= 1;
           this.setText('nights', nights);
           this.setValue('nights', nights);
+          setNights(nights, range);
         }
         if (nights <= limits.min) {
           $el.addClass('disabled');
@@ -352,6 +403,7 @@ export default class SearchForm {
           nights += 1;
           this.setText('nights', nights);
           this.setValue('nights', nights);
+          setNights(nights, range);
         }
         if (nights >= limits.max) {
           $el.addClass('disabled');
@@ -364,12 +416,13 @@ export default class SearchForm {
 
       $range.off('change').on('change', () => {
         if ($range.is(':checked')) {
-          this.setValue('nights_range', true);
+          range = true;
           this.$.nights.find('.range').show();
         } else {
-          this.setValue('nights_range', false);
+          range = false;
           this.$.nights.find('.range').hide();
         }
+        setNights(nights, range);
       });
 
       return false;
@@ -378,8 +431,8 @@ export default class SearchForm {
 
   peopleActions() {
     const limits = this.limits.people;
-    let adults = this.getValue('adults');
-    const kids = this.getValue('kids');
+    let adults = this.data.people.adults;
+    const kids = this.data.people.children;
     let people = adults;
     if (kids.length) people += kids.length;
 
@@ -521,50 +574,6 @@ export default class SearchForm {
     });
   }
 
-  dateActions() {
-    const minDate = moment().add(1, 'days');
-    const maxDate = moment().add(1, 'year');
-    const currentDate = moment(this.getValue('date'), DATE_FORMAT);
-
-    const datepicker = this.$.form.find('.when input')
-      .datepicker({
-        minDate: minDate.toDate(),
-        maxDate: maxDate.toDate(),
-        onSelect: (formattedDate, date) => {
-          const momentDate = moment(date);
-          this.$.form.find('.when .value').text(momentDate.format(DATE_VISIBLE_FORMAT));
-          this.setValue('date', momentDate.format(DATE_FORMAT));
-        },
-      }).data('datepicker');
-
-    datepicker.$el.append(
-        `<div class="range-checkbox">
-        <input type="checkbox" id="date-range-days" value="1" name="date-range-days"${(this.getValue('date_range')) ? 'checked="checked"' : ''}> 
-        <label for="date-range-days">± 2 дня</label>
-      </div>`,
-      );
-
-    // TODO: add datepicker range
-    datepicker.selectDate(currentDate.toDate());
-
-    if (this.getValue('date_range')) this.$.form.find('.when .range').show();
-
-    $('.pickmeup-twitter-bootstrap .range-checkbox label').off('click').on('click', (e) => {
-      const $el = $(e.target);
-      const $input = $el.siblings('input[type="checkbox"]');
-
-      if ($input.is(':checked')) {
-        this.$.form.find('.when .range').hide();
-        $input.prop('checked', false);
-        this.setValue('date_range', false);
-      } else {
-        this.$.form.find('.when .range').show();
-        $input.prop('checked', true);
-        this.setValue('date_range', true);
-      }
-    });
-  }
-
   submitActions() {
     this.$.form.on('submit', () => false);
 
@@ -575,27 +584,20 @@ export default class SearchForm {
 
       if (this.formCheck()) {
         const data = {
-          from: this.data.departure,
+          from: this.data.from,
           where: this.data.where,
-          adults: this.data.adults,
-          kids: (this.data.kids) ? this.data.kids.join('+') : 0,
-          stars: this.data.stars,
-          meal: this.data.meal,
+          when: this.data.when,
+          people: this.data.people,
+          filters: this.data.filters,
         };
-
-        if (this.data.hotel) {
-          data.hotel = this.data.hotel;
-        }
-
-        data.date = (this.data.date_range) ? `~${this.data.date}` : this.data.date;
-        data.nights = (this.data.nights_range) ? `~${this.data.nights}` : this.data.nights;
 
         $.getJSON(`${this.endpoint}search/`, {
           params: data,
         }, (res) => {
-          if (res.url) {
+          console.log(res);
+          /*if (res.url) {
             window.location.href = res.url;
-          }
+          }*/
         });
       }
 
@@ -618,7 +620,7 @@ export default class SearchForm {
   formCheck() {
     const errors = [];
 
-    if (!this.data.region && !this.data.country) {
+    if (!this.data.where.country && !this.data.where.region.length) {
       errors.push('where');
     }
 
@@ -675,8 +677,7 @@ export default class SearchForm {
     }
 
     if (type === 'adults') {
-      const adultsText = Humanize.adults(value);
-      this.$.people.find('.popup .selector .param').text(adultsText);
+      this.$.people.find('.popup .selector .param span').text(value);
     }
 
     if (type === 'people') {
@@ -689,5 +690,27 @@ export default class SearchForm {
     this.$.form.find('.loader').hide();
 
     if (IS_DEV) console.log('[ФОРМА ПОИСКА] Форма загружена', new Date());
+  }
+
+  static nightsToRange(from, to) {
+    const range = (from === to);
+    return {
+      range,
+      nights: range ? from : (from - to) / 2,
+    };
+  }
+
+  static rangeToNights(nights, range) {
+    return {
+      from: (range) ? nights - NIGHTS_RANGE : nights,
+      to: (range) ? nights + NIGHTS_RANGE : nights,
+    };
+  }
+
+  rangeToDate(momentDate) {
+    return {
+      from: momentDate.add(-this.range, 'days').format(DATE_FORMAT),
+      to: momentDate.add(2 * this.range, 'days').format(DATE_FORMAT),
+    };
   }
 }

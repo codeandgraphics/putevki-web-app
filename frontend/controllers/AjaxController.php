@@ -2,6 +2,7 @@
 
 namespace Frontend\Controllers;
 
+use Frontend\Models\Params;
 use Phalcon\Db;
 use Phalcon\Http\Response;
 use Models\Tourvisor;
@@ -411,21 +412,22 @@ class AjaxController extends BaseController
 
     public function searchAction()
     {
+        echo '<pre />';
 	    $response = new Response();
-	    
-	    $params = (object) $this->request->get('params');
-	    
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
+
+        $formParams = (object) $this->request->get('params');
+
+	    $params = Params::getInstance();
+	    $params->search->fromSearchForm($formParams);
 
 	    $path = '/search/';
 
-	    if($searchQuery->isHotelQuery())
+	    if($params->search->isHotelQuery())
 	    {
 		    $path = '/search/hotel/';
 	    }
 
-	    $response->setJsonContent(['url' =>  $path . $searchQuery->buildQueryString() ]);
+	    $response->setJsonContent(['url' =>  $path . $params->search->buildQueryString() ]);
 
 	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 	    

@@ -2,20 +2,21 @@
 
 namespace Frontend\Controllers;
 
+use Frontend\Models\Params;
 use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
-use Phalcon\Mvc\Controller,
-	Models\Cities,
-	Models\Branches,
-	Frontend\Models\SearchQueries;
+use Phalcon\Mvc\Controller;
+use Models\Cities;
+use Models\Branches;
+use Frontend\Models\SearchQueries;
 
 class BaseController extends Controller
 {
-	public $currentCity;
-	public $currentDeparture;
+    public $params;
+	public $city;
+	public $departure;
 	public $cities;
 	public $branches;
-	public $params;
 	public $formCountries = '';
 	public $formRegions = '';
 	public $lastQueries = [];
@@ -31,8 +32,8 @@ class BaseController extends Controller
 			}
 		}
 
-		$this->params = SearchQueries::checkParams();
-		$this->currentCity = Cities::checkCity();
+		$this->params = Params::getInstance();
+
 		$this->cities = Cities::find(['active = 1','order' => 'main DESC, name']);
 		$this->branches = Branches::find('active = 1');
 
@@ -74,13 +75,14 @@ class BaseController extends Controller
 			'order' => 'name'
 		]);
 
-		$this->currentDeparture = Departures::findFirst('id='.$this->params->departureId);
+		$this->city = Cities::findFirst('id=' . $this->params->city);
+		$this->departure = Departures::findFirst('id='.$this->params->search->from);
 
 		$this->view->setVars([
 			'branches'			=> $this->branches->toArray(),
 			'cities'			=> $this->cities->toArray(),
-			'currentCity'		=> $this->currentCity,
-			'currentDeparture'	=> $this->currentDeparture,
+			'city'		        => $this->city,
+			'departure'         => $this->departure,
 			'formRegions'		=> $this->formRegions,
 			'formCountries'		=> $this->formCountries,
 			'lastQueries'		=> $this->lastQueries,

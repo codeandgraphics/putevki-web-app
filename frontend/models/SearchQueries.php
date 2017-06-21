@@ -11,6 +11,7 @@ use Utils\Text;
 
 class SearchQueries extends BaseModel
 {
+    const COOKIE_KEY = 'search-params';
 	const DELAY_TIME = 600;
 	
 	public $id;
@@ -460,6 +461,21 @@ class SearchQueries extends BaseModel
 
 	}
 
+	public function storeParams(SearchQueries $params) {
+	    $encodedParams = json_encode($params);
+        $cookieTimeout = $this->getDI()->get('config')->common->cookieTimeout;
+	    setcookie(self::COOKIE_KEY, $encodedParams, time() + $cookieTimeout, '/');
+    }
+
+    public function getStoredParams() {
+	    if(array_key_exists(self::COOKIE_KEY, $_COOKIE)) {
+            $params = json_decode($_COOKIE[self::COOKIE_KEY]);
+            return self::fromStored($params);
+        }
+
+        return self::defaultParams();
+    }
+
 	public function isHotelQuery()
 	{
 		return $this->_isHotelQuery;
@@ -473,4 +489,12 @@ class SearchQueries extends BaseModel
 	{
 		return parent::findFirst($parameters);
 	}
+
+	public static function fromStored($params) {
+
+    }
+
+	public static function defaultParams() {
+
+    }
 }
