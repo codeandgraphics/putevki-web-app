@@ -21,6 +21,7 @@ module.exports = {
     path: assetsPath,
     publicPath: publicPath,
   },
+  devtool: 'source-map',
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery/dist/jquery.js',

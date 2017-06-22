@@ -267,7 +267,6 @@ export default class SearchForm {
       const country = this.data.where.country;
       const region = this.data.where.regions[0] || false;
 
-
       if (regionsList[region]) {
         $whereInput.typeahead('val', regionsList[region].name);
         $close.show();
@@ -283,8 +282,11 @@ export default class SearchForm {
   whenActions() {
     const minDate = moment().add(1, 'days');
     const maxDate = moment().add(1, 'year');
-    const startDate = moment(this.data.when.dateFrom, DATE_FORMAT);
-    const endDate = moment(this.data.when.dateTo, DATE_FORMAT);
+    const dateFrom = moment(this.data.when.dateFrom, DATE_FORMAT);
+
+    this.range = (this.data.when.dateFrom !== this.data.when.dateTo) ? DATE_RANGE : 0;
+
+    if (this.range > 0) this.$.form.find('.when .range').show();
 
     const datepicker = this.$.form.find('.when input')
       .datepicker({
@@ -292,13 +294,13 @@ export default class SearchForm {
         maxDate: maxDate.toDate(),
         onRenderCell: (date, cellType) => {
           const currentDate = moment(date);
-          const dateFrom = moment(this.data.when.dateFrom, DATE_FORMAT);
-          const dateTo = moment(this.data.when.dateTo, DATE_FORMAT);
+          const startDate = moment(this.data.when.dateFrom, DATE_FORMAT);
+          const endDate = moment(this.data.when.dateTo, DATE_FORMAT);
 
           if (
             cellType === 'day' &&
             (currentDate.isSameOrAfter(minDate) && currentDate.isBefore(maxDate)) &&
-            (currentDate.isSameOrBefore(dateTo) && currentDate.isSameOrAfter(dateFrom))
+            (currentDate.isSameOrAfter(startDate) && currentDate.isSameOrBefore(endDate))
           ) {
             return {
               html: `<span class="selected">${currentDate.format('D')}</span>`,
@@ -317,13 +319,11 @@ export default class SearchForm {
 
     const $rangePicker = $('<div class="range-checkbox" />');
     $rangePicker.append(
-      `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.getValue('date_range')) ? 'checked="checked"' : ''}> 
+      `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.range === DATE_RANGE) ? 'checked="checked"' : ''}> 
        <label for="date-range-days">± ${DATE_RANGE} дня</label>`,
     );
 
     datepicker.$datepicker.append($rangePicker);
-
-    if (this.getValue('date_range')) this.$.form.find('.when .range').show();
 
     $rangePicker.find('label').off('click').on('click', (e) => {
       const $el = $(e.target);
@@ -340,8 +340,10 @@ export default class SearchForm {
       datepicker.selectDate(datepicker.selectedDates[0]);
     });
 
+    const selectedDate = moment(dateFrom);
+
     // TODO: add datepicker range
-    datepicker.selectDate([startDate.toDate(), endDate.toDate()]);
+    datepicker.selectDate(selectedDate.add(this.range, 'days').toDate());
   }
 
   nightsActions() {
@@ -431,7 +433,7 @@ export default class SearchForm {
 
   peopleActions() {
     const limits = this.limits.people;
-    let adults = this.data.people.adults;
+    let adults = parseInt(this.data.people.adults, 10);
     const kids = this.data.people.children;
     let people = parseInt(adults, 10);
     if (kids.length) people += kids.length;
@@ -466,7 +468,8 @@ export default class SearchForm {
     this.setText('people', people);
 
     for (let i = 0; i < kids.length; i += 1) {
-      const $kid = SearchForm.createKid($kidTemplate, Humanize.age(kids[i]), kids[i], kidDelete);
+      const age = parseInt(kids[i], 10);
+      const $kid = SearchForm.createKid($kidTemplate, Humanize.age(age), age, kidDelete);
 
       this.$.people.find('.kids').append($kid);
     }
@@ -619,7 +622,7 @@ export default class SearchForm {
   formCheck() {
     const errors = [];
 
-    if (!this.data.where.country && !this.data.where.region.length) {
+    if (!this.data.where.country && !this.data.where.regions.length) {
       errors.push('where');
     }
 

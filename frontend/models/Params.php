@@ -21,8 +21,12 @@ class Params {
     }
 
     public function fromStored($object) {
+    	$searchParams = new SearchParams();
+    	if($object->search) {
+		    $searchParams->fromStored($object->search);
+	    }
         $this->city = $object->city ? : (int) $this->config->defaults->city;
-        $this->search = $object->search ? : $this->defaultSearchParams();
+        $this->search = $searchParams;
     }
 
 

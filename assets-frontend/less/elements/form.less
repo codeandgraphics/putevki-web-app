@@ -30,6 +30,7 @@
 	z-index: 100;
 	padding: 0;
 	opacity: 0;
+	pointer-events: none;
 
 	.box-shadow(0 2px 2px 0 @color-shadow-alpha);
 	.transform(translateY(8px));
@@ -51,6 +52,7 @@
 	&.active {
 		opacity: 1;
 		transform: translate(0);
+		pointer-events: auto;
 		.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
 	}
 					
@@ -193,6 +195,7 @@
 		margin-top: 14px;
 		opacity: 0;
 		display: block !important;
+		pointer-events: none;
 
 		&:before {
 			content: ' ';
@@ -215,6 +218,7 @@
 
 		&.tt-open {
 			opacity: 1;
+			pointer-events: auto;
 			.transform(translate(0));
 			.transition(opacity .3s ease, transform .3s ease, left 0s .3s);
 		}
