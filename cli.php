@@ -4,6 +4,7 @@ use Phalcon\Di\FactoryDefault\Cli as CliDI,
 	Phalcon\Mvc\Model\Transaction\Manager as TransactionManager,
 	Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
 	Phalcon\CLI\Console as ConsoleApp;
+use Phalcon\Config\Adapter\Ini as Config;
 
 define('VERSION', '1.0.0');
 
@@ -11,9 +12,9 @@ $di = new CliDI();
 
 defined('APP_PATH') || define('APP_PATH', realpath(__DIR__) . DIRECTORY_SEPARATOR);
 
-if (is_readable(APP_PATH . 'config/config.php'))
+if (is_readable(APP_PATH . 'config.ini'))
 {
-	$config = include APP_PATH . 'config/config.php';
+	$config = new Config(APP_PATH . 'config.ini');
 	$di->set('config', $config);
 }
 
@@ -23,7 +24,7 @@ $loader->registerDirs(
 		APP_PATH . 'tasks'
 	)
 );
-$loader->registerNamespaces((array) $config->namespaces);
+$loader->registerNamespaces((array) $config->loader->namespaces);
 $loader->register();
 
 $di->setShared('transactions', function(){
@@ -40,11 +41,11 @@ $console->setDI($di);
 $arguments = array();
 foreach ($argv as $k => $arg)
 {
-	if ($k == 1)
+	if ($k === 1)
 	{
 		$arguments['task'] = $arg;
 	}
-	elseif ($k == 2)
+	elseif ($k === 2)
 	{
 		$arguments['action'] = $arg;
 	}
@@ -64,5 +65,6 @@ try
 catch (\Phalcon\Exception $e)
 {
 	echo $e->getMessage();
+	echo PHP_EOL;
 	exit(255);
 }

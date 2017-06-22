@@ -17,8 +17,6 @@ return new \Phalcon\Config(array(
 	'namespaces'			=> [
 		'Interfaces'				=> APP_PATH . 'interfaces/',
 		'Models\Tourvisor'			=> APP_PATH . 'models/tourvisor/',
-		'Models\References'			=> APP_PATH . 'models/references/',
-		'Models\Yandex'				=> APP_PATH . 'models/yandex/',
 		'Models\Api'				=> APP_PATH . 'models/api/',
 		'Models\Api\Entities'		=> APP_PATH . 'models/api/entities/',
 		'Models'					=> APP_PATH . 'models/',
@@ -80,11 +78,6 @@ return new \Phalcon\Config(array(
 
 			'/tour/{id}' => [
 				'controller'	=> 'tour',
-				'action'		=> 'index'
-			],
-
-			'/yandex' => [
-				'controller'	=> 'yandex',
 				'action'		=> 'index'
 			],
 

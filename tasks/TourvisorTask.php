@@ -22,7 +22,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$countries = Tourvisor\Countries::find();
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		$allHotels = 0;
@@ -47,13 +47,13 @@ class TourvisorTask extends \Phalcon\CLI\Task
 				$hotel->countryId = $country->id;
 				$hotel->rating = $apiHotel->rating;
 
-				$hotel->active = (isset($apiHotel->active)) ? $apiHotel->active : 0;
-				$hotel->relax = (isset($apiHotel->relax)) ? $apiHotel->relax : 0;
-				$hotel->family = (isset($apiHotel->family)) ? $apiHotel->family : 0;
-				$hotel->health = (isset($apiHotel->health)) ? $apiHotel->health : 0;
-				$hotel->city = (isset($apiHotel->city)) ? $apiHotel->city : 0;
-				$hotel->beach = (isset($apiHotel->beach)) ? $apiHotel->beach : 0;
-				$hotel->deluxe = (isset($apiHotel->deluxe)) ? $apiHotel->deluxe : 0;
+				$hotel->active = isset($apiHotel->active) ? $apiHotel->active : 0;
+				$hotel->relax = isset($apiHotel->relax) ? $apiHotel->relax : 0;
+				$hotel->family = isset($apiHotel->family) ? $apiHotel->family : 0;
+				$hotel->health = isset($apiHotel->health) ? $apiHotel->health : 0;
+				$hotel->city = isset($apiHotel->city) ? $apiHotel->city : 0;
+				$hotel->beach = isset($apiHotel->beach) ? $apiHotel->beach : 0;
+				$hotel->deluxe = isset($apiHotel->deluxe) ? $apiHotel->deluxe : 0;
 
 				$hotel->save();
 				$allHotels++;
@@ -72,7 +72,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiCountries = \Utils\Tourvisor::getMethod('list', $params)->lists->countries->country;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiCountries as $apiCountry)
@@ -100,7 +100,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiRegions = \Utils\Tourvisor::getMethod('list', $params)->lists->regions->region;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiRegions as $apiRegion)
@@ -127,7 +127,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiDepartures = \Utils\Tourvisor::getMethod('list', $params)->lists->departures->departure;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiDepartures as $apiDeparture)
@@ -154,7 +154,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiOperators = \Utils\Tourvisor::getMethod('list', $params)->lists->operators->operator;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiOperators as $apiOperator)
@@ -182,7 +182,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiArray = \Utils\Tourvisor::getMethod('list', $params)->lists->meals->meal;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiArray as $apiItem)
@@ -210,7 +210,7 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		);
 		$apiArray = \Utils\Tourvisor::getMethod('list', $params)->lists->stars->star;
 
-		$manager = $this->di->getTransactions();
+		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
 		foreach($apiArray as $apiItem)

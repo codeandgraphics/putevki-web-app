@@ -368,23 +368,23 @@ export default class Search {
   populateTours($item, tours) {
     $item.find('.variants .variant').not('.template').remove();
 
-    $item.find('.more').removeClass('hidden').off('click').on('click', (e) => {
-      const $el = $(e.target);
+    $item.find('.more').removeClass('hidden').off('click').on('click', function () {
+      const $el = $(this);
       $el.addClass('hidden');
       $item.find('.variants .variant').not('.template').show(100);
       return false;
     });
 
-    $item.find('.other .variants-open').off('click').on('click', (e) => {
-      const $el = $(e.target);
+    $item.find('.other .variants-open').off('click').on('click', function () {
+      const $el = $(this);
       $el.siblings('.variants-close').show();
       $el.hide();
       $item.find('.variants').show(100);
       return false;
     });
 
-    $item.find('.other .variants-close').off('click').on('click', (e) => {
-      const $el = $(e.target);
+    $item.find('.other .variants-close').off('click').on('click', function () {
+      const $el = $(this);
       $el.siblings('.variants-open').show();
       $el.hide();
       $item.find('.variants').hide();
@@ -458,28 +458,30 @@ export default class Search {
       offset_top: 80,
     });
 
-    $stars.find('a').on('click', (e) => {
-      const $el = $(e.target);
+    const self = this;
+
+    $stars.find('a').on('click', function () {
+      const $el = $(this);
       const html = $el.html();
       const star = $el.data('stars');
       $stars.find('button .text').html(html);
 
-      this.formObject.data.filters.stars = star;
-      this.formObject.$.form.find('.search-button button').click();
+      self.formObject.data.filters.stars = star;
+      self.formObject.$.form.find('.search-button button').click();
 
       return false;
     });
 
     const $meals = this.$.params.find('.meals');
 
-    $meals.find('a').on('click', (e) => {
-      const $el = $(e.target);
+    $meals.find('a').on('click', function () {
+      const $el = $(this);
       const html = $el.html();
       const meal = $el.data('meal');
       $meals.find('button .text').html(html).find('small').hide();
 
-      this.formObject.data.filters.meal = meal;
-      this.formObject.$.form.find('.search-button button').click();
+      self.formObject.data.filters.meal = meal;
+      self.formObject.$.form.find('.search-button button').click();
 
       return false;
     });
