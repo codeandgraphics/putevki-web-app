@@ -2,12 +2,12 @@ import $ from 'jquery';
 import pin from '../../img/pin.png';
 import partnerPin from '../../img/pin-partner.png';
 
-export default class BranchesMap {
+export default class OfficesMap {
 
   constructor() {
     this.map = null;
     this.ymaps = global.ymaps;
-    this.$mapCities = $('#mapCities');
+    this.$mapCities = $('#officesMap');
 
     this.city = global.currentCity;
     this.branches = global.branches;
@@ -18,14 +18,13 @@ export default class BranchesMap {
   }
 
   createMap() {
-    this.map = new this.ymaps.Map('mainMap', {
+    this.map = new this.ymaps.Map('officesMap', {
       center: [parseFloat(this.city.lat), parseFloat(this.city.lon)],
       zoom: parseInt(this.city.zoom, 10),
       controls: ['zoomControl'],
     });
 
     this.map.behaviors.disable('scrollZoom');
-    this.map.behaviors.disable('drag');
 
     this.addBranches();
     this.addCities();
@@ -39,8 +38,10 @@ export default class BranchesMap {
       if (branch.email) branchText += `E-mail: <a href="mailto:${branch.email}">${branch.email}</a><br/>`;
       if (branch.timetable) branchText += `Время работы: ${branch.timetable}<br/>`;
 
+      branchText += `<button type="submit" class="btn btn-block btn-primary" onclick="setOffice(${branch.id});">Выбрать офис</button>`;
+
       this.map.geoObjects.add(
-        new global.ymaps.Placemark([parseFloat(branch.lat), parseFloat(branch.lon)], {
+        new this.ymaps.Placemark([parseFloat(branch.lat), parseFloat(branch.lon)], {
           balloonContentHeader: branch.name,
           balloonContentBody: branch.address,
           balloonContentFooter: branchText,
@@ -57,29 +58,27 @@ export default class BranchesMap {
 
   addCities() {
     global.cities.forEach((city) => {
-      const $city = $('<a href="#"/>');
-      $city.data('lat', city.lat);
-      $city.data('lon', city.lon);
-      $city.data('zoom', city.zoom);
+      const $city = $('<option/>');
+      $city.val([city.lat, city.lon, city.zoom].join(';'));
       $city.text(city.name);
-      if (city.main === 1) { $city.addClass('main-city'); }
-      if (city.id === this.city.id) { $city.addClass('active'); }
 
-      $city.on('click', (e) => {
-        const $el = $(e.target);
-        if (!$el.hasClass('active')) {
-          this.$mapCities.find('a').removeClass('active');
-          $el.addClass('active');
-          const lat = parseFloat($el.data('lat'));
-          const lon = parseFloat($el.data('lon'));
-          const zoom = parseFloat($el.data('zoom'));
-          this.map.setCenter([lat, lon], zoom, { duration: 0 });
-        }
-        return false;
-      });
-      this.$mapCities.append($('<li/>').append($city));
+      if (city.id === this.city.id) { $city.prop('selected', true); }
+
+
+      $('.city-select select').append($city);
     });
 
-    $('.block.map .loader').hide();
+    $('.city-select select').on('change', (e) => {
+      const $el = $(e.target);
+      const coords = $el.val().split(';');
+
+      const lat = parseFloat(coords[0]);
+      const lon = parseFloat(coords[1]);
+      const zoom = parseFloat(coords[2]);
+
+      this.map.setCenter([lat, lon], zoom, { duration: 0 });
+    });
+
+    $('.map .loader').hide();
   }
 }

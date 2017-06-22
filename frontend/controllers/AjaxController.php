@@ -332,6 +332,7 @@ class AjaxController extends BaseController
 				$resultHotel->name = $hotel->hotelname;
 				$resultHotel->stars = $hotel->hotelstars;
 				$resultHotel->rating = $hotel->hotelrating;
+
 				if($hotel->isdescription) {
 					$resultHotel->description = $hotel->hoteldescription;
 				}
@@ -368,13 +369,13 @@ class AjaxController extends BaseController
 				foreach($dbHotels as $dbHotel)
 				{
 					$types = new \stdClass();
-					$types->active = $dbHotel->active;
-					$types->relax = $dbHotel->relax;
-					$types->family = $dbHotel->family;
-					$types->health = $dbHotel->health;
-					$types->city = $dbHotel->city;
-					$types->beach = $dbHotel->beach;
-					$types->deluxe = $dbHotel->deluxe;	
+					$types->active = (int) $dbHotel->active;
+					$types->relax = (int) $dbHotel->relax;
+					$types->family = (int) $dbHotel->family;
+					$types->health = (int) $dbHotel->health;
+					$types->city = (int) $dbHotel->city;
+					$types->beach = (int) $dbHotel->beach;
+					$types->deluxe = (int) $dbHotel->deluxe;
 					$hotels[$dbHotel->id]->types = $types;
 				}
 				
@@ -393,13 +394,13 @@ class AjaxController extends BaseController
     public function statusAction($tourvisorId)
     {
 	    $response = new Response();
-	    
+
 		$params = array(
 			'requestid'		=> $tourvisorId,
 			'type'			=> 'status'
 		);
 		$result = \Utils\Tourvisor::getMethod('result', $params);
-		
+
 		$res = new \stdClass();
 		$res->status = $result->data->status;
 			    

@@ -10,6 +10,9 @@ class Params {
 
     public $city;
 
+	/**
+	 * @var SearchParams
+	 */
     public $search;
 
     private $config;

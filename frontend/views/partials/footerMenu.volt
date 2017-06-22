@@ -1,39 +1,10 @@
-<!--<div class="benefits container">
-
-	<h2 class="centered">Онлайн-магазин Путевки.ру</h2>
-
-	<div class="row">
-		<div class="col-xs-4">
-			<div class="item visa">
-				<i class="ion-card"></i>
-				Удобная онлайн-оплата<br/>
-				Visa и MasterCard
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class="item world">
-				<i class="ion-ios-world-outline"></i>
-				Поиск туров<br/>
-				по всему миру
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class="item operators">
-				<i class="ion-locked"></i>
-				Только надежные<br/>
-				туроператоры
-			</div>
-		</div>
-	</div>
-</div>-->
-
 <div class="container countries">
 	<h2 class="centered">Куда поехать отдыхать?</h2>
 	<div class="row">
 {% for country in countries %}
 		<div class="col-xs-2 country">
 			<img src="//static.tourvisor.ru/flags/calendar/flag_{{ country.id }}.gif" />
-			<a href="{{ url('search') }}/{{ currentCity.departure.name }}/{{ country.name }}">{{ country.name }}</a>
+			<a href="{{ url('search') }}/{{ city.departure.name }}/{{ country.name }}">{{ country.name }}</a>
 		</div>
 {% endfor %}
 	</div>

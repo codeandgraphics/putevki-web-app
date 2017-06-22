@@ -13,7 +13,20 @@ export function isScrolledIntoView(elem) {
   return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
-Number.prototype.format = function(n, x, s, c) {
+export function getQuery() {
+  const vars = [];
+  let hash;
+
+  const hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for (let i = 0; i < hashes.length; i++) {
+    hash = hashes[i].split('=');
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+  }
+  return vars;
+}
+
+Number.prototype.format = function (n, x, s, c) {
   const re = `\\d(?=(\\d{${x || 3}})+${n > 0 ? '\\D' : '$'})`;
   const num = this.toFixed(Math.max(0, ~~n));
 

@@ -36,13 +36,11 @@ class IndexController extends BaseController
 			$pop->region = $region->name;
 			$pop->regionId = $region->id;
 			$pop->countryId = $region->country_id;
+
+			$from = $this->city->departure->name;
+			$to = $region->country_name . '(' . $region->name . ')';
 			
-			$par = $this->params;
-			$par->departure = $this->currentCity->departure->name;
-			$par->country = $pop->country;
-			$par->region = $pop->region;
-			
-			$pop->url = '/search/'.SearchQueries::buildQueryStringFromParams($par);
+			$pop->url = '/search/'. $from . '/' . $to;
 			
 			$popularItems[] = $pop;
 			$popularCountries[] = $pop->country;
@@ -84,7 +82,7 @@ class IndexController extends BaseController
 	    $city = Cities::findFirstByUri($cityUri);
 	    if($city) {
             $params->city = (int) $city->id;
-            $params->searchParams->from = (int) $city->flight_city;
+            $params->search->from = (int) $city->flight_city;
         }
         $params->store();
 

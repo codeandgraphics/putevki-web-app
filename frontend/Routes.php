@@ -56,11 +56,37 @@ $router->add(
 		'action'     => 'index',
 	]
 );
+
+/** Search routes */
 $router->add(
 	'/search/{from}/{where}',
 	[
 		'controller' => 'search',
 		'action'     => 'short',
+	]
+);
+$router->add(
+	'/search/{from}/{where}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
+	[
+		'controller' => 'search',
+		'action'     => 'index',
+	]
+);
+
+$router->add(
+	'/search/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
+	[
+		'controller' => 'search',
+		'action'     => 'hotel',
+	]
+);
+
+/** Hotel routes */
+$router->add(
+	'/hotel/{name}-{id:[0-9]+}',
+	[
+		'controller' => 'hotel',
+		'action'     => 'index',
 	]
 );
 $router->add(
@@ -71,33 +97,14 @@ $router->add(
 	]
 );
 $router->add(
-	'/hotel/{name}-{id:[0-9]+}',
-	[
-		'controller' => 'hotel',
-		'action'     => 'index',
-	]
-);
-$router->add(
-	'/search/{from}/{where}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
-	[
-		'controller' => 'search',
-		'action'     => 'index',
-	]
-);
-$router->add(
 	'/search/hotel/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
 		'action'     => 'hotel',
 	]
 );
-$router->add(
-	'/search/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
-	[
-		'controller' => 'search',
-		'action'     => 'hotel',
-	]
-);
+
+/** Other routes */
 $router->add(
 	'/robots.txt',
 	[

@@ -9,7 +9,9 @@ use Models\Api\Entities\Where;
 use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
 use Models\Tourvisor\Hotels;
+use Models\Tourvisor\Meals;
 use Models\Tourvisor\Regions;
+use Models\Tourvisor\Stars;
 use Phalcon\Di;
 use Phalcon\Mvc\Dispatcher;
 
@@ -58,7 +60,7 @@ class SearchParams {
 
     public function fromSearchForm($object) {
         $this->from = $object->from ? : $this->from;
-        $this->where->fromStored((object) $object->where);
+        $this->where->fromForm((object) $object->where);
         $this->when->fromStored((object) $object->when);
         $this->people->fromStored((object) $object->people);
         $this->filters->fromStored((object) $object->filters);
@@ -130,7 +132,20 @@ class SearchParams {
         return Hotels::findFirst("id='" . $this->where->hotels . "'");
     }
 
-    private function whereFromQuery($where, $hotelId) {
+    public function starsEntity() {
+    	return Stars::findFirst("id='" . $this->filters->stars . "'");
+    }
+
+	public function mealsEntity() {
+		return Meals::findFirst("id='" . $this->filters->meal . "'");
+	}
+
+	public function fromFromQuery($from) {
+		$fromEntity = Departures::findFirst("name='$from'");
+		$this->from = $fromEntity ? (int) $fromEntity->id : $this->from;
+	}
+
+    public function whereFromQuery($where, $hotelId) {
         preg_match_all('/\((.*?)\)/', $where, $matches);
 
         $regionName = false;

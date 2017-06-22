@@ -5,7 +5,6 @@
 	</div>
 </div>
 
-
 <div class="page" id="search" data-tourvisorId="{{ tourvisorId }}">
 	<div class="container search">
 		<div class="row no-gutter">
@@ -126,7 +125,7 @@
 							<button class="dropdown-toggle" type="button" id="starsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<div class="text">
 									<?php
-									$star = (int) $params->stars->name;
+									$star = (int) $params->search->starsEntity()->name;
 									for($i=1;$i<=$star;$i++){
 									echo '<i class="ion-star"></i>';
 									}
@@ -175,7 +174,7 @@
 							<button class="dropdown-toggle" type="button" id="mealMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<i class="ion-fork"></i> <i class="ion-knife"></i> &nbsp;
 								<div class="text">
-									<?=$params->meal->name;?> <?=($params->meal->name !== 'UAI') ? 'и выше':'';?>
+									{% set meal = params.search.mealsEntity() %} {{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
 								</div>
 								<span class="caret"></span>
 							</button>
@@ -215,7 +214,7 @@
 									</a>
 								</div>
 								<div class="price">
-									<div class="text">Стоимость путевки в этот отель:</div>
+									<div class="text">Стоимость путёвки в этот отель:</div>
 									<div class="sum">
 										<a href="#" class="btn btn-primary order" target="_blank"></a>
 									</div>
@@ -228,12 +227,17 @@
 									<h4 class="title">
 										<a href="#" target="_blank"></a>
 									</h4>
-									<div class="rating">
-										<span class="stars">
-										</span>
-										<span class="review">
-											<strong></strong> &mdash; <span></span>
-										</span>
+									<div class="rating-place">
+										<div class="rating">
+											<span class="stars"></span>
+											<span class="review">
+												<strong></strong> &mdash; <span></span>
+											</span>
+										</div>
+										<div class="place">
+											<i class="ion-location"></i>
+											<span></span>
+										</div>
 									</div>
 									<ul class="types list-unstyled list-inline">
 									</ul>

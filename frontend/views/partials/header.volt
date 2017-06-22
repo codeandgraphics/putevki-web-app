@@ -26,7 +26,7 @@
       var route = '{{ page }}';
       var branches = {{ branches|json_encode }};
       var cities = {{ cities|json_encode }};
-      var currentCity = {{ currentCity|json_encode }};
+      var currentCity = {{ city|json_encode }};
 	</script>
 
 	<script src="{{ static_url() }}bundle.js"></script>

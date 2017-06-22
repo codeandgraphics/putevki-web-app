@@ -45,7 +45,7 @@
 	</ul>
 
 	<div class="tab-content">
-		<div class="tab-pane active" id="buy-online">
+		<div class="tab-pane" id="buy-online">
 
 			<form method="POST" id="online-form" data-toggle="validator" action="/ajax/formOnline">
 				<input type="hidden" name="flight" value="0" />
@@ -100,7 +100,7 @@
 
 			</form>
 		</div>
-		<div class="tab-pane" id="buy-office">
+		<div class="tab-pane active" id="buy-office">
 			<form method="POST" id="office-form" data-toggle="validator" action="/ajax/formOffice">
 
 				{{ partial('tour/partials/person', ['type': 'office']) }}

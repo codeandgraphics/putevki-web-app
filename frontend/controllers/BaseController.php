@@ -82,7 +82,6 @@ class BaseController extends Controller
 			'branches'			=> $this->branches->toArray(),
 			'cities'			=> $this->cities->toArray(),
 			'city'		        => $this->city,
-			'departure'         => $this->departure,
 			'formRegions'		=> $this->formRegions,
 			'formCountries'		=> $this->formCountries,
 			'lastQueries'		=> $this->lastQueries,

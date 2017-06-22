@@ -92,7 +92,7 @@ export default class SearchForm {
         const isVisible = (id !== 99);
         $fromText.toggle(isVisible);
 
-        this.setValue('departure', id);
+        this.data.from = id;
         this.$.from.find('#fromDropdown span').text(gen);
 
         if (this.$.from.hasClass('search')) {
@@ -114,7 +114,7 @@ export default class SearchForm {
       $whereInput.typeahead('val', '').focus();
       this.data.where.country = null;
       this.data.where.regions = [];
-      this.data.where.hotel = null;
+      this.data.where.hotels = null;
       $close.hide();
       return false;
     });
@@ -147,7 +147,7 @@ export default class SearchForm {
         local: data.regions,
       });
 
-      const hotels = new Bloodhound({
+      const hotelsQuery = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
@@ -212,7 +212,7 @@ export default class SearchForm {
         },
       }, {
         name: 'hotels',
-        source: hotels,
+        source: hotelsQuery,
         display: 'name',
         templates: {
           header: '<h3>Отели</h3><div class="suggestions">',
@@ -222,29 +222,29 @@ export default class SearchForm {
           },
         },
       }).on('typeahead:autocomplete typeahead:select', (e, object) => {
-        let hotelId = false;
-        let regionId = false;
-        let countryId = false;
+        let hotelId = null;
+        let regionId = [];
+        let countryId = null;
 
         if (object.isCountry) {
-          countryId = object.id;
+          countryId = parseInt(object.id, 10);
         }
 
         if (object.isRegion) {
-          regionId = object.id;
-          countryId = object.country;
+          regionId = [parseInt(object.id, 10)];
+          countryId = parseInt(object.country, 10);
         }
 
         if (object.isHotel) {
-          hotelId = object.id;
-          regionId = object.region;
-          countryId = object.country;
+          hotelId = parseInt(object.id, 10);
+          regionId = [parseInt(object.region, 10)];
+          countryId = parseInt(object.country, 10);
         }
 
         $where.removeClass('error');
         this.data.where.country = countryId;
-        this.data.where.regions = [regionId];
-        this.data.where.hotel = hotelId;
+        this.data.where.regions = regionId;
+        this.data.where.hotels = hotelId;
         $close.show();
 
         return false;
@@ -254,11 +254,11 @@ export default class SearchForm {
         if (
           countries.get(value).length === 0 &&
           regions.get(value).length === 0 &&
-          !this.getValue('hotel')
+          !this.data.where.hotels
         ) {
           this.data.where.country = null;
           this.data.where.regions = [];
-          this.data.where.hotel = null;
+          this.data.where.hotels = null
           $whereInput.typeahead('val', '');
           $close.hide();
         }
@@ -387,7 +387,6 @@ export default class SearchForm {
         if (!$el.hasClass('disabled')) {
           nights -= 1;
           this.setText('nights', nights);
-          this.setValue('nights', nights);
           setNights(nights, range);
         }
         if (nights <= limits.min) {
@@ -404,7 +403,6 @@ export default class SearchForm {
         if (!$el.hasClass('disabled')) {
           nights += 1;
           this.setText('nights', nights);
-          this.setValue('nights', nights);
           setNights(nights, range);
         }
         if (nights >= limits.max) {
@@ -449,7 +447,6 @@ export default class SearchForm {
 
       kids.splice($.inArray(parseInt($el.parent().data('age'), 10), kids), 1);
       people -= 1;
-      this.setValue('kids', kids);
       this.setText('people', people);
       $el.parent().remove();
 
@@ -504,7 +501,7 @@ export default class SearchForm {
           adults -= 1;
           people -= 1;
 
-          this.setValue('adults', adults);
+          this.data.people.adults = adults;
           this.setText('adults', adults);
           this.setText('people', people);
         }
@@ -529,7 +526,7 @@ export default class SearchForm {
           adults += 1;
           people += 1;
 
-          this.setValue('adults', adults);
+          this.data.people.adults = adults;
           this.setText('adults', adults);
           this.setText('people', people);
         }
@@ -558,7 +555,6 @@ export default class SearchForm {
         kids.push(age);
         people += 1;
 
-        this.setValue('kids', kids);
         this.setText('people', people);
 
         if (kids.length >= limits.kids) {
@@ -637,10 +633,6 @@ export default class SearchForm {
       return false;
     }
     return true;
-  }
-
-  setValue(key, value) {
-    this.data[key] = value;
   }
 
   getValue(key) {

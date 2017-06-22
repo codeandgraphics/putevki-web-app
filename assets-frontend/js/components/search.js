@@ -181,7 +181,7 @@ export default class Search {
 
   checkVisible() {
     if (this.all.shown && !this.all.done) {
-      if (isScrolledIntoView(this.$moreResults.find('a')) && !this.all.loading) {
+      if (isScrolledIntoView(this.$.moreResults.find('a')) && !this.all.loading) {
         this.showNext();
       }
     }
@@ -291,6 +291,7 @@ export default class Search {
 
     if (IS_DEV) console.log(`[ПОИСК] Рендерим результаты. Прошло с начала: ${new Date() - this.startDate}мс`);
 
+    console.log(hotels);
     $.each(hotels, (i, hotel) => {
       if (hotel.tours.length > 0) {
         const $item = this.buildHotel(hotel);
@@ -317,6 +318,7 @@ export default class Search {
     $item.attr('data-name', hotel.name.toLowerCase());
     $item.attr('data-stars', hotel.stars);
 
+    $item.find('.place span').text(`${hotel.country.name}, ${hotel.region.name}`);
 
     if (hotel.types) {
       $item.attr('data-active', hotel.types.active);
@@ -462,8 +464,8 @@ export default class Search {
       const star = $el.data('stars');
       $stars.find('button .text').html(html);
 
-      this.form.data.stars = star;
-      this.form.$.form.find('.search-button button').click();
+      this.formObject.data.filters.stars = star;
+      this.formObject.$.form.find('.search-button button').click();
 
       return false;
     });
@@ -476,8 +478,8 @@ export default class Search {
       const meal = $el.data('meal');
       $meals.find('button .text').html(html).find('small').hide();
 
-      this.form.data.meal = meal;
-      this.form.$.form.find('.search-button button').click();
+      this.formObject.data.filters.meal = meal;
+      this.formObject.$.form.find('.search-button button').click();
 
       return false;
     });

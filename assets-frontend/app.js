@@ -3,10 +3,11 @@ import 'bootstrap-webpack';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import MainPage from './js/pages/main';
-
 import './less/main.less';
+
+import MainPage from './js/pages/main';
 import SearchPage from './js/pages/search';
+import TourPage from './js/pages/tour';
 
 export const IS_DEV = global.env === 'development';
 export const DATE_FORMAT = 'DD.MM.YYYY';
@@ -23,6 +24,10 @@ $(document).ready(() => {
     case 'search':
       const searchPage = new SearchPage();
       searchPage.init();
+      break;
+    case 'tour':
+      const tourPage = new TourPage();
+      tourPage.init();
       break;
     default:
       break;

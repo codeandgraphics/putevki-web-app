@@ -3,6 +3,7 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
+use Frontend\Models\SearchParams;
 use Models\Api\SearchQuery;
 use Phalcon\Http\Response;
 use Models\Tourvisor;
@@ -24,8 +25,8 @@ class SearchController extends BaseController
 			'order' => 'id DESC'
 		]);
 
-		// $title = 'Поиск путевок ' . $searchQuery->departure->name .
-		//	' &mdash; ' . $searchQuery->buildTitle() . ' на ';
+		$title = 'Поиск путевок ' . $params->search->fromEntity()->name .
+			' &mdash; ' . ' на ';
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
@@ -73,31 +74,45 @@ class SearchController extends BaseController
 		return $response;
 	}
 
-	public function hotelShortAction($from, $where, $hotelName, $hotelId)
+	public function hotelShortAction()
 	{
+		$from = $this->dispatcher->getParam('from', 'string');
+		$where = $this->dispatcher->getParam('where', 'string');
+		$hotelId = $this->dispatcher->getParam('hotelId', 'int');
+
 		$response = new Response();
 
-		$this->params->hotel = $hotelName . '-' . $hotelId;
-		$this->params->departure = $from;
-		$this->params->country = $where;
+		$params = Params::getInstance();
 
-		$url = SearchQueries::buildQueryStringFromParams($this->params);
+		$params->search->fromFromQuery($from);
+		$params->search->whereFromQuery($where, $hotelId);
 
-		$response->setHeader('Location', $this->config->frontend->publicURL . 'search/' . $url);
+		$params->store();
+
+		$url = $params->search->buildQueryString();
+
+		$response->setHeader('Location', $this->url->get('search/' . $url));
 
 		return $response;
 	}
 
-	public function shortAction($from, $where)
+	public function shortAction()
 	{
+		$from = $this->dispatcher->getParam('from', 'string');
+		$where = $this->dispatcher->getParam('where', 'string');
+
 		$response = new Response();
 
-		$this->params->departure = $from;
-		$this->params->country = $where;
+		$params = Params::getInstance();
 
-		$url = SearchQueries::buildQueryStringFromParams($this->params);
+		$params->search->fromFromQuery($from);
+		$params->search->whereFromQuery($where, null);
 
-		$response->setHeader('Location', $this->config->frontend->publicURL . 'search/' . $url);
+		$params->store();
+
+		$url = $params->search->buildQueryString();
+
+		$response->setHeader('Location', $this->url->get('search/' . $url));
 
 		return $response;
 	}
