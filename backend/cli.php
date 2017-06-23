@@ -10,24 +10,30 @@ define('VERSION', '1.0.0');
 
 $di = new CliDI();
 
-defined('APP_PATH') || define('APP_PATH', realpath(__DIR__) . DIRECTORY_SEPARATOR);
+defined('APP_PATH') || define('APP_PATH', realpath(__DIR__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 
-if (is_readable(APP_PATH . 'config.ini'))
-{
+if (is_readable(APP_PATH . 'config.ini')) {
 	$config = new Config(APP_PATH . 'config.ini');
 	$di->set('config', $config);
+} else {
+	die('[ERROR] Cannot load config' . PHP_EOL);
 }
 
 $loader = new \Phalcon\Loader();
 $loader->registerDirs(
-	array(
-		APP_PATH . 'tasks'
-	)
+	[
+		APP_PATH . 'backend' . DIRECTORY_SEPARATOR . 'tasks'
+	]
 );
-$loader->registerNamespaces((array) $config->loader->namespaces);
+$namespaces = (array) $config->loader->namespaces;
+
+$loader->registerNamespaces(array_map(function($namespace) {
+	return APP_PATH . $namespace;
+}, $namespaces));
+
 $loader->register();
 
-$di->setShared('transactions', function(){
+$di->setShared('transactions', function () {
 	return new TransactionManager();
 });
 
@@ -38,32 +44,23 @@ $di->set('db', function () use ($config) {
 $console = new ConsoleApp();
 $console->setDI($di);
 
-$arguments = array();
-foreach ($argv as $k => $arg)
-{
-	if ($k === 1)
-	{
+$arguments = [];
+foreach ($argv as $k => $arg) {
+	if ($k === 1) {
 		$arguments['task'] = $arg;
-	}
-	elseif ($k === 2)
-	{
+	} elseif ($k === 2) {
 		$arguments['action'] = $arg;
-	}
-	elseif ($k >= 3)
-	{
+	} elseif ($k >= 3) {
 		$arguments['params'][] = $arg;
 	}
 }
 
-define('CURRENT_TASK',   (isset($argv[1]) ? $argv[1] : null));
+define('CURRENT_TASK', (isset($argv[1]) ? $argv[1] : null));
 define('CURRENT_ACTION', (isset($argv[2]) ? $argv[2] : null));
 
-try
-{
+try {
 	$console->handle($arguments);
-}
-catch (\Phalcon\Exception $e)
-{
+} catch (\Phalcon\Exception $e) {
 	echo $e->getMessage();
 	echo PHP_EOL;
 	exit(255);
