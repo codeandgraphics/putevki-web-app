@@ -1,9 +1,11 @@
 <?php
-namespace Models\Api\Entities;
+
+namespace Models\Entities;
 
 use Models\Tourvisor\Countries;
 
-class Country {
+class Country
+{
 	public $id;
 	public $name;
 	public $popular;
@@ -11,10 +13,10 @@ class Country {
 
 	public function __construct(Countries $country = null)
 	{
-		if($country) {
-			$this->id = (int) $country->id;
+		if ($country) {
+			$this->id = (int)$country->id;
 			$this->name = $country->name;
-			$this->popular = (int) $country->popular;
+			$this->popular = (int)$country->popular;
 		}
 	}
 }

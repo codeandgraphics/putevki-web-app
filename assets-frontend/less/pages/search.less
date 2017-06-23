@@ -293,6 +293,7 @@ body{
 				margin-left: 5px;
 				text-align: left;
 				position: relative;
+				border-radius: 4px;
 
 				.caret{
 					position: absolute;
@@ -317,12 +318,24 @@ body{
 			}
 
 			ul{
-				border: 1px solid @color-main-blue;
-				border-radius: 0;
+				border: 1px solid @color-text-light;
+				border-radius: 4px;
 				padding: 0;
 				min-width: 170px;
+				overflow: hidden;
 
 				li{
+
+					&.active {
+						a {
+							background-color: @color-main-blue;
+
+							i,
+							small{
+								color: @color-bg;
+							}
+						}
+					}
 
 					&.divider{
 						margin: 0;

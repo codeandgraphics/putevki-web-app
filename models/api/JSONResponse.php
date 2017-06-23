@@ -1,4 +1,5 @@
 <?php
+
 namespace Models\Api;
 
 use Phalcon\Http\Response;

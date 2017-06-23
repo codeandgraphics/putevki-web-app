@@ -12,11 +12,11 @@
 
 	<meta name="mobile-web-app-capable" content="yes">
 
-	{% if currentCity.meta_keywords %}
-		<meta name="keywords" content="{{ currentCity.meta_keywords }}" />
+	{% if city.meta_keywords %}
+		<meta name="keywords" content="{{ city.meta_keywords }}" />
 	{% endif %}
-	{% if currentCity.meta_description %}
-		<meta name="description" content="{{ currentCity.meta_description }}" />
+	{% if city.meta_description %}
+		<meta name="description" content="{{ city.meta_description }}" />
 	{% endif %}
 	<meta name="author" content="Путевки.ру" />
 

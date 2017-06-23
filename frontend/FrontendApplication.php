@@ -8,8 +8,8 @@ use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Dispatcher;
 
-
-class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface {
+class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface
+{
 
 	const ENV_DEVELOPMENT = 'development';
 	const ENV_PRODUCTION = 'production';
@@ -18,7 +18,8 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 	protected $_log;
 	protected $_config;
 
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 
 		$this->initDI();
@@ -27,7 +28,8 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	}
 
-	protected function initDI() {
+	protected function initDI()
+	{
 		$this->setDI(new \Phalcon\Di\FactoryDefault());
 
 		$services = [
@@ -43,7 +45,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		];
 
 		foreach ($services as $service) {
-			if(method_exists($this, $service)) {
+			if (method_exists($this, $service)) {
 				$this->$service();
 			}
 		}
@@ -53,7 +55,8 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	/** Methods */
 
-	protected function config() {
+	protected function config()
+	{
 		$config = new Config(APP_PATH . 'config.ini');
 
 		$this->setENV($config->frontend->env);
@@ -72,8 +75,9 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		$di->setShared('transactionManager', new TransactionManager());
 	}
 
-	protected function url(){
-		$this->getDI()->set('url', function(){
+	protected function url()
+	{
+		$this->getDI()->set('url', function () {
 			$url = new \Phalcon\Mvc\Url();
 
 			$config = $this->getConfig();
@@ -92,51 +96,51 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		});
 	}
 
-	protected function db() {
-		$this->getDI()->setShared('db', function()
-		{
+	protected function db()
+	{
+		$this->getDI()->setShared('db', function () {
 			$config = $this->getConfig();
 
 			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
-				'host'		=> $config->database->host,
-				'username'	=> $config->database->username,
-				'password'	=> $config->database->password,
-				'dbname'	=> $config->database->dbname,
-				'charset'	=> $config->database->charset
+				'host' => $config->database->host,
+				'username' => $config->database->username,
+				'password' => $config->database->password,
+				'dbname' => $config->database->dbname,
+				'charset' => $config->database->charset
 			]);
 			$connection->setEventsManager($this->getDI()->getShared('eventsManager'));
 			return $connection;
 		});
 	}
 
-	protected function loader() {
+	protected function loader()
+	{
 		$loader = new \Phalcon\Loader();
 		$loaderConfig = $this->getDI()->get('config')->loader;
 
-		if (property_exists($loaderConfig, 'namespaces') && count($loaderConfig->namespaces) > 0)
-		{
+		if (property_exists($loaderConfig, 'namespaces') && count($loaderConfig->namespaces) > 0) {
 			if (property_exists($loaderConfig, 'frontend') && count($loaderConfig->frontend) > 0) {
-				$namespaces = array_merge((array) $loaderConfig->namespaces, (array) $loaderConfig->frontend);
+				$namespaces = array_merge((array)$loaderConfig->namespaces, (array)$loaderConfig->frontend);
 			} else {
-				$namespaces = (array) $loaderConfig->namespaces;
+				$namespaces = (array)$loaderConfig->namespaces;
 			}
-			$loader->registerNamespaces(array_map(function($item){
+			$loader->registerNamespaces(array_map(function ($item) {
 				return APP_PATH . $item;
-			}, (array) $namespaces));
+			}, (array)$namespaces));
 		}
 
-		if (property_exists($loaderConfig, 'composer'))
-		{
+		if (property_exists($loaderConfig, 'composer')) {
 			require APP_PATH . $loaderConfig->composer;
 		}
 
 		$loader->register();
 	}
 
-	protected function session() {
+	protected function session()
+	{
 		$this->getDI()->set(
 			'session',
-			function() {
+			function () {
 				$session = new SessionAdapter();
 				$session->start();
 				return $session;
@@ -144,22 +148,22 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		);
 	}
 
-	protected function dispatcher() {
+	protected function dispatcher()
+	{
 		$this->getDI()->set(
 			'dispatcher',
 			function () {
 				$eventsManager = $this->getDI()->getShared('eventsManager');
 				$eventsManager->attach(
 					'dispatch:beforeException',
-					function($event, $dispatcher, $exception)
-					{
+					function ($event, $dispatcher, $exception) {
 						switch ($exception->getCode()) {
 							case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
 							case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
 								$dispatcher->forward(
 									array(
 										'controller' => 'error',
-										'action'     => 'error404',
+										'action' => 'error404',
 									)
 								);
 								return false;
@@ -175,13 +179,15 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		);
 	}
 
-	protected function router() {
-		$this->getDI()->setShared('router', function() {
+	protected function router()
+	{
+		$this->getDI()->setShared('router', function () {
 			return require APP_PATH . 'frontend/Routes.php';
 		});
 	}
 
-	protected function view() {
+	protected function view()
+	{
 		$this->getDI()->set('view', function () {
 			$view = new View();
 			$view->setViewsDir(APP_PATH . $this->getConfig()->frontend->viewsDir);
@@ -196,8 +202,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 			return $view;
 		});
 
-		$this->getDI()->set('simpleView', function()
-		{
+		$this->getDI()->set('simpleView', function () {
 			$view = new Phalcon\Mvc\View\Simple();
 			$view->setViewsDir($this->getConfig()->backend->viewsDir);
 			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
@@ -205,7 +210,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		});
 	}
 
-	/** Methods */
+	/** Setters/Getters */
 
 	/**
 	 * @return mixed
@@ -238,10 +243,10 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 	 *
 	 * @param mixed $config
 	 */
-	public function setConfig(Config $config) {
+	public function setConfig(Config $config)
+	{
 		$this->_config = $config;
 	}
-
 
 
 }

@@ -2,10 +2,11 @@
 
 namespace Models\Tourvisor;
 
+use Interfaces\ITourvisorEntity;
 use Models\BaseModel;
 use Phalcon\Mvc\Model;
 
-class Departures extends BaseModel
+class Departures extends BaseModel implements ITourvisorEntity
 {
 
 	public $id;
@@ -14,7 +15,14 @@ class Departures extends BaseModel
 
 	public function initialize()
 	{
-		$this->setSource("tourvisor_departures");
+		$this->setSource('tourvisor_departures');
+	}
+
+	public function fromTourvisor($item)
+	{
+		$this->id = $item->id;
+		$this->name = $item->name;
+		$this->name_from = $item->namefrom;
 	}
 
 	public function format()
@@ -29,7 +37,7 @@ class Departures extends BaseModel
 	}
 
 	/**
-	 * @param null $parameters
+	 * @param mixed $parameters
 	 * @return Departures|Model
 	 */
 	public static function findFirst($parameters = null)
@@ -37,4 +45,12 @@ class Departures extends BaseModel
 		return parent::findFirst($parameters);
 	}
 
+	/**
+	 * @param mixed $parameters
+	 * @return Departures[]|Model\ResultsetInterface
+	 */
+	public static function find($parameters = null)
+	{
+		return parent::find($parameters);
+	}
 }

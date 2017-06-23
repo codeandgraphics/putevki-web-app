@@ -1,8 +1,10 @@
 <?php
 
-use \Models\Tourvisor;
+use Phalcon\CLI\Task;
+use Models\Tourvisor;
+use Utils\Tourvisor as TourvisorUtils;
 
-class TourvisorTask extends \Phalcon\CLI\Task
+class TourvisorTask extends Task
 {
 
 	public function mainAction()
@@ -18,8 +20,8 @@ class TourvisorTask extends \Phalcon\CLI\Task
 		$this->hotelsAction();
 	}
 
-	public function hotelsAction(){
-
+	public function hotelsAction()
+	{
 		$countries = Tourvisor\Countries::find();
 
 		$manager = $this->di->get('transactions');
@@ -27,34 +29,19 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$allHotels = 0;
 
-		foreach($countries as $country){
+		foreach ($countries as $country) {
 			$params = array(
-				'type'	=> 'hotel',
-				'hotcountry'	=> $country->id
+				'type' => 'hotel',
+				'hotcountry' => $country->id
 			);
 
-			$apiHotels = \Utils\Tourvisor::getMethod('list', $params)->lists->hotels->hotel;
+			$items = TourvisorUtils::getMethod('list', $params)->lists->hotels->hotel;
 
-			foreach($apiHotels as $apiHotel)
-			{
+			foreach ($items as $item) {
 				$hotel = new Tourvisor\Hotels();
 				$hotel->setTransaction($transaction);
-
-				$hotel->id = $apiHotel->id;
-				$hotel->name = $apiHotel->name;
-				$hotel->starsId = $apiHotel->stars;
-				$hotel->regionId = $apiHotel->region;
 				$hotel->countryId = $country->id;
-				$hotel->rating = $apiHotel->rating;
-
-				$hotel->active = isset($apiHotel->active) ? $apiHotel->active : 0;
-				$hotel->relax = isset($apiHotel->relax) ? $apiHotel->relax : 0;
-				$hotel->family = isset($apiHotel->family) ? $apiHotel->family : 0;
-				$hotel->health = isset($apiHotel->health) ? $apiHotel->health : 0;
-				$hotel->city = isset($apiHotel->city) ? $apiHotel->city : 0;
-				$hotel->beach = isset($apiHotel->beach) ? $apiHotel->beach : 0;
-				$hotel->deluxe = isset($apiHotel->deluxe) ? $apiHotel->deluxe : 0;
-
+				$hotel->fromTourvisor($item);
 				$hotel->save();
 				$allHotels++;
 			}
@@ -62,25 +49,23 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nHotels count: " . $allHotels . " \n";
+		echo PHP_EOL . 'Hotels count: ' . $allHotels . PHP_EOL;
 	}
 
 	public function countriesAction()
 	{
 		$params = array(
-			'type'	=> 'country'
+			'type' => 'country'
 		);
-		$apiCountries = \Utils\Tourvisor::getMethod('list', $params)->lists->countries->country;
+		$items = TourvisorUtils::getMethod('list', $params)->lists->countries->country;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiCountries as $apiCountry)
-		{
+		foreach ($items as $item) {
 			$country = new Tourvisor\Countries();
 			$country->setTransaction($transaction);
-			$country->id = $apiCountry->id;
-			$country->name = $apiCountry->name;
+			$country->fromTourvisor($item);
 
 			$country->save();
 
@@ -89,143 +74,122 @@ class TourvisorTask extends \Phalcon\CLI\Task
 
 		$transaction->commit();
 
-		echo "\nCountries count: " . count($apiCountries) . " \n";
+		echo PHP_EOL . 'Countries count: ' . count($items) . PHP_EOL;
 	}
 
 	public function regionsAction()
 	{
-
 		$params = array(
-			'type'	=> 'region'
+			'type' => 'region'
 		);
-		$apiRegions = \Utils\Tourvisor::getMethod('list', $params)->lists->regions->region;
+
+		$items = TourvisorUtils::getMethod('list', $params)->lists->regions->region;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiRegions as $apiRegion)
-		{
+		foreach ($items as $item) {
 			$region = new Tourvisor\Regions();
 			$region->setTransaction($transaction);
-			$region->id = $apiRegion->id;
-			$region->name = $apiRegion->name;
-			$region->countryId = $apiRegion->country;
-
+			$region->fromTourvisor($item);
 			$region->save();
 		}
 
 		$transaction->commit();
 
-		echo "\nRegions count: " . count($apiRegions) . " \n";
+		echo PHP_EOL . 'Regions count: ' . count($items) . PHP_EOL;
 	}
 
 	public function departuresAction()
 	{
-
 		$params = array(
-			'type'	=> 'departure'
+			'type' => 'departure'
 		);
-		$apiDepartures = \Utils\Tourvisor::getMethod('list', $params)->lists->departures->departure;
+
+		$items = TourvisorUtils::getMethod('list', $params)->lists->departures->departure;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiDepartures as $apiDeparture)
-		{
+		foreach ($items as $item) {
 			$departure = new Tourvisor\Departures();
 			$departure->setTransaction($transaction);
-			$departure->id = $apiDeparture->id;
-			$departure->name = $apiDeparture->name;
-			$departure->name_from = $apiDeparture->namefrom;
-
+			$departure->fromTourvisor($item);
 			$departure->save();
 		}
 
 		$transaction->commit();
 
-		echo "\nDepartures count: " . count($apiDepartures) . " \n";
+		echo PHP_EOL . 'Departures count: ' . count($items) . PHP_EOL;
 	}
 
 	public function operatorsAction()
 	{
-
 		$params = array(
-			'type'	=> 'operator'
+			'type' => 'operator'
 		);
-		$apiOperators = \Utils\Tourvisor::getMethod('list', $params)->lists->operators->operator;
+
+		$items = TourvisorUtils::getMethod('list', $params)->lists->operators->operator;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiOperators as $apiOperator)
-		{
+		foreach ($items as $item) {
 			$operator = new Tourvisor\Operators();
 			$operator->setTransaction($transaction);
-			$operator->id = $apiOperator->id;
-			$operator->name = $apiOperator->name;
-			$operator->fullname = $apiOperator->fullname;
-			$operator->russian = $apiOperator->russian;
-			$operator->onlinebooking = $apiOperator->onlinebooking;
-
+			$operator->fromTourvisor($item);
 			$operator->save();
 		}
 
 		$transaction->commit();
 
-		echo "\nOperators count: " . count($apiOperators) . " \n";
+		echo PHP_EOL . 'Operators count: ' . count($items) . PHP_EOL;
 	}
 
 	public function mealsAction()
 	{
 		$params = array(
-			'type'	=> 'meal'
+			'type' => 'meal'
 		);
-		$apiArray = \Utils\Tourvisor::getMethod('list', $params)->lists->meals->meal;
+
+		$items = TourvisorUtils::getMethod('list', $params)->lists->meals->meal;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiArray as $apiItem)
-		{
-			$item = new Tourvisor\Meals();
-			$item->setTransaction($transaction);
-			$item->id = $apiItem->id;
-			$item->name = $apiItem->name;
-			$item->fullname = $apiItem->fullname;
-			$item->russian = $apiItem->russian;
-			$item->russianfull = $apiItem->russianfull;
-
-			$item->save();
+		foreach ($items as $item) {
+			$meal = new Tourvisor\Meals();
+			$meal->setTransaction($transaction);
+			$meal->fromTourvisor($item);
+			$meal->save();
 		}
 
 		$transaction->commit();
 
-		echo "\nMeals count: " . count($apiArray) . " \n";
+		echo PHP_EOL . 'Meals count: ' . count($items) . PHP_EOL;
 	}
 
 	public function starsAction()
 	{
 		$params = array(
-			'type'	=> 'stars'
+			'type' => 'stars'
 		);
-		$apiArray = \Utils\Tourvisor::getMethod('list', $params)->lists->stars->star;
+
+		$items = TourvisorUtils::getMethod('list', $params)->lists->stars->star;
 
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
-		foreach($apiArray as $apiItem)
-		{
-			$item = new Tourvisor\Stars();
-			$item->setTransaction($transaction);
-			$item->id = $apiItem->id;
-			$item->name = $apiItem->name;
-
-			$item->save();
+		foreach ($items as $item) {
+			$star = new Tourvisor\Stars();
+			$star->setTransaction($transaction);
+			$star->fromTourvisor($item);
+			$star->save();
 		}
 
 		$transaction->commit();
 
-		echo "\nStars count: " . count($apiArray) . " \n";
+		echo PHP_EOL . 'Stars count: ' . count($items) . PHP_EOL;
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class Tour
 {
@@ -24,7 +24,7 @@ class Tour
 
 	public function __construct($tour = null)
 	{
-		if($tour) {
+		if ($tour) {
 			$this->id = $tour->tourid;
 			$this->name = $tour->tourname;
 			$this->room = $tour->room;

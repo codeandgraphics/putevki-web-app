@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class HotelFull
 {
@@ -22,13 +22,13 @@ class HotelFull
 
 	public function __construct($hotel = null)
 	{
-		if($hotel) {
+		if ($hotel) {
 			$this->name = $hotel->name;
 			$this->description = Hotel::removeEntities($hotel->description);
-			$this->stars = (int) $hotel->stars;
+			$this->stars = (int)$hotel->stars;
 			$this->rating = $hotel->rating;
 
-			if(property_exists($hotel, 'images') && property_exists($hotel->images, 'image')) {
+			if (property_exists($hotel, 'images') && property_exists($hotel->images, 'image')) {
 				$this->images = $hotel->images->image;
 			}
 
@@ -52,8 +52,8 @@ class HotelFull
 			$this->about->beach = Hotel::removeEntities($hotel->beach);
 			$this->about->meallist = Hotel::removeEntities($hotel->meallist);
 
-			if(property_exists($hotel, 'reviews') && property_exists($hotel->reviews, 'review')) {
-				foreach($hotel->reviews->review as $review) {
+			if (property_exists($hotel, 'reviews') && property_exists($hotel->reviews, 'review')) {
+				foreach ($hotel->reviews->review as $review) {
 					$this->reviews[] = new Review($review);
 				}
 			}

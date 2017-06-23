@@ -18,8 +18,8 @@ use Phalcon\Cache\Frontend\Data as CacheData;
 use Backend\Controllers\EmailController;
 use Models\Api\Error;
 use Models\Api\JSONResponse;
-use Models\Api\SearchQuery;
-use Models\Api\Entities;
+use Models\SearchQuery;
+use Models\Entities;
 
 use Phalcon\Security;
 use Utils\Tourvisor as TourvisorUtils;
@@ -60,8 +60,9 @@ class ApiController extends BaseController
 		return $response;
 	}
 
-	public function requestAction(){
-		if($this->request->isPost()) {
+	public function requestAction()
+	{
+		if ($this->request->isPost()) {
 
 			$data = $this->request->getJsonRawBody();
 
@@ -73,43 +74,42 @@ class ApiController extends BaseController
 			$order = $data->order;
 
 			//Клиент
-			$request->subjectName			= $order->subject->name;
-			$request->subjectPhone			= $order->subject->phone;
-			$request->subjectEmail			= $order->subject->email;
+			$request->subjectName = $order->subject->name;
+			$request->subjectPhone = $order->subject->phone;
+			$request->subjectEmail = $order->subject->email;
 
 			//Данные тура
-			$request->hotelName			= $order->hotel->name;
-			$request->hotelCountry		= $order->hotel->country;
-			$request->hotelRegion		= $order->hotel->region;
+			$request->hotelName = $order->hotel->name;
+			$request->hotelCountry = $order->hotel->country;
+			$request->hotelRegion = $order->hotel->region;
 
-			$request->hotelDate			= $order->hotel->date;
-			$request->hotelNights		= $order->hotel->nights;
-			$request->hotelPlacement	= $order->hotel->placement;
-			$request->hotelMeal			= $order->hotel->meal;
-			$request->hotelRoom			= $order->hotel->room;
+			$request->hotelDate = $order->hotel->date;
+			$request->hotelNights = $order->hotel->nights;
+			$request->hotelPlacement = $order->hotel->placement;
+			$request->hotelMeal = $order->hotel->meal;
+			$request->hotelRoom = $order->hotel->room;
 
-			if($order->flight)
-			{
-				$request->flightToNumber			= $order->flight->to->number;
-				$request->flightToDepartureDate		= $order->flight->to->departure->date;
-				$request->flightToDepartureTime		= $order->flight->to->departure->time;
-				$request->flightToDepartureTerminal	= $order->flight->to->departure->port;
-				$request->flightToArrivalDate		= $order->flight->to->arrival->date;
-				$request->flightToArrivalTime		= $order->flight->to->arrival->time;
-				$request->flightToArrivalTerminal	= $order->flight->to->arrival->port;
-				$request->flightToCarrier			= $order->flight->to->carrier;
-				$request->flightToPlane				= $order->flight->to->plane;
+			if ($order->flight) {
+				$request->flightToNumber = $order->flight->to->number;
+				$request->flightToDepartureDate = $order->flight->to->departure->date;
+				$request->flightToDepartureTime = $order->flight->to->departure->time;
+				$request->flightToDepartureTerminal = $order->flight->to->departure->port;
+				$request->flightToArrivalDate = $order->flight->to->arrival->date;
+				$request->flightToArrivalTime = $order->flight->to->arrival->time;
+				$request->flightToArrivalTerminal = $order->flight->to->arrival->port;
+				$request->flightToCarrier = $order->flight->to->carrier;
+				$request->flightToPlane = $order->flight->to->plane;
 
-				$request->flightFromNumber				= $order->flight->from->number;
-				$request->flightFromDepartureDate		= $order->flight->from->departure->date;
-				$request->flightFromDepartureTime		= $order->flight->from->departure->time;
-				$request->flightFromDepartureTerminal	= $order->flight->from->departure->port;
-				$request->flightFromArrivalDate			= $order->flight->from->arrival->date;
-				$request->flightFromArrivalTime			= $order->flight->from->arrival->time;
-				$request->flightFromArrivalTerminal		= $order->flight->from->arrival->port;
-				$request->flightFromCarrier				= $order->flight->from->carrier;
-				$request->flightFromPlane				= $order->flight->from->plane;
-				$request->flightFromClass				= '';
+				$request->flightFromNumber = $order->flight->from->number;
+				$request->flightFromDepartureDate = $order->flight->from->departure->date;
+				$request->flightFromDepartureTime = $order->flight->from->departure->time;
+				$request->flightFromDepartureTerminal = $order->flight->from->departure->port;
+				$request->flightFromArrivalDate = $order->flight->from->arrival->date;
+				$request->flightFromArrivalTime = $order->flight->from->arrival->time;
+				$request->flightFromArrivalTerminal = $order->flight->from->arrival->port;
+				$request->flightFromCarrier = $order->flight->from->carrier;
+				$request->flightFromPlane = $order->flight->from->plane;
+				$request->flightFromClass = '';
 			}
 
 			$request->tourOperatorId = $order->tour->operator;
@@ -117,7 +117,7 @@ class ApiController extends BaseController
 			$request->price = $order->tour->price;
 			$request->departureId = $order->tour->from;
 
-			if($request->save()) {
+			if ($request->save()) {
 
 				//Отправляем email
 				$emailController = new EmailController();
@@ -131,8 +131,8 @@ class ApiController extends BaseController
 		}
 	}
 
-
-	public function dictionariesAction() {
+	public function dictionariesAction()
+	{
 		$response = array(
 			'cities' => [],
 			'departures' => [],
@@ -166,7 +166,7 @@ class ApiController extends BaseController
 
 		$cities = [];
 		foreach ($cityItems as $item) {
-			if(!array_key_exists($item->city->id, $cities)) {
+			if (!array_key_exists($item->city->id, $cities)) {
 				$cities[$item->city->id] = new Entities\City($item->city);
 			}
 
@@ -199,12 +199,12 @@ class ApiController extends BaseController
 
 		$items = $builder->getQuery()->execute();
 
-		foreach($items as $item) {
+		foreach ($items as $item) {
 			$country = $item->country;
 			$region = $item->region;
-			$countryId = (int) $region->countryId;
+			$countryId = (int)$region->countryId;
 
-			if(!array_key_exists($countryId, $response['destinations'])) {
+			if (!array_key_exists($countryId, $response['destinations'])) {
 				$response['destinations'][$countryId] = new Entities\Country($country);
 			}
 
@@ -214,12 +214,12 @@ class ApiController extends BaseController
 		$response['destinations'] = array_values($response['destinations']);
 
 		$meals = Meals::find();
-		foreach($meals as $meal) {
+		foreach ($meals as $meal) {
 			$response['meal'][] = new Entities\Meal($meal);
 		}
 
 		$stars = Stars::find();
-		foreach($stars as $star) {
+		foreach ($stars as $star) {
 			$response['stars'][] = new Entities\Star($star);
 		}
 
@@ -234,8 +234,8 @@ class ApiController extends BaseController
 
 		$searchId = $query->run();
 
-		if($searchId) {
-			return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
+		if ($searchId) {
+			return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
 		}
 
 		return new JSONResponse(Error::API_ERROR);
@@ -254,13 +254,13 @@ class ApiController extends BaseController
 		$sec = new Security();
 		$serverHMAC = $sec->computeHmac($string, $this->_KEY, 'sha512');
 
-		if($serverHMAC === $sign) {
+		if ($serverHMAC === $sign) {
 			$query = new SearchQuery($params);
 
 			$searchId = $query->run();
 
-			if($searchId) {
-				return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId ]);
+			if ($searchId) {
+				return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
 			}
 
 			return new JSONResponse(Error::API_ERROR);
@@ -269,35 +269,37 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_AUTH_ERROR);
 	}
 
-	public function searchStatusAction() {
+	public function searchStatusAction()
+	{
 		$searchId = $this->request->get('searchId');
 
 		$params = array(
-			'requestid'		=> $searchId,
-			'type'			=> 'status'
+			'requestid' => $searchId,
+			'type' => 'status'
 		);
 
 		$result = TourvisorUtils::getMethod('result', $params);
 
-		if(property_exists($result, 'data') && property_exists($result->data, 'status')) {
+		if (property_exists($result, 'data') && property_exists($result->data, 'status')) {
 			return new JSONResponse(Error::NO_ERROR, ['status' => new Entities\Status($result->data->status)]);
 		}
 
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function searchResultAction() {
+	public function searchResultAction()
+	{
 
 		$searchId = $this->request->get('searchId');
 
 		$params = array(
-			'requestid'		=> $searchId,
-			'type'			=> 'result'
+			'requestid' => $searchId,
+			'type' => 'result'
 		);
 
 		$result = TourvisorUtils::getMethod('result', $params);
 
-		if(
+		if (
 			property_exists($result, 'data') &&
 			property_exists($result->data, 'status')
 		) {
@@ -305,8 +307,8 @@ class ApiController extends BaseController
 			$status = new Entities\Status($result->data->status);
 			$hotels = [];
 
-			if(property_exists($result->data, 'result')) {
-				foreach($result->data->result->hotel as $hotel) {
+			if (property_exists($result->data, 'result')) {
+				foreach ($result->data->result->hotel as $hotel) {
 					$hotels[] = new Entities\Hotel($hotel);
 				}
 			}
@@ -317,19 +319,20 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function fullSearchResultAction() {
+	public function fullSearchResultAction()
+	{
 
 		$searchId = $this->request->get('searchId');
 
 		$params = array(
-			'requestid'		=> $searchId,
-			'type'			=> 'result',
-			'onpage'        => 999
+			'requestid' => $searchId,
+			'type' => 'result',
+			'onpage' => 999
 		);
 
 		$result = TourvisorUtils::getMethod('result', $params);
 
-		if(
+		if (
 			property_exists($result, 'data') &&
 			property_exists($result->data, 'status')
 		) {
@@ -337,8 +340,8 @@ class ApiController extends BaseController
 			$status = new Entities\Status($result->data->status);
 			$hotels = [];
 
-			if(property_exists($result->data, 'result')) {
-				foreach($result->data->result->hotel as $hotel) {
+			if (property_exists($result->data, 'result')) {
+				foreach ($result->data->result->hotel as $hotel) {
 					$hotels[] = new Entities\Hotel($hotel);
 				}
 			}
@@ -349,11 +352,12 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function actualizeTourAction() {
+	public function actualizeTourAction()
+	{
 		$tourId = $this->request->get('tourId');
 
 		$params = array(
-			'tourid'		=> $tourId
+			'tourid' => $tourId
 		);
 
 		$actdetail = TourvisorUtils::getMethod('actdetail', $params);
@@ -367,24 +371,25 @@ class ApiController extends BaseController
 		]);
 	}
 
-	public function hotelAction() {
+	public function hotelAction()
+	{
 
 		$hotelId = $this->request->get('hotelId');
 
 		$params = array(
-			'hotelcode'		=> $hotelId,
-			'removetags'    => 1,
-			'reviews'       => 1
+			'hotelcode' => $hotelId,
+			'removetags' => 1,
+			'reviews' => 1
 		);
 
 		$result = TourvisorUtils::getMethod('hotel', $params);
 
-		if(
+		if (
 			property_exists($result, 'data') &&
 			property_exists($result->data, 'hotel')
 		) {
 			$hotel = new Entities\HotelFull($result->data->hotel);
-			$hotel->id = (int) $hotelId;
+			$hotel->id = (int)$hotelId;
 			return new JSONResponse(Error::NO_ERROR, ['hotel' => $hotel]);
 		}
 
@@ -399,8 +404,7 @@ class ApiController extends BaseController
 
 		$hotels = [];
 
-		if(mb_strlen($query,'UTF-8') >= 2)
-		{
+		if (mb_strlen($query, 'UTF-8') >= 2) {
 			$builder = $this->modelsManager->createBuilder()
 				->columns([
 					'hotel.id',
@@ -425,10 +429,9 @@ class ApiController extends BaseController
 				->andWhere('hotel.name LIKE :query:')
 				->limit(20);
 
-			$dbHotels = $builder->getQuery()->execute([ 'query' => '%' . $query . '%' ]);
+			$dbHotels = $builder->getQuery()->execute(['query' => '%' . $query . '%']);
 
-			foreach($dbHotels as $hotel)
-			{
+			foreach ($dbHotels as $hotel) {
 				$hotels[] = $hotel;
 			}
 		}
@@ -436,36 +439,6 @@ class ApiController extends BaseController
 		$response->setJsonContent($hotels);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-
-		return $response;
-	}
-
-	public function yandex_dictionariesAction($method)
-	{
-		$response = new Response();
-
-		$className = '\Models\References\\' . ucfirst($method);
-
-		if(class_exists($className))
-		{
-			$cacheKey = 'yandex_api.method.' . $method;
-
-			$content = $this->_cache->get($cacheKey);
-
-			if($content === null)
-			{
-				$content = $className::getReferenced();
-				$this->_cache->save($content);
-			}
-		}
-		else
-		{
-			$content = [
-				'error'	=> 'Method not exists'
-			];
-		}
-
-		$response->setJsonContent($content);
 
 		return $response;
 	}

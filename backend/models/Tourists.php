@@ -2,12 +2,11 @@
 
 namespace Backend\Models;
 
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Behavior\Timestampable,
-	Phalcon\Mvc\Model\Behavior\SoftDelete,
-	Phalcon\Mvc\Model\Query;
+use Models\BaseModel;
+use Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Tourists extends Model
+class Tourists extends BaseModel
 {
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
@@ -29,16 +28,16 @@ class Tourists extends Model
 	public $nationality;
 	public $discount;
 	public $gender;
-	public $creationDate = null;
+	public $creationDate;
 	public $deleted = Tourists::NOT_DELETED;
 
 	public function initialize()
 	{
 		$this->addBehavior(new Timestampable(
 			array(
-				'beforeCreate'  => array(
-					'field'     => 'creationDate',
-					'format'    => 'Y-m-d H:i:s'
+				'beforeCreate' => array(
+					'field' => 'creationDate',
+					'format' => 'Y-m-d H:i:s'
 				)
 			)
 		));
@@ -50,40 +49,36 @@ class Tourists extends Model
 			)
 		));
 
-		$this->hasMany('id', 'Backend\Models\RequestTourists', 'touristId', [
+		$this->hasMany('id', RequestTourists::name(), 'touristId', [
 			'alias' => 'requestTourists'
 		]);
 	}
 
 	public function beforeSave()
 	{
-		if($this->birthDate)
-		{
+		if ($this->birthDate) {
 			$date = \DateTime::createFromFormat('d.m.Y', $this->birthDate);
-			if($date) $this->birthDate = $date->format('Y-m-d');
+			if ($date) $this->birthDate = $date->format('Y-m-d');
 		}
-		if($this->passport_endDate)
-		{
+		if ($this->passport_endDate) {
 			$endDate = \DateTime::createFromFormat('d.m.Y', $this->passport_endDate);
-			if($endDate) $this->passport_endDate = $endDate->format('Y-m-d');
+			if ($endDate) $this->passport_endDate = $endDate->format('Y-m-d');
 		}
 	}
 
 	public function afterFetch()
 	{
-		if($this->birthDate)
-		{
+		if ($this->birthDate) {
 			$date = \DateTime::createFromFormat('Y-m-d', $this->birthDate);
-			if($date) $this->birthDate = $date->format('d.m.Y');
+			if ($date) $this->birthDate = $date->format('d.m.Y');
 		}
-		if($this->passport_endDate)
-		{
+		if ($this->passport_endDate) {
 			$endDate = \DateTime::createFromFormat('Y-m-d', $this->passport_endDate);
-			if($endDate) $this->passport_endDate = $endDate->format('d.m.Y');
+			if ($endDate) $this->passport_endDate = $endDate->format('d.m.Y');
 		}
 	}
 
-	public function getMessages()
+	public function getMessages($filter = null)
 	{
 		$messages = array();
 		foreach (parent::getMessages() as $message) {
@@ -99,43 +94,35 @@ class Tourists extends Model
 
 	public static function addOrUpdate($tourist)
 	{
-		/*$query = "SELECT * FROM \Backend\Models\Tourists
-						WHERE \Backend\Models\Tourists.passport_number = :passport_number:
-						AND \Backend\Models\Tourists.passport_surname = :passport_surname:
-						AND \Backend\Models\Tourists.passport_name = :passport_name:
-						LIMIT 1";*/
-
 		$touristModel = Tourists::query()
 			->where('passport_number = :passport_number:')
 			->andWhere('passport_surname = :passport_surname:')
 			->andWhere('passport_name = :passport_name:')
 			->bind([
-				"passport_number" => $tourist->passport_number,
-				"passport_name" => $tourist->passport_name,
-				"passport_surname" => $tourist->passport_surname
+				'passport_number' => $tourist->passport_number,
+				'passport_name' => $tourist->passport_name,
+				'passport_surname' => $tourist->passport_surname
 			])
 			->execute()
 			->getFirst();
 
 
-		if(!$touristModel)
-		{
+		if (!$touristModel) {
 			$touristModel = new Tourists();
 
-			$touristModel->passport_number	= $tourist->passport_number;
-			$touristModel->passport_surname	= $tourist->passport_surname;
-			$touristModel->passport_name	= $tourist->passport_name;
-			$touristModel->passport_issued	= $tourist->passport_issued;
-			$touristModel->passport_endDate	= $tourist->passport_endDate;
-			$touristModel->birthDate		= $tourist->birthDate;
-			$touristModel->phone			= $tourist->phone;
-			$touristModel->email			= $tourist->email;
-			$touristModel->gender			= $tourist->gender;
-			$touristModel->nationality		= $tourist->nationality;
+			$touristModel->passport_number = $tourist->passport_number;
+			$touristModel->passport_surname = $tourist->passport_surname;
+			$touristModel->passport_name = $tourist->passport_name;
+			$touristModel->passport_issued = $tourist->passport_issued;
+			$touristModel->passport_endDate = $tourist->passport_endDate;
+			$touristModel->birthDate = $tourist->birthDate;
+			$touristModel->phone = $tourist->phone;
+			$touristModel->email = $tourist->email;
+			$touristModel->gender = $tourist->gender;
+			$touristModel->nationality = $tourist->nationality;
 
 
-			if(!$touristModel->save())
-			{
+			if (!$touristModel->save()) {
 				foreach ($touristModel->getMessages() as $message) {
 					print_r($message);
 				}

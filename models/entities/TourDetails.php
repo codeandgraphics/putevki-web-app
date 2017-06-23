@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class TourDetails
 {
@@ -12,8 +12,8 @@ class TourDetails
 
 	public function __construct($details = null)
 	{
-		if($details) {
-			foreach($details->flights as $item) {
+		if ($details) {
+			foreach ($details->flights as $item) {
 				$this->flights[] = new Flight($item);
 			}
 
@@ -29,7 +29,7 @@ class TourDetails
 
 			$this->actualized = true;
 
-			if($details->iserror && count($this->flights) === 0) {
+			if ($details->iserror && count($this->flights) === 0) {
 				$this->actualized = false;
 				unset($this->flights);
 				unset($this->info);

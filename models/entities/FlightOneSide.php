@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class FlightOneSide
 {
@@ -15,7 +15,7 @@ class FlightOneSide
 
 	public function __construct($oneSide = null)
 	{
-		if($oneSide) {
+		if ($oneSide) {
 			$this->company = new \stdClass();
 			$this->company->id = $oneSide->company->id;
 			$this->company->name = $oneSide->company->name;

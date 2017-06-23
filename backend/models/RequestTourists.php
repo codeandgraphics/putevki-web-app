@@ -2,9 +2,9 @@
 
 namespace Backend\Models;
 
-use Phalcon\Mvc\Model;
+use Models\BaseModel;
 
-class RequestTourists extends Model
+class RequestTourists extends BaseModel
 {
 	const DELAY_TIME = 600;
 
@@ -14,11 +14,11 @@ class RequestTourists extends Model
 
 	public function initialize()
 	{
-		$this->belongsTo('requestId', 'Backend\Models\Requests', 'id', [
+		$this->belongsTo('requestId', Requests::name(), 'id', [
 			'alias' => 'request'
 		]);
 
-		$this->belongsTo('touristId', 'Backend\Models\Tourists', 'id', [
+		$this->belongsTo('touristId', Tourists::name(), 'id', [
 			'alias' => 'tourist'
 		]);
 	}

@@ -30,9 +30,9 @@
 
 -->
 
-{% if currentCity.meta_text %}
+{% if city.meta_text %}
 	<div class="meta">
-        {{ currentCity.meta_text }}
+        {{ city.meta_text }}
 	</div>
 {% endif %}
 </body>

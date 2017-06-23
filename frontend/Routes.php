@@ -8,52 +8,52 @@ $router->removeExtraSlashes(true);
 
 
 $router->add(
-    '/',
-    [
-        'controller' => 'index',
-        'action'     => 'index',
-    ]
+	'/',
+	[
+		'controller' => 'index',
+		'action' => 'index',
+	]
 );
 $router->add(
 	'/{city:[a-z\-]+}',
 	[
 		'controller' => 'index',
-		'action'     => 'city',
+		'action' => 'city',
 	]
 );
 $router->add(
 	'/agreement',
 	[
 		'controller' => 'index',
-		'action'     => 'agreement',
+		'action' => 'agreement',
 	]
 );
 $router->add(
 	'/app',
 	[
 		'controller' => 'index',
-		'action'     => 'app',
+		'action' => 'app',
 	]
 );
 $router->add(
 	'/uniteller',
 	[
 		'controller' => 'index',
-		'action'     => 'uniteller',
+		'action' => 'uniteller',
 	]
 );
 $router->add(
 	'/tour/{id}',
 	[
 		'controller' => 'tour',
-		'action'     => 'index',
+		'action' => 'index',
 	]
 );
 $router->add(
 	'/pay/{requestId:[0-9]+}',
 	[
 		'controller' => 'pay',
-		'action'     => 'index',
+		'action' => 'index',
 	]
 );
 
@@ -62,14 +62,14 @@ $router->add(
 	'/search/{from}/{where}',
 	[
 		'controller' => 'search',
-		'action'     => 'short',
+		'action' => 'short',
 	]
 );
 $router->add(
 	'/search/{from}/{where}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
-		'action'     => 'index',
+		'action' => 'index',
 	]
 );
 
@@ -77,7 +77,7 @@ $router->add(
 	'/search/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
-		'action'     => 'hotel',
+		'action' => 'hotel',
 	]
 );
 
@@ -86,21 +86,21 @@ $router->add(
 	'/hotel/{name}-{id:[0-9]+}',
 	[
 		'controller' => 'hotel',
-		'action'     => 'index',
+		'action' => 'index',
 	]
 );
 $router->add(
 	'/search/hotel/{from}/{where}/{hotelName}-{hotelId:[0-9]+}',
 	[
 		'controller' => 'search',
-		'action'     => 'hotelShort',
+		'action' => 'hotelShort',
 	]
 );
 $router->add(
 	'/search/hotel/{from}/{where}/{hotelName}-{hotelId:[0-9]+}/{date}/{nights}/{adults}/{children}/{stars}/{meal}',
 	[
 		'controller' => 'search',
-		'action'     => 'hotel',
+		'action' => 'hotel',
 	]
 );
 
@@ -109,14 +109,14 @@ $router->add(
 	'/robots.txt',
 	[
 		'controller' => 'index',
-		'action'     => 'robots',
+		'action' => 'robots',
 	]
 );
 
 $router->notFound(
 	array(
 		'controller' => 'error',
-		'action'     => 'error404'
+		'action' => 'error404'
 	)
 );
 

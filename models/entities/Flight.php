@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class Flight
 {
@@ -15,7 +15,7 @@ class Flight
 
 	public function __construct($flight = null)
 	{
-		if($flight) {
+		if ($flight) {
 			foreach ($flight->forward as $item) {
 				$this->forward[] = new FlightOneSide($item);
 			}

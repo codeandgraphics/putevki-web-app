@@ -3,6 +3,9 @@
 namespace Backend\Models;
 
 use Models\BaseModel;
+use Models\Branches;
+use Models\Tourvisor\Departures;
+use Models\Tourvisor\Operators;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
@@ -70,16 +73,19 @@ class Requests extends BaseModel
 
 	public $origin;
 
-	public $creationDate = null;
+	public $creationDate;
 	public $deleted = Tourists::NOT_DELETED;
+
+	/** @var Payments[] $payments */
+	public $payments;
 
 	public function initialize()
 	{
 		$this->addBehavior(new Timestampable(
 			array(
-				'beforeCreate'  => array(
-					'field'     => 'creationDate',
-					'format'    => 'Y-m-d H:i:s'
+				'beforeCreate' => array(
+					'field' => 'creationDate',
+					'format' => 'Y-m-d H:i:s'
 				)
 			)
 		));
@@ -91,40 +97,33 @@ class Requests extends BaseModel
 			)
 		));
 
-		$this->hasMany('id', 'Backend\Models\RequestTourists', 'requestId', [
+		$this->hasMany('id', RequestTourists::name(), 'requestId', [
 			'alias' => 'tourists'
 		]);
 
-		$this->hasOne('departureId', 'Models\Tourvisor\Departures', 'id', [
-			'alias'	=> 'departure'
+		$this->hasOne('departureId', Departures::name(), 'id', [
+			'alias' => 'departure'
 		]);
 
-		$this->hasOne('tourOperatorId', 'Models\Tourvisor\Operators', 'id', [
-			'alias'	=> 'tourOperator'
+		$this->hasOne('tourOperatorId', Operators::name(), 'id', [
+			'alias' => 'tourOperator'
 		]);
 
-		$this->hasOne('requestStatusId', 'Backend\Models\RequestStatuses', 'id', [
-			'alias'	=> 'status'
+		$this->hasOne('requestStatusId', RequestStatuses::name(), 'id', [
+			'alias' => 'status'
 		]);
 
-		$this->hasOne('manager_id', 'Backend\Models\Users', 'id', [
-			'alias'	=> 'manager'
+		$this->hasOne('manager_id', Users::name(), 'id', [
+			'alias' => 'manager'
 		]);
 
-		$this->hasOne('branch_id', 'Models\Branches', 'id', [
-			'alias'	=> 'branch'
+		$this->hasOne('branch_id', Branches::name(), 'id', [
+			'alias' => 'branch'
 		]);
 
-		$this->hasMany('id', 'Backend\Models\Payments', 'requestId', [
+		$this->hasMany('id', Payments::name(), 'requestId', [
 			'alias' => 'payments'
 		]);
-
-		/*$this->hasManyToMany('id',
-			'Models\RequestTourists',
-			'requestId', 'touristId',
-			'Models\Tourists',
-			'id'
-		);*/
 	}
 
 	public function beforeSave()
@@ -137,22 +136,19 @@ class Requests extends BaseModel
 			'flightFromArrivalDate'
 		];
 
-		foreach($fields as $field)
-		{
+		foreach ($fields as $field) {
 			$date = \DateTime::createFromFormat('d.m.Y', $this->$field);
-			$this->$field = ($date) ? $date->format('Y-m-d') : null;
+			$this->$field = $date ? $date->format('Y-m-d') : null;
 		}
 
-		$this->hotelNights = ($this->hotelNights) ? : 0;
+		$this->hotelNights = $this->hotelNights ?: 0;
 	}
 
 	public function afterSave()
 	{
-		if($this->price > 0)
-		{
+		if ($this->price > 0) {
 			$payment = Payments::findFirst('requestId = ' . $this->id);
-			if(!$payment)
-			{
+			if (!$payment) {
 				$payment = new Payments();
 				$payment->requestId = $this->id;
 			}
@@ -174,10 +170,8 @@ class Requests extends BaseModel
 	{
 		$paid = 0;
 
-		foreach($this->payments as $payment)
-		{
-			if($payment->status == 'authorized' || $payment->status == 'paid')
-			{
+		foreach ($this->payments as $payment) {
+			if ($payment->status === 'authorized' || $payment->status === 'paid') {
 				$paid += $payment->sum;
 			}
 		}
@@ -189,8 +183,7 @@ class Requests extends BaseModel
 	{
 		$sum = 0;
 
-		foreach($this->payments as $payment)
-		{
+		foreach ($this->payments as $payment) {
 			$sum += $payment->sum;
 		}
 
@@ -207,14 +200,13 @@ class Requests extends BaseModel
 			'flightFromArrivalDate'
 		];
 
-		foreach($fields as $field)
-		{
+		foreach ($fields as $field) {
 			$date = \DateTime::createFromFormat('Y-m-d', $this->$field);
-			$this->$field = ($date) ? $date->format('d.m.Y') : null;
+			$this->$field = $date ? $date->format('d.m.Y') : null;
 		}
 	}
 
-	public function getMessages()
+	public function getMessages($filter = null)
 	{
 		$messages = array();
 		foreach (parent::getMessages() as $message) {
@@ -232,11 +224,11 @@ class Requests extends BaseModel
 	public static function statuses($status)
 	{
 		$statuses = [
-			'new'		=> 'Новая',
-			'booked'	=> 'Забронирована',
-			'check'		=> 'Проверка',
-			'refuse'	=> 'Отказ',
-			'approve'	=> 'Подтверждена'
+			'new' => 'Новая',
+			'booked' => 'Забронирована',
+			'check' => 'Проверка',
+			'refuse' => 'Отказ',
+			'approve' => 'Подтверждена'
 		];
 
 		return $statuses[$status];

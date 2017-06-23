@@ -1,8 +1,9 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
-class Review {
+class Review
+{
 	public $name;
 	public $content;
 	public $travel;
@@ -19,7 +20,7 @@ class Review {
 
 	public function __construct($review = null)
 	{
-		if($review) {
+		if ($review) {
 			$this->name = $review->name;
 			$this->content = $review->content;
 			$this->travel = $review->traveltime;

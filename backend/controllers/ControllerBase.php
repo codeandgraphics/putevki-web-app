@@ -2,15 +2,15 @@
 
 namespace Backend\Controllers;
 
-use Phalcon\Mvc\Controller,
-	Phalcon\Http\Response,
-	Backend\Models\Users;
+use Phalcon\Mvc\Controller;
+use Phalcon\Http\Response;
+use Backend\Models\Users;
 
 class ControllerBase extends Controller
 {
 	public $user;
 
-	function initialize()
+	public function initialize()
 	{
 		$user = $this->session->get('auth');
 
@@ -27,7 +27,7 @@ class ControllerBase extends Controller
 	{
 		$this->view->disable();
 		$response = new Response();
-		$response->setStatusCode(404, "Not Found");
+		$response->setStatusCode(404, 'Not Found');
 		$response->setContent('Page not found');
 		$response->send();
 	}

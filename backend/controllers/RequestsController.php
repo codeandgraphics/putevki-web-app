@@ -5,20 +5,15 @@
 namespace Backend\Controllers;
 
 use Models\Branches;
-use Phalcon\Http\Response			as Response,
-	Phalcon\Forms\Form,
-	Phalcon\Forms\Element\Text,
-	Phalcon\Forms\Element\Select,
-	Phalcon\Mvc\View				as View,
-	Phalcon\Paginator\Adapter\Model as PaginatorModel,
-	Backend\Models\Users			as Users,
-	Backend\Models\Requests			as Requests,
-	Backend\Models\RequestStatuses	as RequestStatuses,
-	Backend\Models\RequestTourists	as RequestTourists,
-	Backend\Models\Payments			as Payments,
-	Utils\Text						as TextUtils,
-	Models\Tourvisor;
-use Phalcon\Mvc\Model\Validator\Email;
+use Phalcon\Forms\Form;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Paginator\Adapter\Model as PaginatorModel;
+use Backend\Models\Users;
+use Backend\Models\Requests;
+use Backend\Models\RequestStatuses;
+use Backend\Models\RequestTourists;
+use Models\Tourvisor;
 
 class RequestsController extends ControllerBase
 {
@@ -26,11 +21,10 @@ class RequestsController extends ControllerBase
 	public function indexAction()
 	{
 		$query = [
-			'order'	=> 'creationDate DESC',
+			'order' => 'creationDate DESC',
 		];
 
-		if($this->user->role == Users::ROLE_MANAGER)
-		{
+		if ($this->user->role === Users::ROLE_MANAGER) {
 			$query[] = 'branch_id = ' . $this->user->branch_id;
 		}
 
@@ -38,9 +32,9 @@ class RequestsController extends ControllerBase
 
 		$paginator = new PaginatorModel(
 			array(
-				"data"  	=> $requests,
-				"limit" 	=> 30,
-				"page"  	=> $this->request->get('page')
+				'data' => $requests,
+				'limit' => 30,
+				'page' => $this->request->get('page')
 			)
 		);
 
@@ -69,7 +63,7 @@ class RequestsController extends ControllerBase
 		$form->add(new Text('hotelMeal'));
 		$form->add(new Text('hotelRoom'));
 
-		$departures = Tourvisor\Departures::find(['order'=>'name']);
+		$departures = Tourvisor\Departures::find(['order' => 'name']);
 		$form->add(new Select('departureId', $departures, ['using' => ['id', 'name']]));
 
 		$tourOperators = Tourvisor\Operators::find();
@@ -78,48 +72,43 @@ class RequestsController extends ControllerBase
 		$requestStatuses = RequestStatuses::find();
 		$form->add(new Select('requestStatusId', $requestStatuses, ['using' => ['id', 'name']]));
 
-		foreach(['To', 'From'] as $direction){
-			$form->add(new Text('flight'.$direction.'Number'));
-			$form->add(new Text('flight'.$direction.'DepartureDate'));
-			$form->add(new Text('flight'.$direction.'DepartureTime'));
-			$form->add(new Text('flight'.$direction.'DepartureTerminal'));
-			$form->add(new Text('flight'.$direction.'ArrivalDate'));
-			$form->add(new Text('flight'.$direction.'ArrivalTime'));
-			$form->add(new Text('flight'.$direction.'ArrivalTerminal'));
-			$form->add(new Text('flight'.$direction.'Carrier'));
-			$form->add(new Text('flight'.$direction.'Plane'));
-			$form->add(new Text('flight'.$direction.'Class'));
+		foreach (['To', 'From'] as $direction) {
+			$form->add(new Text('flight' . $direction . 'Number'));
+			$form->add(new Text('flight' . $direction . 'DepartureDate'));
+			$form->add(new Text('flight' . $direction . 'DepartureTime'));
+			$form->add(new Text('flight' . $direction . 'DepartureTerminal'));
+			$form->add(new Text('flight' . $direction . 'ArrivalDate'));
+			$form->add(new Text('flight' . $direction . 'ArrivalTime'));
+			$form->add(new Text('flight' . $direction . 'ArrivalTerminal'));
+			$form->add(new Text('flight' . $direction . 'Carrier'));
+			$form->add(new Text('flight' . $direction . 'Plane'));
+			$form->add(new Text('flight' . $direction . 'Class'));
 		}
 
 		$tourists = [];
 
-		if($this->request->isPost())
-		{
+		if ($this->request->isPost()) {
 			$touristIds = $this->request->getPost('tourists');
 
 			$request = new Requests();
 			$form->bind($_POST, $request);
 
-			if($form->isValid())
-			{
-				if($this->user->role == Users::ROLE_MANAGER)
-				{
+			if ($form->isValid()) {
+				if ($this->user->role === Users::ROLE_MANAGER) {
 					$request->branch_id = $this->user->branch_id;
 				}
 
-				if($request->save())
-				{
+				if ($request->save()) {
 
-					if($touristIds){
+					if ($touristIds) {
 
 						$tourists = $this->modelsManager->createBuilder()
 							->from('Models\Tourists')
-							->inWhere('id',$touristIds)
+							->inWhere('id', $touristIds)
 							->getQuery()
 							->execute();
 
-						foreach($tourists as $tourist)
-						{
+						foreach ($tourists as $tourist) {
 							$requestTourist = new RequestTourists();
 							$requestTourist->requestId = $request->id;
 							$requestTourist->touristId = $tourist->id;
@@ -129,12 +118,9 @@ class RequestsController extends ControllerBase
 					}
 
 					$this->flashSession->success('Заявка успешно добавлена!');
-					return $this->response->redirect("requests/edit/" . $request->id);
-				}
-				else
-				{
-					foreach($request->getMessages() as $message)
-					{
+					return $this->response->redirect('requests/edit/' . $request->id);
+				} else {
+					foreach ($request->getMessages() as $message) {
 						$this->flashSession->error($message);
 					}
 				}
@@ -142,8 +128,7 @@ class RequestsController extends ControllerBase
 
 		}
 
-		if($this->user->role === Users::ROLE_ADMIN)
-		{
+		if ($this->user->role === Users::ROLE_ADMIN) {
 			$branches = Branches::find('active = 1');
 			$this->view->setVar('branches', $branches);
 
@@ -151,24 +136,20 @@ class RequestsController extends ControllerBase
 		}
 
 		$this->view->setVars([
-			'tourists'	=> $tourists,
-			'form'		=> $form
+			'tourists' => $tourists,
+			'form' => $form
 		]);
 	}
 
 	public function editAction($requestId)
 	{
-		if($this->user->role === Users::ROLE_MANAGER)
-		{
+		if ($this->user->role === Users::ROLE_MANAGER) {
 			$request = Requests::findFirst('id = ' . $requestId . ' AND branch_id = ' . $this->user->branch_id);
-		}
-		else
-		{
+		} else {
 			$request = Requests::findFirst('id = ' . $requestId);
 		}
 
-		if(!$request)
-		{
+		if (!$request) {
 			return $this->error404();
 		}
 
@@ -193,7 +174,7 @@ class RequestsController extends ControllerBase
 		$form->add(new Text('hotelMeal'));
 		$form->add(new Text('hotelRoom'));
 
-		$departures = Tourvisor\Departures::find(['order'=>'name']);
+		$departures = Tourvisor\Departures::find(['order' => 'name']);
 		$form->add(new Select('departureId', $departures, ['using' => ['id', 'name']]));
 
 		$tourOperators = Tourvisor\Operators::find();
@@ -202,41 +183,38 @@ class RequestsController extends ControllerBase
 		$requestStatuses = RequestStatuses::find();
 		$form->add(new Select('requestStatusId', $requestStatuses, ['using' => ['id', 'name']]));
 
-		foreach(['To', 'From'] as $direction){
-			$form->add(new Text('flight'.$direction.'Number'));
-			$form->add(new Text('flight'.$direction.'DepartureDate'));
-			$form->add(new Text('flight'.$direction.'DepartureTime'));
-			$form->add(new Text('flight'.$direction.'DepartureTerminal'));
-			$form->add(new Text('flight'.$direction.'ArrivalDate'));
-			$form->add(new Text('flight'.$direction.'ArrivalTime'));
-			$form->add(new Text('flight'.$direction.'ArrivalTerminal'));
-			$form->add(new Text('flight'.$direction.'Carrier'));
-			$form->add(new Text('flight'.$direction.'Plane'));
-			$form->add(new Text('flight'.$direction.'Class'));
+		foreach (['To', 'From'] as $direction) {
+			$form->add(new Text('flight' . $direction . 'Number'));
+			$form->add(new Text('flight' . $direction . 'DepartureDate'));
+			$form->add(new Text('flight' . $direction . 'DepartureTime'));
+			$form->add(new Text('flight' . $direction . 'DepartureTerminal'));
+			$form->add(new Text('flight' . $direction . 'ArrivalDate'));
+			$form->add(new Text('flight' . $direction . 'ArrivalTime'));
+			$form->add(new Text('flight' . $direction . 'ArrivalTerminal'));
+			$form->add(new Text('flight' . $direction . 'Carrier'));
+			$form->add(new Text('flight' . $direction . 'Plane'));
+			$form->add(new Text('flight' . $direction . 'Class'));
 		}
 
 		$tourists = [];
 
-		foreach($request->tourists as $tourist)
-		{
+		foreach ($request->tourists as $tourist) {
 			$tourists[] = $tourist->tourist;
 		}
 
-		if($this->user->role === Users::ROLE_ADMIN)
-		{
+		if ($this->user->role === Users::ROLE_ADMIN) {
 			$dbBranches = Branches::find('active = 1');
 
 			$branches[0] = 'Не выбрано';
 
-			foreach($dbBranches as $branch)
-			{
-				$branches[$branch->id] = $branch->name . ' ' . $branch->city->name . ' (' . $branch->manager->name .')';
+			foreach ($dbBranches as $branch) {
+				$branches[$branch->id] = $branch->name . ' ' . $branch->city->name . ' (' . $branch->manager->name . ')';
 			}
 
 			$form->add(new Select('branch_id', $branches));
 		}
 
-		if($this->request->isPost()) {
+		if ($this->request->isPost()) {
 
 			$touristIds = $this->request->getPost('tourists');
 
@@ -244,14 +222,14 @@ class RequestsController extends ControllerBase
 
 				$phql = 'DELETE FROM Backend\Models\RequestTourists WHERE requestId = :requestId:';
 				$this->modelsManager->executeQuery($phql, [
-						'requestId' => $request->id
+					'requestId' => $request->id
 				]);
 
 				$tourists = $this->modelsManager->createBuilder()
-						->from('Backend\Models\Tourists')
-						->inWhere('id', $touristIds)
-						->getQuery()
-						->execute();
+					->from('Backend\Models\Tourists')
+					->inWhere('id', $touristIds)
+					->getQuery()
+					->execute();
 
 				foreach ($tourists as $tourist) {
 					$requestTourist = new RequestTourists();
@@ -263,23 +241,17 @@ class RequestsController extends ControllerBase
 			}
 			$form->bind($_POST, $request);
 
-			if($form->isValid())
-			{
-				if($request->save())
-				{
-					if((int) $request->branch_id !== (int) $oldBranch)
-					{
+			if ($form->isValid()) {
+				if ($request->save()) {
+					if ((int)$request->branch_id !== (int)$oldBranch) {
 						$email = new EmailController();
 						$email->sendManagerNotification($request);
 					}
 
 					$this->flashSession->success('Заявка успешно сохранена!');
 					return $this->response->redirect('requests/edit/' . $request->id);
-				}
-				else
-				{
-					foreach($request->getMessages() as $message)
-					{
+				} else {
+					foreach ($request->getMessages() as $message) {
 						$this->flashSession->error($message);
 					}
 				}
@@ -292,11 +264,12 @@ class RequestsController extends ControllerBase
 		$this->view->setVar('form', $form);
 	}
 
-	public function deleteAction($requestId) {
+	public function deleteAction($requestId)
+	{
 
 		$request = Requests::findFirst('id = ' . $requestId);
 
-		if($request) {
+		if ($request) {
 			$request->deleted = Requests::DELETED;
 			$request->save();
 			$this->flashSession->success('Заявка успешно удалена!');
@@ -328,13 +301,10 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
 
-		if($download)
-		{
-			$pdf->Output('booking-'.$request->getNumber().'.pdf', 'D');
-		}
-		else
-		{
-			$pdf->Output('booking-'.$request->getNumber().'.pdf', 'I');
+		if ($download) {
+			$pdf->Output('booking-' . $request->getNumber() . '.pdf', 'D');
+		} else {
+			$pdf->Output('booking-' . $request->getNumber() . '.pdf', 'I');
 		}
 
 	}
@@ -360,40 +330,33 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
 
-		if($download)
-		{
-			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'D');
-		}
-		else
-		{
-			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
+		if ($download) {
+			$pdf->Output('agreement-' . $request->getNumber() . '.pdf', 'D');
+		} else {
+			$pdf->Output('agreement-' . $request->getNumber() . '.pdf', 'I');
 		}
 	}
 
 
 	public function ajaxHotelsAction()
 	{
-		if($this->request->isGet())
-		{
+		if ($this->request->isGet()) {
 			$search = mb_strtoupper($this->request->get('term'));
 
 			$query = "SELECT * FROM \Models\Tourvisor\Hotels
 						WHERE \Models\Tourvisor\Hotels.name LIKE :search:
 						LIMIT 20";
-			$hotels =$this->modelsManager->executeQuery($query, ['search' => '%'.$search.'%']);
+			$hotels = $this->modelsManager->executeQuery($query, ['search' => '%' . $search . '%']);
 
 			$response = [];
 
-			foreach($hotels as $hotel)
-			{
+			foreach ($hotels as $hotel) {
 				$response[] = $hotel->format();
 			}
 
 			echo json_encode($response);
 			$this->view->disable();
-		}
-		else
-		{
+		} else {
 			$this->response->redirect('404');
 		}
 	}

@@ -2,10 +2,10 @@
 
 namespace Backend\Controllers;
 
-use Backend\Models\Requests,
-	Backend\Models\Payments,
-	Backend\Models\Tourists,
-	Utils;
+use Backend\Models\Requests;
+use Backend\Models\Payments;
+use Backend\Models\Tourists;
+use Utils;
 
 class IndexController extends ControllerBase
 {
@@ -23,8 +23,8 @@ class IndexController extends ControllerBase
 
 		//Заявки
 		$todayRequests = new \stdClass();
-		$todayRequests->count = (int) Requests::count($todayQuery);
-		$lastDayRequestsCount = (int) Requests::count($lastDayQuery);
+		$todayRequests->count = (int)Requests::count($todayQuery);
+		$lastDayRequestsCount = (int)Requests::count($lastDayQuery);
 		$todayRequests->diff = Utils\Text::countDiff($todayRequests->count, $lastDayRequestsCount);
 		$today->requests = $todayRequests;
 		//Заявки
@@ -33,12 +33,12 @@ class IndexController extends ControllerBase
 		//Деньги
 		$todayPayments = new \stdClass();
 		$todayPayments->count = round(Payments::sum([
-			'conditions'	=> $todayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
-			'column'		=> 'sum'
+			'conditions' => $todayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
+			'column' => 'sum'
 		]));
 		$lastDayPaymentsCount = round(Payments::sum([
-			'conditions'	=> $lastDayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
-			'column'		=> 'sum'
+			'conditions' => $lastDayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
+			'column' => 'sum'
 		]));
 		$todayPayments->diff = Utils\Text::countDiff($todayPayments->count, $lastDayPaymentsCount);
 		$today->payments = $todayPayments;
@@ -47,12 +47,11 @@ class IndexController extends ControllerBase
 
 		//Туристы
 		$todayTourists = new \stdClass();
-		$todayTourists->count = (int) Tourists::count($todayQuery);
-		$lastDayTouristsCount = (int) Tourists::count($lastDayQuery);
+		$todayTourists->count = (int)Tourists::count($todayQuery);
+		$lastDayTouristsCount = (int)Tourists::count($lastDayQuery);
 		$todayTourists->diff = Utils\Text::countDiff($todayTourists->count, $lastDayTouristsCount);
 		$today->tourists = $todayTourists;
 		//Туристы
-
 
 
 		$week = new \stdClass();
@@ -70,8 +69,8 @@ class IndexController extends ControllerBase
 
 		//Заявки
 		$weekRequests = new \stdClass();
-		$weekRequests->count = (int) Requests::count($weekQuery);
-		$lastWeekRequestsCount = (int) Requests::count($lastWeekQuery);
+		$weekRequests->count = (int)Requests::count($weekQuery);
+		$lastWeekRequestsCount = (int)Requests::count($lastWeekQuery);
 		$weekRequests->diff = Utils\Text::countDiff($weekRequests->count, $lastWeekRequestsCount);
 		$week->requests = $weekRequests;
 		//Заявки
@@ -79,12 +78,12 @@ class IndexController extends ControllerBase
 		//Деньги
 		$weekPayments = new \stdClass();
 		$weekPayments->count = round(Payments::sum([
-			'conditions'	=> $weekPaymentsQuery . " AND status = 'paid'",
-			'column'		=> 'sum'
+			'conditions' => $weekPaymentsQuery . " AND status = 'paid'",
+			'column' => 'sum'
 		]));
 		$lastWeekPaymentsCount = round(Payments::sum([
-			'conditions'	=> $lastWeekPaymentsQuery . " AND status = 'paid'",
-			'column'		=> 'sum'
+			'conditions' => $lastWeekPaymentsQuery . " AND status = 'paid'",
+			'column' => 'sum'
 		]));
 		$weekPayments->diff = Utils\Text::countDiff($weekPayments->count, $lastWeekPaymentsCount);
 		$week->payments = $weekPayments;
@@ -93,8 +92,8 @@ class IndexController extends ControllerBase
 
 		//Туристы
 		$weekTourists = new \stdClass();
-		$weekTourists->count = (int) Tourists::count($weekQuery);
-		$lastWeekTouristsCount = (int) Tourists::count($lastWeekQuery);
+		$weekTourists->count = (int)Tourists::count($weekQuery);
+		$lastWeekTouristsCount = (int)Tourists::count($lastWeekQuery);
 		$weekTourists->diff = Utils\Text::countDiff($weekTourists->count, $lastWeekTouristsCount);
 		$week->tourists = $weekTourists;
 		//Туристы

@@ -82,7 +82,7 @@
 
 	<div class="no-flights hide">
 		<p>Не удалось найти информацию о перелетах.</p>
-		<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ currentCity.phone }}</p>
+		<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ city.phone }}</p>
 	</div>
 
 	<div class="includes">
@@ -140,6 +140,6 @@
 
 <div class="message no-actualize hide">
 	<p>Не удалось актуализовать тур. Оставьте заявку, и мы обязательно свяжемся с вами!</p>
-	<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ currentCity.phone }}</p>
+	<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ city.phone }}</p>
 </div>
 

@@ -9,9 +9,9 @@ use Phalcon\Text;
 class Uniteller extends Plugin
 {
 
-	const PAY_URL		= 'https://wpay.uniteller.ru/pay/';
-	const RESULTS_URL	= 'https://wpay.uniteller.ru/results/';
-	const UNBLOCK_URL	= 'https://wpay.uniteller.ru/unblock/';
+	const PAY_URL = 'https://wpay.uniteller.ru/pay/';
+	const RESULTS_URL = 'https://wpay.uniteller.ru/results/';
+	const UNBLOCK_URL = 'https://wpay.uniteller.ru/unblock/';
 
 	private $Login;
 	private $Password;
@@ -77,16 +77,16 @@ class Uniteller extends Plugin
 	{
 		return strtoupper(
 			md5(
-				md5($this->Shop_IDP)		. '&' .
-				md5($this->Order_IDP)		. '&' .
-				md5($this->Subtotal_P)		. '&' .
-				md5($this->MeanType)		. '&' .
-				md5($this->EMoneyType)		. '&' .
-				md5($this->Lifetime)		. '&' .
-				md5($this->Customer_IDP)	. '&' .
-				md5($this->Card_IDP)		. '&' .
-				md5($this->IData)			. '&' .
-				md5($this->PT_Code)			. '&' .
+				md5($this->Shop_IDP) . '&' .
+				md5($this->Order_IDP) . '&' .
+				md5($this->Subtotal_P) . '&' .
+				md5($this->MeanType) . '&' .
+				md5($this->EMoneyType) . '&' .
+				md5($this->Lifetime) . '&' .
+				md5($this->Customer_IDP) . '&' .
+				md5($this->Card_IDP) . '&' .
+				md5($this->IData) . '&' .
+				md5($this->PT_Code) . '&' .
 				md5($this->Password)
 			)
 		);
@@ -109,12 +109,12 @@ class Uniteller extends Plugin
 	public function getPaymentResult($Order_ID)
 	{
 		$sPostFields =
-			'Shop_ID='			. $this->Shop_IDP .
-			'&Login='			. $this->Login .
-			'&Password='		. $this->Password .
-			'&Preauth='		    . $this->Preauth .
-			'&Format=1' 		.
-			'&ShopOrderNumber='	. $Order_ID .
+			'Shop_ID=' . $this->Shop_IDP .
+			'&Login=' . $this->Login .
+			'&Password=' . $this->Password .
+			'&Preauth=' . $this->Preauth .
+			'&Format=1' .
+			'&ShopOrderNumber=' . $Order_ID .
 			'&S_FIELDS=Status;ApprovalCode;BillNumber';
 
 		$ch = curl_init();
@@ -133,25 +133,21 @@ class Uniteller extends Plugin
 		$curl_response = curl_exec($ch);
 		$curl_error = curl_error($ch);
 
-		if ($curl_error)
-		{
-		}
-		else
-		{
-			$arr = explode( ';', $curl_response );
+		if ($curl_error) {
+		} else {
+			$arr = explode(';', $curl_response);
 
-			if ( count($arr) === 3 ) {
+			if (count($arr) === 3) {
 				$data = array(
-					'Status'		=> $arr[0],
-					'ApprovalCode'	=> $arr[1],
-					'BillNumber'	=> $arr[2]
+					'Status' => $arr[0],
+					'ApprovalCode' => $arr[1],
+					'BillNumber' => $arr[2]
 				);
 
 				$paymentId = $this->getPaymentId($Order_ID);
 				$payment = Payments::findFirst($paymentId);
 
-				if($payment)
-				{
+				if ($payment) {
 					$payment->status = Text::lower($data['Status']);
 					$payment->approval_code = $data['ApprovalCode'];
 					$payment->bill_number = $data['BillNumber'];

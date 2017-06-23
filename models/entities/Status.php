@@ -1,7 +1,9 @@
 <?php
-namespace Models\Api\Entities;
 
-class Status {
+namespace Models\Entities;
+
+class Status
+{
 
 	public $state;
 	public $hotels;
@@ -13,7 +15,7 @@ class Status {
 
 	public function __construct($status = null)
 	{
-		if($status) {
+		if ($status) {
 			$this->state = $status->state;
 			$this->hotels = $status->hotelsfound;
 			$this->tours = $status->toursfound;

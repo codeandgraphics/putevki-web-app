@@ -124,43 +124,39 @@
 							Звезд:
 							<button class="dropdown-toggle" type="button" id="starsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<div class="text">
-									<?php
-									$star = (int) $params->search->starsEntity()->name;
-									for($i=1;$i<=$star;$i++){
-									echo '<i class="ion-star"></i>';
-									}
-									?>
-									<?=($params->stars->id == 6) ? '<span class="label label-warning">эксклюзив</span>': "и выше";?>
+									{% set star = params.search.starsEntity() %}
+									{% for i in 1..star.name %}<i class="ion-star"></i>{% endfor %}
+									{% if star.id == 6 %}<span class="label label-warning">эксклюзив</span>{% else %}и выше{% endif %}
 								</div>
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="starsMenu">
-								<li>
+								<li{% if star.id == 6 %} class="active"{% endif %}>
 									<a href="#" data-stars="6">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										<span class="label label-warning">эксклюзив</span>
 									</a>
 								</li>
 								<li role="separator" class="divider"></li>
-								<li>
+								<li{% if star.id == 5 %} class="active"{% endif %}>
 									<a href="#" data-stars="5">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 4 %} class="active"{% endif %}>
 									<a href="#" data-stars="4">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 3 %} class="active"{% endif %}>
 									<a href="#" data-stars="3">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 2 %} class="active"{% endif %}>
 									<a href="#" data-stars="2">
 										<i class="ion-star"></i><i class="ion-star"></i>
 										и выше
@@ -174,30 +170,23 @@
 							<button class="dropdown-toggle" type="button" id="mealMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<i class="ion-fork"></i> <i class="ion-knife"></i> &nbsp;
 								<div class="text">
-									{% set meal = params.search.mealsEntity() %} {{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
+									{% set meal = params.search.mealsEntity() %}
+									{{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
 								</div>
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="mealMenu">
-								<?php
-								foreach($meals as $meal)
-								{
-									?>
-								<li>
-									<a href="#" data-meal="<?=$meal->id;?>">
-										<?=$meal->name;?> <?=($meal->name !== 'UAI') ? 'и выше':'';?>
-										<small><?=$meal->russian;?></small>
-									</a>
-								</li>
-								<?php
-									if($meal->name === 'AI')
-								{
-								?>
-								<li role="separator" class="divider"></li>
-								<?php
-									}
-								}
-								?>
+								{% for item in meals %}
+									<li{% if item.name == meal.name %} class="active"{% endif %}>
+										<a href="#" data-meal="{{ item.id }}">
+											{{ item.name }} {% if item.name != 'UAI' %}и выше{% endif %}
+											<small>{{ item.russian }}</small>
+										</a>
+									</li>
+									{% if item.name == 'AI' %}
+										<li role="separator" class="divider"></li>
+									{% endif %}
+								{% endfor %}
 							</ul>
 						</div>
 					</div>

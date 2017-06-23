@@ -2,22 +2,33 @@
 
 namespace Models\Tourvisor;
 
+use Interfaces\ITourvisorEntity;
 use Models\BaseModel;
+use Phalcon\Mvc\Model;
 
-class Operators extends BaseModel
+class Operators extends BaseModel implements ITourvisorEntity
 {
 
 	public $id;
 	public $name;
-	public $fullname;
+	public $fullName;
 	public $russian;
-	public $onlinebooking;
+	public $onlineBooking;
 	public $legal;
 	public $guarantee;
 
 	public function initialize()
 	{
-		$this->setSource("tourvisor_operators");
+		$this->setSource('tourvisor_operators');
+	}
+
+	public function fromTourvisor($item)
+	{
+		$this->id = $item->id;
+		$this->name = $item->name;
+		$this->fullName = $item->fullname;
+		$this->russian = $item->russian;
+		$this->onlineBooking = $item->onlinebooking;
 	}
 
 	public function format()
@@ -26,13 +37,31 @@ class Operators extends BaseModel
 
 		$operator->id = $this->id;
 		$operator->name = $this->name;
-		$operator->fullname = $this->fullname;
+		$operator->fullName = $this->fullName;
 		$operator->russian = $this->russian;
-		$operator->onlinebooking = $this->onlinebooking;
+		$operator->onlineBooking = $this->onlineBooking;
 		$operator->legal = $this->legal;
 		$operator->guarantee = $this->guarantee;
 
 		return $operator;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Operators|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
+	}
+
+	/**
+	 * @param mixed $parameters
+	 * @return Operators[]|Model\ResultsetInterface
+	 */
+	public static function find($parameters = null)
+	{
+		return parent::find($parameters);
 	}
 
 }

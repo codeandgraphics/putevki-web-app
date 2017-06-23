@@ -1,9 +1,11 @@
 <?php
-namespace Models\Api\Entities;
+
+namespace Models\Entities;
 
 use Models\Branches;
 
-class Office {
+class Office
+{
 	public $id;
 	public $name;
 	public $address;
@@ -13,8 +15,8 @@ class Office {
 
 	public function __construct(Branches $branch)
 	{
-		if($branch) {
-			$this->id = (int) $branch->id;
+		if ($branch) {
+			$this->id = (int)$branch->id;
 			$this->name = $branch->name;
 			$this->address = $branch->address;
 			$this->timetable = $branch->timetable;

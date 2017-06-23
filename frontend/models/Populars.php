@@ -6,7 +6,7 @@ use Models\Tourvisor\Regions;
 use Phalcon\Mvc\Model;
 
 class Populars extends Model
-{	
+{
 	public $id;
 	public $countryId;
 	public $regionId;
@@ -14,16 +14,16 @@ class Populars extends Model
 	public $nights = 7; //TODO
 	public $people;
 	public $active = 1;
-	
+
 	public $weather;
-	
+
 	public function initialize()
 	{
 		$this->belongsTo('countryId', Regions::name(), 'id', [
-            'alias' => 'country'
-        ]);
+			'alias' => 'country'
+		]);
 		$this->belongsTo('regionId', Regions::name(), 'id', [
-            'alias' => 'region'
-        ]);
+			'alias' => 'region'
+		]);
 	}
 }

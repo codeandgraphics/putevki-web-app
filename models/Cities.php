@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Phalcon\Di;
+use Models\Tourvisor\Departures;
 use Phalcon\Mvc\Model;
-use \Utils\Morpher;
+use Utils\Morpher;
 
 class Cities extends BaseModel
 {
@@ -31,9 +31,9 @@ class Cities extends BaseModel
 
 	public function initialize()
 	{
-		$this->belongsTo('flight_city', 'Models\Tourvisor\Departures', 'id', array(
+		$this->belongsTo('flight_city', Departures::name(), 'id', [
 			'alias' => 'departure'
-		));
+		]);
 	}
 
 	public function beforeValidation()
@@ -49,9 +49,13 @@ class Cities extends BaseModel
 		return true;
 	}
 
-	public function getMessages()
+	/**
+	 * @param mixed|null $filter
+	 * @return array
+	 */
+	public function getMessages($filter = null)
 	{
-		$messages = array();
+		$messages = [];
 		foreach (parent::getMessages() as $message) {
 			switch ($message->getType()) {
 				case 'PresenceOf':
@@ -70,55 +74,4 @@ class Cities extends BaseModel
     public static function findFirstByUri($uri) {
 	    return self::findFirst("uri = '$uri'");
     }
-
-	public static function checkCity($city = null)
-	{
-		$config = Di::getDefault()->get('config');
-		$defaultCity = $config->defaults->city;
-		$defaultFlightCity = $config->defaults->flightCity;
-		$cookieTimeout = $config->common->cookieTimeout;
-		if($city)
-		{
-			$activeCity = self::findFirst("uri = '$city'");
-
-			if($activeCity)
-			{
-				setcookie('city', $activeCity->id, time() + $cookieTimeout, '/');
-				setcookie('flight_city', $activeCity->flight_city, time() + $cookieTimeout, '/');
-				$currentCity = $activeCity;
-			}
-			else
-			{
-				if($_COOKIE['city'])
-				{
-					$currentCity = self::findFirst($_COOKIE['city']);
-				}
-				else
-				{
-					setcookie('city', $defaultCity, time() + $cookieTimeout, '/');
-					setcookie('flight_city', $defaultFlightCity, time() + $cookieTimeout, '/');
-					$currentCity = self::findFirst($defaultCity);
-				}
-			}
-		}
-		else
-		{
-			if(array_key_exists('city', $_COOKIE) && $_COOKIE['city'])
-			{
-				$currentCity = self::findFirst($_COOKIE['city']);
-			}
-			else
-			{
-				setcookie('city', 1, time() + $cookieTimeout, '/');
-				setcookie('flight_city', 1, time() + $cookieTimeout, '/');
-				$currentCity = self::findFirst(1);
-			}
-		}
-
-		$currentCity->branches = Branches::find("cityId='".$currentCity->id."'");
-
-		return $currentCity;
-	}
-
-
 }

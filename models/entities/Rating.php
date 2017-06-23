@@ -1,17 +1,18 @@
 <?php
-namespace Models\Api\Entities;
 
+namespace Models\Entities;
 
-class Rating {
+class Rating
+{
 	public $id;
 	public $name;
 
 	public function __construct($id = null, $name = null)
 	{
-		if($id) {
+		if ($id) {
 			$this->id = $id;
 		}
-		if($name) {
+		if ($name) {
 			$this->name = $name;
 		}
 	}

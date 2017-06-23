@@ -2,14 +2,10 @@
 
 namespace Backend\Controllers;
 
-use Models\Branches;
-use Phalcon\Http\Response	as Response,
-	Backend\Models\Requests as Requests,
-	Backend\Models\Payments	as Payments,
-	Backend\Models\Users	as Users,
-	Utils\Email\Mailgun		as Mailgun,
-	Models\Tourvisor,
-	Utils;
+use Backend\Models\Requests;
+use Backend\Models\Payments;
+use Utils\Email\Mailgun;
+use Utils;
 
 class EmailController extends ControllerBase
 {
@@ -25,8 +21,8 @@ class EmailController extends ControllerBase
 	public function sendPassword($email, $password)
 	{
 		$params = [
-			'email'		=> $email,
-			'password'	=> $password
+			'email' => $email,
+			'password' => $password
 		];
 
 		$body = $this->generate('passwordNotification', $params);
@@ -53,7 +49,7 @@ class EmailController extends ControllerBase
 		$tour->id = $request->id;
 
 		$params = [
-			'tour'	=> $tour
+			'tour' => $tour
 		];
 
 		$body = $this->generate('managerNotification', $params);
@@ -65,8 +61,7 @@ class EmailController extends ControllerBase
 
 	public function sendManagerNotification(Requests $request)
 	{
-		if($request->manager)
-		{
+		if ($request->manager) {
 			$tour = new \stdClass();
 
 			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
@@ -83,7 +78,7 @@ class EmailController extends ControllerBase
 			$tour->id = $request->id;
 
 			$params = [
-				'tour'	=> $tour
+				'tour' => $tour
 			];
 
 			$body = $this->generate('managerNotification', $params);
@@ -95,8 +90,7 @@ class EmailController extends ControllerBase
 
 	public function sendBranchNotification(Requests $request)
 	{
-		if($request->branch_id)
-		{
+		if ($request->branch_id) {
 			$manager = $request->branch->manager;
 
 			$tour = new \stdClass();
@@ -117,7 +111,7 @@ class EmailController extends ControllerBase
 			$tour->id = $request->id;
 
 			$params = [
-				'tour'	=> $tour
+				'tour' => $tour
 			];
 
 			$body = $this->generate('managerNotification', $params);
@@ -143,12 +137,11 @@ class EmailController extends ControllerBase
 		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 
 		$tour->agreementLink = $this->config->frontend->publicURL . 'tour/agreement/' . $request->id;
-		$tour->bookingLink =  $this->config->frontend->publicURL . 'tour/booking/' . $request->id;
+		$tour->bookingLink = $this->config->frontend->publicURL . 'tour/booking/' . $request->id;
 
 		$tour->flight = new \stdClass();
 
-		if($request->flightToNumber)
-		{
+		if ($request->flightToNumber) {
 			$tour->flight->to->number = $request->flightToNumber;
 			$tour->flight->to->plane = $request->flightToPlane;
 			$tour->flight->to->carrier = $request->flightToCarrier;
@@ -168,35 +161,30 @@ class EmailController extends ControllerBase
 			$tour->flight->from->arrival->date = Utils\Text::formatToDayMonth($request->flightFromArrivalDate, 'Y-m-d');
 			$tour->flight->from->arrival->time = $request->flightFromArrivalTime;
 			$tour->flight->from->arrival->terminal = $request->flightFromArrivalTerminal;
-		}
-		else
-		{
+		} else {
 			$tour->flight = false;
 		}
 
 
-		if($type == 'online')
-		{
+		if ($type === 'online') {
 			$payment = Payments::findFirst('requestId = ' . $request->id);
-			$tour->payLink =  $this->config->frontend->publicURL . 'pay/' . $payment->id;
+			$tour->payLink = $this->config->frontend->publicURL . 'pay/' . $payment->id;
 
 			$params = [
-				'tour'	=> $tour,
-				'year'	=> date('Y'),
-				'phone'	=> $this->config->frontend->phone
+				'tour' => $tour,
+				'year' => date('Y'),
+				'phone' => $this->config->frontend->phone
 			];
 
 			$body = $this->generate('online', $params);
 
 			$mailgun = new Mailgun();
 			$mailgun->send($request->subjectEmail, 'Заказ тура на Путевки.ру', $body);
-		}
-		else
-		{
+		} else {
 			$params = [
-				'tour'	=> $tour,
-				'year'	=> date('Y'),
-				'phone'	=> $this->config->frontend->phone
+				'tour' => $tour,
+				'year' => date('Y'),
+				'phone' => $this->config->frontend->phone
 			];
 
 			$body = $this->generate('request', $params);
@@ -209,8 +197,8 @@ class EmailController extends ControllerBase
 	public function sendFindTour($data)
 	{
 		$params = [
-			'find'	=> $data,
-			'year'	=> date('Y')
+			'find' => $data,
+			'year' => date('Y')
 		];
 
 		$body = $this->generate('findTour', $params);
@@ -222,9 +210,9 @@ class EmailController extends ControllerBase
 	public function sendTourHelp($phone, $queries)
 	{
 		$params = [
-			'phone'     => $phone,
-			'queries'   => $queries,
-			'year'      => date('Y')
+			'phone' => $phone,
+			'queries' => $queries,
+			'year' => date('Y')
 		];
 
 		$body = $this->generate('tourHelp', $params);
@@ -236,10 +224,10 @@ class EmailController extends ControllerBase
 	public function generate($template, $params)
 	{
 		$this->simpleView->setVars([
-			'baseUrl'	=> $this->config->frontend->publicURL,
-			'adminUrl'	=> $this->config->backend->publicURL,
-			'assetsUrl'	=> $this->config->frontend->publicURL . 'assets',
-			'year'		=> date('Y')
+			'baseUrl' => $this->config->frontend->publicURL,
+			'adminUrl' => $this->config->backend->publicURL,
+			'assetsUrl' => $this->config->frontend->publicURL . 'assets',
+			'year' => date('Y')
 		]);
 
 		$this->simpleView->setVars($params);

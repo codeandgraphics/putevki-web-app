@@ -1,5 +1,6 @@
 <?php
-namespace Models\Api\Entities;
+
+namespace Models\Entities;
 
 use Models\Cities;
 

@@ -11,7 +11,7 @@ class PayController extends BaseController
 {
 	public function indexAction($paymentId = 0)
 	{
-		$payment = Payments::findFirstById($paymentId);
+		$payment = Payments::findFirst('id="' . $paymentId . '"');
 
 		$uniteller = new Uniteller();
 
@@ -32,7 +32,7 @@ class PayController extends BaseController
 		$orderId = $this->request->get('Order_ID');
 
 		$paymentId = $uniteller->getPaymentId($orderId);
-		$payment = Payments::findFirstById($paymentId);
+		$payment = Payments::findFirst('id="' . $paymentId . '""');
 
 		$this->view->setVar('payment', $payment);
 
@@ -50,56 +50,42 @@ class PayController extends BaseController
 		$response = new Response();
 		$this->view->disable();
 
-		if($this->request->isPost())
-		{
-			$Order_ID	= $this->request->getPost('Order_ID');
-			$Status		= $this->request->getPost('Status');
-			$Signature	= $this->request->getPost('Signature');
+		if ($this->request->isPost()) {
+			$Order_ID = $this->request->getPost('Order_ID');
+			$Status = $this->request->getPost('Status');
+			$Signature = $this->request->getPost('Signature');
 
 			$uniteller = new Uniteller();
 			$localSignature = $uniteller->notifySignature($Order_ID, $Status);
 
-			if($localSignature == $Signature)
-			{
-				$payment = Payments::findFirstById($uniteller->getPaymentId($Order_ID));
+			if ($localSignature === $Signature) {
+				$payment = Payments::findFirst('id="' . $uniteller->getPaymentId($Order_ID) . '"');
 
-				if($payment)
-				{
+				if ($payment) {
 					$payment->status = $Status;
 					$payment->payDate = date('Y-m-d H:i:s');
 
-					if($payment->save())
-					{
+					if ($payment->save()) {
 						$response->setStatusCode(200);
-					}
-					else
-					{
+					} else {
 						$response->setStatusCode(500);
 						$response->setContent('Data save failed');
 					}
-				}
-				else
-				{
+				} else {
 					$response->setStatusCode(404);
 					$response->setContent('Payment not found');
 				}
-			}
-			else
-			{
+			} else {
 				$response->setStatusCode(401);
 				$response->setContent('Request signature failure');
 			}
-		}
-		else
-		{
+		} else {
 			$response->setStatusCode(405);
 			$response->setContent('Method not allowed');
 		}
 
 		$response->send();
 	}
-
-
 
 
 }

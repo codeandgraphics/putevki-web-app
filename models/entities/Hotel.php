@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Api\Entities;
+namespace Models\Entities;
 
 class Hotel
 {
@@ -19,7 +19,7 @@ class Hotel
 
 	public function __construct($hotel = null)
 	{
-		if($hotel) {
+		if ($hotel) {
 			$this->id = $hotel->hotelcode;
 			$this->name = $hotel->hotelname;
 			$this->description = self::removeEntities($hotel->hoteldescription);
@@ -37,7 +37,7 @@ class Hotel
 			$this->region->id = $hotel->regioncode;
 			$this->region->name = $hotel->regionname;
 
-			foreach($hotel->tours->tour as $tour) {
+			foreach ($hotel->tours->tour as $tour) {
 				$this->tours[] = new Tour($tour);
 			}
 
@@ -45,7 +45,8 @@ class Hotel
 		}
 	}
 
-	public static function removeEntities($text) {
+	public static function removeEntities($text)
+	{
 		return trim(strip_tags(html_entity_decode($text)));
 	}
 }

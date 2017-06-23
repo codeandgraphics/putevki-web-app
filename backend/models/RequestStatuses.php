@@ -2,9 +2,9 @@
 
 namespace Backend\Models;
 
-use Phalcon\Mvc\Model;
+use Models\BaseModel;
 
-class RequestStatuses extends Model
+class RequestStatuses extends BaseModel
 {
 	public $id;
 	public $key;

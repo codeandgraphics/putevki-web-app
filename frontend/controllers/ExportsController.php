@@ -3,14 +3,14 @@
 namespace Frontend\Controllers;
 
 use Phalcon\Mvc\View;
-use Models\Cities;
 
 class ExportsController extends BaseController
 {
-	public function testAction() {
-		$css = file_get_contents('https://online.putevki.ru/exports/css');
-		$scripts = file_get_contents('https://online.putevki.ru/exports/scripts');
-		$head = file_get_contents('https://online.putevki.ru/exports/headSearch');
+	public function testAction()
+	{
+		$css = file_get_contents($this->url->get('exports/css'));
+		$scripts = file_get_contents($this->url->get('exports/scripts'));
+		$head = file_get_contents($this->url->get('exports/headSearch'));
 
 		echo $css;
 		echo $scripts;
@@ -22,59 +22,55 @@ class ExportsController extends BaseController
 
 	public function headAction()
 	{
-		$this->currentCity = Cities::checkCity();
-		$this->view->setVar('currentCity', $this->currentCity);
+		$this->view->setVar('city', $this->city);
 
 		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
 		$this->view->setVars([
-			'params'			=> $this->params,
-			'page'				=> 'main'
+			'params' => $this->params,
+			'page' => 'main'
 		]);
 	}
 
 	public function headSearchAction()
 	{
-		$this->currentCity = Cities::checkCity();
-		$this->view->setVar('currentCity', $this->currentCity);
+		$this->view->setVar('city', $this->city);
 
 		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
 		$this->view->setVars([
-			'params'			=> $this->params,
-			'page'				=> 'main'
+			'params' => $this->params,
+			'page' => 'main'
 		]);
 	}
-	
+
 	public function footAction()
 	{
-		$this->currentCity = Cities::checkCity();
-		$this->view->setVar('currentCity', $this->currentCity);
+		$this->view->setVar('city', $this->city);
 
 		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-		
+
 		$this->view->setVars([
-			'params'			=> $this->params,
-			'page'				=> 'main'
+			'params' => $this->params,
+			'page' => 'main'
 		]);
 	}
-	
+
 	public function scriptsAction()
 	{
-		$this->currentCity = Cities::checkCity();
-		$this->view->setVar('currentCity', $this->currentCity);
+		$this->view->setVar('city', $this->city);
 
 		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-		
+
 		$this->view->setVars([
-			'params'			=> $this->params,
-			'page'				=> 'main'
+			'params' => $this->params,
+			'page' => 'main'
 		]);
 	}
-	
+
 	public function cssAction()
 	{
 		$this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 	}
-		
+
 }

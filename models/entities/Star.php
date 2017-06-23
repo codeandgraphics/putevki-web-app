@@ -1,16 +1,18 @@
 <?php
-namespace Models\Api\Entities;
+
+namespace Models\Entities;
 
 use Models\Tourvisor\Stars;
 
-class Star {
+class Star
+{
 	public $id;
 	public $name;
 
 	public function __construct(Stars $star = null)
 	{
-		if($star) {
-			$this->id = (int) $star->id;
+		if ($star) {
+			$this->id = (int)$star->id;
 			$this->name = $star->name;
 		}
 	}

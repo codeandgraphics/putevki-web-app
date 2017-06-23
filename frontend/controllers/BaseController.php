@@ -8,11 +8,10 @@ use Models\Tourvisor\Departures;
 use Phalcon\Mvc\Controller;
 use Models\Cities;
 use Models\Branches;
-use Frontend\Models\SearchQueries;
 
 class BaseController extends Controller
 {
-    public $params;
+	public $params;
 	public $city;
 	public $departure;
 	public $cities;
@@ -23,18 +22,16 @@ class BaseController extends Controller
 
 	public function initialize()
 	{
-		if(array_key_exists('lastQueries', $_COOKIE))
-		{
+		if (array_key_exists('lastQueries', $_COOKIE)) {
 			$queries = json_decode($_COOKIE['lastQueries']);
-			if($queries)
-			{
+			if ($queries) {
 				$this->lastQueries = array_reverse($queries);
 			}
 		}
 
 		$this->params = Params::getInstance();
 
-		$this->cities = Cities::find(['active = 1','order' => 'main DESC, name']);
+		$this->cities = Cities::find(['active = 1', 'order' => 'main DESC, name']);
 		$this->branches = Branches::find('active = 1');
 
 		$countriesQuery = $this->db->query('
@@ -47,8 +44,7 @@ class BaseController extends Controller
 		');
 
 		$countries = $countriesQuery->fetchAll();
-		foreach($countries as $country)
-		{
+		foreach ($countries as $country) {
 			$this->formCountries[] = $country['name'];
 		}
 		$this->formCountries = implode(',', $this->formCountries);
@@ -64,8 +60,7 @@ class BaseController extends Controller
 		');
 
 		$regions = $regionsQuery->fetchAll();
-		foreach($regions as $region)
-		{
+		foreach ($regions as $region) {
 			$this->formRegions[] = $region['name'];
 		}
 		$this->formRegions = implode(',', $this->formRegions);
@@ -76,16 +71,16 @@ class BaseController extends Controller
 		]);
 
 		$this->city = Cities::findFirst('id=' . $this->params->city);
-		$this->departure = Departures::findFirst('id='.$this->params->search->from);
+		$this->departure = Departures::findFirst('id=' . $this->params->search->from);
 
 		$this->view->setVars([
-			'branches'			=> $this->branches->toArray(),
-			'cities'			=> $this->cities->toArray(),
-			'city'		        => $this->city,
-			'formRegions'		=> $this->formRegions,
-			'formCountries'		=> $this->formCountries,
-			'lastQueries'		=> $this->lastQueries,
-			'countries'         => $countries
+			'branches' => $this->branches->toArray(),
+			'cities' => $this->cities->toArray(),
+			'city' => $this->city,
+			'formRegions' => $this->formRegions,
+			'formCountries' => $this->formCountries,
+			'lastQueries' => $this->lastQueries,
+			'countries' => $countries
 		]);
 	}
 }

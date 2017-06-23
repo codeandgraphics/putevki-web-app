@@ -2,24 +2,38 @@
 
 namespace Models\Tourvisor;
 
+use Interfaces\ITourvisorEntity;
 use Models\BaseModel;
 use Phalcon\Mvc\Model;
 
-class Regions extends BaseModel
+/**
+ * Class Regions
+ * @package Models\Tourvisor
+ */
+class Regions extends BaseModel implements ITourvisorEntity
 {
-
 	public $id;
 	public $name;
 	public $countryId;
 	public $popular;
 
+	/** @var Countries */
+	public $country;
+
 	public function initialize()
 	{
-		$this->belongsTo('countryId', 'Models\Tourvisor\Countries', 'id', array(
+		$this->belongsTo('countryId', Countries::name(), 'id', array(
 			'alias' => 'country'
 		));
 
 		$this->setSource('tourvisor_regions');
+	}
+
+	public function fromTourvisor($item)
+	{
+		$this->id           = $item->id;
+		$this->name         = $item->name;
+		$this->countryId    = $item->country;
 	}
 
 	public function format()
@@ -40,5 +54,14 @@ class Regions extends BaseModel
 	public static function findFirst($parameters = null)
 	{
 		return parent::findFirst($parameters);
+	}
+
+	/**
+	 * @param mixed $parameters
+	 * @return Regions[]|Model\ResultsetInterface
+	 */
+	public static function find($parameters = null)
+	{
+		return parent::find($parameters);
 	}
 }

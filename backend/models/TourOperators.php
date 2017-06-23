@@ -2,9 +2,9 @@
 
 namespace Backend\Models;
 
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Behavior\Timestampable,
-	Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class TourOperators extends Model
 {
@@ -15,16 +15,16 @@ class TourOperators extends Model
 	public $name;
 	public $legal;
 	public $guarantee;
-	public $creationDate = null;
+	public $creationDate;
 	public $deleted = TourOperators::NOT_DELETED;
 
 	public function initialize()
 	{
 		$this->addBehavior(new Timestampable(
 			array(
-				'beforeCreate'  => array(
-					'field'     => 'creationDate',
-					'format'    => 'Y-m-d H:i:s'
+				'beforeCreate' => array(
+					'field' => 'creationDate',
+					'format' => 'Y-m-d H:i:s'
 				)
 			)
 		));
@@ -37,7 +37,7 @@ class TourOperators extends Model
 		));
 	}
 
-	public function getMessages()
+	public function getMessages($filter = null)
 	{
 		$messages = array();
 		foreach (parent::getMessages() as $message) {
@@ -50,7 +50,6 @@ class TourOperators extends Model
 
 		return $messages;
 	}
-
 
 
 }

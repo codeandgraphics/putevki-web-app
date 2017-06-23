@@ -3,23 +3,22 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
-use Frontend\Models\SearchParams;
-use Models\Api\SearchQuery;
+use Models\SearchQuery;
 use Phalcon\Http\Response;
 use Models\Tourvisor;
-use Frontend\Models\SearchQueries;
+use Models\StoredQueries;
 
 class SearchController extends BaseController
 {
 	public function indexAction()
 	{
-	    $params = Params::getInstance();
-	    $params->search->fromDispatcher($this->dispatcher);
-	    $params->store();
+		$params = Params::getInstance();
+		$params->search->fromDispatcher($this->dispatcher);
+		$params->store();
 
-	    $searchQuery = new SearchQuery();
-	    $searchQuery->fromParams($params->search);
-	    $searchId = $searchQuery->run();
+		$searchQuery = new SearchQuery();
+		$searchQuery->fromParams($params->search);
+		$searchId = $searchQuery->run();
 
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
@@ -31,25 +30,26 @@ class SearchController extends BaseController
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
 			'bind' => [
-				'moscowId'	=> 1,
-				'spbId'		=> 5,
-				'noId'		=> 99
+				'moscowId' => 1,
+				'spbId' => 5,
+				'noId' => 99
 			],
-			'order'	=> 'name'
+			'order' => 'name'
 		]);
 
 		$this->view->setVars([
-			'tourvisorId'	=> $searchId,
-			'params'		=> $params,
-			'meals'			=> $meals,
-			'departures'    => $departures,
-			'title'			=> $title,
-			'page'			=> 'search'
+			'tourvisorId' => $searchId,
+			'params' => $params,
+			'meals' => $meals,
+			'departures' => $departures,
+			'title' => $title,
+			'page' => 'search'
 		]);
 	}
 
 	public function hotelAction($from, $where, $hotelName, $hotelId, $date, $nights, $adults, $kids, $stars, $meal)
 	{
+		// TODO
 		$params = new \stdClass();
 		$params->from = $from;
 		$params->where = $where;
@@ -61,7 +61,7 @@ class SearchController extends BaseController
 		$params->stars = $stars;
 		$params->meal = $meal;
 
-		$searchQuery = new SearchQueries();
+		$searchQuery = new StoredQueries();
 		$searchQuery->fillFromParams($params);
 		$searchQuery->run();
 
@@ -116,5 +116,5 @@ class SearchController extends BaseController
 
 		return $response;
 	}
-	
+
 }

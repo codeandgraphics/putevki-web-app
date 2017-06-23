@@ -2,8 +2,8 @@
 	 data-departures="Москва,С.Петербург,Екатеринбург"
 	 data-countries="{{ formCountries }}"
 	 data-regions="{{ formRegions }}"
-	 data-from="{{ currentCity.departure.name }}"
-	 data-from-id="{{ currentCity.departure.id }}"
+	 data-from="{{ city.departure.name }}"
+	 data-from-id="{{ city.departure.id }}"
 >
 	<div class="modal-dialog" role="document" data-toggle="validator">
 		<div class="modal-content">
@@ -21,7 +21,7 @@
 							<div class="form-group">
 								<label for="find-departure">Введите город вылета:</label>
 								<div class="departure">
-									<input class="form-control" type="text" name="find-departure" id="find-departure" value="{{ currentCity.departure.name }}"/>
+									<input class="form-control" type="text" name="find-departure" id="find-departure" value="{{ city.departure.name }}"/>
 								</div>
 							</div>
 							<div class="buttons">
@@ -112,7 +112,7 @@
 									<div class="well well-sm">
 										<dl class="dl-horizontal" id="selected">
 											<dt class="text-from">Город вылета:</dt>
-											<dd class="from">{{ currentCity.departure.name }}</dd>
+											<dd class="from">{{ city.departure.name }}</dd>
 											<dt class="text-where hide">Куда:</dt>
 											<dd class="where hide"></dd>
 											<dt class="text-types hide">Тип отдыха:</dt>

@@ -2,13 +2,13 @@
 
 namespace Backend\Models;
 
-use Backend\Controllers\EmailController;
-use Phalcon\Mvc\Model,
-	Phalcon\Mvc\Model\Validator\Uniqueness,
-	Phalcon\Mvc\Model\Behavior\Timestampable,
-	Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Models\BaseModel;
+use Models\Branches;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
+use Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Users extends Model
+class Users extends BaseModel
 {
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
@@ -33,9 +33,9 @@ class Users extends Model
 	{
 		$this->addBehavior(new Timestampable(
 			array(
-				'beforeCreate'  => array(
-					'field'     => 'creationDate',
-					'format'    => 'Y-m-d H:i:s'
+				'beforeCreate' => array(
+					'field' => 'creationDate',
+					'format' => 'Y-m-d H:i:s'
 				)
 			)
 		));
@@ -47,8 +47,8 @@ class Users extends Model
 			)
 		));
 
-		$this->hasOne('id','\Models\Branches','manager_id',[
-			'alias'	=> 'branch'
+		$this->hasOne('id', Branches::name(), 'manager_id', [
+			'alias' => 'branch'
 		]);
 	}
 
@@ -56,12 +56,12 @@ class Users extends Model
 	{
 		$this->validate(new Uniqueness(
 			array(
-				"field"   => "email",
-				"message" => "E-mail пользователя должен быть уникальным"
+				'field' => 'email',
+				'message' => 'E-mail пользователя должен быть уникальным'
 			)
 		));
 
-		return $this->validationHasFailed() != true;
+		return $this->validationHasFailed() !== true;
 	}
 
 }

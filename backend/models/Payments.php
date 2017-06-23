@@ -21,9 +21,9 @@ class Payments extends BaseModel
 	{
 		$this->addBehavior(new Model\Behavior\Timestampable(
 			array(
-				'beforeCreate'  => array(
-					'field'     => 'creationDate',
-					'format'    => 'Y-m-d H:i:s'
+				'beforeCreate' => array(
+					'field' => 'creationDate',
+					'format' => 'Y-m-d H:i:s'
 				)
 			)
 		));
@@ -35,18 +35,19 @@ class Payments extends BaseModel
 
 	public function beforeSave()
 	{
-		if($this->status === 'authorized' || $this->status === 'paid')
-		{
+		if ($this->status === 'authorized' || $this->status === 'paid') {
 			//Send Email
 			// Utils\Email::send
 		}
 	}
 
-	public function isSuccess() {
+	public function isSuccess()
+	{
 		return ($this->status === 'authorized' || $this->status === 'paid');
 	}
 
-	public function getOrder() {
+	public function getOrder()
+	{
 		return Di::getDefault()->get('config')->frontend->uniteller->orderPrefix . $this->id;
 	}
 
