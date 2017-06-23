@@ -6,6 +6,7 @@ use Models\Entities\Filters;
 use Models\Entities\People;
 use Models\Entities\When;
 use Models\Entities\Where;
+use Models\StoredQueries;
 use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
 use Models\Tourvisor\Hotels;
@@ -184,7 +185,7 @@ class SearchParams
 		$this->where->hotels = $hotelId ?: 0;
 	}
 
-	private function whenFromQuery($date, $nights)
+	public function whenFromQuery($date, $nights)
 	{
 		if (strpos($date, '~') === 0) {
 			$date = \DateTime::createFromFormat('d.m.Y', str_replace('~', '', $date));
@@ -205,7 +206,7 @@ class SearchParams
 		}
 	}
 
-	private function peopleFromQuery($adults, $children)
+	public function peopleFromQuery($adults, $children)
 	{
 		if ($adults) {
 			$this->people->adults = $adults;
@@ -219,7 +220,7 @@ class SearchParams
 
 	}
 
-	private function filtersFromQuery($stars, $meal)
+	public function filtersFromQuery($stars, $meal)
 	{
 		if ($stars) {
 			$this->filters->stars = $stars;

@@ -13,9 +13,6 @@ class Countries extends BaseModel implements ITourvisorEntity
 	public $name;
 	public $popular;
 
-	/** @var Regions|array $regions */
-	public $regions;
-
 	public function initialize()
 	{
 		$this->setSource('tourvisor_countries');

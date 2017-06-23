@@ -1,6 +1,6 @@
 {{ partial('partials/header') }}
 
-<main>
+<main class="{{ page }}">
 	{% if page !== 'main' %}
 	{{ partial('partials/navbar') }}
 	{% endif %}

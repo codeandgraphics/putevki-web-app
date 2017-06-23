@@ -17,9 +17,6 @@ class Regions extends BaseModel implements ITourvisorEntity
 	public $countryId;
 	public $popular;
 
-	/** @var Countries */
-	public $country;
-
 	public function initialize()
 	{
 		$this->belongsTo('countryId', Countries::name(), 'id', array(

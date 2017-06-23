@@ -58,7 +58,7 @@
 
 						<div class="hotel-form">
 							<form class="form-inline search" action="" method="get" id="searchForm"
-								  data-departure="{{ params.departureId }}"
+								  data-departure="{{ params.from }}"
 								  data-country="{{ hotel.db.country.id }}"
 								  data-hotel="{{ hotel.db.id }}"
 								  data-region="{{ hotel.db.region.id }}"

@@ -4,6 +4,7 @@ namespace Frontend\Controllers;
 
 use Backend\Models\Requests;
 use Frontend\Models\Params;
+use Models\StoredQueries;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
 use Frontend\Models\SearchQueries;
@@ -14,34 +15,25 @@ class IndexController extends BaseController
 {
 	public function indexAction()
 	{
-		$regions = $this->db->fetchAll('
-			SELECT r.id AS id, r.name AS name, c.name AS country_name, c.id as country_id
-			FROM search_queries AS s
-			INNER JOIN tourvisor_regions AS r ON s.regionId = r.id
-            INNER JOIN tourvisor_countries AS c ON s.countryId = c.id AND active = 1
-			WHERE s.queryDate > (NOW() - INTERVAL 1 MONTH)
-			GROUP BY s.regionId
-			ORDER BY COUNT(s.id) DESC
-			LIMIT 6
-		', Db::FETCH_OBJ);
+		$popularRegions = StoredQueries::popularRegions(6);
 
 		$popularItems = [];
 		$popularCountries = [];
 
-		foreach($regions as $region)
+		foreach($popularRegions as $region)
 		{
 			$pop = new \stdClass();
 
-			$pop->country = $region->country_name;
+			$pop->country = $region->country->name;
 			$pop->region = $region->name;
 			$pop->regionId = $region->id;
-			$pop->countryId = $region->country_id;
+			$pop->countryId = $region->country->id;
 
 			$from = $this->city->departure->name;
-			$to = $region->country_name . '(' . $region->name . ')';
-			
+			$to = $region->country->name . '(' . $region->name . ')';
+
 			$pop->url = '/search/'. $from . '/' . $to;
-			
+
 			$popularItems[] = $pop;
 			$popularCountries[] = $pop->country;
 		}

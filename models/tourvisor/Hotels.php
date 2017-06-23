@@ -23,15 +23,6 @@ class Hotels extends BaseModel implements ITourvisorEntity
 	public $beach;
 	public $deluxe;
 
-	/** @var Stars $stars */
-	public $stars;
-
-	/** @var Regions $region */
-	public $region;
-
-	/** @var Countries $country */
-	public $country;
-
 	public function initialize()
 	{
 		$this->belongsTo('countryId', Countries::name(), 'id', [

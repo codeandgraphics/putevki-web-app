@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use Models\Tourvisor\Countries;
+use Models\Tourvisor\Regions;
 use Phalcon\Di;
 
 class StoredQueries extends BaseModel {
@@ -107,5 +109,50 @@ class StoredQueries extends BaseModel {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param int $limit
+	 * @return Countries[]
+	 */
+	public static function popularCountries($limit = 3) {
+		$bind = ['date' => Date::dbDateMonthAgo()];
+
+		return Di::getDefault()->get('modelsManager')->createBuilder()
+			->addFrom(StoredQueries::name(), 'query')
+			->columns([
+				'country.*'
+			])
+			->innerJoin(Countries::name(), 'country.id = query.whereCountry', 'country')
+			->where('country.active = 1')
+			->andWhere('query.date > :date:')
+			->groupBy('query.whereCountry')
+			->orderBy('COUNT(query.id) DESC')
+			->limit($limit)
+			->getQuery()
+			->execute($bind);
+	}
+
+	/**
+	 * @param int $limit
+	 * @return Regions[]
+	 */
+	public static function popularRegions($limit = 3) {
+		$bind = ['date' => Date::dbDateMonthAgo()];
+
+		return Di::getDefault()->get('modelsManager')->createBuilder()
+			->addFrom(StoredQueries::name(), 'query')
+			->columns([
+				'region.*'
+			])
+			->innerJoin(Regions::name(), 'region.id IN (query.whereRegions)', 'region')
+			->innerJoin(Countries::name(), 'country.id = query.whereCountry', 'country')
+			->where('country.active = 1')
+			->andWhere('query.date > :date:')
+			->groupBy('region.id')
+			->orderBy('COUNT(query.id) DESC')
+			->limit($limit)
+			->getQuery()
+			->execute($bind);
 	}
 }

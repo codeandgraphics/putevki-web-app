@@ -45,4 +45,10 @@ class Date {
 		$date = new \DateTime();
 		return $date->format(self::DB_DATETIME_FORMAT);
 	}
+
+	public static function dbDateMonthAgo() {
+		$date = new \DateTime();
+		$date->sub(new \DateInterval('P1M'));
+		return $date->format(self::DB_DATETIME_FORMAT);
+	}
 }

@@ -76,9 +76,6 @@ class Requests extends BaseModel
 	public $creationDate;
 	public $deleted = Tourists::NOT_DELETED;
 
-	/** @var Payments[] $payments */
-	public $payments;
-
 	public function initialize()
 	{
 		$this->addBehavior(new Timestampable(
