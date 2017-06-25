@@ -55,10 +55,20 @@ class HotelController extends BaseController
 		$hotel->coord1 = str_replace(',', '.', $hotel->coord1);
 		$hotel->coord2 = str_replace(',', '.', $hotel->coord2);
 
+        $departures = Tourvisor\Departures::find([
+            'id NOT IN (:moscowId:, :spbId:, :noId:)',
+            'bind' => [
+                'moscowId'	=> 1,
+                'spbId'		=> 5,
+                'noId'		=> 99
+            ],
+            'order'	=> 'name'
+        ]);
+
 		$title = 'Туры в ' . $hotel->name . ' из ' . $this->currentCity->name_rod . ' на ';
 
 		$this->view->setVars([
-			'departures' => Tourvisor\Departures::find(),
+			'departures' => $departures,
 			'params' => $this->params,
 			'hotel' => $hotel,
 			'title' => $title,

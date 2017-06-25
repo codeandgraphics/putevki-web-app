@@ -310,7 +310,8 @@ export default class Search {
     this.rebuildFilters();
   }
 
-  buildHotel(hotel) {
+  buildHotel(item) {
+    const hotel = item;
     const $item = this.$.template.clone();
     $item.removeClass('template');
 
@@ -460,7 +461,7 @@ export default class Search {
 
     const self = this;
 
-    $stars.find('a').on('click', function () {
+    $stars.find('a').on('click', function starsClick() {
       const $el = $(this);
       const html = $el.html();
       const star = $el.data('stars');
@@ -474,7 +475,7 @@ export default class Search {
 
     const $meals = this.$.params.find('.meals');
 
-    $meals.find('a').on('click', function () {
+    $meals.find('a').on('click', function mealsClick() {
       const $el = $(this);
       const html = $el.html();
       const meal = $el.data('meal');
@@ -551,7 +552,6 @@ export default class Search {
 
   filterParamsChanged() {
     if (this.current === 'finished') {
-      // self.finished.filtered = self.filterHotels(self.finished.data);
       this.showFinished();
     }
   }

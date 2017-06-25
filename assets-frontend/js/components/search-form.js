@@ -258,7 +258,7 @@ export default class SearchForm {
         ) {
           this.data.where.country = null;
           this.data.where.regions = [];
-          this.data.where.hotels = null
+          this.data.where.hotels = null;
           $whereInput.typeahead('val', '');
           $close.hide();
         }
