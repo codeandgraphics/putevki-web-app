@@ -34,11 +34,14 @@ class StoredQueries extends BaseModel {
 	public $searchId;
 	public $date;
 
+	/** @var Origin $origin */
+	public $origin;
+
 	public function initialize() {
 		$this->setSource('stored_queries');
 	}
 
-	public static function store(SearchQuery $query, $searchId) {
+	public static function store(SearchQuery $query, $searchId, $origin = Origin::WEB) {
 		$searchQuery = new StoredQueries();
 		$searchQuery->fromId = $query->from;
 
@@ -62,6 +65,8 @@ class StoredQueries extends BaseModel {
 		$searchQuery->date = Date::currentDbDateTime();
 
 		$searchQuery->searchId = $searchId;
+
+		$searchQuery->origin = $origin;
 
 		$searchQuery->create();
 	}

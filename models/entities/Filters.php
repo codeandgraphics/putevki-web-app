@@ -23,10 +23,10 @@ class Filters
 	public function fromStored($filters = null)
 	{
 		if ($filters) {
-			$this->stars = $filters->stars ?: $this->stars;
-			$this->meal = $filters->meal ?: $this->meal;
-			$this->rating = $filters->rating ?: $this->rating;
-			$this->operator = $filters->operator ?: $this->operator;
+			$this->stars = $filters->stars ? (int) $filters->stars : $this->stars;
+			$this->meal = $filters->meal ? (int) $filters->meal : $this->meal;
+			$this->rating = $filters->rating ? (int) $filters->rating : $this->rating;
+			$this->operator = $filters->operator ? (int) $filters->operator : $this->operator;
 		}
 	}
 }

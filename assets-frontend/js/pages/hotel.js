@@ -42,7 +42,7 @@ export default class HotelPage {
       $.getJSON(`${form.endpoint}searchHotel/`, {
         params: form.data,
       }, (res) => {
-        hotelForm.start(res.tourvisorId);
+        hotelForm.start(res.searchId);
       });
       return false;
     }).click();

@@ -28,10 +28,10 @@ class When
 	public function fromStored($when = null)
 	{
 		if ($when) {
-			$this->dateFrom = $when->dateFrom ?: $this->dateFrom;
-			$this->dateTo = $when->dateTo ?: $this->dateTo;
-			$this->nightsFrom = $when->nightsFrom ?: $this->nightsFrom;
-			$this->nightsTo = $when->nightsTo ?: $this->nightsTo;
+			$this->dateFrom = $when->dateFrom ? : $this->dateFrom;
+			$this->dateTo = $when->dateTo ? : $this->dateTo;
+			$this->nightsFrom = $when->nightsFrom ? (int) $when->nightsFrom : (int) $this->nightsFrom;
+			$this->nightsTo = $when->nightsTo ? (int) $when->nightsTo : (int) $this->nightsTo;
 		}
 	}
 

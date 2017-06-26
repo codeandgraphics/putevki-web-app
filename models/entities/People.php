@@ -25,7 +25,7 @@ class People
 	public function fromStored($people = null)
 	{
 		if ($people) {
-			$this->adults = $people->adults ?: $this->adults;
+			$this->adults = $people->adults ? (int) $people->adults : (int) $this->adults;
 			$this->children = $people->children ?: $this->children;
 		}
 	}

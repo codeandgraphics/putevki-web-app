@@ -3,7 +3,9 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
-use Models\StoredQueries;
+use Models\Origin;
+use Models\SearchQuery;
+use Models\Entities;
 use Phalcon\Db;
 use Phalcon\Http\Response;
 use Models\Tourvisor;
@@ -182,10 +184,12 @@ class AjaxController extends BaseController
 	{
 		$response = new Response();
 
-		$dbCountries = Tourvisor\Countries::find('active = 1');
+		$items = Tourvisor\Countries::find('active = 1');
 
 		$countries = [];
-		foreach ($dbCountries as $country) {
+		foreach ($items as $item) {
+		    $country = new Entities\Country($item);
+		    unset($country->regions);
 			$countries[] = $country;
 		}
 
@@ -197,10 +201,10 @@ class AjaxController extends BaseController
 		$regions = [];
 		foreach ($dbRegions as $item) {
 			$region = new \stdClass();
-			$region->id = $item->id;
+			$region->id = (int) $item->id;
 			$region->name = $item->name;
-			$region->country = $item->countryId;
-			$region->country_name = $item->country_name;
+			$region->country = (int) $item->countryId;
+			$region->countryName = $item->country_name;
 			$regions[] = $region;
 		}
 
@@ -356,7 +360,6 @@ class AjaxController extends BaseController
 					$types->deluxe = (int)$dbHotel->deluxe;
 					$hotels[$dbHotel->id]->types = $types;
 				}
-
 			}
 		}
 
@@ -415,13 +418,16 @@ class AjaxController extends BaseController
 	{
 		$response = new Response();
 
-		$params = (object)$this->request->get('params');
+        $formParams = (object)$this->request->get('params');
 
-		$searchQuery = new StoredQueries();
-		$searchQuery->fillFromParams($params);
-		$searchQuery->run();
+        $params = Params::getInstance();
+        $params->search->fromSearchForm($formParams);
 
-		$response->setJsonContent(['tourvisorId' => $searchQuery->tourvisorId, 'query' => $searchQuery->toArray()]);
+        $searchQuery = new SearchQuery();
+        $searchQuery->fromParams($params->search);
+        $searchId = $searchQuery->run(Origin::WEB);
+
+		$response->setJsonContent(['searchId' => $searchId]);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 

@@ -8,7 +8,7 @@ export default class HotelForm {
 
   constructor(formObject) {
     this.formObject = formObject;
-    this.tourvisorId = null;
+    this.searchId = null;
     this.tourlink = '/tour/';
 
     this.hasFirst = false;
@@ -127,7 +127,7 @@ export default class HotelForm {
 
       $variant.attr('data-price', tour.price);
 
-      $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', self.tourlink + tour.tourid);
+      $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
 
       const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
       $variant.find('.date span').text(dateTo.format('D MMMM'));
@@ -143,10 +143,10 @@ export default class HotelForm {
 
       $variant.find('.operator span').text(tour.operatorname);
 
-      self.$variants.append($variant);
+      this.$.variants.append($variant);
     });
 
-    if (self.debug) console.log('[ФОРМА ПОИСКА ОТЕЛЕЙ] Завершили рендер: ', new Date());
+    if (IS_DEV) console.log('[ФОРМА ПОИСКА ОТЕЛЕЙ] Завершили рендер: ', new Date());
   };
 
 }

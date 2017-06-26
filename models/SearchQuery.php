@@ -47,7 +47,7 @@ class SearchQuery
 		$this->filters = $params->filters;
 	}
 
-	public function run()
+	public function run($origin = Origin::WEB)
 	{
 		$existed = StoredQueries::checkExists($this);
 
@@ -57,7 +57,7 @@ class SearchQuery
 
 				$searchId = $response->result->requestid;
 
-				StoredQueries::store($this, $searchId);
+				StoredQueries::store($this, $searchId, $origin);
 
 				return $searchId;
 			}

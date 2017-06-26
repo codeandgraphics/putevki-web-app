@@ -9,7 +9,7 @@ class Text
 	{
 		$result = new \stdClass();
 
-		if($first == $second)
+		if($first === $second)
 		{
 			$result->count = 0;
 			$result->text = 'столько же';
@@ -41,22 +41,6 @@ class Text
 	    }
 	
 	    return $subject;
-	}
-	
-	public static function weatherIcon($code)
-	{
-		if($code == '800') return 'ion-ios-sunny';
-		if($code == '802') return 'ion-ios-cloudy';
-		
-		$codes = [
-			'2' => 'ion-ios-thunderstorm',
-			'3' => 'ion-ios-rainy',
-			'5' => 'ion-ios-rainy',
-			'6'	=> 'ion-ios-snowy',
-			'8'	=> 'ion-ios-partlysunny'
-		];
-		
-		return $codes[substr($code,0,1)];
 	}
 	
 	public static function translite($string, $gost=false)
@@ -110,51 +94,51 @@ class Text
 	
 	public static function humanize($type, $value)
 	{
-		if($type == 'price')
+		if($type === 'price')
 		{
 			return number_format($value, 2, '.', ' ');
 		}
-		if($type == 'people')
+		if($type === 'people')
 		{
 			if($value >= 2 && $value <= 4) return $value . ' человека';
 			return $value . ' человек';
 		}
-		if($type == 'adults')
+		if($type === 'adults')
 		{
 			if($value == 1) return 'взрослый';
 			return 'взрослых';
 		}
-		if($type == 'kids')
+		if($type === 'kids')
 		{
 			if($value == 1) return 'ребенок';
 			if($value >= 5) return 'детей';
 			return 'ребенка';
 		}
-		if($type == 'rating')
+		if($type === 'rating')
 		{
 			if($value < 4) return 'cкромный отель';
 			if($value < 4.5) return 'хороший отель';
 			if($value <= 5) return 'отличный отель';
 		}
 		
-		if($type == 'nights')
+		if($type === 'nights')
 		{
 			$value = (int) $value;
 			
 			if($value >= 5 && $value <= 20)			return $value . ' ночей';
-			if($value%10 == 1)						return $value . ' ночь';
+			if($value%10 === 1)						return $value . ' ночь';
 			if($value%10 >= 2 && $value%10 < 5)		return $value . ' ночи';
 			if($value%10 >= 5)						return $value . ' ночей';
 		}
 		
-		if($type == 'months')
+		if($type === 'months')
 		{
 			$months = ["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 			
 			return $months[$value];
 		}
 		
-		if($type == 'types')
+		if($type === 'types')
 		{
 			$types = array(
 				'active'	=> 'Активный',
@@ -169,7 +153,7 @@ class Text
 			return $types[$value];
 		}
 		
-		if($type == 'meal')
+		if($type === 'meal')
 		{
 			$meals = [
 				'RO'	=> 'Без питания',

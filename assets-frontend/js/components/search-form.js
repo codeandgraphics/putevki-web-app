@@ -141,7 +141,7 @@ export default class SearchForm {
       });
 
       const regions = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'country_name'),
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'countryName'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         identify(obj) { return obj.name; },
         local: data.regions,
@@ -207,7 +207,7 @@ export default class SearchForm {
           header: '<h3>Регионы</h3><div class="suggestions">',
           footer: '</div>',
           suggestion(item) {
-            return `<div><span>${item.name}</span> <i>${item.country_name}</i></div>`;
+            return `<div><span>${item.name}</span> <i>${item.countryName}</i></div>`;
           },
         },
       }, {

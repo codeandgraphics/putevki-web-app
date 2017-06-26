@@ -2,6 +2,9 @@
 
 namespace Frontend\Controllers;
 
+use Frontend\Models\Params;
+use Models\Origin;
+use Models\SearchQuery;
 use Models\Tourvisor;
 use Utils\Tourvisor as TourvisorUtils;
 use Utils\Text as TextUtils;
@@ -12,7 +15,7 @@ class HotelController extends BaseController
 	{
 		$id = $this->dispatcher->getParam('id', 'int');
 
-		$result = TourvisorUtils::getMethod('hotel', array(
+        $result = TourvisorUtils::getMethod('hotel', array(
 			'hotelcode' => $id,
 			'imgwidth' => 400,
 			'imgheight' => 260
@@ -20,7 +23,7 @@ class HotelController extends BaseController
 
 		$hotel = $result->data->hotel;
 
-		$dbHotel = Tourvisor\Hotels::findFirst('id="' . $id . '"');
+        $dbHotel = Tourvisor\Hotels::findFirst('id="' . $id . '"');
 
 		$dbTypes = new \stdClass();
 
@@ -65,7 +68,9 @@ class HotelController extends BaseController
             'order'	=> 'name'
         ]);
 
-		$title = 'Туры в ' . $hotel->name . ' из ' . $this->currentCity->name_rod . ' на ';
+		$title = 'Туры в ' . $hotel->name . ' из ' . $this->city->name_rod . ' на ';
+
+		$this->params->search->where->hotels = $hotel->db->id;
 
 		$this->view->setVars([
 			'departures' => $departures,

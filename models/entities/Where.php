@@ -33,8 +33,8 @@ class Where
 			} else {
 				$this->regions = [];
 			}
-			$this->country = $where->country ?: $this->country;
-			$this->hotels = $where->hotels > 0 ? $where->hotels : $this->hotels;
+			$this->country = $where->country ? (int) $where->country : (int) $this->country;
+			$this->hotels = $where->hotels > 0 ? (int) $where->hotels : (int) $this->hotels;
 		}
 	}
 

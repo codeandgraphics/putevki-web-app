@@ -3,9 +3,10 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
-use Models\SearchQuery;
 use Phalcon\Http\Response;
+use Models\Origin;
 use Models\Tourvisor;
+use Models\SearchQuery;
 use Models\StoredQueries;
 
 class SearchController extends BaseController
@@ -18,7 +19,7 @@ class SearchController extends BaseController
 
 		$searchQuery = new SearchQuery();
 		$searchQuery->fromParams($params->search);
-		$searchId = $searchQuery->run();
+		$searchId = $searchQuery->run(Origin::WEB);
 
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
@@ -49,17 +50,9 @@ class SearchController extends BaseController
 
 	public function hotelAction($from, $where, $hotelName, $hotelId, $date, $nights, $adults, $kids, $stars, $meal)
 	{
-		// TODO
-		$params = new \stdClass();
-		$params->from = $from;
-		$params->where = $where;
-		$params->hotel = $hotelId;
-		$params->date = $date;
-		$params->nights = $nights;
-		$params->adults = $adults;
-		$params->kids = $kids;
-		$params->stars = $stars;
-		$params->meal = $meal;
+        $params = Params::getInstance();
+        $params->search->fromDispatcher($this->dispatcher);
+        //$params->store();
 
 		$searchQuery = new StoredQueries();
 		$searchQuery->fillFromParams($params);
