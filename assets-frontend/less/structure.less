@@ -178,7 +178,7 @@ dt{
 		}
 
 		.content{
-			z-index: 2;
+			z-index: 1;
 			position: relative;
 
 			.wrap{
@@ -284,6 +284,7 @@ a{
 	margin-left: -2px;
 	margin-bottom: 2px;
 	margin-right: 2px;
+	text-align: left;
 
 	.transition(all 0.05s ease-in-out);
 
@@ -412,20 +413,20 @@ a{
 			color: @color-bg !important;
 		}
 
-		.data{
+		span.data{
 			margin-left: 65px;
 			text-align: left;
+			display: block;
+			font-size: 22px;
+			line-height: 26px;
+			color: @color-bg !important;
 
-			span{
-				display: block;
-				font-size: 22px;
-				line-height: 30px;
-				color: @color-bg !important;
-			}
 			small{
 				display: block;
 				font-size: 13px;
+				line-height: 20px;
 				color: @color-bg !important;
+				text-align: left;
 			}
 		}
 
@@ -574,4 +575,12 @@ a{
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+a.internal {
+	text-decoration: none;
+
+	span {
+		border-bottom: 1px dashed;
+	}
 }

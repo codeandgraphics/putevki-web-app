@@ -9,11 +9,11 @@ export default class SearchPage {
       search: $('#search'),
     };
 
-    this.tourvisorId = this.$.search.attr('data-tourvisorId');
+    this.searchId = this.$.search.attr('data-searchId');
   }
 
   init() {
     this.form = new SearchForm();
-    this.search = new Search(this.tourvisorId, this.form);
+    this.search = new Search(this.searchId, this.form);
   }
 }

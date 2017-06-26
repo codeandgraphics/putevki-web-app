@@ -25,6 +25,7 @@ export default class SearchForm {
     this.popularRegions = this.$.form.data('regions').split(',');
 
     this.endpoint = '/ajax/';
+    this.countryImage = '//static.tourvisor.ru/flags/calendar/flag_%id%.gif';
 
     this.limits = {
       nights: {
@@ -93,7 +94,7 @@ export default class SearchForm {
         $fromText.toggle(isVisible);
 
         this.data.from = id;
-        this.$.from.find('#fromDropdown span').text(gen);
+        this.$.from.find('.value').text(gen);
 
         if (this.$.from.hasClass('search')) {
           this.$.form.find('.search-button button').click();
@@ -182,6 +183,8 @@ export default class SearchForm {
         }
       };
 
+      const countryImage = this.countryImage;
+
       $whereInput.typeahead({
         hint: true,
         highlight: true,
@@ -194,7 +197,7 @@ export default class SearchForm {
         templates: {
           header: '<h3>Страны</h3>',
           suggestion(item) {
-            return `<div><span>${item.name}</span></div>`;
+            return `<div><span><img src="${countryImage.replace('%id%', item.id)}" /> ${item.name}</span></div>`;
           },
         },
       }, {

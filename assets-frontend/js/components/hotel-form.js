@@ -50,7 +50,7 @@ export default class HotelForm {
   getStatus() {
     if (this.debug) console.log('[ФОРМА ПОИСКА ОТЕЛЕЙ] Получаем статус: ', new Date());
 
-    $.getJSON(`${this.formObject.endpoint}status/${this.searchId}`, (res) => {
+    $.getJSON(`/api/searchStatus/?searchId=${this.searchId}`, (res) => {
       this.formObject.$.form.find('.progressbar').css('width', `${res.status.progress}%`);
       if (res.status.state === 'finished') {
         this.isSearching = false;
@@ -65,7 +65,7 @@ export default class HotelForm {
         });
       } else {
         if (res.status.state === 'searching') {
-          if (res.status.toursfound > 1 && !this.hasFirst) {
+          if (res.status.tours > 1 && !this.hasFirst) {
             this.getResults(true);
           }
         }
@@ -81,14 +81,14 @@ export default class HotelForm {
   getResults(first, callback) {
     if (this.debug) console.log('[ФОРМА ПОИСКА ОТЕЛЕЙ] Получаем результаты: ', new Date());
 
-    $.getJSON(`${this.formObject.endpoint}results/${this.searchId}`, (res) => {
-      if (res.status.toursfound > 0) {
+    $.getJSON(`/api/searchResult/?searchId=${this.searchId}`, (res) => {
+      if (res.status.tours > 0) {
         if (first) {
-          this.firstResults = res.hotels[0].tours;
+          this.firstResults = JSON.parse(res.hotels[0].tours);
           this.hasFirst = true;
           this.showResults();
         } else {
-          this.allResults = res.hotels[0].tours;
+          this.allResults = JSON.parse(res.hotels[0].tours);
 
           callback();
 
@@ -127,21 +127,21 @@ export default class HotelForm {
 
       $variant.attr('data-price', tour.price);
 
-      $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
+      $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.id);
 
-      const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
+      const dateTo = moment(tour.date, 'DD.MM.YYYY');
       $variant.find('.date span').text(dateTo.format('D MMMM'));
       $variant.find('.date small').text(Humanize.nights(tour.nights));
 
       $variant.find('.room span').text(tour.room);
 
-      $variant.find('.meal span').text(tour.mealrussian);
+      $variant.find('.meal span').text(tour.meal.russian);
 
       $variant.find('.operator .icon img')
-        .attr('src', $variant.find('.operator .icon img').data('src').replace('{id}', tour.operatorcode))
-        .attr('alt', tour.operatorname);
+        .attr('src', $variant.find('.operator .icon img').data('src').replace('{id}', tour.operator.id))
+        .attr('alt', tour.operator.name);
 
-      $variant.find('.operator span').text(tour.operatorname);
+      $variant.find('.operator span').text(tour.operator.name);
 
       this.$.variants.append($variant);
     });

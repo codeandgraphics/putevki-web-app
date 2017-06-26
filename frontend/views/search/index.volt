@@ -1,11 +1,10 @@
 <div class="hero little">
 	<div class="hero-overlay"></div>
-	<div class="container">
-		{{ partial('partials/search-form') }}
-	</div>
+
+	{{ partial('partials/search-form') }}
 </div>
 
-<div class="page" id="search" data-tourvisorId="{{ tourvisorId }}">
+<div class="page" id="search" data-searchId="{{ searchId }}" data-no-image="{{ static_url('img/no-image.png') }}">
 	<div class="container search">
 		<div class="row no-gutter">
 			<aside class="sidebar left">
@@ -42,7 +41,7 @@
 							<div class="hotel">
 								<div class="form-group ion-ios-search-strong">
 									<label for="filters-hotel">Название отеля:</label>
-									<input type="text" id="filters-hotel" placeholder=""/>
+									<input id="filters-hotel" placeholder=""/>
 								</div>
 							</div>
 
@@ -51,46 +50,46 @@
 
 								<ul class="list-unstyled" id="types">
 									<li>
-										<input type="checkbox" id="type-active" value="active" checked="checked">
+										<input type="checkbox" id="type-active" value="active" checked>
 										<label for="type-active">Активный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-relax" value="relax" checked="checked">
+										<input type="checkbox" id="type-relax" value="relax" checked>
 										<label for="type-relax">Спокойный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-family" value="family" checked="checked">
+										<input type="checkbox" id="type-family" value="family" checked>
 										<label for="type-family">Семейный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-health" value="health" checked="checked">
+										<input type="checkbox" id="type-health" value="health" checked>
 										<label for="type-health">Лечебный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-city" value="city" checked="checked">
+										<input type="checkbox" id="type-city" value="city" checked>
 										<label for="type-city">Городской</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-beach" value="beach" checked="checked">
+										<input type="checkbox" id="type-beach" value="beach" checked>
 										<label for="type-beach">Пляжный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-deluxe" value="deluxe" checked="checked">
+										<input type="checkbox" id="type-deluxe" value="deluxe" checked>
 										<label for="type-deluxe">Эксклюзивный</label>
 									</li>
 								</ul>
 							</div>
 
 							<div class="form-block">
-								<label>Цена тура</label>
-								<input type="text" id="price" name="price" value="" />
+								<label>Цена путёвки</label>
+								<input id="price" name="price" value="" />
 							</div>
 
 						</form>
 					</div>
 
 					<div class="tour-includes">
-						В стоимость каждого тура входит:
+						В стоимость каждой путёвки входит:
 						<dl class="dl-horizontal">
 							<dt><i class="ion-plane"></i></dt>
 							<dd>Перелет</dd>
@@ -110,7 +109,7 @@
 			<section class="main right">
 				<div class="steps head">
 					<ul class="list-inline">
-						<li class="current">Выбор тура</li>
+						<li class="current">Выбор путёвки</li>
 						<li>&rarr;</li>
 						<li>Перелет и оформление</li>
 					</ul>
@@ -205,11 +204,11 @@
 								<div class="price">
 									<div class="text">Стоимость путёвки в этот отель:</div>
 									<div class="sum">
-										<a href="#" class="btn btn-primary order" target="_blank"></a>
+										от <span></span> р.
 									</div>
 									<div class="other">
-										<a href="#" class="variants-open">показать другие варианты</a>
-										<a href="#" class="variants-close">закрыть</a>
+										<a href="#" class="variants-open internal"><span>показать путёвки</span></a>
+										<a href="#" class="variants-close internal"><span>закрыть</span></a>
 									</div>
 								</div>
 								<div class="about">
@@ -235,7 +234,7 @@
 									</div>
 								</div>
 
-								<div class="icons">
+								<!--<div class="icons">
 									<div class="operator">
 										<div class="icon">
 											<img src="" data-src="//tourvisor.ru/pics/operators/searchlogo/{id}.gif"/>
@@ -273,7 +272,7 @@
 											<span></span>
 										</div>
 									</div>
-								</div>
+								</div>-->
 							</div>
 
 							<div class="variants">
@@ -324,8 +323,8 @@
 									</div>
 								</div>
 								<div class="more">
-									<a href="#">
-										Показать еще туры
+									<a href="#" class="internal">
+										<span>Показать еще путёвки</span>
 									</a>
 								</div>
 							</div>
@@ -334,38 +333,33 @@
 					</div>
 
 					<div class="more-results block">
-						<a href="#">Показать еще</a>
+						<a href="#" class="internal">
+							<span>Показать еще</span>
+						</a>
 						<div class="loader">
 							<div class="wrap">
 								<div class="object"></div>
-								<span>Ищем лучшие предложения для вас...</span>
+								<span>Ищем лучшие путёвки для вас...</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="help block">
-						<p>Нужна помощь с поиском туров?</p>
-						<button class="btn btn-primary with-icon" data-toggle="modal" data-target="#callBackModal">
-							<div class="icon">
+						<h4>Не удается найти нужную путёвку? Мы поможем!</h4>
+						<p>
+							Просто оставьте нам свой номер телефона,
+							и наши опытные менеджеры подберут для вас путешествие мечты!
+						</p>
+						<button class="btn btn-default with-icon" data-toggle="modal" data-target="#callBackModal">
+							<span class="icon">
 								<i class="ion-ios-telephone"></i>
-							</div>
-							<div class="data">
-								<span>Позвоните мне!</span>
+							</span>
+							<span class="data">
+								Позвоните мне!
 								<small>Мы поможем с подбором</small>
-							</div>
-						</button>
-						или
-						<button class="btn btn-default with-icon" data-toggle="modal" data-target="#findTourModal">
-							<div class="icon">
-								<i class="ion-ios-email"></i>
-							</div>
-							<div class="data">
-								<span>Напишите мне!</span>
-								<small>Подберем и отправим на email</small>
-							</div>
+							</span>
 						</button>
 					</div>
-
 				</div>
 			</section>
 		</div>

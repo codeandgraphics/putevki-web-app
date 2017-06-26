@@ -15,27 +15,32 @@ class Hotel
 	public $country;
 	public $region;
 
+	public $link;
+
 	public $tours = [];
 
 	public function __construct($hotel = null)
 	{
 		if ($hotel) {
-			$this->id = $hotel->hotelcode;
+			$this->id = (int) $hotel->hotelcode;
 			$this->name = $hotel->hotelname;
 			$this->description = self::removeEntities($hotel->hoteldescription);
-			$this->stars = $hotel->hotelstars;
+			$this->stars = (int) $hotel->hotelstars;
 			$this->rating = $hotel->hotelrating;
 			$this->picture = $hotel->picturelink;
 
-			$this->price = $hotel->price;
+			$this->price = (int) $hotel->price;
 
 			$this->country = new \stdClass();
-			$this->country->id = $hotel->countrycode;
+			$this->country->id = (int) $hotel->countrycode;
 			$this->country->name = $hotel->countryname;
 
 			$this->region = new \stdClass();
-			$this->region->id = $hotel->regioncode;
+			$this->region->id = (int) $hotel->regioncode;
 			$this->region->name = $hotel->regionname;
+
+            $urlName = str_ireplace([' ', '&'], ['_', 'And'], ucwords(strtolower($this->name)));
+            $this->link = '/hotel/' . $urlName . '-' . $this->id;
 
 			foreach ($hotel->tours->tour as $tour) {
 				$this->tours[] = new Tour($tour);

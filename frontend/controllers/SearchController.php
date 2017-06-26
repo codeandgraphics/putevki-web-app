@@ -25,7 +25,7 @@ class SearchController extends BaseController
 			'order' => 'id DESC'
 		]);
 
-		$title = 'Поиск путевок ' . $params->search->fromEntity()->name .
+		$title = 'Поиск путёвок ' . $params->search->fromEntity()->name .
 			' &mdash; ' . ' на ';
 
 		$departures = Tourvisor\Departures::find([
@@ -39,7 +39,7 @@ class SearchController extends BaseController
 		]);
 
 		$this->view->setVars([
-			'tourvisorId' => $searchId,
+			'searchId' => $searchId,
 			'params' => $params,
 			'meals' => $meals,
 			'departures' => $departures,

@@ -17,13 +17,13 @@ class Status
 	{
 		if ($status) {
 			$this->state = $status->state;
-			$this->hotels = $status->hotelsfound;
-			$this->tours = $status->toursfound;
+			$this->hotels = (int) $status->hotelsfound;
+			$this->tours = (int) $status->toursfound;
 			$this->price = new \stdClass();
-			$this->price->min = $status->minprice;
-			$this->price->max = $status->maxprice;
-			$this->progress = $status->progress;
-			$this->time = $status->timepassed;
+			$this->price->min = (int) $status->minprice;
+			$this->price->max = (int) $status->maxprice;
+			$this->progress = (int) $status->progress;
+			$this->time = (int) $status->timepassed;
 		}
 	}
 }

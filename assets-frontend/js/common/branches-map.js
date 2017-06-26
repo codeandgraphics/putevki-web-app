@@ -57,23 +57,25 @@ export default class BranchesMap {
 
   addCities() {
     global.cities.forEach((city) => {
-      const $city = $('<a href="#"/>');
+      const $city = $('<a href="#" class="internal"/>');
       $city.data('lat', city.lat);
       $city.data('lon', city.lon);
       $city.data('zoom', city.zoom);
-      $city.text(city.name);
-      if (city.main === 1) { $city.addClass('main-city'); }
+      $city.html(`<span>${city.name}</span>`);
+      if (parseInt(city.main, 10) === 1) { $city.addClass('main-city'); }
       if (city.id === this.city.id) { $city.addClass('active'); }
 
-      $city.on('click', (e) => {
-        const $el = $(e.target);
+      const self = this;
+
+      $city.on('click', function() {
+        const $el = $(this);
         if (!$el.hasClass('active')) {
-          this.$mapCities.find('a').removeClass('active');
+          self.$mapCities.find('a').removeClass('active');
           $el.addClass('active');
           const lat = parseFloat($el.data('lat'));
           const lon = parseFloat($el.data('lon'));
           const zoom = parseFloat($el.data('zoom'));
-          this.map.setCenter([lat, lon], zoom, { duration: 0 });
+          self.map.setCenter([lat, lon], zoom, { duration: 0 });
         }
         return false;
       });

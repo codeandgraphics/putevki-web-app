@@ -19,9 +19,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
-        {{ partial('partials/search-form') }}
-	</div>
+	<h1 class="title">Куда бы вы хотели поехать?</h1>
+
+    {{ partial('partials/search-form') }}
 </div>
 <div class="page" id="{{ page }}">
 	<section class="block popular" id="popular">

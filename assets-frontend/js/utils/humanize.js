@@ -1,3 +1,23 @@
+export function types(value) {
+  switch (value) {
+    case 'active':
+      return 'Активный';
+    case 'beach':
+      return 'Пляжный';
+    case 'city':
+      return 'Городской';
+    case 'deluxe':
+      return 'Эксклюзивный';
+    case 'family':
+      return 'Семейный';
+    case 'health':
+      return 'Оздоровительный';
+    case 'relax':
+      return 'Спокойный';
+    default:
+      return '';
+  }
+}
 
 export function nights(value) {
   if (value >= 5 && value <= 20) return `${value} ночей`;

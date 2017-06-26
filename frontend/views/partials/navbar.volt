@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top main">
+<nav class="navbar main">
 	<div class="container">
 			<a class="brand" href="/">
 				<img alt="Путевки.ру" src="{{ static_url() }}img/logo.png">

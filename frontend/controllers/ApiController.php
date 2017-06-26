@@ -289,13 +289,21 @@ class ApiController extends BaseController
 
 	public function searchResultAction()
 	{
-
 		$searchId = $this->request->get('searchId');
+        $onPage = $this->request->get('limit') ? : false;
+		$page = $this->request->get('page') ? : false;
 
 		$params = array(
 			'requestid' => $searchId,
 			'type' => 'result'
 		);
+
+		if($onPage) {
+		    $params['onpage'] = $onPage;
+        }
+        if($page) {
+		    $params['page'] = $page;
+        }
 
 		$result = TourvisorUtils::getMethod('result', $params);
 
@@ -308,12 +316,35 @@ class ApiController extends BaseController
 			$hotels = [];
 
 			if (property_exists($result->data, 'result')) {
-				foreach ($result->data->result->hotel as $hotel) {
-					$hotels[] = new Entities\Hotel($hotel);
+				foreach ($result->data->result->hotel as $item) {
+				    $hotel = new Entities\Hotel($item);
+				    $hotelIds[] = $hotel->id;
+					$hotels[] = $hotel;
 				}
 			}
 
-			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
+            if (!empty($hotelIds)) {
+                $items = $this->modelsManager->createBuilder()
+                    ->from(Hotels::name())
+                    ->inWhere('id', $hotelIds)
+                    ->getQuery()
+                    ->execute();
+
+                $hotelTypes = [];
+
+                foreach ($items as $item) {
+                    $hotelTypes[$item->id] = Entities\HotelTypes::fromHotel($item);
+                }
+
+               $hotels = array_map(function($item) use ($hotelTypes) {
+                    if (array_key_exists($item->id, $hotelTypes)) {
+                        $item->types = $hotelTypes[$item->id];
+                    }
+                    return $item;
+                }, $hotels);
+            }
+
+			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels, 'typesMask' => Entities\HotelTypes::getMask()]);
 		}
 
 		return new JSONResponse(Error::API_ERROR);

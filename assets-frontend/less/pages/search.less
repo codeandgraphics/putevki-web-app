@@ -403,11 +403,11 @@ body{
 
 		&.help{
 			display: none;
-			border: 1px dashed @color-dark-border;
+			border: 1px dashed @color-bg;
 			margin: 40px;
-			padding: 10px;
+			background-color: @color-bg-light;
+			padding: 30px;
 			border-radius: 4px;
-			padding-bottom: 30px;
 			font-size: 16px;
 
 			p{
@@ -545,6 +545,7 @@ body{
 					margin-right: 140px;
 					overflow: hidden;
 					padding: 0 20px 0 15px;
+					margin-bottom: 10px;
 
 					.title{
 						font-size: 20px;
@@ -652,7 +653,7 @@ body{
 				}
 
 				.price{
-					width: 140px;
+					width: 150px;
 					height: 130px;
 					float: right;
 					border-left: 1px solid @color-border;
@@ -701,6 +702,11 @@ body{
 							text-decoration: none;
 							display: block;
 						}
+
+						span {
+							color: @color-main-orange;
+							font-size: 20px;
+						}
 					}
 
 					.other{
@@ -725,6 +731,12 @@ body{
 
 				.more{
 					text-align: center;
+
+					a {
+						display: block;
+						padding: 10px;
+						background-color: @color-bg-light;
+					}
 				}
 
 
@@ -734,8 +746,9 @@ body{
 					padding: 5px 0;
 					border-top: 1px solid @color-border;
 
+					&.hiddenPrice,
 					&.template{
-						display: none;
+						display: none !important;
 					}
 
 					& > div{

@@ -11,10 +11,11 @@ export default class Search {
   constructor(requestId, formObject) {
     this.endpoint = '/ajax/';
     this.tourlink = '/tour/';
-    this.hotelLink = '/hotel/';
+    this.link = '/hotel/';
     this.requestId = requestId;
     this.status = 'searching';
-    this.noImage = '/assets/img/no-image.png';
+
+    this.typesMask = false;
 
     this.formObject = formObject;
 
@@ -77,6 +78,9 @@ export default class Search {
 
     this.$.priceSlider = this.$.filters.find('#price');
 
+
+    this.noImage = this.$.search.data('no-image');
+
     if (this.requestId) {
       setTimeout(() => {
         this.getStatus();
@@ -108,15 +112,14 @@ export default class Search {
   }
 
   getStatus() {
-    $.getJSON(`${this.endpoint}status/${this.requestId}`, (data) => {
+    $.getJSON(`/api/searchStatus/?searchId=${this.requestId}`, (data) => {
       this.processStatus(data.status);
     });
   }
 
   getResults(limit, callback) {
-    $.getJSON(`${this.endpoint}results/${this.requestId}`, {
-      limit,
-    }, (data) => {
+    $.getJSON(`/api/searchResult/?searchId=${this.requestId}&limit=${limit}`, (data) => {
+      this.typesMask = data.typesMask.split(';');
       callback(data);
     });
   }
@@ -127,15 +130,15 @@ export default class Search {
     this.setProgress(status);
 
     if (this.status === 'searching') {
-      if (status.toursfound > 0 && !this.first.shown) {
-        this.first.hotelsTotal = status.hotelsfound;
-        this.first.toursTotal = status.toursfound;
-        this.first.minPrice = status.minprice;
+      if (status.tours > 0 && !this.first.shown) {
+        this.first.hotelsTotal = status.hotels;
+        this.first.toursTotal = status.tours;
+        this.first.minPrice = status.price.min;
 
         if (IS_DEV) console.log(`[ПОИСК] Нашел туры, получаем первые результаты. Прошло с начала: ${new Date() - self.startDate}мс`);
 
         this.getResults(this.first.hotelsTotal, (data) => {
-          if (IS_DEV) console.log(`[ПОИСК] Получили первые результаты, ${this.first.hotelsTotal}${Humanize.hotelsFound(status.hotelsfound)}. Прошло с начала: ${new Date() - this.startDate}мс`);
+          if (IS_DEV) console.log(`[ПОИСК] Получили первые результаты, ${this.first.hotelsTotal}${Humanize.hotelsFound(status.hotels)}. Прошло с начала: ${new Date() - this.startDate}мс`);
 
           this.first.hotels = data.hotels;
           this.renderFirst();
@@ -151,16 +154,16 @@ export default class Search {
     }
 
     if (this.status === 'finished') {
-      if (status.toursfound === 0) {
+      if (status.tours === 0) {
         if (IS_DEV) console.log('[ПОИСК] Туры не найдены');
 
         this.notFound();
       } else {
         if (IS_DEV) console.log(`[ПОИСК] Поиск на сервере завершен, получаем результаты. Прошло с начала: ${new Date() - this.startDate}мс`);
 
-        this.all.hotelsTotal = parseInt(status.hotelsfound, 10);
-        this.all.toursTotal = parseInt(status.toursfound, 10);
-        this.all.minPrice = parseInt(status.minprice, 10);
+        this.all.hotelsTotal = parseInt(status.hotels, 10);
+        this.all.toursTotal = parseInt(status.tours, 10);
+        this.all.minPrice = parseInt(status.price.min, 10);
 
         this.getResults(this.limit, (data) => {
           if (IS_DEV) console.log(`[ПОИСК] Получили финальные результаты. Прошло с начала: ${new Date() - this.startDate}мс`);
@@ -181,16 +184,14 @@ export default class Search {
 
   checkVisible() {
     if (this.all.shown && !this.all.done) {
-      if (isScrolledIntoView(this.$.moreResults.find('a')) && !this.all.loading) {
+      if (isScrolledIntoView(this.$.moreResults) && !this.all.loading) {
         this.showNext();
       }
     }
   }
 
   getFinishedPage(page) {
-    $.getJSON(`${this.endpoint}results/${this.requestId}`, {
-      page,
-    }, (data) => {
+    $.getJSON(`/api/searchResult/?searchId=${this.requestId}&page=${page}`, (data) => {
       if (data.hotels) {
         this.all.hotels = data.hotels;
         this.all.hotelsLoaded += data.hotels.length;
@@ -216,8 +217,8 @@ export default class Search {
       width: `${status.progress}%`,
     }, 300);
 
-    this.$.search.find('.progressbar .percent .count').text(status.hotelsfound);
-    this.$.search.find('.progressbar .percent .text').text(Humanize.hotelsFound(status.hotelsfound));
+    this.$.search.find('.progressbar .percent .count').text(status.hotels);
+    this.$.search.find('.progressbar .percent .text').text(Humanize.hotelsFound(status.hotels));
   }
 
   stopSearch() {
@@ -291,11 +292,12 @@ export default class Search {
 
     if (IS_DEV) console.log(`[ПОИСК] Рендерим результаты. Прошло с начала: ${new Date() - this.startDate}мс`);
 
-    console.log(hotels);
     $.each(hotels, (i, hotel) => {
-      if (hotel.tours.length > 0) {
+      const tours = JSON.parse(hotel.tours);
+      if (tours.length > 0) {
         const $item = this.buildHotel(hotel);
-        this.populateTours($item, hotel.tours);
+        this.populateTours($item, tours);
+        console.log(this.filters.params);
         this.$.items.append($item);
       }
     });
@@ -321,33 +323,29 @@ export default class Search {
 
     $item.find('.place span').text(`${hotel.country.name}, ${hotel.region.name}`);
 
-    if (hotel.types) {
-      $item.attr('data-active', hotel.types.active);
-      $item.attr('data-relax', hotel.types.relax);
-      $item.attr('data-family', hotel.types.family);
-      $item.attr('data-health', hotel.types.health);
-      $item.attr('data-city', hotel.types.city);
-      $item.attr('data-beach', hotel.types.beach);
-      $item.attr('data-deluxe', hotel.types.deluxe);
+    if (hotel.types && this.typesMask) {
+      this.typesMask.forEach((type, i) => {
+        const enabled = parseInt(hotel.types[i], 10);
+        $item.attr(`data-${type}`, enabled);
 
-      const $types = $item.find('.types');
+        const $types = $item.find('.types');
 
-      if (hotel.types.active) $types.append('<li class="type">Активный</li>');
-      if (hotel.types.relax) $types.append('<li class="type">Спокойный</li>');
-      if (hotel.types.family) $types.append('<li class="type">Семейный</li>');
-      if (hotel.types.health) $types.append('<li class="type">Лечебный</li>');
-      if (hotel.types.city) $types.append('<li class="type">Городской</li>');
-      if (hotel.types.beach) $types.append('<li class="type">Пляжный</li>');
-      if (hotel.types.deluxe) $types.append('<li class="type deluxe">Эксклюзивный</li>');
+        if (enabled) {
+          const isDeluxe = type === 'deluxe' ? ' deluxe' : '';
+          $types.append(`<li class="type${isDeluxe}">${Humanize.types(type)}</li>`);
+        }
+      });
     }
 
-    $item.find('.title a').text(hotel.name.toLowerCase()).attr('href', hotel.hotelLink);
+    $item.find('.title a').text(hotel.name.toLowerCase()).attr('href', hotel.link);
 
-    if (!hotel.image) { hotel.image = this.noImage; }
+    if (!hotel.picture) { hotel.picture = this.noImage; }
 
-    $item.find('.image .bg').css('background-image', `url(${hotel.image})`);
-    $item.find('.image a').attr('href', hotel.hotelLink);
+    $item.find('.image .bg').css('background-image', `url(${hotel.picture})`);
+    $item.find('.image a').attr('href', hotel.link);
     $item.find('.about .description').text(hotel.description);
+
+    $item.find('.sum span').text(Humanize.price(hotel.price));
 
     const $stars = $item.find('.stars');
     const stars = parseInt(hotel.stars, 10);
@@ -356,7 +354,7 @@ export default class Search {
       $stars.append((s < stars) ? '<i class="star ion-ios-star"></i>' : '<i class="no-star ion-ios-star-outline"></i>');
     }
 
-    if (hotel.hotelrating !== 0) {
+    if (hotel.rating !== 0) {
       $item.find('.review strong').text(hotel.rating);
       $item.find('.review span').text(Humanize.rating(hotel.rating));
     } else {
@@ -369,14 +367,14 @@ export default class Search {
   populateTours($item, tours) {
     $item.find('.variants .variant').not('.template').remove();
 
-    $item.find('.more').removeClass('hidden').off('click').on('click', function () {
+    $item.find('.more').removeClass('hidden').off('click').on('click', function more() {
       const $el = $(this);
       $el.addClass('hidden');
       $item.find('.variants .variant').not('.template').show(100);
       return false;
     });
 
-    $item.find('.other .variants-open').off('click').on('click', function () {
+    $item.find('.variants-open').off('click').on('click', function variantsOpen() {
       const $el = $(this);
       $el.siblings('.variants-close').show();
       $el.hide();
@@ -384,7 +382,7 @@ export default class Search {
       return false;
     });
 
-    $item.find('.other .variants-close').off('click').on('click', function () {
+    $item.find('.variants-close').off('click').on('click', function variantsClose() {
       const $el = $(this);
       $el.siblings('.variants-open').show();
       $el.hide();
@@ -395,53 +393,38 @@ export default class Search {
     if (tours.length <= 5) $item.find('.more').addClass('hidden');
 
     $.each(tours, (i, tour) => {
-      if (i !== 0) {
-        const $variant = this.$.variant.clone();
+      const $variant = this.$.variant.clone();
 
-        $variant.removeClass('template');
-        if (i > 4) $variant.hide();
-
-        $variant.attr('data-price', tour.price);
-
-        $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
-
-        const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
-        $variant.find('.date span').text(dateTo.format('D MMMM'));
-        $variant.find('.date small').text(Humanize.nights(tour.nights));
-
-        $variant.find('.room span').text(tour.room);
-
-        $variant.find('.meal span').text(tour.mealrussian);
-
-        $variant.find('.operator .icon img').attr('src', $variant.find('.operator .icon img').data('src').replace('{id}', tour.operatorcode)).attr('alt', tour.operatorname);
-        $variant.find('.operator span').text(tour.operatorname);
-
-        $item.find('.variants .items').append($variant);
+      if (tour.price < this.filters.params.minPrice) {
+        this.filters.params.minPrice = parseInt(tour.price, 10);
       }
+      if (tour.price > this.filters.params.maxPrice) {
+        this.filters.params.maxPrice = parseInt(tour.price, 10);
+      }
+
+      $variant.removeClass('template');
+      if (i > 4) $variant.hide();
+
+      $variant.attr('data-price', tour.price);
+
+      $variant.find('.price a').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.id);
+
+      const dateTo = moment(tour.date, 'DD.MM.YYYY');
+      $variant.find('.date span').text(dateTo.format('D MMMM'));
+      $variant.find('.date small').text(Humanize.nights(tour.nights));
+
+      $variant.find('.room span').text(tour.room);
+
+      $variant.find('.meal span').text(tour.meal.russian);
+
+      $variant.find('.operator .icon img')
+          .attr('src', $variant.find('.operator .icon img').data('src').replace('{id}', tour.operator.id))
+          .attr('alt', tour.operator.name);
+
+      $variant.find('.operator span').text(tour.operator.name);
+
+      $item.find('.variants .items').append($variant);
     });
-
-    // Min price
-    const tour = tours[0];
-
-    $item.find('.sum .order').text(`${Humanize.price(tour.price)} р.`).attr('href', this.tourlink + tour.tourid);
-
-    if (tour.price < this.filters.params.minPrice) {
-      this.filters.params.minPrice = parseInt(tour.price, 10);
-    }
-    if (tour.price > this.filters.params.maxPrice) {
-      this.filters.params.maxPrice = parseInt(tour.price, 10);
-    }
-
-    $item.attr('data-price', tour.price);
-
-    const dateTo = moment(tour.flydate, 'DD.MM.YYYY');
-    $item.find('.icons .date span').text(dateTo.format('D MMMM'));
-    $item.find('.icons .date small').text(Humanize.nights(tour.nights));
-    $item.find('.icons .room span').text(tour.room);
-    $item.find('.icons .meal span').text(tour.mealrussian);
-
-    $item.find('.icons .operator img').attr('src', $item.find('.icons .operator img').data('src').replace('{id}', tour.operatorcode)).attr('alt', tour.operatorname);
-    $item.find('.icons .operator span').text(tour.operatorname);
   }
 
   showMore(show) {
@@ -456,7 +439,7 @@ export default class Search {
     const $stars = this.$.params.find('.stars');
 
     this.$.search.find('.sidebar .content').stick_in_parent({
-      offset_top: 80,
+      offset_top: 60
     });
 
     const self = this;
@@ -543,10 +526,10 @@ export default class Search {
   }
 
   filterPrice(from, to) {
-    this.$.items.find('.item:not(.template)').addClass('hiddenPrice').each((i, item) => {
-      const price = parseInt($(item).attr('data-price'), 10);
+    this.$.items.find('.item:not(.template) .variant').addClass('hiddenPrice').each((i, variant) => {
+      const price = parseInt($(variant).attr('data-price'), 10);
 
-      if (price >= from && price <= to) { $(item).removeClass('hiddenPrice'); }
+      if (price >= from && price <= to) { $(variant).removeClass('hiddenPrice'); }
     });
   }
 
