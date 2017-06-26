@@ -31,7 +31,7 @@ export default class HotelPage {
       });
     }
 
-    form.$.form.find('.search button').off('click').on('click', () => {
+    form.$.form.find('.search-button button').off('click').on('click', () => {
       hotelForm.$.no.hide();
       hotelForm.$.loader.show();
       hotelForm.$.variants.html('');

@@ -6,7 +6,8 @@
 	  data-when='{{ params.search.when|json_encode }}'
 	  data-people='{{ params.search.people|json_encode }}'
 	  data-filters='{{ params.search.filters|json_encode }}'
-	  data-spy="affix" data-offset-top="100"
+	  data-spy="affix"
+	  data-offset-top="{% if page == 'main'%}358{% else %}100{% endif %}"
 >
 	<div class="form-container">
         {% set departure = params.search.fromEntity() %}

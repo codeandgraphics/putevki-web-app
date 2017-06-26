@@ -222,9 +222,7 @@ export default class Tour {
   setActions() {
     // $('input[data-inputmask], input[data-inputmask-regex]').inputmask();
 
-    this.$.tour.find('.sidebar .content').stick_in_parent({
-      offset_top: 80,
-    });
+    this.$.tour.find('.sidebar .content').stick_in_parent();
 
     $('#buy a').click(function (e) {
       if ($(this).parent().hasClass('disabled')) {

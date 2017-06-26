@@ -57,7 +57,7 @@
 						<h3>Туры в отель {{ hotel.name|lower }}</h3>
 
 						<div class="hotel-form">
-							<form class="form-inline search" action="" id="searchForm"
+							<form class="search-form" action="" id="searchForm"
 								  data-countries="{{ formCountries }}"
 								  data-regions="{{ formRegions }}"
 								  data-from="{{ params.search.from }}"
@@ -66,95 +66,93 @@
 								  data-people='{{ params.search.people|json_encode }}'
 								  data-filters='{{ params.search.filters|json_encode }}'
 							>
-								<div class="progressbar"></div>
-								<div class="loader" style="display: none;">
-									<div class="wrap">
-										<div class="object"></div>
-									</div>
-								</div>
-								<div class="from form-group">
-									<select name="departure" class="form-control">
-										<optgroup label="Популярные">
-											<option value="1" data-gen="Москвы"{% if params.search.from == 1 %} selected{% endif %}>
-												из Москвы
-											</option>
-											<option value="5" data-gen="Санкт-Петербурга"{% if params.search.from == 5 %} selected{% endif %}>
-												из Санкт-Петербурга
-											</option>
-											<option value="99" data-gen="Без перелета"{% if params.search.from == 99 %} selected{% endif %}>
-												Без перелета
-											</option>
-										</optgroup>
-										<optgroup label="Все">
-                                            {% for departure in departures %}
-												<option value="{{ departure.id }}"{% if departure.id == params.search.from %} selected{% endif %}>
-                                                    {% if departure.id != 99 %}из {% endif %}{{ departure.name_from }}
-												</option>
-                                            {% endfor %}
-										</optgroup>
-									</select>
-								</div>
-								<div class="when form-group">
-									<span class="range">± 2 дня</span>
-									<div class="value"></div>
-									<input title="when" />
-								</div>
-								<div class="length form-group popup-nights">
-									<span class="range">± 2</span>
-									<div class="value"></div>
-									<div class="popup nights">
-										<i class="popup-pointer"></i>
-										<div class="selector">
-											<div class="minus">–</div>
-											<div class="plus">+</div>
-										</div>
-										<div class="range-checkbox">
-											<input type="checkbox" id="nights-range-days" checked>
-											<label for="nights-range-days">± 2 ночи</label>
+								<div class="form-container">
+									<div class="loader" style="display: none;">
+										<div class="wrap">
+											<div class="object"></div>
 										</div>
 									</div>
-								</div>
-								<div class="people form-group popup-people">
-									<div class="value"></div>
-									<div class="popup people">
-										<i class="popup-pointer"></i>
-										<div class="adults selector">
-											<div class="minus">-</div>
-											<div class="plus">+</div>
-											<div class="param"><span></span> <i class="ion-man"></i></div>
+									<div class="inputs">
+										<div class="when input">
+											<span class="range">± 2 дня</span>
+											<div class="value"></div>
+											<input title="when" />
 										</div>
-										<div class="kids">
-											<div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
-										</div>
-										<div class="add-kids">
-											<div class="add">
-												<select title="kids">
-													<option value="">Добавить ребенка</option>
-													<option value="1">до 2х лет</option>
-													<option value="2">2 года</option>
-													<option value="3">3 года</option>
-													<option value="4">4 года</option>
-													<option value="5">5 лет</option>
-													<option value="6">6 лет</option>
-													<option value="7">7 лет</option>
-													<option value="8">8 лет</option>
-													<option value="9">9 лет</option>
-													<option value="10">10 лет</option>
-													<option value="11">11 лет</option>
-													<option value="12">12 лет</option>
-													<option value="13">13 лет</option>
-													<option value="14">14 лет</option>
-												</select>
-												<div class="info">
-													Чтобы взять с собой больше детей, разделите взрослых и детей на несколько групп или обратитесь в турагентство.
+										<div class="length input popup-nights">
+											<span class="range">± 2</span>
+											<div class="value"></div>
+											<div class="popup nights">
+												<i class="popup-pointer"></i>
+												<div class="selector">
+													<div class="minus">–</div>
+													<div class="plus">+</div>
+												</div>
+												<div class="range-checkbox">
+													<input type="checkbox" id="nights-range-days" checked>
+													<label for="nights-range-days">± 2 ночи</label>
 												</div>
 											</div>
 										</div>
+										<div class="people input popup-people">
+											<div class="value"></div>
+											<div class="popup people">
+												<i class="popup-pointer"></i>
+												<div class="adults selector">
+													<div class="minus">-</div>
+													<div class="plus">+</div>
+													<div class="param"><span></span> <i class="ion-man"></i></div>
+												</div>
+												<div class="kids">
+													<div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
+												</div>
+												<div class="add-kids">
+													<div class="add">
+														<select title="kids">
+															<option value="">Добавить ребенка</option>
+															<option value="1">до 2х лет</option>
+															<option value="2">2 года</option>
+															<option value="3">3 года</option>
+															<option value="4">4 года</option>
+															<option value="5">5 лет</option>
+															<option value="6">6 лет</option>
+															<option value="7">7 лет</option>
+															<option value="8">8 лет</option>
+															<option value="9">9 лет</option>
+															<option value="10">10 лет</option>
+															<option value="11">11 лет</option>
+															<option value="12">12 лет</option>
+															<option value="13">13 лет</option>
+															<option value="14">14 лет</option>
+														</select>
+														<div class="info">
+															Чтобы взять с собой больше детей, разделите взрослых и детей на несколько групп или обратитесь в турагентство.
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="from input dropdown">
+											<span class="from-text range"{% if departure.id == 99 %} style="display:none;"{% endif %}>из</span>
+											<div class="value">{{ departure.name_from }}</div>
+											<select title="from-select">
+												<optgroup label="Популярные">
+													<option value="1" data-gen="Москвы">из Москвы</option>
+													<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>
+													<option value="99" data-gen="Без перелета">Без перелета</option>
+												</optgroup>
+												<optgroup label="Все">
+                                                    {% for item in departures %}
+														<option value="{{ item.id }}" data-gen="{{ item.name_from }}">из {{ item.name_from }}</option>
+                                                    {% endfor %}
+												</optgroup>
+											</select>
+										</div>
+										<div class="search-button">
+											<button class="btn btn-primary">Искать туры</button>
+										</div>
 									</div>
 								</div>
-								<div class="search form-group">
-									<button class="btn btn-default">Искать туры</button>
-								</div>
+								<div class="progressbar"></div>
 							</form>
 						</div>
 

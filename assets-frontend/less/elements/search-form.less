@@ -24,6 +24,8 @@
     width: 100%;
     z-index: 99;
 
+    .box-shadow(0 0 40px 0 rgba(0,0,0,0.5));
+
     .form-container {
       margin: 10px auto;
       height: @small-search-height;
@@ -85,6 +87,10 @@
 
       .transition(all .1s ease);
 
+      &.error {
+        background-color: @color-error-bg;
+      }
+
       .value {
         height: 100%;
         width: 120px;
@@ -137,6 +143,7 @@
         overflow: hidden;
 
         input {
+          cursor: pointer;
           position: absolute;
           top: 0;
           left: 0;
@@ -167,6 +174,7 @@
       &.from {
         width: 145px;
         padding-left: 7px;
+        border-right: none;
 
         .range {
           display: block;
@@ -175,7 +183,7 @@
         }
 
         .value {
-          width: 118px;
+          width: 115px;
           padding: 0;
           font-size: 15px;
           overflow: hidden;
@@ -184,6 +192,7 @@
         }
 
         select {
+          cursor: pointer;
           position: absolute;
           top: 0;
           left: 0;

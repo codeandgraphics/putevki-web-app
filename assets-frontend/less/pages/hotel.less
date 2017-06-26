@@ -129,27 +129,26 @@ body{
 				position: relative;
 
 				.hotel-form{
-
+					padding: 10px 0;
+					background-color: @color-main-blue;
 					margin-top: 10px;
+					position: relative;
 
-					.form-inline{
-						width: 840px;
-						height: 70px;
+					.progressbar{
+						width: 0;
+						height: 3px;
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						background-color: @color-main-orange-light;
+
+						.transition(all 1s ease-in-out);
+					}
+
+					.form-container{
+						width: 640px;
 						display: block;
-						background: @color-bg-main-alpha;
-						padding: 10px;
 						position: relative;
-
-						.progressbar{
-							width: 0%;
-							height: 3px;
-							position: absolute;
-							bottom: 0;
-							left: 0;
-							background-color: @color-main-blue;
-
-							.transition(all 1s ease-in-out);
-						}
 
 						.loader{
 							background-color: @color-bg-main-alpha;

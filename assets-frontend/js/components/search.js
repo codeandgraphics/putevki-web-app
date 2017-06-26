@@ -439,7 +439,7 @@ export default class Search {
     const $stars = this.$.params.find('.stars');
 
     this.$.search.find('.sidebar .content').stick_in_parent({
-      offset_top: 60
+      offset_top: 60,
     });
 
     const self = this;

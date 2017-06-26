@@ -277,13 +277,9 @@ a{
 	font-weight: @font-light;
 	text-shadow: 0 1px 1px @color-shadow-alpha;
 	border: none;
-	border-radius: 4px;
+	border-radius: 10px;
 	color: white;
 	text-decoration: none;
-	margin-top:-2px;
-	margin-left: -2px;
-	margin-bottom: 2px;
-	margin-right: 2px;
 	text-align: left;
 
 	.transition(all 0.05s ease-in-out);
@@ -303,28 +299,21 @@ a{
 
 	&.btn-default{
 		background: @color-main-blue;
-		.box-shadow(2px 2px 0px 0px darken(@color-main-blue,5%));
 
 
 		&.disabled,
 		&:disabled,
 		&[disabled]{
 			background: @color-main-blue;
-			.box-shadow(none);
 
-			&:hover{
-				.box-shadow(none);
-			}
-
+			&:hover,
 			&:focus,
 			&:active{
 				background: darken(@color-main-blue,5%);
 			}
 		}
-		&:hover{
-			.box-shadow(none);
-		}
 
+		&:hover,
 		&:focus,
 		&:active{
 			background: darken(@color-main-blue,5%);
@@ -333,29 +322,22 @@ a{
 
 	&.btn-primary{
 		background: @color-main-orange-light;
-		.box-shadow(2px 2px 0px 0px darken(@color-main-orange-light,15%));
 
 
 		&.disabled,
 		&:disabled,
 		&[disabled]{
 			background: @color-main-orange-light;
-			.box-shadow(none);
 
-			&:hover{
-				.box-shadow(none);
-			}
-
+			&:hover,
 			&:focus,
 			&:active{
 				background: darken(@color-main-orange-light,10%);
 			}
 		}
 
-		&:hover{
-			.box-shadow(none);
-		}
-
+		&:hover,
+		&:focus,
 		&:active{
 			background: darken(@color-main-orange-light,10%);
 		}
@@ -365,18 +347,14 @@ a{
 		background: @color-bg-light;
 		color: @color-text-gray;
 		text-shadow: none;
-		.box-shadow(2px 2px 0px 0px darken(@color-bg-light,15%));
-
 
 		&.disabled,
 		&:disabled,
 		&[disabled]{
 			background: @color-bg-light;
 			color: @color-text-gray;
-			.box-shadow(none);
 
 			&:hover{
-				.box-shadow(none);
 				color: @color-text-gray;
 			}
 
@@ -388,7 +366,6 @@ a{
 		}
 
 		&:hover{
-			.box-shadow(none);
 			color: @color-text-gray !important;
 		}
 
@@ -509,10 +486,18 @@ a{
 
 		img{
 			width: auto;
+			margin-top: -7px;
 		}
 
 		a{
 			color: @color-text-gray;
+			display: inline-block;
+			width: 105px;
+			height: 22px;
+			line-height: 28px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 	}
 }

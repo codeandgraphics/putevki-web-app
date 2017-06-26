@@ -117,7 +117,6 @@ export default class HotelForm {
   }
 
   buildResults(tours) {
-
     this.$.variants.find('.variant:not(.template)').remove();
 
     $.each(tours, (i, tour) => {
@@ -147,6 +146,6 @@ export default class HotelForm {
     });
 
     if (IS_DEV) console.log('[ФОРМА ПОИСКА ОТЕЛЕЙ] Завершили рендер: ', new Date());
-  };
+  }
 
 }

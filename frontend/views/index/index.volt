@@ -12,7 +12,7 @@
 				служба поддержки клиентов
 			</div>
 			<div class="request">
-				<button class="btn btn-primary" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
 			</div>
 			<div class="location">
 				<i class="ion-location"></i> <a href="#" data-toggle="modal" data-target="#cityModal"><span>{{ city.name }}</span><b class="caret"></b></a>
@@ -164,8 +164,8 @@
 					</div>
 					<div class="col-xs-6">
 						<i class="ion-iphone" style="padding-left: 10px"></i>
-						<a href="#" id="mobile-promo-link">
-							Удобное мобильное приложение
+						<a href="#" id="mobile-promo-link" class="internal">
+							<span>Удобное мобильное приложение</span>
 						</a>
 					</div>
 				</div>
@@ -177,7 +177,10 @@
 						</a>
 					</div>
 					<div class="col-xs-6">
-						<i class="ion-map"></i> <a href="#" class="offices">Офисы продаж</a> по всей России
+						<i class="ion-map"></i>
+						<a href="#" class="offices internal">
+							<span>Офисы продаж</span>
+						</a> по всей России
 					</div>
 				</div>
 				<div class="row">
