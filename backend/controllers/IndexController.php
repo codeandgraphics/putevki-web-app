@@ -9,7 +9,6 @@ use Utils;
 
 class IndexController extends ControllerBase
 {
-
 	public function indexAction()
 	{
 		$todayDate = new \DateTime();
@@ -29,7 +28,6 @@ class IndexController extends ControllerBase
 		$today->requests = $todayRequests;
 		//Заявки
 
-
 		//Деньги
 		$todayPayments = new \stdClass();
 		$todayPayments->count = round(Payments::sum([
@@ -44,7 +42,6 @@ class IndexController extends ControllerBase
 		$today->payments = $todayPayments;
 		//Деньги
 
-
 		//Туристы
 		$todayTourists = new \stdClass();
 		$todayTourists->count = (int)Tourists::count($todayQuery);
@@ -52,7 +49,6 @@ class IndexController extends ControllerBase
 		$todayTourists->diff = Utils\Text::countDiff($todayTourists->count, $lastDayTouristsCount);
 		$today->tourists = $todayTourists;
 		//Туристы
-
 
 		$week = new \stdClass();
 
@@ -88,7 +84,6 @@ class IndexController extends ControllerBase
 		$weekPayments->diff = Utils\Text::countDiff($weekPayments->count, $lastWeekPaymentsCount);
 		$week->payments = $weekPayments;
 		//Деньги
-
 
 		//Туристы
 		$weekTourists = new \stdClass();

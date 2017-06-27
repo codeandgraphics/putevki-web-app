@@ -48,7 +48,7 @@ class UsersController extends ControllerBase
 		$this->session->destroy();
 		$this->flashSession->success('Вы вышли из системы');
 
-		return $this->response->redirect('/');
+		return $this->response->redirect('');
 	}
 
 	public function registerAction()

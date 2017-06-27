@@ -66,7 +66,11 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 	protected function managers()
 	{
 		$di = $this->getDI();
-		$di->setShared('eventsManager', new EventsManager());
+
+		$eventsManager = new EventsManager();
+		$eventsManager->attach('dispatch:beforeDispatch', new Backend\Plugins\Security);
+
+		$di->setShared('eventsManager', $eventsManager);
 		$di->setShared('modelsManager', new ModelsManager());
 		$di->setShared('transactionManager', new TransactionManager());
 	}

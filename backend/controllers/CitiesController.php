@@ -17,24 +17,22 @@ class CitiesController extends ControllerBase
 	public function indexAction()
 	{
 		$cities = Cities::find(['order' => 'main DESC, name']);
-
 		$this->view->setVar('cities', $cities);
 	}
 
 	public function cityAction($cityId)
 	{
-
 		$city = Cities::findFirst($cityId);
 		$branches = Branches::find("cityId='" . $city->id . "'");
 
 		$form = new Form($city);
 
-		$departures = Tourvisor\Departures::find(['order' => 'name']);
+		$items = Tourvisor\Departures::find(['order' => 'name']);
 
 		$formDepartures = [];
 
-		foreach ($departures as $departure) {
-			$formDepartures[$departure->id] = $departure->name;
+		foreach ($items as $item) {
+			$formDepartures[$item->id] = $item->name;
 		}
 
 		$form->add(new Text('name'));
@@ -67,7 +65,6 @@ class CitiesController extends ControllerBase
 
 	public function addAction()
 	{
-
 		$departures = Tourvisor\Departures::find(['order' => 'name']);
 
 		$formDepartures = [];
@@ -78,7 +75,6 @@ class CitiesController extends ControllerBase
 
 		$form = new Form();
 		$form->add(new Text('name'));
-		$form->add(new Text('name_gen'));
 		$form->add(new Text('uri'));
 		$form->add(new Text('lat'));
 		$form->add(new Text('lon'));
@@ -96,7 +92,6 @@ class CitiesController extends ControllerBase
 			$city = new Cities();
 
 			$city->name = $this->request->getPost('name');
-			$city->name_gen = $this->request->getPost('name_gen');
 			$city->uri = $this->request->getPost('uri');
 			$city->lat = $this->request->getPost('lat');
 			$city->lon = $this->request->getPost('lon');
