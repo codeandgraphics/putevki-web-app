@@ -20,7 +20,7 @@ class TourController extends BaseController
 			$tour->id = $tourId;
 
 			$date = \DateTime::createFromFormat('d.m.Y', $tour->flydate);
-			$title = 'Тур ' . $tour->departurename . ' &mdash; ' . $tour->hotelregionname . ' (' . $date->format('d.m.Y') . ') на ';
+			$title = 'Путёвка ' . $tour->departurename . ' &mdash; ' . $tour->hotelregionname . ' (' . $date->format('d.m.Y') . ') на ';
 
 			$this->view->setVars([
 				'tour' => $tour,

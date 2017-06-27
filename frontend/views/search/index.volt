@@ -1,9 +1,3 @@
-<div class="hero little">
-	<div class="hero-overlay"></div>
-
-	{{ partial('partials/search-form') }}
-</div>
-
 <div class="page" id="search" data-searchId="{{ searchId }}" data-no-image="{{ static_url('img/no-image.png') }}">
 	<div class="container search">
 		<div class="row no-gutter">
@@ -208,27 +202,25 @@
 									</div>
 									<div class="other">
 										<a href="#" class="variants-open internal"><span>показать путёвки</span></a>
-										<a href="#" class="variants-close internal"><span>закрыть</span></a>
+										<a href="#" class="variants-close internal"><span>скрыть</span></a>
 									</div>
 								</div>
 								<div class="about">
 									<h4 class="title">
 										<a href="#" target="_blank"></a>
 									</h4>
-									<div class="rating-place">
-										<div class="rating">
-											<span class="stars"></span>
-											<span class="review">
+									<div class="rating">
+										<span class="stars"></span>
+										<span class="review">
 												<strong></strong> &mdash; <span></span>
 											</span>
-										</div>
-										<div class="place">
-											<i class="ion-location"></i>
-											<span></span>
-										</div>
 									</div>
 									<ul class="types list-unstyled list-inline">
 									</ul>
+									<div class="place">
+										<i class="ion-location"></i>
+										<span></span>
+									</div>
 									<div class="description">
 										Описания пока нет :(
 									</div>

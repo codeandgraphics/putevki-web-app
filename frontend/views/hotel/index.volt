@@ -1,9 +1,3 @@
-<div class="hero little">
-	<div class="hero-overlay"></div>
-	<div class="container">
-	</div>
-</div>
-
 <div class="page" id="hotel" data-hotelId="{{ hotel.db.id }}">
 	<div class="container tour">
 		<div class="row no-gutter">
@@ -30,11 +24,13 @@
 				<div class="content">
 					<div class="title">
 						<div class="gallery">
-							<div class="fotorama" data-nav="thumbs" data-width="400" data-height="260" data-loop="true">
+							<ul class="light-slider">
                                 {% for i in 0..hotel.imagescount-1 %}
-									<img src="{{ hotel.images.image[i] }}" />
+									<li data-thumb="{{ hotel.images.image[i] }}">
+										<img src="{{ hotel.images.image[i] }}" />
+									</li>
                                 {% endfor %}
-							</div>
+							</ul>
 						</div>
 
 						<div class="description">

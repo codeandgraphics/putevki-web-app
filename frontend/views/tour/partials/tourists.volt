@@ -2,7 +2,7 @@
 $people = (int) $tour->adults + (int) $tour->child;
 ?>
 <div class="tourists">
-	<h2>
+	<h3>
 		{% if type == 'request'  %}
 		<div class="check-later">
 			<input type="checkbox" id="tourists-later" value="active" checked="checked">
@@ -10,7 +10,7 @@ $people = (int) $tour->adults + (int) $tour->child;
 		</div>
 		{% endif %}
 		Данные туристов ({{ people }})
-	</h2>
+	</h3>
 
 	{% if type == 'request' %}
 	<div class="message later">

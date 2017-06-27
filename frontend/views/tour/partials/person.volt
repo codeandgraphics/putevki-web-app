@@ -1,5 +1,5 @@
 <div class="person">
-	<h2>Покупатель</h2>
+	<h3>Покупатель</h3>
 	<div class="wrap">
 		{% if type == 'online' %}
 		<div class="row">
@@ -54,7 +54,7 @@
 			{% if type == 'online' %}
 			<div class="confirm form-group">
 				<input type="checkbox" name="confirm" id="confirmation-{{ type }}" required>
-				<label class="control-label" for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement.pdf') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
+				<label for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement.pdf') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
 			</div>
 			{% endif %}
 		</div>

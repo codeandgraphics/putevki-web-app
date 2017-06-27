@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{{ url('/') }}"><img src="{{ url('assets/img/yo.png') }}" alt="Путевки.ру"/> онлайн.путевки.ру</a>
+			<a class="navbar-brand" href="{{ url('/') }}"><img src="" alt="Путевки.ру"/> онлайн.путевки.ру</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">

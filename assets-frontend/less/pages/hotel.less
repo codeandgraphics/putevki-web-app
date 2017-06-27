@@ -2,7 +2,7 @@
 @import "../variables";
 
 body{
-	background: @color-bg-light;
+	background: @color-gray-light;
 }
 
 #hotel{
@@ -12,7 +12,7 @@ body{
 		.head{
 			.rating{
 				padding: 13px 20px;
-				color: @color-bg;
+				color: @color-white;
 				font-size: 24px;
 
 				span{
@@ -42,9 +42,7 @@ body{
 					}
 				}
 			}
-
 		}
-
 	}
 
 	.main{
@@ -62,15 +60,15 @@ body{
 				line-height: 24px;
 
 				.star{
-					color: @color-main-blue;
+					color: @color-blue;
 				}
 
 				small{
-					background: @color-main-orange-light;
+					background: @color-orange;
 					border-radius: 4px;
 					font-size: 13px;
 					padding: 0 3px;
-					color: @color-bg;
+					color: @color-white;
 					letter-spacing: normal;
 					margin-left: 7px;
 				}
@@ -85,7 +83,7 @@ body{
 				text-align: right;
 				line-height: 59px;
 				overflow: hidden;
-				color: @color-main-blue;
+				color: @color-blue;
 			}
 		}
 
@@ -97,8 +95,27 @@ body{
 				width: 400px;
 				height: 330px;
 				float: left;
-			}
+				overflow: hidden;
 
+				ul.light-slider {
+					list-style: none outside none;
+					padding-left: 0;
+					margin-bottom:0;
+
+					li {
+						display: block;
+						float: left;
+						margin-right: 6px;
+						cursor:pointer;
+
+						img {
+							display: block;
+							height: auto;
+							max-width: 100%;
+						}
+					}
+				}
+			}
 
 			.description{
 				margin-bottom: 10px;
@@ -109,7 +126,7 @@ body{
 					margin: 0;
 
 					.type{
-						background: @color-main-blue;
+						background: @color-blue;
 						border-radius: 4px;
 						font-size: 13px;
 						margin-right: 5px;
@@ -117,7 +134,7 @@ body{
 						color: @color-bg;
 
 						&.deluxe{
-							background: @color-main-orange-light;
+							background: @color-orange;
 						}
 					}
 				}
@@ -130,7 +147,7 @@ body{
 
 				.hotel-form{
 					padding: 10px 0;
-					background-color: @color-main-blue;
+					background-color: @color-blue;
 					margin-top: 10px;
 					position: relative;
 
@@ -140,7 +157,7 @@ body{
 						position: absolute;
 						bottom: 0;
 						left: 0;
-						background-color: @color-main-orange-light;
+						background-color: @color-orange;
 
 						.transition(all 1s ease-in-out);
 					}
@@ -151,7 +168,7 @@ body{
 						position: relative;
 
 						.loader{
-							background-color: @color-bg-main-alpha;
+							background-color: @color-blue-opacity;
 							position: absolute;
 							top: 0;
 							left: 0;
@@ -174,18 +191,18 @@ body{
 						.form-group{
 							display: block;
 							float: left;
-							background: @color-bg;
+							background: @color-white;
 							width: 140px;
 							height: 50px;
 							margin-right: 1px;
 							position: relative;
 							cursor: pointer;
-							border: 1px solid @color-bg;
+							border: 1px solid @color-white;
 
 							.transition(all 0.05s ease-in-out);
 
 							&:hover{
-								background: fade(@color-bg,60%);
+								background: fade(@color-white,60%);
 							}
 
 							&.error{
@@ -213,7 +230,7 @@ body{
 								width: 180px;
 
 								&:hover{
-									background: @color-bg;
+									background: @color-white;
 								}
 							}
 
@@ -222,7 +239,7 @@ body{
 								padding: 0 10px;
 								font-size: 18px;
 								line-height: 50px;
-								color: @color-main-blue;
+								color: @color-blue;
 							}
 
 							.range{
@@ -239,7 +256,7 @@ body{
 								border: none;
 								border-radius: 0;
 								background: none;
-								color: @color-main-blue;
+								color: @color-blue;
 								width: 100%;
 								height: 48px;
 								margin: 0;
@@ -279,18 +296,18 @@ body{
 						i{
 							display: block;
 							font-size: 30px;
-							color: @color-main-orange-light;
+							color: @color-orange;
 						}
 
 						small{
 							display: block;
-							color: @color-main-orange-light;
+							color: @color-orange;
 						}
 
 					}
 					
 					.more{
-						background: lighten(@color-bg-light, 3%);
+						background: @color-gray-light;
 						text-align: center;
 						display: none;
 
@@ -302,17 +319,17 @@ body{
 
 					.loader{
 						height: 150px;
-						background: @color-bg;
+						background: @color-white;
 
 						.wrap{
-							color: @color-main-blue;
+							color: @color-blue;
 							width: 400px;
 							margin-left: -200px;
 							height: 100px;
 							margin-top: 0px;
 
 							.object{
-								background-color: @color-main-blue;
+								background-color: @color-blue;
 								margin-top: 20px;
 							}
 						}
@@ -365,7 +382,7 @@ body{
 								text-align: center;
 								height: 25px;
 								font-size: 25px;
-								color: @color-main-blue;
+								color: @color-blue;
 							}
 
 							.data{
@@ -389,7 +406,7 @@ body{
 					width: 390px;
 					margin: 10px;
 					margin-bottom: 20px;
-					background-color: lighten(@color-bg-light, 2%);
+					background-color: @color-gray-light;
 					padding: 10px;
 					overflow: hidden;
 
@@ -401,7 +418,7 @@ body{
 
 						.icon{
 							position: absolute;
-							color: @color-main-blue;
+							color: @color-blue;
 							left: 0;
 						}
 
@@ -411,7 +428,7 @@ body{
 						}
 
 						&:hover{
-							color: @color-main-blue;
+							color: @color-blue;
 						}
 					}
 

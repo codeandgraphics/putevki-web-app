@@ -38,7 +38,7 @@ class Tour
 			$this->meal->russian = $tour->mealrussian;
 
 			$this->price = (int) $tour->price;
-			$this->fuel = (int) $tour->fuel;
+			$this->fuel = (int) $tour->fuelcharge;
 			$this->visa = (int) $tour->visa;
 
 			$this->date = $tour->flydate;

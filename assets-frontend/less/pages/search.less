@@ -2,7 +2,7 @@
 @import "../variables";
 
 body{
-	background: @color-bg-light;
+	background: @color-gray-light;
 }
 
 #search{
@@ -18,7 +18,7 @@ body{
 		.head{
 
 			&.progressbar{
-				color: @color-bg;
+				color: @color-white;
 				padding: 10px;
 				position: relative;
 
@@ -26,7 +26,7 @@ body{
 					position: absolute;
 					left: 0;
 					top: 0;
-					background: @color-main-blue;
+					background: @color-blue;
 					height: 100%;
 					z-index: 0;
 				}
@@ -60,7 +60,7 @@ body{
 						.object{
 							width: 30px;
 							height: 30px;
-							background-color: @color-bg;
+							background-color: @color-white;
 							margin-top: 15px;
 						}
 					}
@@ -70,9 +70,7 @@ body{
 
 		.filters{
 
-
 			.overlay{
-
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -80,7 +78,7 @@ body{
 				bottom: 0;
 				width: 100%;
 				height: 100%;
-				background: @color-bg-alpha;
+				background: @color-white-opacity-95;
 				z-index: 500;
 
 				.filters-loading{
@@ -89,7 +87,7 @@ body{
 					width: 100%;
 					height: 200px;
 					text-align: center;
-					color: @color-main-blue;
+					color: @color-blue;
 
 					i{
 						font-size: 50px;
@@ -107,7 +105,7 @@ body{
 				height: 126px;
 				display: none;
 				position: relative;
-				background: @color-bg;
+				background: @color-white;
 				border-bottom: 1px solid @color-border;
 				text-align: center;
 
@@ -120,12 +118,12 @@ body{
 					}
 
 					.tours-found{
-						color: @color-main-blue;
+						color: @color-blue;
 						font-size: 20px;
 					}
 
 					.price-found{
-						color: @color-main-orange-light;
+						color: @color-orange;
 						font-size: 16px;
 					}
 				}
@@ -163,7 +161,7 @@ body{
 						width: 100%;
 						border: none;
 						border-bottom: 1px dashed @color-dark-border;
-						color: @color-main-blue;
+						color: @color-blue;
 						font-size: 18px;
 						line-height: 22px;
 						outline: none;
@@ -227,7 +225,7 @@ body{
 				border-style: solid;
 				border-width: 0 10px 10px 10px;
 				border-color: transparent transparent #ffffff transparent;
-				line-height: 0px;
+				line-height: 0;
 			}
 		}
 
@@ -239,9 +237,9 @@ body{
 			.departure{
 				position: absolute;
 				right: 10px;
-				top: 0px;
+				top: 0;
 				font-size: 16px;
-				color: @color-main-blue;
+				color: @color-blue;
 				line-height: 60px;
 			}
 		}
@@ -249,7 +247,7 @@ body{
 		.tours{
 			z-index: 1;
 			position: relative;
-			background: @color-bg;
+			background: @color-white;
 		}
 	}
 
@@ -288,8 +286,8 @@ body{
 			}
 
 			button{
-				background: @color-bg;
-				border: 1px solid @color-main-blue;
+				background: @color-white;
+				border: 1px solid @color-blue;
 				margin-left: 5px;
 				text-align: left;
 				position: relative;
@@ -314,7 +312,7 @@ body{
 			}
 
 			i{
-				color: @color-main-blue;
+				color: @color-blue;
 			}
 
 			ul{
@@ -328,11 +326,11 @@ body{
 
 					&.active {
 						a {
-							background-color: @color-main-blue;
+							background-color: @color-blue;
 
 							i,
 							small{
-								color: @color-bg;
+								color: @color-white;
 							}
 						}
 					}
@@ -363,13 +361,13 @@ body{
 
 	.loader{
 		.object{
-			background-color: @color-main-blue;
+			background-color: @color-blue;
 		}
 
 		span{
 			display: block;
 			padding-top: 10px;
-			color: @color-main-blue;
+			color: @color-blue;
 		}
 	}
 
@@ -391,23 +389,22 @@ body{
 				display: block;
 				text-align: center;
 				font-size: 30px;
-				color: @color-main-orange-light;
+				color: @color-orange;
 			}
 
 			small{
 				display: block;
-				color: @color-main-orange-light;
+				color: @color-orange;
 			}
 
 		}
 
 		&.help{
 			display: none;
-			border: 1px dashed @color-bg;
 			margin: 40px;
-			background-color: @color-bg-light;
+			background-color: @color-gray-light;
 			padding: 30px;
-			border-radius: 4px;
+			border-radius: 10px;
 			font-size: 16px;
 
 			p{
@@ -434,7 +431,7 @@ body{
 			}
 
 			.loader{
-				background: @color-bg;
+				background: @color-white;
 
 				.wrap{
 					width: 400px;
@@ -473,12 +470,12 @@ body{
 				overflow: hidden;
 
 				.place {
-					display: inline-block;
+					display: block;
 					font-size: 13px;
-					margin-left: 10px;
+					margin: 4px 0;
 
 					i {
-						color: @color-main-blue;
+						color: @color-blue;
 					}
 					span {
 						color: @color-text-gray;
@@ -487,18 +484,16 @@ body{
 
 				.types{
 					margin: 0;
-					margin-top: -5px;
-					margin-bottom: 5px;
 
 					.type{
-						background: @color-main-blue;
+						background: @color-blue;
 						border-radius: 4px;
 						font-size: 11px;
 						margin-right: 5px;
 						color: @color-bg;
 
 						&.deluxe{
-							background: @color-main-orange-light;
+							background: @color-orange;
 						}
 					}
 				}
@@ -521,7 +516,7 @@ body{
 						font-weight: @font-bold;
 						font-size: 18px;
 						line-height: 44px;
-						background-color: @color-main-orange-light;
+						background-color: @color-orange;
 						color: @color-bg;
 					}
 
@@ -531,6 +526,7 @@ body{
 						background-size: 100% 100%;
 						background-position: center center;
 						background-repeat: no-repeat;
+
 						.transition(all 0.05s ease-out);
 
 						&:hover{
@@ -561,7 +557,6 @@ body{
 
 					.rating{
 						display: inline-block;
-						margin-bottom: 5px;
 
 						.stars{
 							font-size: 14px;
@@ -569,7 +564,7 @@ body{
 							line-height: 24px;
 
 							.star{
-								color: @color-main-blue;
+								color: @color-blue;
 							}
 
 							.no-star{
@@ -579,7 +574,7 @@ body{
 
 						.review{
 							margin-left: 10px;
-							color: @color-main-blue;
+							color: @color-blue;
 							font-size: 12px;
 							line-height: 24px;
 
@@ -635,7 +630,7 @@ body{
 							text-align: center;
 							height: 25px;
 							font-size: 25px;
-							color: @color-main-blue;
+							color: @color-blue;
 						}
 
 						.data{
@@ -704,7 +699,7 @@ body{
 						}
 
 						span {
-							color: @color-main-orange;
+							color: @color-orange;
 							font-size: 20px;
 						}
 					}
@@ -735,7 +730,7 @@ body{
 					a {
 						display: block;
 						padding: 10px;
-						background-color: @color-bg-light;
+						background-color: @color-gray-light;
 					}
 				}
 
@@ -788,7 +783,7 @@ body{
 							text-align: center;
 							height: 25px;
 							font-size: 25px;
-							color: @color-main-blue;
+							color: @color-blue;
 						}
 
 						.data{
@@ -805,60 +800,8 @@ body{
 					}
 				}
 			}
-
-			/*.variants{
-				margin-top: 20px;
-				display: none;
-				text-align: center;
-
-				th,
-				td{
-					vertical-align: middle;
-					text-align: center;
-					font-weight: @font-light;
-				}
-
-				.variant{
-
-					.image{
-						width: 5%;
-					}
-					.tour{
-					}
-					.date{
-						width: 15%;
-					}
-					.meal{
-						width: 20%;
-					}
-					.price{
-						width: 120px;
-
-						.order{
-							font-size: 16px;
-						}
-					}
-
-					.meal,
-					.date{
-						strong{
-							font-weight: @font-bold;
-							display: block;
-						}
-						span{
-							font-weight: @font-light;
-							display: block;
-						}
-					}
-
-
-				}
-			}*/
-
-
 		}
 	}
-
 }
 
 

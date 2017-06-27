@@ -1,6 +1,6 @@
 <div class="checkout">
 	<dl class="dl-horizontal">
-		<dt class="tour-name">Тур:</dt>
+		<dt class="tour-name">Путёвка:</dt>
 		<dd class="tour-name">{{ tour.departurename }} &mdash; {{ tour.hotelregionname }}</dd>
 
 		<dt class="tour-tourists">Едут:</dt>
@@ -11,7 +11,7 @@
 			{% endif %}
 		</dd>
 
-		<dt class="tour-price">Цена тура:</dt>
+		<dt class="tour-price">Цена путёвки:</dt>
 		<dd class="tour-price"></dd>
 
 		<dt class="tour-fuel hidden">Топливный сбор:</dt>

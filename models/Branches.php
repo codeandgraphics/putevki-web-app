@@ -26,9 +26,9 @@ class Branches extends BaseModel
 
 	public $managerPassword;
 
-	public $meta_description = null;
-	public $meta_keywords = null;
-	public $meta_text = null;
+	public $meta_description;
+	public $meta_keywords;
+	public $meta_text;
 
 	public function initialize()
 	{
@@ -39,6 +39,11 @@ class Branches extends BaseModel
 		$this->hasOne('manager_id', Users::name(), 'id', [
 			'alias'	=> 'manager'
 		]);
+	}
+
+	public static function findPublic($parameters) {
+		$parameters['columns'] = 'id, name, phone, lat, lon, address, addressDetails, timetable, main, active';
+		return self::find($parameters);
 	}
 
 }

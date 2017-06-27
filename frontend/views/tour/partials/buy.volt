@@ -1,11 +1,11 @@
 <div class="pay-variants locked">
 	<div class="overflow"></div>
-	<h2 class="hide">
+	<h3 class="hide">
 		Как вам удобнее оплатить?
-	</h2>
+	</h3>
 
 	<div class="message no-online hide">
-		<i class="ion-alert-circled"></i> Извините, данный тур нельзя оплатить онлайн, но наши менеджеры свяжутся с вами и закажут его для вас!
+		<i class="ion-alert-circled"></i> Извините, данную путёвку нельзя оплатить онлайн, но наши менеджеры свяжутся с вами и закажут её для вас!
 	</div>
 
 	<ul class="nav nav-pills" id="buy">
@@ -54,7 +54,7 @@
 
 				{{ partial('tour/partials/tourists', ['type': 'online']) }}
 
-				<h2>Итого</h2>
+				<h3>Итого</h3>
 
 				<div class="row checkout-block">
 					<div class="col-xs-5">
@@ -64,7 +64,7 @@
 
 						<div class="button-wrap">
 							<button type="submit" class="btn btn-primary btn-lg btn-block buy-online">
-								Купить тур
+								Купить путёвку
 							</button>
 						</div>
 
@@ -94,7 +94,7 @@
 				</button>
 
 				<div class="message">
-					<p>Заявка на тур не является бронированием тура и не накладывает на Вас каких-либо обязательств.</p>
+					<p>Заявка на путёвку не является бронированием и не накладывает на Вас каких-либо обязательств.</p>
 					<p>Отправляя запрос, Вы подтверждаете согласие на обработку персональных данных.</p>
 				</div>
 

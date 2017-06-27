@@ -121,6 +121,16 @@ class SearchParams
 		return (bool)$this->where->hotels;
 	}
 
+	public function whereHumanized() {
+		$where = $this->countryEntity()->name;
+
+		if ($this->where->regions[0]) {
+			$where = $this->regionEntity()->name . ', '. $where;
+		}
+
+		return $where;
+	}
+
 	public function fromEntity()
 	{
 		return Departures::findFirst("id='$this->from'");

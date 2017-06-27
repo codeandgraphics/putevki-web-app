@@ -68,7 +68,7 @@ class HotelController extends BaseController
             'order'	=> 'name'
         ]);
 
-		$title = 'Туры в ' . $hotel->name . ' из ' . $this->city->name_rod . ' на ';
+		$title = 'Путёвки в отель ' . $hotel->name . ' из ' . $this->city->name_rod . ' по самым низким ценам на ';
 
 		$this->params->search->where->hotels = $hotel->db->id;
 

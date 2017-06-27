@@ -202,9 +202,11 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 			return $view;
 		});
 
+
+
 		$this->getDI()->set('simpleView', function () {
 			$view = new Phalcon\Mvc\View\Simple();
-			$view->setViewsDir($this->getConfig()->backend->viewsDir);
+			$view->setViewsDir(APP_PATH . $this->getConfig()->backend->viewsDir);
 			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
 			return $view;
 		});

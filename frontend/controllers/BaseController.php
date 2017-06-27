@@ -34,7 +34,9 @@ class BaseController extends Controller
 		$this->params = Params::getInstance();
 
 		$this->cities = Cities::find(['active = 1', 'order' => 'main DESC, name']);
-		$this->branches = Branches::find('active = 1');
+		$this->branches = Branches::findPublic([
+			'active = 1'
+		]);
 
 		$popularCountries = StoredQueries::popularCountries();
 

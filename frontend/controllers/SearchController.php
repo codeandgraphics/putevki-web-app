@@ -19,14 +19,14 @@ class SearchController extends BaseController
 
 		$searchQuery = new SearchQuery();
 		$searchQuery->fromParams($params->search);
-		$searchId = $searchQuery->run(Origin::WEB);
+		$searchId = $searchQuery->run();
 
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
 		]);
 
-		$title = 'Поиск путёвок ' . $params->search->fromEntity()->name .
-			' &mdash; ' . ' на ';
+		$title = 'Путёвки ' . $params->search->fromEntity()->name .
+			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',

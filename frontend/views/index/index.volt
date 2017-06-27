@@ -1,28 +1,3 @@
-<div class="hero">
-	<div class="hero-overlay"></div>
-	<div class="main-header">
-		<div class="container">
-			<a class="brand" href="/">
-				<img alt="Путевки.ру" src="{{ static_url() }}img/logo.png">
-			</a>
-			<div class="phone">
-				<div class="number">
-					<a href="tel:{{ city.phone }}">{{ city.phone }}</a>
-				</div>
-				служба поддержки клиентов
-			</div>
-			<div class="request">
-				<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне тур</button>
-			</div>
-			<div class="location">
-				<i class="ion-location"></i> <a href="#" data-toggle="modal" data-target="#cityModal"><span>{{ city.name }}</span><b class="caret"></b></a>
-			</div>
-		</div>
-	</div>
-	<h1 class="title">Куда бы вы хотели поехать?</h1>
-
-    {{ partial('partials/search-form') }}
-</div>
 <div class="page" id="{{ page }}">
 	<section class="block popular" id="popular">
 		<div class="container header">
@@ -57,17 +32,13 @@
 	<section class="block mobile-promo" id="mobile-promo">
 		<div class="container">
 			<div class="promo-block">
-				<img class="mobile" alt="Путевки.ру" src="{{ static_url() }}img/app/mobile.png" />
+				<div class="mobile"></div>
 				<div class="text">
 					<h3>Все путёвки в твоем смартфоне!</h3>
 					<p>Ищите самые выгодные цены на путёвки в любом месте,<br/>где бы вы не находились!</p>
 				</div>
-				<a target="_blank" href="{{ config.defaults.appStore }}" class="appstore">
-					<img alt="Путевки.ру в App Store" src="{{ static_url() }}img/app/appstore.png" />
-				</a>
-				<a target="_blank" href="{{ config.defaults.googlePlay }}" class="google-play">
-					<img alt="Путевки.ру в Google Play" src="{{ static_url() }}img/app/google-play.png" />
-				</a>
+				<a target="_blank" href="{{ config.defaults.appStore }}" class="appstore"></a>
+				<a target="_blank" href="{{ config.defaults.googlePlay }}" class="google-play"></a>
 			</div>
 		</div>
 	</section>

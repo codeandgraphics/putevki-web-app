@@ -2,7 +2,7 @@
 @import "../variables";
 
 main.main {
-	background-color: @color-bg;
+	background-color: @color-white;
 }
 
 .block{
@@ -17,7 +17,7 @@ main.main {
 			> .container {
 				padding-top: 10px;
 				padding-bottom: 10px;
-				background: @color-bg;
+				background: @color-white;
 			}
 		}
 
@@ -54,9 +54,9 @@ main.main {
 				i{
 					display: block;
 					left: 30px;
-					top: 0px;
+					top: 0;
 					position: absolute;
-					color: @color-main-orange-light;
+					color: @color-orange;
 					font-size: 40px;
 				}
 			}
@@ -109,7 +109,7 @@ main.main {
 	&.hot{
 		.header{
 			a{
-				color: @color-main-orange;
+				color: @color-orange;
 			}
 		}
 
@@ -148,7 +148,7 @@ main.main {
 			.wrap{
 
 				.object{
-					background: @color-main-blue;
+					background: @color-blue;
 					margin-bottom: 10px;
 				}
 			}
@@ -176,13 +176,13 @@ main.main {
 			bottom: 0;
 			width: 100%;
 			min-height: 100px;
-			background: @color-bg-dark-alpha;
+			background: @color-black-opacity-70;
 			font-size: 20px;
 			padding: 30px;
 			text-align: center;
 
 			a{
-				color: @color-bg;
+				color: @color-white;
 				font-size: 16px;
 
 				&.main-city{
@@ -190,12 +190,11 @@ main.main {
 				}
 
 				&.active{
-					color: @color-main-orange-light;
+					color: @color-orange;
 				}
 
-
 				&:hover{
-					color: @color-main-orange-light;
+					color: @color-orange;
 				}
 			}
 		}

@@ -88,7 +88,8 @@ class SearchQuery
 			$query['regions'] = implode(',', $this->where->regions);
 		}
 
-		$childrenCount = count($this->people->children);
+		$childrenCount = is_array($this->people->children) ? count($this->people->children) : 0;
+
 		if ($childrenCount > 0) {
 			$query['child'] = $childrenCount;
 			if (is_array($this->people->children)) {
