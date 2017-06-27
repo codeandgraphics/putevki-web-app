@@ -1,27 +1,35 @@
 <div class="checkout">
-	<dl class="dl-horizontal">
-		<dt class="tour-name">Путёвка:</dt>
-		<dd class="tour-name">{{ tour.departurename }} &mdash; {{ tour.hotelregionname }}</dd>
+	<div class="params tour-name">
+		<small>Путёвка:</small>
+		<span>{{ tour.departurename }} &mdash; {{ tour.hotelregionname }}</span>
+	</div>
 
-		<dt class="tour-tourists">Едут:</dt>
-		<dd class="tour-tourists">
-			{{ tour.adults }} <?=Utils\Text::humanize('adults', $tour->adults);?>
-			{% if tour.child > 0 %}
-			+ {{ tour.child }} <?=Utils\Text::humanize('kids', $tour->child);?>
-			{% endif %}
-		</dd>
+	<div class="params tour-tourists">
+		<small>Едут:</small>
+		<span>
+				{{ tour.adults }} <?=Utils\Text::humanize('adults', $tour->adults);?>
+            {% if tour.child > 0 %}
+				+ {{ tour.child }} <?=Utils\Text::humanize('kids', $tour->child);?>
+            {% endif %}
+		</span>
+	</div>
 
-		<dt class="tour-price">Цена путёвки:</dt>
-		<dd class="tour-price"></dd>
+	<div class="prices tour-price">
+		<small>Цена путёвки:</small>
+		<span></span>
+	</div>
 
-		<dt class="tour-fuel hidden">Топливный сбор:</dt>
-		<dd class="tour-fuel hidden"></dd>
+	<div class="prices tour-fuel hidden">
+		<small>Топливный сбор:</small>
+		<span></span>
+	</div>
 
-		<dt class="tour-visa hidden">Визовый сбор:</dt>
-		<dd class="tour-visa hidden"></dd>
-	</dl>
+	<div class="prices tour-visa hidden">
+		<small>Визовый сбор:</small>
+		<span></span>
+	</div>
 	<div class="tour-sum">
-		<strong></strong>
 		<span>К оплате:</span>
+		<strong></strong>
 	</div>
 </div>

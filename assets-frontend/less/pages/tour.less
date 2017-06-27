@@ -44,9 +44,10 @@ body{
 					}
 
 					.text{
-						margin-left: 85px;
-						font-size: 15px;
-						line-height: 36px;
+						margin-top: 3px;
+						margin-left: 75px;
+						font-size: 13px;
+						line-height: 15px;
 					}
 				}
 			}
@@ -108,75 +109,64 @@ body{
 
 	.checkout{
 		.tour-sum{
+			margin-top: 10px;
 			margin-bottom: 10px;
-			padding-bottom: 10px;
+			padding-top: 10px;
+			border-top: 1px solid @color-border;
 
 			strong{
-				float: right;
+				display: block;
 				font-size: 22px;
 				line-height: 30px;
-				color: @color-blue;
+				color: @color-orange;
 			}
 
 			span{
+				display: block;
 				font-size: 16px;
 				line-height: 30px;
 			}
 		}
 
-		dl{
-			margin-bottom: 10px;
-			padding-bottom: 10px;
-			border-bottom: 1px solid @color-border;
+		.params {
+			padding-bottom: 5px;
 
-			dt{
-				text-align: left;
+			small{
+				display: block;
 				font-size: 13px;
 				color: @color-text-gray;
-				width: 115px;
-
-				&.tour-price{
-					font-size: 15px;
-				}
-
-				&.tour-visa{
-					margin-top: 10px;
-					font-size: 15px;
-				}
-
-				&.tour-name{
-					width: 50px;
-					color: @color-text-main;
-				}
-
-				&.tour-tourists{
-					width: 50px;
-					margin-bottom: 10px;
-					color: @color-text-main;
-				}
 			}
-			dd{
-				text-align: right;
-				margin-left: 120px;
+			span{
+				display: block;
+				font-size: 15px;
+				color: @color-blue;
+			}
 
-				&.tour-price{
+			&.tour-tourists {
+				margin-bottom: 10px;
+			}
+		}
+
+		.prices {
+			padding-bottom: 5px;
+
+			small{
+				display: block;
+				font-size: 13px;
+				color: @color-text-gray;
+			}
+			span{
+				font-size: 15px;
+				display: block;
+				color: @color-blue;
+			}
+
+			&.tour-price {
+				small {
+					font-size: 15px;
+				}
+				span{
 					font-size: 16px;
-				}
-
-				&.tour-visa{
-					margin-top: 10px;
-					font-size: 16px;
-				}
-
-				&.tour-name{
-					margin-left: 60px;
-					color: @color-blue;
-				}
-
-				&.tour-tourists{
-					margin-left: 60px;
-					margin-bottom: 10px;
-					color: @color-blue;
 				}
 			}
 		}
@@ -361,7 +351,7 @@ body{
 					margin: 10px 0;
 					height: 70px;
 					border: 1px solid @color-border;
-					border-radius: 0px;
+					border-radius: 6px;
 					position: relative;
 					cursor: pointer;
 

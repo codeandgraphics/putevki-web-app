@@ -222,130 +222,128 @@
 						</div>
 					</div>
 
-					<div class="row services">
-						<div class="col-sm-6">
-                            {% if hotel.territory is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-territory">
-										<div class="icon">
-											<i class="ion-map"></i>
-										</div>
-										Территория
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-territory">
-                                        {{ hotel.territory }}
+					<div class="services">
+						<div class="grid-sizer"></div>
+                        {% if hotel.territory is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-territory">
+									<div class="icon">
+										<i class="ion-map"></i>
 									</div>
+									Территория
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-territory">
+                                    {{ hotel.territory }}
 								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.meallist is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-meallist">
-										<div class="icon">
-											<i class="ion-fork"></i>
-											<i class="ion-knife"></i>
-										</div>
-										Питание
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-meallist">
-                                        {{ hotel.meallist }}
+                        {% if hotel.meallist is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-meallist">
+									<div class="icon">
+										<i class="ion-fork"></i>
+										<i class="ion-knife"></i>
 									</div>
+									Питание
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-meallist">
+                                    {{ hotel.meallist }}
 								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.inroom is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-inroom">
-										<div class="icon">
-											<i class="ion-home"></i>
-										</div>
-										В номере
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-inroom">
-                                        {{ hotel.inroom }}
+                        {% if hotel.inroom is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-inroom">
+									<div class="icon">
+										<i class="ion-home"></i>
 									</div>
+									В номере
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-inroom">
+                                    {{ hotel.inroom }}
 								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.roomtypes is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-roomtypes">
-										<div class="icon">
-											<i class="ion-home"></i>
-										</div>
-										Номерной фонд
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-roomtypes">
-                                        {{ hotel.roomtypes }}
+                        {% if hotel.roomtypes is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-roomtypes">
+									<div class="icon">
+										<i class="ion-home"></i>
 									</div>
+									Номерной фонд
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-roomtypes">
+                                    {{ hotel.roomtypes }}
 								</div>
-                            {% endif %}
-						</div>
-						<div class="col-sm-6">
-                            {% if hotel.servicefree is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-servicefree">
-										<div class="icon">
-											<i class="ion-thumbsup"></i>
-										</div>
-										Бесплатно
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-servicefree">
-                                        {{ hotel.servicefree }}
-									</div>
-								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.servicepay is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-servicepay">
-										<div class="icon">
-											<i class="ion-cash"></i>
-										</div>
-										Платно
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-servicepay">
-                                        {{ hotel.servicepay }}
+                        {% if hotel.servicefree is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-servicefree">
+									<div class="icon">
+										<i class="ion-thumbsup"></i>
 									</div>
+									Бесплатно
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-servicefree">
+                                    {{ hotel.servicefree }}
 								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.services is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-services">
-										<div class="icon">
-											<i class="ion-clipboard"></i>
-										</div>
-										Услуги отеля
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-services">
-                                        {{ hotel.services }}
+                        {% if hotel.servicepay is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-servicepay">
+									<div class="icon">
+										<i class="ion-cash"></i>
 									</div>
+									Платно
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-servicepay">
+                                    {{ hotel.servicepay }}
 								</div>
-                            {% endif %}
+							</div>
+                        {% endif %}
 
-                            {% if hotel.child is defined %}
-								<div class="grid-item">
-									<h3 data-toggle="collapse" data-target="#collapse-child">
-										<div class="icon">
-											<i class="ion-ios-body"></i>
-										</div>
-										Для детей
-										<i class="ion-ios-arrow-down open"></i>
-									</h3>
-									<div class="collapse in item" id="collapse-child">
-                                        {{ hotel.child }}
+                        {% if hotel.services is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-services">
+									<div class="icon">
+										<i class="ion-clipboard"></i>
 									</div>
+									Услуги отеля
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-services">
+                                    {{ hotel.services }}
 								</div>
-                            {% endif %}
-						</div>
+							</div>
+                        {% endif %}
+
+                        {% if hotel.child is defined %}
+							<div class="grid-item">
+								<h3 data-toggle="collapse" data-target="#collapse-child">
+									<div class="icon">
+										<i class="ion-ios-body"></i>
+									</div>
+									Для детей
+									<i class="ion-ios-arrow-down open"></i>
+								</h3>
+								<div class="collapse in item" id="collapse-child">
+                                    {{ hotel.child }}
+								</div>
+							</div>
+                        {% endif %}
 					</div>
 				</div>
 			</section>
@@ -357,34 +355,34 @@
 				</div>
 				<div class="content">
 					<div class="wrap">
-						<dl class="dl-horizontal about">
+						<div class="about">
                             {% if hotel.build is defined %}
-								<dt>Построен:</dt>
-								<dd>{{ hotel.build }}</dd>
+								<small>Построен:</small>
+								<span>{{ hotel.build }}</span>
                             {% endif %}
 
                             {% if hotel.repair is defined %}
-								<dt>Реставрация:</dt>
-								<dd>{{ hotel.repair }}</dd>
+								<small>Реставрация:</small>
+								<span>{{ hotel.repair }}</span>
                             {% endif %}
 
                             {% if hotel.placement is defined %}
-								<dt>Расположен:</dt>
-								<dd>{{ hotel.placement }}</dd>
+								<small>Расположен:</small>
+								<span>{{ hotel.placement }}</span>
                             {% endif %}
 
                             {% if hotel.phone is defined %}
-								<dt>Телефон:</dt>
-								<dd>{{ hotel.phone }}</dd>
+								<small>Телефон:</small>
+								<span>{{ hotel.phone }}</span>
                             {% endif %}
 
                             {% if hotel.site is defined %}
-								<dt>Сайт:</dt>
-								<dd>
+								<small>Сайт:</small>
+								<span>
 									<a href="http://{{ hotel.site }}" target="_blank">{{ hotel.site }}</a>
-								</dd>
+								</span>
                             {% endif %}
-						</dl>
+						</div>
                         {% if (hotel.coord1 is not null) and (hotel.coord2 is not null) %}
 							<a href="//www.google.ru/maps/search/{{ hotel.name }}/@{{ hotel.coord1 }},{{ hotel.coord2 }},16z?hl=ru" target="_blank">
 								<img src="//maps.googleapis.com/maps/api/staticmap?center={{ hotel.coord1 }},{{ hotel.coord2 }}&zoom=16&size=280x280&maptype=hybrid

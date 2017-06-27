@@ -375,8 +375,10 @@ export default class Tour {
       this.price.visa += intPrice;
 
       if (this.price.visa > 0 && this.tour.visa > 0) {
-        this.$.prices.find('.tour-visa').removeClass('hidden');
-        this.$.prices.find('dd.tour-visa').text(`+ ${Humanize.price(this.price.visa * parseInt(this.tour.visa, 10))} руб.`);
+        this.$.prices.find('.tour-visa')
+          .removeClass('hidden')
+          .find('span')
+          .text(`+ ${Humanize.price(this.price.visa * parseInt(this.tour.visa, 10))} руб.`);
       } else {
         this.$.prices.find('.tour-visa').addClass('hidden');
       }
@@ -384,10 +386,10 @@ export default class Tour {
       this.price[type] = intPrice;
 
       if (type === 'price') {
-        this.$.prices.find('dd.tour-price').text(`${Humanize.price(this.price[type])} руб.`);
+        this.$.prices.find('.tour-price span').text(`${Humanize.price(this.price[type])} руб.`);
       } else if (this.price[type] >= 0) {
         this.$.prices.find(`.tour-${type}`).removeClass('hidden');
-        this.$.prices.find(`dd.tour-${type}`).text(`+ ${Humanize.price(this.price[type])} руб.`);
+        this.$.prices.find(`.tour-${type} span`).text(`+ ${Humanize.price(this.price[type])} руб.`);
       }
     }
     let sum = this.price.price + this.price.fuel;

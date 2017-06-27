@@ -76,20 +76,20 @@ class Text
 			$string = str_replace($arStrOS, $arStrRS, $string);
 		}
 		
-		return iconv("UTF-8","UTF-8//IGNORE",strtr($string,$replace));
+		return iconv('UTF-8', 'UTF-8//IGNORE', strtr($string,$replace));
 	}
 
 	public static function strftime($format, $dateString)
 	{
 		$date = \DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
-		return ($date) ? strftime($format, $date->getTimestamp()) : false;
+		return $date ? strftime($format, $date->getTimestamp()) : false;
 	}
 
 	public static function formatToDayMonth($dateString, $format)
 	{
 		$date = \DateTime::createFromFormat($format, $dateString);
 
-		return ($date) ? $date->format('d ') . self::humanize('months', $date->format('n')) : false;
+		return $date ? $date->format('d ') . self::humanize('months', $date->format('n')) : false;
 	}
 	
 	public static function humanize($type, $value)
@@ -100,40 +100,76 @@ class Text
 		}
 		if($type === 'people')
 		{
-			if($value >= 2 && $value <= 4) return $value . ' человека';
+			if($value >= 2 && $value <= 4) {
+			    return $value . ' человека';
+            }
 			return $value . ' человек';
 		}
 		if($type === 'adults')
 		{
-			if($value == 1) return 'взрослый';
+			if($value === 1) {
+			    return 'взрослый';
+            }
 			return 'взрослых';
 		}
 		if($type === 'kids')
 		{
-			if($value == 1) return 'ребенок';
-			if($value >= 5) return 'детей';
+			if($value === 1) {
+			    return 'ребенок';
+            }
+			if($value >= 5) {
+			    return 'детей';
+            }
 			return 'ребенка';
 		}
 		if($type === 'rating')
 		{
-			if($value < 4) return 'cкромный отель';
-			if($value < 4.5) return 'хороший отель';
-			if($value <= 5) return 'отличный отель';
+			if($value < 4) {
+			    return 'cкромный отель';
+            }
+			if($value < 4.5) {
+			    return 'хороший отель';
+            }
+			if($value <= 5) {
+			    return 'отличный отель';
+            }
 		}
 		
 		if($type === 'nights')
 		{
 			$value = (int) $value;
 			
-			if($value >= 5 && $value <= 20)			return $value . ' ночей';
-			if($value%10 === 1)						return $value . ' ночь';
-			if($value%10 >= 2 && $value%10 < 5)		return $value . ' ночи';
-			if($value%10 >= 5)						return $value . ' ночей';
+			if($value >= 5 && $value <= 20) {
+			    return $value . ' ночей';
+            }
+			if($value%10 === 1) {
+			    return $value . ' ночь';
+            }
+			if($value%10 >= 2 && $value%10 < 5) {
+			    return $value . ' ночи';
+            }
+			if($value%10 >= 5) {
+			    return $value . ' ночей';
+            }
 		}
 		
 		if($type === 'months')
 		{
-			$months = ["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+			$months = [
+			    '',
+                'января',
+                'февраля',
+                'марта',
+                'апреля',
+                'мая',
+                'июня',
+                'июля',
+                'августа',
+                'сентября',
+                'октября',
+                'ноября',
+                'декабря'
+            ];
 			
 			return $months[$value];
 		}

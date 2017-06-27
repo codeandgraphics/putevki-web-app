@@ -29,6 +29,7 @@ body{
 					background: @color-blue;
 					height: 100%;
 					z-index: 0;
+					border-top-left-radius: 10px;
 				}
 
 				.percent{
@@ -106,7 +107,7 @@ body{
 				display: none;
 				position: relative;
 				background: @color-white;
-				border-bottom: 1px solid @color-border;
+				border-bottom: 1px dashed @color-border;
 				text-align: center;
 
 				.found{
@@ -160,7 +161,7 @@ body{
 						height: 25px;
 						width: 100%;
 						border: none;
-						border-bottom: 1px dashed @color-dark-border;
+						border-bottom: 1px solid @color-border;
 						color: @color-blue;
 						font-size: 18px;
 						line-height: 22px;
@@ -185,7 +186,7 @@ body{
 				}
 
 				.form-block{
-					border-top: 1px solid @color-border;
+					border-top: 1px dashed @color-border;
 					padding: 16px 20px;
 
 					label{
@@ -257,7 +258,7 @@ body{
 	min-height: 666px;
 
 	.params{
-		border-bottom: 1px solid @color-border;
+		border-bottom: 1px dashed @color-border;
 		padding: 10px;
 		height: 48px;
 
@@ -266,9 +267,8 @@ body{
 			margin-right: 20px;
 
 			&.open{
-
 				.caret{
-					.transform(rotate(180));
+					.rotate(180);
 					.transition(transform 0.2);
 				}
 			}
@@ -287,7 +287,7 @@ body{
 
 			button{
 				background: @color-white;
-				border: 1px solid @color-blue;
+				border: 1px solid @color-border;
 				margin-left: 5px;
 				text-align: left;
 				position: relative;
@@ -303,7 +303,7 @@ body{
 				.label{
 					position: absolute;
 					right: 22px;
-					top: 4px;
+					top: 5px;
 				}
 
 				div{
@@ -316,7 +316,7 @@ body{
 			}
 
 			ul{
-				border: 1px solid @color-text-light;
+				border: 1px solid @color-border;
 				border-radius: 4px;
 				padding: 0;
 				min-width: 170px;
@@ -452,7 +452,7 @@ body{
 		.item{
 			padding: 20px 20px 10px 20px;
 			position: relative;
-			border-bottom: 1px solid @color-border;
+			border-bottom: 1px dashed @color-border;
 			min-height: 170px;
 
 			&.hiddenTypes,
@@ -651,7 +651,7 @@ body{
 					width: 150px;
 					height: 130px;
 					float: right;
-					border-left: 1px solid @color-border;
+					border-left: 1px dashed @color-border;
 					padding-left: 20px;
 					text-align: center;
 					position: relative;
@@ -731,6 +731,7 @@ body{
 						display: block;
 						padding: 10px;
 						background-color: @color-gray-light;
+						border-radius: 6px;
 					}
 				}
 
@@ -739,7 +740,7 @@ body{
 					display: table;
 					width: 100%;
 					padding: 5px 0;
-					border-top: 1px solid @color-border;
+					border-top: 1px dashed @color-border;
 
 					&.hiddenPrice,
 					&.template{

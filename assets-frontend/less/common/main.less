@@ -28,9 +28,18 @@ main {
 			&.left{
 				float:left;
 
+				.head {
+					border-top-right-radius: 0;
+					border-top-left-radius: 10px;
+				}
 			}
 			&.right{
 				float:right;
+
+				.head {
+					border-top-right-radius: 10px;
+					border-top-left-radius: 0;
+				}
 			}
 
 			.head{
@@ -57,12 +66,22 @@ main {
 
 			&.left{
 
+				.head {
+					border-top-left-radius: 10px;
+					border-top-right-radius: 0;
+				}
+
 				.content{
 					border-right: 1px dashed @color-border;
 				}
 			}
 
 			&.right{
+
+				.head {
+					border-top-right-radius: 10px;
+					border-top-left-radius: 0;
+				}
 
 				.content{
 					border-left: 1px dashed @color-border;
@@ -115,7 +134,7 @@ main {
 		}
 
 		.country{
-			padding: 6px;
+			padding: 3px 6px;
 
 			img{
 				width: auto;

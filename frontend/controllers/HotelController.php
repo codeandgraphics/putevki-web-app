@@ -38,7 +38,8 @@ class HotelController extends BaseController
 		$types = [];
 
 		foreach ((array)$dbTypes as $key => $value) {
-			if ($value === 1) {
+
+			if ((int) $value === 1) {
 				$types[$key] = TextUtils::humanize('types', $key);
 			}
 		}
