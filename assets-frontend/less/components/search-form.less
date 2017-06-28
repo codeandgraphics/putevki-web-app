@@ -526,9 +526,18 @@
 
 
 .datepicker {
+
+  &--day-name {
+    color: @color-orange !important;
+  }
+
   &--cell {
     &.-selected- {
       background-color: @color-blue !important;
+
+      span.selected {
+        background-color: @color-blue !important;
+      }
     }
     &-day {
       width: 34.5px !important;
@@ -539,8 +548,7 @@
         width: 28.5px;
         height: 28.5px;
         border-radius: 50%;
-        background-color: @color-blue;
-        color: white;
+        background-color: @color-blue-light;
         text-align: center;
         padding-top: 4px;
       }
