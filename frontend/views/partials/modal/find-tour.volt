@@ -149,8 +149,14 @@
 									</div>
 									<div class="form-group">
 										<label for="find-phone">Телефон</label>
-										<input class="form-control" type="text" name="find-phone" id="find-phone"
-											   placeholder="" required />
+										<input class="form-control"
+											   type="text"
+											   name="find-phone"
+											   id="find-phone"
+											   data-inputmask="'mask':'+7 (999) 999-99-99'"
+											   placeholder="+7 (495) 123-45-67"
+											   required
+										/>
 									</div>
 								</div>
 							</div>

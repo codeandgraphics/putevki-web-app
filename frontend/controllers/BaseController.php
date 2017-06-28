@@ -3,6 +3,7 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
+use Models\SearchQuery;
 use Models\StoredQueries;
 use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
@@ -23,12 +24,8 @@ class BaseController extends Controller
 
 	public function initialize()
 	{
-		// TODO: last queries
-		if (array_key_exists('lastQueries', $_COOKIE)) {
-			$queries = json_decode($_COOKIE['lastQueries']);
-			if ($queries) {
-				$this->lastQueries = array_reverse($queries);
-			}
+		if (array_key_exists(SearchQuery::LAST_QUERIES_KEY, $_COOKIE)) {
+			$this->lastQueries = json_decode($_COOKIE[SearchQuery::LAST_QUERIES_KEY]);
 		}
 
 		$this->params = Params::getInstance();

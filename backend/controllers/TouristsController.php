@@ -76,7 +76,7 @@ class TouristsController extends ControllerBase
 			echo json_encode($response);
 			$this->view->disable();
 		} else {
-			$this->response->redirect('404');
+			$this->response->redirect($this->backendUrl->get('404'));
 		}
 	}
 
@@ -97,7 +97,7 @@ class TouristsController extends ControllerBase
 				$tourist->save();
 			}
 		} else {
-			$this->response->redirect('404');
+			$this->response->redirect($this->backendUrl->get('404'));
 		}
 
 
@@ -157,7 +157,7 @@ class TouristsController extends ControllerBase
 
 			$this->view->disable();
 		} else {
-			$this->request->redirect('404');
+			$this->request->redirect($this->backendUrl->get('404'));
 		}
 
 
@@ -222,7 +222,7 @@ class TouristsController extends ControllerBase
 
 			if ($tourist->save()) {
 				$this->flashSession->success('Турист успешно добавлен');
-				return $this->response->redirect('tourists/edit/' . $tourist->id);
+				return $this->response->redirect($this->backendUrl->get('tourists/edit/' . $tourist->id));
 			}
 
 			foreach ($tourist->getMessages() as $message) {

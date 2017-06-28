@@ -136,28 +136,38 @@ class EmailController extends ControllerBase
 		$tour->price = $request->price;
 		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 
-		$tour->agreementLink = $this->config->frontend->publicURL . 'tour/agreement/' . $request->id;
-		$tour->bookingLink = $this->config->frontend->publicURL . 'tour/booking/' . $request->id;
+		$tour->agreementLink = $this->url->get('tour/agreement/' . $request->id);
+		$tour->bookingLink = $this->url->get('tour/booking/' . $request->id);
 
 		$tour->flight = new \stdClass();
 
 		if ($request->flightToNumber) {
+			$tour->flight->to = new \stdClass();
 			$tour->flight->to->number = $request->flightToNumber;
 			$tour->flight->to->plane = $request->flightToPlane;
 			$tour->flight->to->carrier = $request->flightToCarrier;
+
+			$tour->flight->to->departure = new \stdClass();
 			$tour->flight->to->departure->date = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
 			$tour->flight->to->departure->time = $request->flightToDepartureTime;
 			$tour->flight->to->departure->terminal = $request->flightToDepartureTerminal;
+
+			$tour->flight->to->arrival = new \stdClass();
 			$tour->flight->to->arrival->date = Utils\Text::formatToDayMonth($request->flightToArrivalDate, 'Y-m-d');
 			$tour->flight->to->arrival->time = $request->flightToArrivalTime;
 			$tour->flight->to->arrival->terminal = $request->flightToArrivalTerminal;
 
+			$tour->flight->from = new \stdClass();
 			$tour->flight->from->number = $request->flightFromNumber;
 			$tour->flight->from->plane = $request->flightFromPlane;
 			$tour->flight->from->carrier = $request->flightFromCarrier;
+
+			$tour->flight->from->departure = new \stdClass();
 			$tour->flight->from->departure->date = Utils\Text::formatToDayMonth($request->flightFromDepartureDate, 'Y-m-d');
 			$tour->flight->from->departure->time = $request->flightFromDepartureTime;
 			$tour->flight->from->departure->terminal = $request->flightFromDepartureTerminal;
+
+			$tour->flight->from->arrival = new \stdClass();
 			$tour->flight->from->arrival->date = Utils\Text::formatToDayMonth($request->flightFromArrivalDate, 'Y-m-d');
 			$tour->flight->from->arrival->time = $request->flightFromArrivalTime;
 			$tour->flight->from->arrival->terminal = $request->flightFromArrivalTerminal;
@@ -165,15 +175,14 @@ class EmailController extends ControllerBase
 			$tour->flight = false;
 		}
 
-
 		if ($type === 'online') {
 			$payment = Payments::findFirst('requestId = ' . $request->id);
-			$tour->payLink = $this->config->frontend->publicURL . 'pay/' . $payment->id;
+			$tour->payLink = $this->url->get('pay/' . $payment->id);
 
 			$params = [
 				'tour' => $tour,
 				'year' => date('Y'),
-				'phone' => $this->config->frontend->phone
+				'phone' => $this->config->defaults->phone
 			];
 
 			$body = $this->generate('online', $params);
@@ -224,9 +233,9 @@ class EmailController extends ControllerBase
 	public function generate($template, $params)
 	{
 		$this->simpleView->setVars([
-			'baseUrl' => $this->config->frontend->publicURL,
-			'adminUrl' => $this->config->backend->publicURL,
-			'assetsUrl' => $this->config->frontend->publicURL . 'assets',
+			'baseUrl' => $this->url->get(),
+			'adminUrl' => $this->url->get(),
+			'assetsUrl' => $this->url->getStatic(),
 			'year' => date('Y')
 		]);
 

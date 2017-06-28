@@ -95,7 +95,7 @@
 				</table>
 				<br/>
 				{% endif %}
-				<a href="{{ url('payments/') }}?request={{ req.id }}" target="_blank" class="btn btn-default btn-block btn-xs btn-stroke file">
+				<a href="{{ backend_url('payments/') }}?request={{ req.id }}" target="_blank" class="btn btn-default btn-block btn-xs btn-stroke file">
 					<i class="fa fa-money"></i>
 					<span>Все платежи</span>
 				</a>

@@ -34,7 +34,7 @@ class UsersController extends ControllerBase
 				if ($this->security->checkHash($password, $user->password)) {
 					$this->_registerSession($user);
 					$this->flashSession->success('Вы успешно вошли в систему');
-					return $this->response->redirect('');
+					return $this->response->redirect($this->backendUrl->get(''));
 				}
 				$this->flashSession->error('Неправильный пароль');
 			} else {
@@ -48,7 +48,7 @@ class UsersController extends ControllerBase
 		$this->session->destroy();
 		$this->flashSession->success('Вы вышли из системы');
 
-		return $this->response->redirect('');
+		return $this->response->redirect($this->backendUrl->get(''));
 	}
 
 	public function registerAction()

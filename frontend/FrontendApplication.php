@@ -36,6 +36,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 			'config',
 			'loader',
 			'url',
+			'backendUrl',
 			'managers',
 			'router',
 			'session',
@@ -91,6 +92,22 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 			$url->setBaseUri($baseUri);
 			$url->setStaticBaseUri($staticUri);
+
+			return $url;
+		});
+	}
+
+	protected function backendUrl()
+	{
+		$this->getDI()->setShared('backendUrl', function () {
+			$url = new \Phalcon\Mvc\Url();
+
+			$config = $this->getConfig();
+
+			$protocol = $config->app->https ? 'https://' : 'http://';
+			$baseUri = $protocol . $config->app->domain . $config->backend->baseUri;
+
+			$url->setBaseUri($baseUri);
 
 			return $url;
 		});

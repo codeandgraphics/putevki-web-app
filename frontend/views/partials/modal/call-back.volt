@@ -16,7 +16,14 @@
 					<form method="post" data-toggle="validator">
 						<div class="form-group">
 							<label for="callback-phone">Просто оставьте нам свой номер телефона, и мы вам перезвоним!</label>
-							<input type="tel" name="findPhone" class="form-control" id="callback-phone" placeholder="+7 495 123-45-67" required>
+							<input type="tel"
+								   data-inputmask="'mask':'+7 (999) 999-99-99'"
+								   placeholder="+7 (495) 123-45-67"
+								   name="findPhone"
+								   class="form-control"
+								   id="callback-phone"
+								   required
+							/>
 						</div>
 
 						<div class="submit">
@@ -24,14 +31,14 @@
 						</div>
 
 						{% if lastQueries|length > 0 %}
-						<div class="queries">
-							<h4>Вы искали:</h4>
-							<ul class="list-unstyled">
-{% for query in lastQueries %}
-								<li>{{ query }}<input type="hidden" name="query[]" value="{{query}}" /></li>
-{% endfor %}
-							</ul>
-						</div>
+							<div class="queries">
+								<h4>Вы искали:</h4>
+								<ul class="list-unstyled">
+									{% for query in lastQueries %}
+										<li>{{ query }}<input type="hidden" name="query[]" value="{{query}}" /></li>
+									{% endfor %}
+								</ul>
+							</div>
 						{% endif %}
 
 						<p>Наши менеджеры свяжутся с вами и помогут подобрать лучшую путёвку.<br/>Абсолютно бесплатно!</p>

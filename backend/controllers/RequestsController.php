@@ -118,7 +118,7 @@ class RequestsController extends ControllerBase
 					}
 
 					$this->flashSession->success('Заявка успешно добавлена!');
-					return $this->response->redirect('requests/edit/' . $request->id);
+					return $this->response->redirect($this->backendUrl->get('requests/edit/' . $request->id));
 				} else {
 					foreach ($request->getMessages() as $message) {
 						$this->flashSession->error($message);
@@ -249,7 +249,7 @@ class RequestsController extends ControllerBase
 					}
 
 					$this->flashSession->success('Заявка успешно сохранена!');
-					return $this->response->redirect('requests/edit/' . $request->id);
+					return $this->response->redirect($this->backendUrl->get('requests/edit/' . $request->id));
 				} else {
 					foreach ($request->getMessages() as $message) {
 						$this->flashSession->error($message);
@@ -277,7 +277,7 @@ class RequestsController extends ControllerBase
 			$this->flashSession->error('Заявка не найдена!');
 		}
 
-		return $this->response->redirect('requests');
+		return $this->response->redirect($this->backendUrl->get('requests'));
 	}
 
 	public function bookingAction($requestId, $download = null)
@@ -301,6 +301,8 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
 
+		$pdf->setTitle('Лист бронирования');
+
 		if ($download) {
 			$pdf->Output('booking-' . $request->getNumber() . '.pdf', 'D');
 		} else {
@@ -318,7 +320,7 @@ class RequestsController extends ControllerBase
 		$request = Requests::findFirst('id = ' . $requestId);
 
 		$this->simpleView->setVar('req', $request);
-		$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
+		$this->simpleView->setVar('assetsUrl', $this->url->getStatic('static'));
 		$html = $this->simpleView->render('requests/pdf/agreement');
 		$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
 
@@ -329,6 +331,8 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLHeader($header);
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
+
+		$pdf->setTitle('Договор оферты №' . $request->getNumber());
 
 		if ($download) {
 			$pdf->Output('agreement-' . $request->getNumber() . '.pdf', 'D');
@@ -357,7 +361,7 @@ class RequestsController extends ControllerBase
 			echo json_encode($response);
 			$this->view->disable();
 		} else {
-			$this->response->redirect('404');
+			$this->response->redirect($this->backendUrl->get('404'));
 		}
 	}
 }

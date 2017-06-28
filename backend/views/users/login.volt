@@ -8,7 +8,7 @@
 		<h1>Путевки.ру</h1>
 	</div>
 	<div class="panel-body mt20">
-		{{ form("users/login", 'autocomplete': 'off') }}
+		<form action="{{ backend_url('users/login') }}" method="post" autocomplete="off">
 			<div class="form-group mb10">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

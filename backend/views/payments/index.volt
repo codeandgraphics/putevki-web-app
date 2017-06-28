@@ -16,7 +16,7 @@
 'canceled'			: 'Отменен'
 ] %}
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li class="active">Все платежи</li>
 </ol>
 
@@ -67,14 +67,14 @@
 					</td>
 					<td>
 						{% if payment.status not in paymentStatuses %}
-						<a href="{{ publicUrl }}pay/{{ payment.id }}" target="_blank">{{ publicUrl }}pay/{{ payment.id }}</a>
+						<a href="{{ url('pay') }}/{{ payment.id }}" target="_blank">{{ url('pay') }}/{{ payment.id }}</a>
 						{% else %}
 						<s>{{ publicUrl }}pay/{{ payment.id }}</s>
 						{% endif %}
 					</td>
 					<td>
 						{% if payment.request %}
-						<a href="{{ url('requests') }}/edit/{{ payment.request.id }}">
+						<a href="{{ backend_url('requests') }}/edit/{{ payment.request.id }}">
 							Заявка №{{ payment.request.id }}
 						</a>
 						{% else %}
@@ -104,7 +104,7 @@
 			<ul class="pagination">
 				{% if page.before != page.current %}
 				<li class="paginate_button">
-					<a href="{{ url('payments') }}?page={{ page.before }}">назад</a>
+					<a href="{{ backend_url('payments') }}?page={{ page.before }}">назад</a>
 				</li>
 				{% else %}
 				<li class="paginate_button disabled">
@@ -116,13 +116,13 @@
 
 				{% for i in 1..page.total_pages %}
 				<li class="paginate_button{% if page.current == i %} active{% endif %}">
-					<a href="{{ url('payments') }}?page={{ i }}">{{ i }}</a>
+					<a href="{{ backend_url('payments') }}?page={{ i }}">{{ i }}</a>
 				</li>
 				{% endfor %}
 
 				{% if page.next != page.current %}
 				<li>
-					<a href="{{ url('payments') }}?page={{ page.next }}">вперед</a>
+					<a href="{{ backend_url('payments') }}?page={{ page.next }}">вперед</a>
 				</li>
 				{% else %}
 				<li class="disabled">
@@ -144,7 +144,7 @@
 			{
 				var $row = $(this).parent().parent();
 				var paymentId = $row.data('payment-id');
-				$.post("{{ url('payments/delete') }}", { 'paymentId': paymentId}, function(response){
+				$.post("{{ backend_url('payments/delete') }}", { 'paymentId': paymentId}, function(response){
 					$row.remove();
 				}, 'json');
 			}

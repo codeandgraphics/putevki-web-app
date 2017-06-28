@@ -35,6 +35,7 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 			'config',
 			'loader',
 			'url',
+			'backendUrl',
 			'managers',
 			'session',
 			'db',
@@ -78,6 +79,27 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 	protected function url()
 	{
 		$this->getDI()->set('url', function () {
+			$url = new \Phalcon\Mvc\Url();
+
+			$config = $this->getConfig();
+
+			$protocol = $config->app->https ? 'https://' : 'http://';
+			$baseUri = $protocol . $config->app->domain . $config->frontend->baseUri;
+
+			$staticUri = $protocol .
+				$config->app->staticDomain .
+				str_replace('%version%', $config->frontend->version, $config->frontend->staticUri);
+
+			$url->setBaseUri($baseUri);
+			$url->setStaticBaseUri($staticUri);
+
+			return $url;
+		});
+	}
+
+	protected function backendUrl()
+	{
+		$this->getDI()->setShared('backendUrl', function () {
 			$url = new \Phalcon\Mvc\Url();
 
 			$config = $this->getConfig();
@@ -181,6 +203,9 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 					'compiledPath' => APP_PATH . $this->getConfig()->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
+				$volt->getCompiler()->addFunction('backend_url', function($resolvedParams) {
+					return "\Phalcon\Di::getDefault()->get('backendUrl')->get(" . $resolvedParams . ')';
+				});
 				return $volt;
 			}));
 			return $view;

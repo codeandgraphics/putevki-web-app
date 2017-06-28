@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ url('assets/css/pdf/style.css') }}" />
+<link rel="stylesheet" href="{{ static_url('static/css/pdf/style.css') }}" />
 <div class="header-wrap">&nbsp;</div>
 <table class="title">
 	<tr>

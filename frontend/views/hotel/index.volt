@@ -62,6 +62,7 @@
 								  data-people='{{ params.search.people|json_encode }}'
 								  data-filters='{{ params.search.filters|json_encode }}'
 							>
+								{% set departure = params.search.fromEntity() %}
 								<div class="form-container">
 									<div class="loader" style="display: none;">
 										<div class="wrap">

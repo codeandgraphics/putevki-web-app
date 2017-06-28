@@ -90,7 +90,7 @@ class AjaxController extends BaseController
 		foreach ($form->tourists as $i => $formTourist) {
 			$tourist = new \stdClass();
 
-			if (isset($formTourist->visa)) {
+			if (property_exists($formTourist, 'visa')) {
 				$fullPrice += $tour->visa;
 			}
 
@@ -101,7 +101,7 @@ class AjaxController extends BaseController
 			$tourist->passport_issued = $formTourist->issue;
 			$tourist->birthDate = $formTourist->birth;
 			$tourist->gender = ($formTourist->gender === 'man') ? 'm' : 'f';
-			$tourist->visa = ($formTourist->visa === 'on') ? 1 : 0;
+			$tourist->visa = (property_exists($formTourist, 'visa') && $formTourist->visa === 'on') ? 1 : 0;
 			$tourist->nationality = $formTourist->nationality;
 
 			$touristModel = Tourists::addOrUpdate($tourist);
@@ -116,7 +116,6 @@ class AjaxController extends BaseController
 		}
 
 		if ($request->save()) {
-
 
 			foreach ($tourists as $tourist) {
 				$requestTourist = new RequestTourists();

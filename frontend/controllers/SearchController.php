@@ -48,15 +48,18 @@ class SearchController extends BaseController
 		]);
 	}
 
-	public function hotelAction($from, $where, $hotelName, $hotelId, $date, $nights, $adults, $kids, $stars, $meal)
+	public function hotelAction()
 	{
         $params = Params::getInstance();
         $params->search->fromDispatcher($this->dispatcher);
-        //$params->store();
+        $params->store();
 
-		$searchQuery = new StoredQueries();
-		$searchQuery->fillFromParams($params);
+		$searchQuery = new SearchQuery();
+		$searchQuery->fromParams($params->search);
 		$searchQuery->run();
+
+		$hotelName = $this->dispatcher->getParam('hotelName', 'string');
+		$hotelId = $this->dispatcher->getParam('hotelId', 'int');
 
 		$response = new Response();
 

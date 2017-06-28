@@ -58,7 +58,7 @@
 
 				<div class="row checkout-block">
 					<div class="col-xs-5">
-						{{ partial('tour/partials/checkout') }}
+						{{ partial('tour/partials/checkout', ['small' : true]) }}
 					</div>
 					<div class="col-xs-7">
 

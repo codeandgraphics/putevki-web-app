@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li><a href="{{ url('requests') }}">Все заявки</a></li>
+	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('requests') }}">Все заявки</a></li>
 	<li class="active">Создание заявки</li>
 </ol>
 

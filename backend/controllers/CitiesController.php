@@ -107,7 +107,7 @@ class CitiesController extends ControllerBase
 
 			if ($city->save()) {
 				$this->flashSession->success('Город успешно добавлен');
-				return $this->response->redirect('cities/city/' . $city->id);
+				return $this->response->redirect($this->backendUrl->get('cities/city/' . $city->id));
 			}
 
 			foreach ($city->getMessages() as $message) {
@@ -188,7 +188,7 @@ class CitiesController extends ControllerBase
 					$email->sendPassword($manager->email, $password);
 
 					$this->flashSession->success('Филиал успешно добавлен');
-					return $this->response->redirect('cities/city/' . $city->id);
+					return $this->response->redirect($this->backendUrl->get('cities/city/' . $city->id));
 				}
 
 				$branch->delete();

@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li class="active">Города</li>
 </ol>
 
@@ -9,7 +9,7 @@
 
 <div class="panel">
 	<div class="panel-heading">
-		<a href="{{ url('cities/add') }}" class="btn btn-success pull-right">Добавить город</a>
+		<a href="{{ backend_url('cities/add') }}" class="btn btn-success pull-right">Добавить город</a>
 		<h4 class="panel-title">Все города</h4>
 		<p>Все города, представленные на сайте</p>
 	</div>
@@ -26,7 +26,7 @@
 			<tbody>
 			{% for city in cities %}
 			<tr>
-				<td><a href="{{ url('cities/city') }}/{{ city.id }}">{{ city.name }}</a></td>
+				<td><a href="{{ backend_url('cities/city') }}/{{ city.id }}">{{ city.name }}</a></td>
 				<td>{{ city.departure.name }}</td>
 				<td>{{ city.phone }}</td>
 				<td>{{ city.lat }}, {{ city.lon }}, {{city.zoom }}</td>

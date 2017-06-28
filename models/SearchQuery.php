@@ -7,11 +7,21 @@ use Models\Entities\Filters;
 use Models\Entities\People;
 use Models\Entities\When;
 use Models\Entities\Where;
+use Models\Tourvisor\Countries;
+use Models\Tourvisor\Departures;
+use Models\Tourvisor\Hotels;
+use Models\Tourvisor\Meals;
+use Models\Tourvisor\Regions;
+use Models\Tourvisor\Stars;
+use Phalcon\Di;
+use Utils\Text;
 use Utils\Tourvisor;
 
 class SearchQuery
 {
 	const DELAY_TIME = 600;
+
+	const LAST_QUERIES_KEY = 'last-queries';
 
 	public $from;
 	public $where;
@@ -57,6 +67,8 @@ class SearchQuery
 
 				$searchId = $response->result->requestid;
 
+				$this->addLastQuery();
+
 				StoredQueries::store($this, $searchId, $origin);
 
 				return $searchId;
@@ -65,6 +77,20 @@ class SearchQuery
 		}
 
 		return $existed;
+	}
+
+	public function addLastQuery() {
+		$lastQueries = [];
+
+		if (array_key_exists(self::LAST_QUERIES_KEY, $_COOKIE)) {
+			$lastQueries = json_decode($_COOKIE[self::LAST_QUERIES_KEY]);
+		}
+
+		$lastQueries = array_slice($lastQueries,0, 2);
+		array_unshift($lastQueries, $this->buildHumanizedQuery());
+
+		$cookieTimeout = Di::getDefault()->get('config')->common->cookieTimeout;
+		setcookie(self::LAST_QUERIES_KEY, json_encode($lastQueries), time() + $cookieTimeout, '/');
 	}
 
 	public function buildTourvisorQuery()
@@ -113,36 +139,69 @@ class SearchQuery
 
 	public function buildHumanizedQuery()
 	{
-		$queryString = $this->departure->name . ' — ';
+		$modelsManager = Di::getDefault()->get('modelsManager');
 
-		if ($this->countryId) {
-			$queryString .= $this->country->name;
+		$bind = [
+			'departure' => $this->from,
+			'country'   => $this->where->country,
+			'region'    => is_array($this->where->regions) ? $this->where->regions[0] : 0,
+			'hotel'     => $this->where->hotels,
+			'meal'      => $this->filters->meal,
+			'stars'     => $this->filters->stars
+		];
+
+		$builder = $modelsManager->createBuilder()
+			->columns([
+				'departure.name AS departureName',
+				'country.name AS countryName',
+				'region.name AS regionName',
+				'hotel.name AS hotelName',
+				'meal.name AS mealName',
+				'stars.name AS starsName'
+			])
+			->addFrom(Departures::name(), 'departure')
+			->leftJoin(Countries::name(), 'country.id = :country:', 'country')
+			->leftJoin(Regions::name(), 'region.id = :region:', 'region')
+			->leftJoin(Hotels::name(), 'hotel.id = :hotel:', 'hotel')
+			->leftJoin(Meals::name(), 'meal.id = :meal:', 'meal')
+			->leftJoin(Stars::name(), 'stars.id = :stars:', 'stars')
+			->where('departure.id = :departure:');
+
+		$info = $builder->getQuery()->getSingleResult($bind);
+
+		$queryString = $info->departureName . ' — ';
+
+		if ($info->countryName) {
+			$queryString .= $info->countryName;
 		}
 
-		if ($this->regionId) {
-			$queryString .= ' (' . $this->region->name . ')';
+		if ($info->regionName) {
+			$queryString .= ' (' . $info->regionName . ')';
 		}
 
-		if ($this->hotelId) {
-			$queryString .= ' ' . $this->hotel->name . '';
+		if ($info->hotelName) {
+			$queryString .= ' ' . $info->hotelName . '';
 		}
 
-		$queryString .= ', ' . implode('.', array_reverse(explode('-', $this->date))); //Хз что быстрее, strtotime или это
-		$queryString .= $this->date_range ? ' (±2 дня)' : '';
+		$queryString .= ', вылет ';
+		$queryString .= $this->when->isDateRange() ? $this->when->notRangeDate() : $this->when->dateFrom;
+		$queryString .= $this->when->isDateRange() ? ' (±2 дня)' : '';
 
-		$queryString .= ', ' . Text::humanize('nights', $this->nights);
-		$queryString .= $this->nights_range ? ' (±2 ночи)' : '';
+		$queryString .= ' на ';
+		$nights = $this->when->isNightsRange() ? $this->when->notRangeNights() : $this->when->nightsFrom;
+		$queryString .= Text::humanize('nights', $nights);
+		$queryString .= $this->when->isNightsRange() ? ' (±2 ночи)' : '';
 
-		$queryString .= ', ' . $this->adults . ' ' . Text::humanize('adults', $this->adults);
+		$queryString .= ', ' . $this->people->adults . ' ' . Text::humanize('adults', $this->people->adults);
 
-		$kidsCount = substr_count($this->kids, '+') + 1; // count(explode('+',$this->kids));
 
-		if ($kidsCount > 0) {
+		if (is_array($this->people->children)) {
+			$kidsCount = count($this->people->children);
 			$queryString .= ', ' . $kidsCount . ' ' . Text::humanize('kids', $kidsCount);
 		}
 
-		$queryString .= ', ' . $this->starsId . ' звезд и выше';
-		$queryString .= ', ' . $this->meal->name;
+		$queryString .= ', ' . $info->starsName . ' звезд и выше';
+		$queryString .= ', ' . $info->mealName;
 
 		return $queryString;
 
