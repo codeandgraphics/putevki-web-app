@@ -6,7 +6,6 @@ use Models\Entities\Filters;
 use Models\Entities\People;
 use Models\Entities\When;
 use Models\Entities\Where;
-use Models\StoredQueries;
 use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
 use Models\Tourvisor\Hotels;

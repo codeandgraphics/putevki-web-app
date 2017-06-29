@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Mvc\Application;
 use Phalcon\Config\Adapter\Ini as Config;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Events\Manager as EventsManager;
@@ -8,7 +9,7 @@ use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Dispatcher;
 
-class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface
+class FrontendApplication extends Application
 {
 
 	const ENV_DEVELOPMENT = 'development';
@@ -63,25 +64,22 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		$this->setENV($config->frontend->env);
 		date_default_timezone_set($config->app->timezone);
 
-		$this->getDI()->set('config', $config);
-
-		$this->setConfig($config);
+		$this->di->set('config', $config);
 	}
 
 	protected function managers()
 	{
-		$di = $this->getDI();
-		$di->setShared('eventsManager', new EventsManager());
-		$di->setShared('modelsManager', new ModelsManager());
-		$di->setShared('transactionManager', new TransactionManager());
+		$this->di->setShared('eventsManager', new EventsManager());
+		$this->di->setShared('modelsManager', new ModelsManager());
+		$this->di->setShared('transactionManager', new TransactionManager());
 	}
 
 	protected function url()
 	{
-		$this->getDI()->set('url', function () {
+		$this->di->set('url', function () {
 			$url = new \Phalcon\Mvc\Url();
 
-			$config = $this->getConfig();
+			$config = $this->get('config');
 
 			$protocol = $config->app->https ? 'https://' : 'http://';
 			$baseUri = $protocol . $config->app->domain . $config->frontend->baseUri;
@@ -99,10 +97,10 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	protected function backendUrl()
 	{
-		$this->getDI()->setShared('backendUrl', function () {
+		$this->di->setShared('backendUrl', function () {
 			$url = new \Phalcon\Mvc\Url();
 
-			$config = $this->getConfig();
+			$config = $this->get('config');
 
 			$protocol = $config->app->https ? 'https://' : 'http://';
 			$baseUri = $protocol . $config->app->domain . $config->backend->baseUri;
@@ -115,8 +113,9 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	protected function db()
 	{
-		$this->getDI()->setShared('db', function () {
-			$config = $this->getConfig();
+		$this->di->setShared('db', function () {
+
+			$config = $this->get('config');
 
 			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
 				'host' => $config->database->host,
@@ -125,7 +124,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 				'dbname' => $config->database->dbname,
 				'charset' => $config->database->charset
 			]);
-			$connection->setEventsManager($this->getDI()->getShared('eventsManager'));
+			$connection->setEventsManager($this->getShared('eventsManager'));
 			return $connection;
 		});
 	}
@@ -133,7 +132,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 	protected function loader()
 	{
 		$loader = new \Phalcon\Loader();
-		$loaderConfig = $this->getDI()->get('config')->loader;
+		$loaderConfig = $this->di->get('config')->loader;
 
 		if (property_exists($loaderConfig, 'namespaces') && count($loaderConfig->namespaces) > 0) {
 			if (property_exists($loaderConfig, 'frontend') && count($loaderConfig->frontend) > 0) {
@@ -155,7 +154,7 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	protected function session()
 	{
-		$this->getDI()->set(
+		$this->di->set(
 			'session',
 			function () {
 				$session = new SessionAdapter();
@@ -167,10 +166,10 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	protected function dispatcher()
 	{
-		$this->getDI()->set(
+		$this->di->set(
 			'dispatcher',
 			function () {
-				$eventsManager = $this->getDI()->getShared('eventsManager');
+				$eventsManager = $this->getShared('eventsManager');
 				$eventsManager->attach(
 					'dispatch:beforeException',
 					function ($event, $dispatcher, $exception) {
@@ -198,20 +197,23 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 
 	protected function router()
 	{
-		$this->getDI()->setShared('router', function () {
+		$this->di->setShared('router', function () {
 			return require APP_PATH . 'frontend/Routes.php';
 		});
 	}
 
 	protected function view()
 	{
-		$this->getDI()->set('view', function () {
+		$this->di->set('view', function () {
+
+			$config = $this->get('config');
+
 			$view = new View();
-			$view->setViewsDir(APP_PATH . $this->getConfig()->frontend->viewsDir);
-			$view->registerEngines(array('.volt' => function ($view, $di) {
+			$view->setViewsDir(APP_PATH . $config->frontend->viewsDir);
+			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
 				$volt = new View\Engine\Volt($view, $di);
 				$volt->setOptions(array(
-					'compiledPath' => APP_PATH . $this->getConfig()->common->cacheDir . 'volt/',
+					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
 				return $volt;
@@ -220,10 +222,12 @@ class FrontendApplication extends \Phalcon\Mvc\Application implements \Phalcon\D
 		});
 
 
+		$this->di->set('simpleView', function () {
 
-		$this->getDI()->set('simpleView', function () {
+			$config = $this->get('config');
+
 			$view = new Phalcon\Mvc\View\Simple();
-			$view->setViewsDir(APP_PATH . $this->getConfig()->backend->viewsDir);
+			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
 			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
 			return $view;
 		});

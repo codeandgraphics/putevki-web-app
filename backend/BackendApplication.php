@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
 
-class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di\InjectionAwareInterface
+class BackendApplication extends \Phalcon\Mvc\Application
 {
 	const ENV_DEVELOPMENT = 'development';
 	const ENV_PRODUCTION = 'production';
@@ -24,7 +24,6 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 		$this->initDI();
 
 		setlocale(LC_TIME, 'ru_RU');
-
 	}
 
 	protected function initDI()
@@ -59,29 +58,25 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 		$this->setENV($config->backend->env);
 		date_default_timezone_set($config->app->timezone);
 
-		$this->getDI()->set('config', $config);
-
-		$this->setConfig($config);
+		$this->di->set('config', $config);
 	}
 
 	protected function managers()
 	{
-		$di = $this->getDI();
-
 		$eventsManager = new EventsManager();
 		$eventsManager->attach('dispatch:beforeDispatch', new Backend\Plugins\Security);
 
-		$di->setShared('eventsManager', $eventsManager);
-		$di->setShared('modelsManager', new ModelsManager());
-		$di->setShared('transactionManager', new TransactionManager());
+		$this->di->setShared('eventsManager', $eventsManager);
+		$this->di->setShared('modelsManager', new ModelsManager());
+		$this->di->setShared('transactionManager', new TransactionManager());
 	}
 
 	protected function url()
 	{
-		$this->getDI()->set('url', function () {
+		$this->di->set('url', function () {
 			$url = new \Phalcon\Mvc\Url();
 
-			$config = $this->getConfig();
+			$config = $this->get('config');
 
 			$protocol = $config->app->https ? 'https://' : 'http://';
 			$baseUri = $protocol . $config->app->domain . $config->frontend->baseUri;
@@ -99,10 +94,10 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 
 	protected function backendUrl()
 	{
-		$this->getDI()->setShared('backendUrl', function () {
+		$this->di->setShared('backendUrl', function () {
 			$url = new \Phalcon\Mvc\Url();
 
-			$config = $this->getConfig();
+			$config = $this->get('config');
 
 			$protocol = $config->app->https ? 'https://' : 'http://';
 			$baseUri = $protocol . $config->app->domain . $config->backend->baseUri;
@@ -115,8 +110,8 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 
 	protected function db()
 	{
-		$this->getDI()->setShared('db', function () {
-			$config = $this->getConfig();
+		$this->di->setShared('db', function () {
+			$config = $this->get('config');
 
 			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
 				'host' => $config->database->host,
@@ -125,14 +120,14 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 				'dbname' => $config->database->dbname,
 				'charset' => $config->database->charset
 			]);
-			$connection->setEventsManager($this->getDI()->getShared('eventsManager'));
+			$connection->setEventsManager($this->getShared('eventsManager'));
 			return $connection;
 		});
 	}
 
 	protected function flashSession()
 	{
-		$this->getDI()->set('flashSession', function () {
+		$this->di->set('flashSession', function () {
 			return new FlashSession(
 				array(
 					'error' => 'danger',
@@ -147,7 +142,7 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 	protected function loader()
 	{
 		$loader = new \Phalcon\Loader();
-		$loaderConfig = $this->getDI()->get('config')->loader;
+		$loaderConfig = $this->di->get('config')->loader;
 
 		if (property_exists($loaderConfig, 'namespaces') && count($loaderConfig->namespaces) > 0) {
 			if (property_exists($loaderConfig, 'backend') && count($loaderConfig->backend) > 0) {
@@ -169,7 +164,7 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 
 	protected function session()
 	{
-		$this->getDI()->set(
+		$this->di->set(
 			'session',
 			function () {
 				$session = new SessionAdapter();
@@ -181,12 +176,12 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 
 	protected function dispatcher()
 	{
-		$this->getDI()->set(
+		$this->di->set(
 			'dispatcher',
 			function () {
 				$dispatcher = new \Phalcon\Mvc\Dispatcher();
 				$dispatcher->setDefaultNamespace('Backend\Controllers');
-				$dispatcher->setEventsManager($this->getDI()->getShared('eventsManager'));
+				$dispatcher->setEventsManager($this->getShared('eventsManager'));
 				return $dispatcher;
 			}
 		);
@@ -194,13 +189,13 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 
 	protected function view()
 	{
-		$this->getDI()->set('view', function () {
+		$this->di->set('view', function () {
 			$view = new View();
-			$view->setViewsDir(APP_PATH . $this->getConfig()->backend->viewsDir);
+			$view->setViewsDir(APP_PATH . $this->get('config')->backend->viewsDir);
 			$view->registerEngines(array('.volt' => function ($view, $di) {
 				$volt = new View\Engine\Volt($view, $di);
 				$volt->setOptions(array(
-					'compiledPath' => APP_PATH . $this->getConfig()->common->cacheDir . 'volt/',
+					'compiledPath' => APP_PATH . $this->get('config')->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
 				$volt->getCompiler()->addFunction('backend_url', function($resolvedParams) {
@@ -211,9 +206,9 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 			return $view;
 		});
 
-		$this->getDI()->set('simpleView', function () {
+		$this->di->set('simpleView', function () {
 			$view = new Phalcon\Mvc\View\Simple();
-			$view->setViewsDir(APP_PATH . $this->getConfig()->backend->viewsDir);
+			$view->setViewsDir(APP_PATH . $this->get('config')->backend->viewsDir);
 			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
 			return $view;
 		});
@@ -236,26 +231,4 @@ class BackendApplication extends \Phalcon\Mvc\Application implements \Phalcon\Di
 	{
 		$this->_ENV = $ENV;
 	}
-
-	/**
-	 * Get the dependency injector
-	 *
-	 * @return Config
-	 */
-	public function getConfig()
-	{
-		return $this->_config;
-	}
-
-	/**
-	 * Sets the dependency injector
-	 *
-	 * @param mixed $config
-	 */
-	public function setConfig(Config $config)
-	{
-		$this->_config = $config;
-	}
-
-
 }

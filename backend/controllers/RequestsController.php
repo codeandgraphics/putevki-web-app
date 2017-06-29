@@ -300,8 +300,7 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLHeader($header);
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
-
-		$pdf->setTitle('Лист бронирования');
+		$pdf->SetTitle('Лист бронирования');
 
 		if ($download) {
 			$pdf->Output('booking-' . $request->getNumber() . '.pdf', 'D');
@@ -331,8 +330,7 @@ class RequestsController extends ControllerBase
 		$pdf->SetHTMLHeader($header);
 		$pdf->SetHTMLFooter($footer);
 		$pdf->WriteHTML($html, 2);
-
-		$pdf->setTitle('Договор оферты №' . $request->getNumber());
+		$pdf->SetTitle('Договор оферты №' . $request->getNumber());
 
 		if ($download) {
 			$pdf->Output('agreement-' . $request->getNumber() . '.pdf', 'D');
