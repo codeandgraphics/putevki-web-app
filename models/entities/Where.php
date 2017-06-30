@@ -56,7 +56,7 @@ class Where
 	public function getRegionsString()
 	{
 		if (count($this->regions) === 0) {
-			return null;
+			return 0;
 		}
 		return implode(self::REGIONS_SEPARATOR, $this->regions);
 	}

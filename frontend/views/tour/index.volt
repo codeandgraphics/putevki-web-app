@@ -52,7 +52,7 @@ $date = DateTime::createFromFormat('d.m.Y',$tour->flydate);
 				</div>
 				<div class="content">
 					<div class="wrap" id="prices">
-						{{ partial('tour/partials/checkout') }}
+						{{ partial('tour/partials/checkout', ['small': false]) }}
 					</div>
 
 					{{ partial('partials/tour-includes') }}

@@ -16,6 +16,65 @@
 		}
 	}
 
+	.list .items .item .variants .variant > div {
+		&.operator{
+			width: 175px;
+			left: 0;
+
+			.data{
+				margin-left: 35px;
+
+				span{
+					width: 140px;
+				}
+			}
+		}
+
+		&.date{
+			width: 130px;
+			left: 175px;
+
+			.data {
+				span{
+					width: 100px;
+				}
+			}
+		}
+
+		&.room{
+			width: 230px;
+			left: 305px;
+
+			.data {
+				span{
+					width: 200px;
+					text-transform: capitalize;
+				}
+			}
+		}
+
+		&.meal{
+			width: 160px;
+			right: 150px;
+
+			.data {
+				span{
+					width: 130px;
+				}
+			}
+		}
+
+		&.price{
+			width: 150px;
+			right: 0;
+
+			.data {
+				margin: 0;
+				text-align: right;
+			}
+		}
+	}
+
 	#tour .sidebar .head .low-price .wrap .text {
 		margin-left: 85px;
 		font-size: 15px;

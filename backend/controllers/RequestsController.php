@@ -5,6 +5,7 @@
 namespace Backend\Controllers;
 
 use Models\Branches;
+use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Select;
@@ -164,6 +165,8 @@ class RequestsController extends ControllerBase
 		$form->add(new Text('subjectAddress'));
 		$form->add(new Text('subjectPhone'));
 		$form->add(new Text('subjectEmail'));
+
+		$form->add(new TextArea('comment'));
 
 		$form->add(new Text('hotelName'));
 		$form->add(new Text('hotelCountry'));

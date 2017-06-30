@@ -55,7 +55,7 @@ class EmailController extends ControllerBase
 		$body = $this->generate('managerNotification', $params);
 
 		$mailgun = new Mailgun();
-		$mailgun->send($this->config->backend->requestEmail, 'Новая заявка на тур', $body);
+		$mailgun->send($this->config->defaults->requestsEmail, 'Новая заявка на тур', $body);
 
 	}
 
@@ -213,7 +213,7 @@ class EmailController extends ControllerBase
 		$body = $this->generate('findTour', $params);
 
 		$mailgun = new Mailgun();
-		$mailgun->send($this->config->backend->requestEmail, 'Заявка на подбор тура на Путевки.ру', $body);
+		$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на подбор тура на Путевки.ру', $body);
 	}
 
 	public function sendTourHelp($phone, $queries)
@@ -227,14 +227,14 @@ class EmailController extends ControllerBase
 		$body = $this->generate('tourHelp', $params);
 
 		$mailgun = new Mailgun();
-		$mailgun->send($this->config->backend->requestEmail, 'Заявка на звонок на Путевки.ру', $body);
+		$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на звонок на Путевки.ру', $body);
 	}
 
 	public function generate($template, $params)
 	{
 		$this->simpleView->setVars([
 			'baseUrl' => $this->url->get(),
-			'adminUrl' => $this->url->get(),
+			'adminUrl' => $this->backendUrl->get(),
 			'assetsUrl' => $this->url->getStatic(),
 			'year' => date('Y')
 		]);

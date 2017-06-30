@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import Bloodhound from 'typeahead.js';
+import 'bootstrap-validator';
 
 import { IS_DEV } from '../../app.es6';
+import { serializeForm } from '../utils/helpers.es6';
 
 class FindTourModal {
   constructor() {
@@ -32,8 +34,10 @@ class FindTourModal {
 
     const self = this;
 
-    this.$.modal.find('#sendFind').on('click', function clickSend() {
+    this.$.modal.find('#sendFind').on('click', function clickSend(e) {
       self.sendAction($(this));
+      e.preventDefault();
+      return false;
     });
 
     this.setValue('departure', self.fromId);
@@ -67,7 +71,8 @@ class FindTourModal {
 
       this.$.modal.modal('hide');
 
-      const dataString = JSON.stringify(self.data);
+      const dataString = JSON.stringify(this.data);
+
 
       $('#onlineStatusModal').modal({
         backdrop: 'static',
@@ -295,7 +300,8 @@ export default class Modals {
   }
 
   initCallBackModal() {
-    this.$.callBackModal.find('form').on('submit', function submitForm() {
+    this.$.callBackModal.find('form').on('submit', function submitForm(e) {
+      e.preventDefault();
       const $el = $(this);
 
       $el.validator('validate');
@@ -307,7 +313,7 @@ export default class Modals {
           offset: -120,
         });
       } else {
-        const formData = $el.serializeObject();
+        const formData = serializeForm($el);
 
         $(this).prop('disabled', true).addClass('disabled');
 
@@ -322,7 +328,6 @@ export default class Modals {
           }
         }, 'json');
       }
-
 
       return false;
     });

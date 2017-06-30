@@ -52,7 +52,6 @@ class SearchController extends BaseController
 	{
         $params = Params::getInstance();
         $params->search->fromDispatcher($this->dispatcher);
-        $params->store();
 
 		$searchQuery = new SearchQuery();
 		$searchQuery->fromParams($params->search);
