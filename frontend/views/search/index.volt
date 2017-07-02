@@ -24,7 +24,7 @@
 						</div>
 						<div class="search-process">
 							<div class="found">
-								Найдено еще <span class="tours-found"></span>
+								Нашли ещё <span class="tours-found"></span>
 								<p class="cheaper-found"> на <span class="price-found"></span> дешевле</p>
 								<p class="other-found">по цене от <span class="price-found"></span></p>
 								<button class="btn btn-default show-finished">Показать все</button>

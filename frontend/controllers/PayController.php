@@ -32,7 +32,7 @@ class PayController extends BaseController
 		$orderId = $this->request->get('Order_ID');
 
 		$paymentId = $uniteller->getPaymentId($orderId);
-		$payment = Payments::findFirst('id="' . $paymentId . '""');
+		$payment = Payments::findFirst('id="' . $paymentId . '"');
 
 		$this->view->setVar('payment', $payment);
 

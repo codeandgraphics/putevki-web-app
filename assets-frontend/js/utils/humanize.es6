@@ -54,7 +54,7 @@ export function hotelsFound(value) {
 
 export function tours(value) {
   if (value >= 5 && value <= 20) return `${value} путёвок`;
-  if (value % 10 === 1) return `${value} путёвка`;
+  if (value % 10 === 1) return `${value} путёвку`;
   if (value % 10 >= 2 && value % 10 < 5) return `${value} путёвки`;
   return `${value} путёвок`;
 }

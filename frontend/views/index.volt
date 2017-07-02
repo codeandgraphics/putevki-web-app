@@ -24,7 +24,7 @@
 	<meta property="og:image" content="{{ static_url() }}static/yo.png" />
 	<meta property="og:description" content="Поиск и продажа путёвок по ценам ниже чем у туроператоров" />
 
-	<script src="{{ static_url() }}bundle.js"></script>
+	<script src="{{ static_url('bundle.js') }}"></script>
 
 	<title>{{ title }} Путёвки.ру</title>
 </head>

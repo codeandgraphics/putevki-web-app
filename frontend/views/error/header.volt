@@ -4,7 +4,7 @@
 	<title>Путёвки.ру | Страница не найдена</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	{{ partial('exports/css') }}
+	<script src="{{ static_url('bundle.js') }}"></script>
 
 	<style>
 		.error-message {

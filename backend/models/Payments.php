@@ -48,7 +48,7 @@ class Payments extends BaseModel
 
 	public function getOrder()
 	{
-		return Di::getDefault()->get('config')->frontend->uniteller->orderPrefix . $this->id;
+		return Di::getDefault()->get('config')->uniteller->orderPrefix . $this->id;
 	}
 
 	/**

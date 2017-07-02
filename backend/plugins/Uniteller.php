@@ -47,20 +47,20 @@ class Uniteller extends Plugin
 
 	public function __construct()
 	{
-		$this->orderPrefix = $this->config->frontend->uniteller->orderPrefix;
+		$this->orderPrefix = $this->config->uniteller->orderPrefix;
 
-		$this->Preauth = $this->config->frontend->uniteller->preAuth;
+		$this->Preauth = $this->config->uniteller->preAuth;
 
-		$this->Shop_IDP = $this->config->frontend->uniteller->shopId;
-		$this->Lifetime = $this->config->frontend->uniteller->lifeTime;
-		$this->MeanType = $this->config->frontend->uniteller->meanType;
-		$this->EMoneyType = $this->config->frontend->uniteller->moneyType;
+		$this->Shop_IDP = str_replace('\'', '', $this->config->uniteller->shopId);
+		$this->Lifetime = $this->config->uniteller->lifeTime;
+		$this->MeanType = $this->config->uniteller->meanType;
+		$this->EMoneyType = $this->config->uniteller->moneyType;
 
-		$this->Login = $this->config->frontend->uniteller->login;
-		$this->Password = $this->config->frontend->uniteller->password;
+		$this->Login = $this->config->uniteller->login;
+		$this->Password = $this->config->uniteller->password;
 
-		$this->URL_RETURN_OK = $this->config->frontend->publicURL . $this->config->frontend->uniteller->urlOk;
-		$this->URL_RETURN_NO = $this->config->frontend->publicURL . $this->config->frontend->uniteller->urlNo;
+		$this->URL_RETURN_OK = $this->url->get($this->config->uniteller->urlOk);
+		$this->URL_RETURN_NO = $this->url->get($this->config->uniteller->urlNo);
 	}
 
 	public function setPayment($paymentId)

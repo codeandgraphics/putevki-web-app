@@ -54,101 +54,101 @@
 				</thead>
 				<tbody>
 				{% for payment in page.items %}
-				<tr class="table-{{ paymentClasses[payment.status] }}" data-payment-id="{{ payment.id }}">
-					<td>
-						<div class="label label-{{ paymentClasses[payment.status] }}">
-							{{ paymentTexts[payment.status] }}
-						</div>
-					</td>
-					<td>
-						<h4>
-							<?=\Utils\Text::humanize('price', $payment->sum);?><small> руб.</small>
-						</h4>
-					</td>
-					<td>
-						{% if payment.status not in paymentStatuses %}
-						<a href="{{ url('pay') }}/{{ payment.id }}" target="_blank">{{ url('pay') }}/{{ payment.id }}</a>
-						{% else %}
-						<s>{{ publicUrl }}pay/{{ payment.id }}</s>
-						{% endif %}
-					</td>
-					<td>
-						{% if payment.request %}
-						<a href="{{ backend_url('requests') }}/edit/{{ payment.request.id }}">
-							Заявка №{{ payment.request.id }}
-						</a>
-						{% else %}
-							не указан
-						{% endif %}
-					</td>
-					<td>
-						{{ payment.payDate }}
-					</td>
-					<td>
-						{% if payment.status not in paymentStatuses %}
-						<button class="btn btn-danger remove pull-right">
-							<i class="fa fa-remove"></i>
-						</button>
-						{% endif %}
-					</td>
-				</tr>
+					<tr class="table-{{ paymentClasses[payment.status] }}" data-payment-id="{{ payment.id }}">
+						<td>
+							<div class="label label-{{ paymentClasses[payment.status] }}">
+								{{ paymentTexts[payment.status] }}
+							</div>
+						</td>
+						<td>
+							<h4>
+								<?=\Utils\Text::humanize('price', $payment->sum);?><small> руб.</small>
+							</h4>
+						</td>
+						<td>
+							{% if payment.status not in paymentStatuses %}
+								<a href="{{ url('pay') }}/{{ payment.id }}" target="_blank">{{ url('pay') }}/{{ payment.id }}</a>
+							{% else %}
+								<s>{{ url('pay') }}/{{ payment.id }}</s>
+							{% endif %}
+						</td>
+						<td>
+							{% if payment.request %}
+								<a href="{{ backend_url('requests') }}/edit/{{ payment.request.id }}">
+									Заявка №{{ payment.request.id }}
+								</a>
+							{% else %}
+								не указан
+							{% endif %}
+						</td>
+						<td>
+							{{ payment.payDate }}
+						</td>
+						<td>
+							{% if payment.status not in paymentStatuses %}
+								<button class="btn btn-danger remove pull-right">
+									<i class="fa fa-remove"></i>
+								</button>
+							{% endif %}
+						</td>
+					</tr>
 				{% else %}
-				<tr>
-					<td colspan="7" class="not-found">Пока нет платежей</td>
-				</tr>
+					<tr>
+						<td colspan="7" class="not-found">Пока нет платежей</td>
+					</tr>
 				{% endfor %}
 				</tbody>
 			</table>
 
 			{% if page.items %}
-			<ul class="pagination">
-				{% if page.before != page.current %}
-				<li class="paginate_button">
-					<a href="{{ backend_url('payments') }}?page={{ page.before }}">назад</a>
-				</li>
-				{% else %}
-				<li class="paginate_button disabled">
+				<ul class="pagination">
+					{% if page.before != page.current %}
+						<li class="paginate_button">
+							<a href="{{ backend_url('payments') }}?page={{ page.before }}">назад</a>
+						</li>
+					{% else %}
+						<li class="paginate_button disabled">
 					<span>
 						назад
 					</span>
-				</li>
-				{% endif %}
+						</li>
+					{% endif %}
 
-				{% for i in 1..page.total_pages %}
-				<li class="paginate_button{% if page.current == i %} active{% endif %}">
-					<a href="{{ backend_url('payments') }}?page={{ i }}">{{ i }}</a>
-				</li>
-				{% endfor %}
+					{% for i in 1..page.total_pages %}
+						<li class="paginate_button{% if page.current == i %} active{% endif %}">
+							<a href="{{ backend_url('payments') }}?page={{ i }}">{{ i }}</a>
+						</li>
+					{% endfor %}
 
-				{% if page.next != page.current %}
-				<li>
-					<a href="{{ backend_url('payments') }}?page={{ page.next }}">вперед</a>
-				</li>
-				{% else %}
-				<li class="disabled">
+					{% if page.next != page.current %}
+						<li>
+							<a href="{{ backend_url('payments') }}?page={{ page.next }}">вперед</a>
+						</li>
+					{% else %}
+						<li class="disabled">
 					<span>
 						вперед
 					</span>
-				</li>
-				{% endif %}
-			</ul>
+						</li>
+					{% endif %}
+				</ul>
 			{% endif %}
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.payments button.remove').on('click', function(){
-			if(confirm('Вы действительно хотите удалить этот платеж?'))
-			{
-				var $row = $(this).parent().parent();
-				var paymentId = $row.data('payment-id');
-				$.post("{{ backend_url('payments/delete') }}", { 'paymentId': paymentId}, function(response){
-					$row.remove();
-				}, 'json');
-			}
-			return false;
-		});
-	});
+  $(document).ready(function(){
+    $('.payments button.remove').on('click', function(){
+      if(confirm('Вы действительно хотите удалить этот платеж?'))
+      {
+        var $row = $(this).parent().parent();
+        var paymentId = $row.data('payment-id');
+        $.post("{{ backend_url('payments/delete') }}", { 'paymentId': paymentId}, function(response){
+          $row.remove();
+        }, 'json');
+      }
+      return false;
+    });
+  });
 </script>

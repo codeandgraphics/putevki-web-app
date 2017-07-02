@@ -55,6 +55,8 @@ class RequestsController extends ControllerBase
 		$form->add(new Text('subjectPhone'));
 		$form->add(new Text('subjectEmail'));
 
+		$form->add(new TextArea('comment'));
+
 		$form->add(new Text('hotelName'));
 		$form->add(new Text('hotelCountry'));
 		$form->add(new Text('hotelRegion'));
