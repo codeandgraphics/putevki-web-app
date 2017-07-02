@@ -44,7 +44,7 @@ class Where
 			$this->country = $where->country;
 			$this->hotels = $where->hotels > 0 ? $where->hotels : 0;
 
-			if (count($where->regions) > 0) {
+			if (property_exists($where, 'regions') && is_array($where->regions) && count($where->regions) > 0) {
 				sort($where->regions);
 				$this->regions = $where->regions;
 			} else {

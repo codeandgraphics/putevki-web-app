@@ -16,7 +16,7 @@ class Filters
 			$this->stars = (int)$filters->stars;
 			$this->meal = (int)$filters->meal;
 			$this->rating = (int)$filters->rating;
-			$this->operator = (int)$filters->operator;
+			$this->operator = property_exists($filters, 'operator') ? (int)$filters->operator : 0;
 		}
 	}
 
