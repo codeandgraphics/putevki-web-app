@@ -25,6 +25,7 @@
 	<input type="hidden" name="Order_IDP" value="{{ uniteller.Order_IDP }}">
 	<input type="hidden" name="Subtotal_P" value="{{ uniteller.Subtotal_P }}">
 	<input type="hidden" name="Lifetime" value="{{ uniteller.Lifetime }}">
+	<!--<input type="hidden" name="Preauth" value="{{ uniteller.Preauth }}">-->
 	<input type="hidden" name="Signature" value="{{ uniteller.getPaymentSignature() }}">
 	<input type="hidden" name="URL_RETURN_OK" value="{{ uniteller.URL_RETURN_OK }}">
 	<input type="hidden" name="URL_RETURN_NO" value="{{ uniteller.URL_RETURN_NO }}">

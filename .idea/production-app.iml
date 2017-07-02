@@ -11,10 +11,10 @@
     <orderEntry type="module-library">
       <library name="PHP" type="php">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/stubs/Phalcon" />
+          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/3.2.0" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/stubs/Phalcon" />
+          <root url="file://$MODULE_DIR$/../../phalcon-devtools/ide/3.2.0" />
         </SOURCES>
       </library>
     </orderEntry>
