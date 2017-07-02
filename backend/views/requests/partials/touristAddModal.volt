@@ -40,7 +40,7 @@
 
 			$button.prop('disabled',true);
 
-			$.post("{{ url('tourists/ajaxAdd') }}", form, function(data){
+			$.post("{{ backend_url('tourists/ajaxAdd') }}", form, function(data){
 
 				if(data.tourist && data.tourist.id)
 				{
@@ -94,7 +94,7 @@
 		});
 
 		$('#tourist-passport-surname').autocomplete({
-			source: "{{ url('tourists/ajaxGet') }}",
+			source: "{{ backend_url('tourists/ajaxGet') }}",
 			minLength: 3,
 			select: function(event, ui){
 				event.preventDefault();

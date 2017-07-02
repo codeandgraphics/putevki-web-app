@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('requests') }}">
+					<a href="{{ backend_url('requests') }}">
 						<div class="icon fa fa-area-chart requests"></div>
 					</a>
 				</div>
@@ -23,7 +23,7 @@
 			</div>
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('payments') }}">
+					<a href="{{ backend_url('payments') }}">
 						<div class="icon fa fa-credit-card payments"></div>
 					</a>
 				</div>
@@ -37,7 +37,7 @@
 			</div>
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('tourists') }}">
+					<a href="{{ backend_url('tourists') }}">
 						<div class="icon fa fa-user tourists"></div>
 					</a>
 				</div>
@@ -61,7 +61,7 @@
 		<div class="row">
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('requests') }}">
+					<a href="{{ backend_url('requests') }}">
 						<div class="icon fa fa-area-chart requests"></div>
 					</a>
 				</div>
@@ -77,7 +77,7 @@
 			</div>
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('payments') }}">
+					<a href="{{ backend_url('payments') }}">
 						<div class="icon fa fa-credit-card payments"></div>
 					</a>
 				</div>
@@ -91,7 +91,7 @@
 			</div>
 			<div class="col-xs-6 col-sm-4">
 				<div class="pull-left">
-					<a href="{{ url('tourists') }}">
+					<a href="{{ backend_url('tourists') }}">
 						<div class="icon fa fa-user tourists"></div>
 					</a>
 				</div>

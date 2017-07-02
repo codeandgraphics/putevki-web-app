@@ -1,6 +1,6 @@
 <h2>Регистрация</h2>
 
-{{ form('users/register') }}
+{{ form(backend_url('users/register')) }}
 
 <p>
 	<label for="name">Имя</label>

@@ -1,11 +1,11 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li class="active">Все заявки</li>
 </ol>
 
 <div class="panel">
 	<div class="panel-heading">
-		<a href="{{ url('requests/add') }}" class="btn btn-success btn-stroke btn-sm pull-right">Создать заявку</a>
+		<a href="{{ backend_url('requests/add') }}" class="btn btn-success btn-stroke btn-sm pull-right">Создать заявку</a>
 		<h4 class="panel-title">Все заявки</h4>
 
 		<p>...</p>
@@ -70,7 +70,7 @@
 							</button>
 						</td>
 						<td>
-							<a href="{{ url('requests') }}/edit/{{ req.id }}">
+							<a href="{{ backend_url('requests') }}/edit/{{ req.id }}">
 								{% if req.subjectName or req.subjectSurname %}
 									{{ req.subjectName }} {{ req.subjectSurname }}
 								{% else %}
@@ -157,7 +157,7 @@
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ url('requests') }}/edit/{{ req.id }}" class="btn btn-warning edit pull-right">
+							<a href="{{ backend_url('requests') }}/edit/{{ req.id }}" class="btn btn-warning edit pull-right">
 								<i class="fa fa-edit"></i>
 							</a>
 						</td>
@@ -179,20 +179,26 @@
 										Адрес
 										<label>{{ req.subjectAddress }}</label>
 									</div><br/>
-									<a class="btn btn-warning btn-stroke btn-block" href="{{ url('requests/edit/') }}{{ req.id }}">
+									<a class="btn btn-warning btn-stroke btn-block" href="{{ backend_url('requests/edit/') }}{{ req.id }}">
 										<i class="fa fa-edit"></i>
 										Редактировать
 									</a>
 								</div>
 								<div class="col-sm-8">
 									<div class="info-group">
-										<p>
-											<a href="{{ url('requests/agreement/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
+										<p>&nbsp;
+											{% if req.tourOperatorLink %}
+											<a href="{{ req.tourOperatorLink }}" target="_blank" class="btn btn-success btn-xs file">
+												<span>Бронирование</span>
+											</a>&nbsp;
+											{% endif %}
+
+											<a href="{{ backend_url('requests/agreement/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
 												<i class="fa fa-file-pdf-o"></i>
 												<span>Договор с заказчиком</span>
-											</a>
-											&nbsp;
-											<a href="{{ url('requests/booking/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
+											</a>&nbsp;
+
+											<a href="{{ backend_url('requests/booking/') }}{{ req.id }}" target="_blank" class="btn btn-default btn-xs file">
 												<i class="fa fa-file-pdf-o"></i>
 												<span>Лист бронирования</span>
 											</a>
@@ -278,7 +284,7 @@
 				<ul class="pagination">
 					{% if page.before != page.current %}
 						<li class="paginate_button">
-							<a href="{{ url('requests') }}?page={{ page.before }}">назад</a>
+							<a href="{{ backend_url('requests') }}?page={{ page.before }}">назад</a>
 						</li>
 					{% else %}
 						<li class="paginate_button disabled">
@@ -290,13 +296,13 @@
 
 					{% for i in 1..page.total_pages %}
 						<li class="paginate_button{% if page.current == i %} active{% endif %}">
-							<a href="{{ url('requests') }}?page={{ i }}">{{ i }}</a>
+							<a href="{{ backend_url('requests') }}?page={{ i }}">{{ i }}</a>
 						</li>
 					{% endfor %}
 
 					{% if page.next != page.current %}
 						<li>
-							<a href="{{ url('requests') }}?page={{ page.next }}">вперед</a>
+							<a href="{{ backend_url('requests') }}?page={{ page.next }}">вперед</a>
 						</li>
 					{% else %}
 						<li class="disabled">

@@ -1,48 +1,36 @@
 <?php
 
-use Phalcon\Http\Response				as Response,
-	Models\Tourvisor					as Tourvisor,
-	Backend\Models\Requests,
-	Backend\Models\Payments				as Payments,
-	Backend\Models\Tourists				as Tourists,
-	Backend\Models\RequestTourists		as RequestTourists,
-	Frontend\Models\SearchQueries		as SearchQueries,
-	Backend\Controllers\EmailController	as EmailController;
+namespace Frontend\Controllers;
 
-class AjaxController extends ControllerFrontend
+use Frontend\Models\Params;
+use Models\Origin;
+use Models\SearchQuery;
+use Models\Entities;
+use Phalcon\Db;
+use Phalcon\Http\Response;
+use Models\Tourvisor;
+use Backend\Models\Requests;
+use Backend\Models\Payments;
+use Backend\Models\Tourists;
+use Backend\Models\RequestTourists;
+use Backend\Controllers\EmailController;
+
+class AjaxController extends BaseController
 {
-	
-    public function indexAction()
-    {
-	   /* $response = new Response();
-	    
-	    $str2 = '{"ts_client_surname":"\u0412\u044f\u0437\u0435\u043c\u0441\u043a\u0438\u0439","ts_client_name":"\u0413\u0435\u043e\u0440\u0433\u0438\u0439","ts_client_otch":"\u0418\u0433\u043e\u0440\u0435\u0432\u0438\u0447","ts_client_adr":"\u0414\u0443\u0431\u043d\u0430, \u0443\u043b. \u0421\u0430\u0445\u0430\u0440\u043e\u0432\u0430 11, 21","ts_client_phone":"89263488996","ts_client_email":"msnake@avantico.ru","ts_operator_code":"23","ts_country_code":"47","ts_country_name":"\u0420\u043e\u0441\u0441\u0438\u044f","ts_departure_code":"1","ts_hotel_code":"30297","ts_hotel_name":"\u041a\u0420\u042b\u041c\u0421\u041a\u0418\u0415 \u0417\u041e\u0420\u0418","ts_flydate":"24.07.2015","ts_nights":"7","ts_tour_text":"MSK, \u041a\u0440\u044b\u043c, 05.06-22.09.15,, \u0430\/\u043a \"\u0422\u0440\u0430\u043d\u0441\u0430\u044d\u0440\u043e\"","ts_meal":"BB","ts_room":"1-\u043c\u0435\u0441\u0442\u043d\u044b\u0439 \u0432 \u0431\u043b\u043e\u043a\u0435","ts_placement":"1 \u0432\u0437\u0440\u043e\u0441\u043b\u044b\u0439","ts_adults":"1","ts_child":"0","ts_price_usd":0,"ts_tour_id":"234029608242","ts_visa_rub":0,"ts_comments":"\u041f\u0440\u0438\u0432\u0435\u0442!","ts_flight_id":0,"ts_people_count":1,"tourist_surname":["\u0412\u044f\u0437\u0435\u043c\u0441\u043a\u0438\u0439"],"tourist_name":["\u0413\u0435\u043e\u0440\u0433\u0438\u0439"],"tourist_sex":["m"],"tourist_passport_series":[""],"tourist_passport_number":["12\u21161312331"],"tourist_passport_issue_date":[0],"tourist_passport_end_date":["11.08.2010"],"tourist_birth_date":["11.08.1989"],"tourist_passport_issue_by":["\u041e\u0423\u0424\u041c\u0421 \u0414\u0443\u0431\u043d\u044b"],"tourist_birth_country":[""],"tourist_citizen":["\u0420\u043e\u0441\u0441\u0438\u044f"],"tourist_visa":[0],"ts_price_rub":23313}';
-	    
-	    $tour = json_decode($str2);
-	    $date = new \DateTime();
-	    
-		$order = new \Models\Orders();
-		$order->date = $date->format('Y-m-d H:i:s');
-		$order->tour = $tour;
-		$order->status = 1;
-		$order->save();
-		
-	    echo 'asd';
-		//$response->setJsonContent();
-	    
-	    return $response;*/
-	    
-	    echo 'asd';
-    }
-    
-    public function formOnlineAction()
-    {
+
+	public function initialize()
+	{
+		$this->view->disable();
+	}
+
+	public function formOnlineAction()
+	{
 		$response = new Response();
-		
+
 		$form = json_decode($_POST['data']);
 		$type = $_POST['type'];
 
-		$fullPrice = (int) $form->price;
+		$fullPrice = (int)$form->price;
 		$tour = $form->tour;
 
 		$request = new Requests();
@@ -50,74 +38,71 @@ class AjaxController extends ControllerFrontend
 		$request->origin = Requests::ORIGIN_WEB;
 
 		//Клиент
-		$request->subjectSurname		= $form->person->surname;
-		$request->subjectName			= $form->person->name;
-		$request->subjectPatronymic		= $form->person->patronymic;
-		$request->subjectPhone			= $form->person->phone;
-		$request->subjectEmail			= $form->person->email;
-		$request->comment				= $form->comments;
+		$request->subjectSurname = $form->person->surname;
+		$request->subjectName = $form->person->name;
+		$request->subjectPatronymic = $form->person->patronymic;
+		$request->subjectPhone = $form->person->phone;
+		$request->subjectEmail = $form->person->email;
+		$request->comment = $form->comments;
 
 		//Данные тура
-		$request->hotelName			= $tour->hotelname;
-		$request->hotelCountry		= $tour->countryname;
-		$request->hotelRegion		= $tour->hotelregionname;
-		$request->hotelDate			= $tour->flydate;
-		$request->hotelNights		= $tour->nights;
-		$request->hotelPlacement	= $tour->placement;
-		$request->hotelMeal			= $tour->meal;
-		$request->hotelRoom			= $tour->room;
+		$request->hotelName = $tour->hotelname;
+		$request->hotelCountry = $tour->countryname;
+		$request->hotelRegion = $tour->hotelregionname;
+		$request->hotelDate = $tour->flydate;
+		$request->hotelNights = $tour->nights;
+		$request->hotelPlacement = $tour->placement;
+		$request->hotelMeal = $tour->meal;
+		$request->hotelRoom = $tour->room;
 
 		$flight = $form->flight;
 
-		if($flight)
-		{
-			$request->flightToNumber			= $flight->forward[0]->number;
-			$request->flightToDepartureDate		= $flight->dateforward;
-			$request->flightToDepartureTime		= $flight->forward[0]->departure->time;
-			$request->flightToDepartureTerminal	= $flight->forward[0]->departure->port->id;
-			$request->flightToArrivalDate		= $flight->dateforward;
-			$request->flightToArrivalTime		= $flight->forward[0]->arrival->time;
-			$request->flightToArrivalTerminal	= $flight->forward[0]->arrival->port->id;
-			$request->flightToCarrier			= $flight->forward[0]->company->name;
-			$request->flightToPlane				= $flight->forward[0]->plane;
-			$request->flightToClass				= '';
+		if ($flight) {
+			$request->flightToNumber = $flight->forward[0]->number;
+			$request->flightToDepartureDate = $flight->dateforward;
+			$request->flightToDepartureTime = $flight->forward[0]->departure->time;
+			$request->flightToDepartureTerminal = $flight->forward[0]->departure->port->id;
+			$request->flightToArrivalDate = $flight->dateforward;
+			$request->flightToArrivalTime = $flight->forward[0]->arrival->time;
+			$request->flightToArrivalTerminal = $flight->forward[0]->arrival->port->id;
+			$request->flightToCarrier = $flight->forward[0]->company->name;
+			$request->flightToPlane = $flight->forward[0]->plane;
+			$request->flightToClass = '';
 
-			$request->flightFromNumber				= $flight->backward[0]->number;
-			$request->flightFromDepartureDate		= $flight->datebackward;
-			$request->flightFromDepartureTime		= $flight->backward[0]->departure->time;
-			$request->flightFromDepartureTerminal	= $flight->backward[0]->departure->port->id;
-			$request->flightFromArrivalDate			= $flight->datebackward;
-			$request->flightFromArrivalTime			= $flight->backward[0]->arrival->time;
-			$request->flightFromArrivalTerminal		= $flight->backward[0]->arrival->port->id;
-			$request->flightFromCarrier				= $flight->backward[0]->company->name;
-			$request->flightFromPlane				= $flight->backward[0]->plane;
-			$request->flightFromClass				= '';
+			$request->flightFromNumber = $flight->backward[0]->number;
+			$request->flightFromDepartureDate = $flight->datebackward;
+			$request->flightFromDepartureTime = $flight->backward[0]->departure->time;
+			$request->flightFromDepartureTerminal = $flight->backward[0]->departure->port->id;
+			$request->flightFromArrivalDate = $flight->datebackward;
+			$request->flightFromArrivalTime = $flight->backward[0]->arrival->time;
+			$request->flightFromArrivalTerminal = $flight->backward[0]->arrival->port->id;
+			$request->flightFromCarrier = $flight->backward[0]->company->name;
+			$request->flightFromPlane = $flight->backward[0]->plane;
+			$request->flightFromClass = '';
 		}
 
-		$request->tourOperatorId	= $tour->operatorcode;
-		$request->tourOperatorLink	= $tour->operatorlink;
-		$request->departureId		= $tour->departurecode;
+		$request->tourOperatorId = $tour->operatorcode;
+		$request->tourOperatorLink = $tour->operatorlink;
+		$request->departureId = $tour->departurecode;
 
 		$tourists = [];
 
-		foreach($form->tourists as $i => $formTourist)
-		{
+		foreach ($form->tourists as $i => $formTourist) {
 			$tourist = new \stdClass();
 
-			if(isset($formTourist->visa))
-			{
+			if (property_exists($formTourist, 'visa')) {
 				$fullPrice += $tour->visa;
 			}
 
-			$tourist->passport_name		= $formTourist->firstname;
-			$tourist->passport_surname	= $formTourist->lastname;
-			$tourist->passport_number	= $formTourist->passport;
-			$tourist->passport_endDate	= $formTourist->end_date;
-			$tourist->passport_issued	= $formTourist->issue;
-			$tourist->birthDate			= $formTourist->birth;
-			$tourist->gender			= ($formTourist->gender === 'man') ? 'm' : 'f';
-			$tourist->visa				= ($formTourist->visa === 'on') ? 1 : 0;
-			$tourist->nationality		= $formTourist->nationality;
+			$tourist->passport_name = $formTourist->firstname;
+			$tourist->passport_surname = $formTourist->lastname;
+			$tourist->passport_number = $formTourist->passport;
+			$tourist->passport_endDate = $formTourist->end_date;
+			$tourist->passport_issued = $formTourist->issue;
+			$tourist->birthDate = $formTourist->birth;
+			$tourist->gender = ($formTourist->gender === 'man') ? 'm' : 'f';
+			$tourist->visa = (property_exists($formTourist, 'visa') && $formTourist->visa === 'on') ? 1 : 0;
+			$tourist->nationality = $formTourist->nationality;
 
 			$touristModel = Tourists::addOrUpdate($tourist);
 
@@ -126,17 +111,13 @@ class AjaxController extends ControllerFrontend
 
 		$request->price = $fullPrice;
 
-		if($type === 'office')
-		{
-			$request->branch_id = (int) $form->branch;
+		if ($type === 'office') {
+			$request->branch_id = (int)$form->branch;
 		}
 
-		if($request->save())
-		{
+		if ($request->save()) {
 
-
-			foreach($tourists as $tourist)
-			{
+			foreach ($tourists as $tourist) {
 				$requestTourist = new RequestTourists();
 				$requestTourist->requestId = $request->id;
 				$requestTourist->touristId = $tourist->id;
@@ -144,37 +125,30 @@ class AjaxController extends ControllerFrontend
 				$requestTourist->save();
 			}
 
-			if($type === 'online')
-			{
+			if ($type === 'online') {
 				$payment = Payments::findFirst('requestId = ' . $request->id);
 
-				$response->setJsonContent(['res' => '/pay/' . $payment->id ]);
-			}
-			else if($type === 'office')
-			{
+				$response->setJsonContent(['res' => '/pay/' . $payment->id]);
+			} else if ($type === 'office') {
 				$mailController = new EmailController();
 				$mailController->sendBranchNotification($request);
-				$response->setJsonContent(['res' => '/' ]);
-			}
-			else
-			{
-				$response->setJsonContent(['res' => '/' ]);
+				$response->setJsonContent(['res' => '/']);
+			} else {
+				$response->setJsonContent(['res' => '/']);
 			}
 
 			//Отправляем email
 			$emailController = new EmailController();
 			$emailController->sendRequest($type, $request);
 			$emailController->sendAdminNotification($request);
-		}
-		else
-		{
-			$response->setJsonContent(['error' => 'save error' ]);
+		} else {
+			$response->setJsonContent(['error' => 'save error']);
 		}
 
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 
 		return $response;
-    }
+	}
 
 	public function findTourAction()
 	{
@@ -183,7 +157,7 @@ class AjaxController extends ControllerFrontend
 
 		$emailController = new EmailController();
 		$emailController->sendFindTour($data);
-		$response->setJsonContent(['status' => 'ok' ]);
+		$response->setJsonContent(['status' => 'ok']);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 
@@ -209,30 +183,33 @@ class AjaxController extends ControllerFrontend
 	{
 		$response = new Response();
 
-		$dbCountries = Tourvisor\Countries::find('active = 1');
+		$items = Tourvisor\Countries::find('active = 1');
 
 		$countries = [];
-		foreach($dbCountries as $country)
-		{
+		foreach ($items as $item) {
+		    $country = new Entities\Country($item);
+		    unset($country->regions);
 			$countries[] = $country;
 		}
 
 		$dbRegions = $this->db->fetchAll('
 			SELECT r.name, r.id, r.countryId, c.name AS country_name FROM tourvisor_regions AS r
 			INNER JOIN tourvisor_countries AS c ON c.active = 1 AND c.id = r.countryId;
-		', \Phalcon\Db::FETCH_OBJ);
+		', Db::FETCH_OBJ);
 
 		$regions = [];
-		foreach($dbRegions as $region)
-		{
-			$region->country = $region->countryId;
-			$region->country_name = $region->country_name;
+		foreach ($dbRegions as $item) {
+			$region = new \stdClass();
+			$region->id = (int) $item->id;
+			$region->name = $item->name;
+			$region->country = (int) $item->countryId;
+			$region->countryName = $item->country_name;
 			$regions[] = $region;
 		}
 
 		$response->setJsonContent([
-			'countries'	=> $countries,
-			'regions'	=> $regions
+			'countries' => $countries,
+			'regions' => $regions
 		]);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -244,15 +221,14 @@ class AjaxController extends ControllerFrontend
 	{
 		$response = new Response();
 
-		$dbDepartures = Tourvisor\Departures::find();
+		$items = Tourvisor\Departures::find();
 
 		$departures = [];
-		foreach($dbDepartures as $departure)
-		{
-			$departures[] = $departure;
+		foreach ($items as $item) {
+			$departures[] = $item->format();
 		}
 		$response->setJsonContent([
-			'departures'	=> $departures
+			'departures' => $departures
 		]);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -268,8 +244,7 @@ class AjaxController extends ControllerFrontend
 
 		$hotels = [];
 
-		if(mb_strlen($query,'UTF-8') >= 2)
-		{
+		if (mb_strlen($query, 'UTF-8') >= 2) {
 			$builder = $this->modelsManager->createBuilder()
 				->columns([
 					'hotel.id',
@@ -294,10 +269,9 @@ class AjaxController extends ControllerFrontend
 				->andWhere('hotel.name LIKE :query:')
 				->limit(10);
 
-			$dbHotels = $builder->getQuery()->execute([ 'query' => '%' . $query . '%' ]);
+			$dbHotels = $builder->getQuery()->execute(['query' => '%' . $query . '%']);
 
-			foreach($dbHotels as $hotel)
-			{
+			foreach ($dbHotels as $hotel) {
 				$hotels[] = $hotel;
 			}
 		}
@@ -309,212 +283,108 @@ class AjaxController extends ControllerFrontend
 		return $response;
 	}
 
-
-	public function resultsAction($tourvisorId)
-    {
-	    $response = new Response();
-	    
-		$params = [
-			'requestid'		=> $tourvisorId,
-			'type'			=> 'result'
-		];
-		
-		if(isset($_GET['page'])) $params['page'] = $_GET['page'];
-		if(isset($_GET['limit'])) $params['onpage'] = $_GET['limit'];
-		
-		$result = Utils\Tourvisor::getMethod('result', $params);
-		
-		$res = new stdClass();
-		
-		$hotels = [];
-		
-		$res->status = $result->data->status;
-		
-		if(!empty($result->data->result->hotel))
-		{
-			foreach($result->data->result->hotel as $hotel)
-			{
-				$resultHotel = new stdClass();
-				$resultHotel->id = $hotel->hotelcode;
-				$resultHotel->name = $hotel->hotelname;
-				$resultHotel->stars = $hotel->hotelstars;
-				$resultHotel->rating = $hotel->hotelrating;
-				if($hotel->isdescription) 
-					$resultHotel->description = $hotel->hoteldescription;
-				if($hotel->isphoto) 
-					$resultHotel->image = $hotel->picturelink;
-				$resultHotel->price = $hotel->price;
-				
-				$resultHotel->country = new stdClass();
-				$resultHotel->country->id = $hotel->countrycode;
-				$resultHotel->country->name = $hotel->countryname;
-				
-				$resultHotel->region = new stdClass();
-				$resultHotel->region->id = $hotel->regioncode;
-				$resultHotel->region->name = $hotel->regionname;
-				$resultHotel->tours = $hotel->tours->tour;
-
-				$urlName = str_ireplace([' ','&'], ['_','And'], ucwords(strtolower($resultHotel->name)));
-				$resultHotel->hotelLink = "/hotel/" . $urlName . "-" . $resultHotel->id;
-				
-				$hotels[$hotel->hotelcode] = $resultHotel;	
-			}
-			
-			$hotelIds = array_keys($hotels);
-			
-			if(!empty($hotelIds))
-			{			
-				$dbHotels = $this->modelsManager->createBuilder()
-					->from('Models\Tourvisor\Hotels')
-					->inWhere('id', $hotelIds)
-					->getQuery()
-					->execute();
-					
-				foreach($dbHotels as $dbHotel)
-				{
-					$types = new stdClass();
-					$types->active = $dbHotel->active;
-					$types->relax = $dbHotel->relax;
-					$types->family = $dbHotel->family;
-					$types->health = $dbHotel->health;
-					$types->city = $dbHotel->city;
-					$types->beach = $dbHotel->beach;
-					$types->deluxe = $dbHotel->deluxe;	
-					$hotels[$dbHotel->id]->types = $types;
-				}
-				
-			}
-		}
-		
-		$res->hotels = array_values($hotels);
-		
-	    $response->setJsonContent($res);
-
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
-    
-    public function statusAction($tourvisorId)
-    {
-	    $response = new Response();
-	    
-		$params = array(
-			'requestid'		=> $tourvisorId,
-			'type'			=> 'status'
-		);
-		$result = Utils\Tourvisor::getMethod('result', $params);
-		
-		$res = new stdClass();
-		$res->status = $result->data->status;
-			    
-	    $response->setJsonContent($res);
-
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
-
-    public function searchAction()
-    {
-	    $response = new Response();
-	    
-	    $params = (object) $this->request->get('params');
-	    
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
-
-	    $path = '/search/';
-
-	    if($searchQuery->isHotelQuery())
-	    {
-		    $path = '/search/hotel/';
-	    }
-
-	    $response->setJsonContent(['url' =>  $path . $searchQuery->buildQueryString() ]);
-
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
-
-	public function searchHotelAction()
+	public function searchAction()
 	{
 		$response = new Response();
 
-		$params = (object) $this->request->get('params');
+		$formParams = (object)$this->request->get('params');
 
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
-		$searchQuery->run();
+		$params = Params::getInstance();
+		$params->search->fromSearchForm($formParams);
 
-		$response->setJsonContent(['tourvisorId' => $searchQuery->tourvisorId, 'query'=>$searchQuery->toArray() ]);
+		$path = '/search/';
+
+		if ($params->search->isHotelQuery()) {
+			$path = '/search/hotel/';
+		}
+
+		$response->setJsonContent(['url' => $path . $params->search->buildQueryString()]);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 
 		return $response;
 	}
 
-    public function tourAction($tourvisorId)
-    {
-	    $response = new Response();
-	    
+	public function searchHotelAction()
+	{
+		$response = new Response();
+
+        $formParams = (object)$this->request->get('params');
+
+        $params = Params::getInstance();
+        $params->search->fromSearchForm($formParams);
+
+        $searchQuery = new SearchQuery();
+        $searchQuery->fromParams($params->search);
+        $searchId = $searchQuery->run(Origin::WEB);
+
+		$response->setJsonContent(['searchId' => $searchId]);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
+		return $response;
+	}
+
+	public function tourAction($tourvisorId)
+	{
+		$response = new Response();
+
 		$params = array(
-			'tourid'		=> $tourvisorId,
-			'flights'		=> 1
+			'tourid' => $tourvisorId,
+			'flights' => 1
 		);
-		$result = Utils\Tourvisor::getMethod('actualize', $params);
-	    
-	    $response->setJsonContent($result);
+		$result = \Utils\Tourvisor::getMethod('actualize', $params);
 
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
+		$response->setJsonContent($result);
 
-    public function tourDetailAction($tourvisorId)
-    {
-	    $response = new Response();
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 
-	    $detailData = Utils\Tourvisor::getMethod('actdetail', array(
-		    'tourid' => $tourvisorId
-	    ));
+		return $response;
+	}
 
-	    $response->setJsonContent($detailData);
+	public function tourDetailAction($tourvisorId)
+	{
+		$response = new Response();
 
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+		$detailData = \Utils\Tourvisor::getMethod('actdetail', array(
+			'tourid' => $tourvisorId
+		));
 
-	    return $response;
-    }
-    
-    public function hotelAction($tourvisorId)
-    {
-	    $response = new Response();
-	    
+		$response->setJsonContent($detailData);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
+		return $response;
+	}
+
+	public function hotelAction($tourvisorId)
+	{
+		$response = new Response();
+
 		$params = array(
-			'hotelcode'		=> $tourvisorId,
-			'imgwidth'		=> 400,
-			'imgheight'		=> 260
+			'hotelcode' => $tourvisorId,
+			'imgwidth' => 400,
+			'imgheight' => 260
 		);
-		$result = Utils\Tourvisor::getMethod('hotel', $params);
-	    
-	    $response->setJsonContent($result);
+		$result = \Utils\Tourvisor::getMethod('hotel', $params);
 
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
-    
-    public function regionsAction($countryId)
-    {
-	    $response = new Response();
-	    
+		$response->setJsonContent($result);
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
+		return $response;
+	}
+
+	public function regionsAction($countryId)
+	{
+		$response = new Response();
+
 		$result = Tourvisor\Regions::find("countryId = $countryId");
-	    
-	    $response->setJsonContent($result->toArray());
 
-	    $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-	    
-	    return $response;
-    }
+		$response->setJsonContent($result->toArray());
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
+		return $response;
+	}
 }

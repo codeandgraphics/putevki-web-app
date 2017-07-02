@@ -1,48 +1,27 @@
-</main>
-
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-<script src="{{ url() }}assets/js/libraries.min.js?v{{ version }}"></script>
-
-<script type="text/javascript">
-	var env = '{{ config.frontend.env }}';
-</script>
-
-{% if config.frontend.env == 'production' %}
-
-
-	<script src="{{ url() }}assets/js/common.min.js?v{{ version }}"></script>
-	{% if page is not empty %}
-		<script src="{{ url() }}assets/js/{{ page }}.min.js?v{{ version }}"></script>
-	{% endif %}
-
-	<!— Yandex.Metrika counter —>
-	<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31486713 = new Ya.Metrika({ id:31486713, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31486713" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-	<!— /Yandex.Metrika counter —>
-
-{% else %}
-
-	<script src="{{ url() }}development-assets-frontend/js/common/humanize.util.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/helpers.util.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/form.class.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/hotelForm.class.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/search.class.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/tour.class.js"></script>
-	<script src="{{ url() }}development-assets-frontend/js/common/findTour.class.js"></script>
-	{% if page is not empty %}
-		<script src="{{ url() }}development-assets-frontend/js/pages/{{ page }}.js?v{{ version }}"></script>
-	{% endif %}
-{% endif %}
-
-<script type="text/javascript">
-	var branches = {{ branches|json_encode }};
-	var cities = {{ cities|json_encode }};
-	var currentCity = {{ currentCity|json_encode }};
-</script>
-
-{% if currentCity.meta_text %}
-	<div class="meta">
-		{{ currentCity.meta_text }}
+<footer class="{{ page }}">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-3 text-center putevki">
+				<a href="https://online.putevki.ru" class="putevki-logo"></a>
+				Интернет-магазин туров<br/>
+				2000-<?= date('Y'); ?> &copy; <a href="{{ url() }}">putevki.ru</a>
+			</div>
+			<div class="col-xs-6 text-center">
+				Сайт интернет-магазина "Путёвки.ру" по продаже туров онлайн следующих направлений: Австрия, Андорра, Болгария, Греция, Доминикана, Испания, Италия, Кипр, Куба, Мальдивы, Мексика, ОАЭ, Турция, Таиланд, Франция, Шри-Ланка, и другие страны.
+				Информация о ценах, указанная на сайте, не является ни рекламой, ни офертой  определяемой положениями Статьи 437 (2) Гражданского кодекса РФ.
+			</div>
+			<div class="col-xs-3">
+				<div class="partner">
+					<a class="uniteller-logo" href="{{ url('uniteller') }}" target="_blank"></a>
+					Все платежи защищены
+				</div>
+			</div>
+		</div>
 	</div>
-{% endif %}
-</body>
-</html>
+
+	{% if city.meta_text %}
+		<div class="meta">
+			{{ city.meta_text }}
+		</div>
+	{% endif %}
+</footer>

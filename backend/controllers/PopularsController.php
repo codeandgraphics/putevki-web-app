@@ -17,7 +17,8 @@ class PopularsController extends ControllerBase
 
 	}
 
-	public function countryAction($id) {
+	public function countryAction($id)
+	{
 
 		$country = Tourvisor\Countries::findFirst($id);
 
@@ -25,26 +26,26 @@ class PopularsController extends ControllerBase
 	}
 
 
-	public function _setPopularAction() {
+	public function _setPopularAction()
+	{
 		$this->view->disable();
-		if($this->request->isAjax()) {
+		if ($this->request->isAjax()) {
 			$type = $this->request->getPost('type', 'string');
 			$id = $this->request->getPost('id', 'int');
 			$checked = $this->request->getPost('checked', 'int');
 
-			if($type === 'country') {
+			if ($type === 'country') {
 				$country = Tourvisor\Countries::findFirst($id);
 				$country->popular = $checked;
 				$country->save();
 			}
-			if($type === 'region') {
+			if ($type === 'region') {
 				$country = Tourvisor\Regions::findFirst($id);
 				$country->popular = $checked;
 				$country->save();
 			}
 			echo 1;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }

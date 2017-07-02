@@ -1,56 +1,39 @@
 <?php
 
-use Phalcon\Http\Response			as Response,
-	Models\Tourvisor				as Tourvisor,
-	Models\Tourvisor\Departures		as TourvisorDepartures,
-	Models\Cities					as Cities,
-	Frontend\Models\SearchQueries	as SearchQueries,
-	Frontend\Models\Populars		as Populars;
+namespace Frontend\Controllers;
+
+use Backend\Models\Requests;
+use Frontend\Models\Params;
+use Models\StoredQueries;
+use Models\Tourvisor\Departures	as TourvisorDepartures;
+use Models\Cities;
+use Frontend\Models\SearchQueries;
 use Mobile_Detect;
+use Phalcon\Db;
 
-class IndexController extends ControllerFrontend
+class IndexController extends BaseController
 {
-	public function indexAction($city = 0)
+	public function indexAction()
 	{
-		if($city !== '')
-		{
-			Cities::checkCity($city);
-
-			$this->response->redirect('/');
-		}
-
-		$this->view->setVar('currentCity', $this->currentCity);
-
-		$regions = $this->db->fetchAll('
-			SELECT r.id AS id, r.name AS name, c.name AS country_name, c.id as country_id
-			FROM search_queries AS s
-			INNER JOIN tourvisor_regions AS r ON s.regionId = r.id
-            INNER JOIN tourvisor_countries AS c ON s.countryId = c.id AND active = 1
-			WHERE s.queryDate > (NOW() - INTERVAL 1 MONTH)
-			GROUP BY s.regionId
-			ORDER BY COUNT(s.id) DESC
-			LIMIT 6
-		', \Phalcon\Db::FETCH_OBJ);
+		$popularRegions = StoredQueries::popularRegions(6);
 
 		$popularItems = [];
 		$popularCountries = [];
 
-		foreach($regions as $region)
+		foreach($popularRegions as $region)
 		{
 			$pop = new \stdClass();
 
-			$pop->country = $region->country_name;
+			$pop->country = $region->country->name;
 			$pop->region = $region->name;
 			$pop->regionId = $region->id;
-			$pop->countryId = $region->country_id;
-			
-			$par = $this->params;
-			$par->departure = $this->currentCity->departure->name;
-			$par->country = $pop->country;
-			$par->region = $pop->region;
-			
-			$pop->url = '/search/'.SearchQueries::buildQueryStringFromParams($par);
-			
+			$pop->countryId = $region->country->id;
+
+			$from = $this->city->departure->name;
+			$to = $region->country->name . '(' . $region->name . ')';
+
+			$pop->url = '/search/'. $from . '/' . $to;
+
 			$popularItems[] = $pop;
 			$popularCountries[] = $pop->country;
 		}
@@ -66,12 +49,12 @@ class IndexController extends ControllerFrontend
 		]);
 
 		$add = '';
-		if($this->currentCity->name_rod != $this->currentCity->departure->name_from)
+		if($this->city->name_rod !== $this->city->departure->name_from)
 		{
-			$add = ' с вылетом из ' . $this->currentCity->departure->name_from;
+			$add = ' с вылетом из ' . $this->city->departure->name_from;
 		}
 
-		$title = 'Туры из ' . $this->currentCity->name_rod . $add . ' на ';
+		$title = 'Путёвки из ' . $this->city->name_rod . $add . ' по лучшим ценам на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
@@ -83,6 +66,21 @@ class IndexController extends ControllerFrontend
 		]);
 	}
 
+	public function cityAction() {
+	    $this->view->disable();
+        $cityUri = $this->dispatcher->getParam('city');
+
+        $params = Params::getInstance();
+	    $city = Cities::findFirstByUri($cityUri);
+	    if($city) {
+            $params->city = (int) $city->id;
+            $params->search->from = (int) $city->flight_city;
+        }
+        $params->store();
+
+        $this->response->redirect('');
+    }
+
 	public function agreementAction()
 	{
 		$this->view->disable();
@@ -92,7 +90,7 @@ class IndexController extends ControllerFrontend
 		} else {
 			$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-			$request = new \Backend\Models\Requests();
+			$request = new Requests();
 
 			$this->simpleView->setVar('req', $request);
 			$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');

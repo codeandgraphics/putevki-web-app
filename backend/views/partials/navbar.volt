@@ -7,11 +7,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{{ url('/') }}"><img src="{{ url('assets/img/yo.png') }}" alt="Путевки.ру"/> онлайн.путевки.ру</a>
+			<a class="navbar-brand" href="{{ backend_url('') }}">
+				<img src="{{ static_url('static/yo.png') }}" alt="Путевки.ру"/> онлайн.путевки.ру
+			</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="{{ url('users/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Выйти</a></li>
+				<li><a href="{{ backend_url('users/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Выйти</a></li>
 			</ul>
 		</div>
 	</div>

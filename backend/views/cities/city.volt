@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li><a href="{{ url('cities') }}">Города</a></li>
+	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('cities') }}">Города</a></li>
 	<li class="active">{{ city.name }}</li>
 </ol>
 
@@ -10,7 +10,7 @@
 
 <div class="panel">
 	<div class="panel-heading">
-		<a href="{{ url('cities') }}/branchAdd/{{ city.id }}" class="btn btn-success pull-right">Добавить филиал</a>
+		<a href="{{ backend_url('cities') }}/branchAdd/{{ city.id }}" class="btn btn-success pull-right">Добавить филиал</a>
 		<h4 class="panel-title">Филиалы в {{ city.name_pre }}</h4>
 		<p>Список всех филиалов в городе</p>
 	</div>
@@ -28,7 +28,7 @@
 			<tbody>
 			{% for branch in branches %}
 			<tr>
-				<td><a href="{{ url('cities') }}/branch/{{ city.id }}/{{ branch.id }}">{{ branch.name }}</a></td>
+				<td><a href="{{ backend_url('cities') }}/branch/{{ city.id }}/{{ branch.id }}">{{ branch.name }}</a></td>
 				<td>{{ branch.address }}</td>
 				<td>{{ branch.phone }}</td>
 				<td>{{ branch.email }}</td>
@@ -52,25 +52,25 @@
 				<div class="col-xs-6">
 					<div class="form-group">
 						<label for="name">Название города</label>
-						<?php echo $form->render('name', ["class"=>"form-control"]) ?>
+						{{ form.render('name', ["class":"form-control"]) }}
 						<span class="help-block">Название на русском, склонения загрузятся автоматически</span>
 					</div>
 
 					<div class="form-group">
 						<label for="uri">URI</label>
-						<?php echo $form->render('uri', ["class"=>"form-control"]) ?>
+						{{ form.render('uri', ["class":"form-control"]) }}
 						<span class="help-block">Название на английском, используется в ссылках</span>
 					</div>
 
 					<div class="form-group">
 						<label for="flight_city">Город вылета</label>
-						<?php echo $form->render('flight_city', ["class"=>"form-control"]) ?>
+						{{ form.render('flight_city', ["class":"form-control"]) }}
 						<span class="help-block">Города из базы Tourvisor</span>
 					</div>
 
 					<div class="form-group">
 						<label for="phone">Телефон</label>
-						<?php echo $form->render('phone', ["class"=>"form-control"]) ?>
+						{{ form.render('phone', ["class":"form-control"]) }}
 						<span class="help-block">Основной телефон, используемый на сайте</span>
 					</div>
 
@@ -79,36 +79,32 @@
 
 					<div class="form-group">
 						<label for="lat">Широта</label>
-						<?php echo $form->render('lat', ["class"=>"form-control"]) ?>
+						{{ form.render('lat', ["class":"form-control"]) }}
 						<span class="help-block">Lat, используется для отображения карты филиалов</span>
 					</div>
 
 					<div class="form-group">
 						<label for="lon">Долгота</label>
-						<?php echo $form->render('lon', ["class"=>"form-control"]) ?>
+						{{ form.render('lon', ["class":"form-control"]) }}
 						<span class="help-block">Lon, используется для отображения карты филиалов</span>
 					</div>
 
 					<div class="form-group">
 						<label for="zoom">Зум</label>
-						<?php echo $form->render('zoom', ["class"=>"form-control"]) ?>
+						{{ form.render('zoom', ["class":"form-control"]) }}
 						<span class="help-block">Zoom, используется для отображения карты филиалов</span>
 					</div>
 
 					<div class="form-group">
 						<label for="active">Показывать на сайте?</label>
-						<?php echo $form->render('active', ["class"=>"form-control"]) ?>
+						{{ form.render('active', ["class":"form-control"]) }}
 						<span class="help-block">Если выбрано "Выкл", город не отображается</span>
-
-						<!--<div class="toggle-wrapper">
-							<div class="toggle toggle-light" data-rel="active"></div>
-						</div>-->
 
 					</div>
 
 					<div class="form-group">
 						<label for="main">Главный</label>
-						<?php echo $form->render('main', ["class"=>"form-control"]) ?>
+						{{ form.render('main', ["class":"form-control"]) }}
 						<span class="help-block">Если выбрано, город показывается крупнее остальных</span>
 					</div>
 
@@ -120,18 +116,18 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="main">Ключевые слова (meta keywords)</label>
-						<?php echo $form->render('meta_keywords', ["class"=>"form-control"]) ?>
+						<label for="meta_keywords">Ключевые слова (meta keywords)</label>
+						{{ form.render('meta_keywords', ["class":"form-control"]) }}
 					</div>
 					<div class="form-group">
-						<label for="main">Описание (meta description)</label>
-						<?php echo $form->render('meta_description', ["class"=>"form-control"]) ?>
+						<label for="meta_description">Описание (meta description)</label>
+						{{ form.render('meta_description', ["class":"form-control"]) }}
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="main">Текст</label>
-						<?php echo $form->render('meta_text', ["class"=>"form-control"]) ?>
+						<label for="meta_text">Текст</label>
+						{{ form.render('meta_text', ["class":"form-control"]) }}
 					</div>
 				</div>
 			</div>

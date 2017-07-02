@@ -2,11 +2,9 @@
 
 namespace Backend\Controllers;
 
-use \Phalcon\Http\Response				as Response,
-	\Phalcon\Mvc\View					as View,
-	\Phalcon\Paginator\Adapter\Model	as PaginatorModel,
-	\Backend\Models\Payments			as Payments,
-	\Models\Tourvisor;
+use Phalcon\Http\Response;
+use Phalcon\Paginator\Adapter\Model as PaginatorModel;
+use Backend\Models\Payments;
 use Utils\Text;
 
 class PaymentsController extends ControllerBase
@@ -15,53 +13,41 @@ class PaymentsController extends ControllerBase
 	public function indexAction()
 	{
 		$requestId = false;
-		if($this->request->has('request'))
-		{
+		if ($this->request->has('request')) {
 			$requestId = $this->request->get('request', 'int');
 		}
 
-		if($this->request->isPost())
-		{
+		if ($this->request->isPost()) {
 			$paymentSum = $this->request->getPost('paymentSum');
-			$paymentSum = floatval(str_replace(',','.',$paymentSum));
+			$paymentSum = (float) str_replace(',', '.', $paymentSum);
 
-			if($paymentSum)
-			{
+			if ($paymentSum) {
 				$payment = new Payments();
 				$payment->sum = $paymentSum;
 
-				if($requestId)
-				{
+				if ($requestId) {
 					$payment->requestId = $requestId;
 				}
 
-				if($payment->save())
-				{
+				if ($payment->save()) {
 					$this->flashSession->success('Создан платеж на ' . Text::humanize('price', $paymentSum) . ' руб.');
-				}
-				else
-				{
-					foreach($payment->getMessages() as $message)
-					{
+				} else {
+					foreach ($payment->getMessages() as $message) {
 						$this->flashSession->error($message);
 					}
 					$this->flashSession->error('Невозможно создать платеж');
 				}
 
-			}
-			else
-			{
+			} else {
 				$this->flashSession->error('Неправильная сумма платежа');
 			}
 		}
 
 		$query = [
-			"order"		=> 'creationDate DESC'
+			'order' => 'creationDate DESC'
 		];
 
-
-		if($requestId)
-		{
+		if ($requestId) {
 			$query[] = 'requestId = ' . $requestId;
 		}
 
@@ -69,9 +55,9 @@ class PaymentsController extends ControllerBase
 
 		$paginator = new PaginatorModel(
 			array(
-				"data"  	=> $payments,
-				"limit" 	=> 10,
-				"page"  	=> $this->request->get('page')
+				'data' => $payments,
+				'limit' => 10,
+				'page' => $this->request->get('page')
 			)
 		);
 
@@ -84,8 +70,7 @@ class PaymentsController extends ControllerBase
 	{
 		$this->view->disable();
 
-		if($this->request->isPost())
-		{
+		if ($this->request->isPost()) {
 			$response = new Response();
 
 			$paymentId = $this->request->getPost('paymentId');
@@ -93,7 +78,7 @@ class PaymentsController extends ControllerBase
 			$payment = Payments::findFirst($paymentId);
 			$payment->delete();
 
-			$response->setJsonContent(['paymentId'=>$paymentId]);
+			$response->setJsonContent(['paymentId' => $paymentId]);
 			$response->send();
 		}
 

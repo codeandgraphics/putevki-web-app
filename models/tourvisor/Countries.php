@@ -2,9 +2,11 @@
 
 namespace Models\Tourvisor;
 
-use Models\BaseModel as Model;
+use Interfaces\ITourvisorEntity;
+use Models\BaseModel;
+use Phalcon\Mvc\Model;
 
-class Countries extends Model
+class Countries extends BaseModel implements ITourvisorEntity
 {
 
 	public $id;
@@ -13,11 +15,17 @@ class Countries extends Model
 
 	public function initialize()
 	{
+		$this->setSource('tourvisor_countries');
+
 		$this->hasMany('id', Regions::name(), 'countryId', [
 			'alias' => 'regions'
 		]);
+	}
 
-		$this->setSource('tourvisor_countries');
+	public function fromTourvisor($item)
+	{
+		$this->id = $item->id;
+		$this->name = $item->name;
 	}
 
 	public function format()
@@ -28,6 +36,24 @@ class Countries extends Model
 		$country->name = $this->name;
 
 		return $country;
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Countries|Model
+	 */
+	public static function findFirst($parameters = null)
+	{
+		return parent::findFirst($parameters);
+	}
+
+	/**
+	 * @param mixed $parameters
+	 * @return Countries[]|Model\ResultsetInterface
+	 */
+	public static function find($parameters = null)
+	{
+		return parent::find($parameters);
 	}
 
 }

@@ -1,0 +1,966 @@
+@import "../imports";
+@import "../variables";
+
+body{
+	background: @color-gray-light;
+}
+
+#tour{
+
+	h2{
+	}
+
+	h3{
+		font-size: 20px;
+		border-bottom: 1px solid @color-border;
+	}
+
+	.btn {
+		text-align: center;
+	}
+
+	.sidebar{
+		.head {
+			.low-price{
+				width: 100%;
+				padding: 10px;
+
+				.wrap{
+					height: 40px;
+					border: 2px dashed @color-white;
+					border-radius: 4px;
+					color: @color-white;
+					.clearfix;
+
+					.percent{
+						width: 80px;
+						height: 40px;
+						float:left;
+						font-size: 26px;
+						text-align: center;
+						line-height: 36px;
+
+						.font-thin;
+					}
+
+					.text{
+						margin-top: 3px;
+						margin-left: 75px;
+						font-size: 13px;
+						line-height: 15px;
+					}
+				}
+			}
+		}
+
+		.content{
+			.wrap{
+				padding: 10px;
+
+				.pay-variants{
+
+					.variant{
+						margin-bottom: 10px;
+
+						p{
+							font-size: 12px;
+							color: @color-text-gray;
+							text-align: center;
+							padding: 5px;
+						}
+
+					}
+				}
+			}
+		}
+	}
+
+	.checkout-block{
+		margin-top: 20px;
+
+		.button-wrap{
+			height: 60px;
+
+			button{
+				height: 50px;
+			}
+		}
+
+		.payment-info{
+			margin-top: 5px;
+			color: @color-text-gray;
+			text-align: center;
+
+			li{
+				margin-bottom: 6px;
+			}
+
+			i{
+				font-size: 18px;
+			}
+
+			span{
+				font-size: 13px;
+				display: block;
+				margin-top: -4px;
+			}
+		}
+	}
+
+	.checkout{
+		.tour-sum{
+			margin-top: 10px;
+			margin-bottom: 10px;
+			padding-top: 10px;
+			border-top: 1px solid @color-border;
+
+			strong{
+				display: block;
+				font-size: 22px;
+				line-height: 30px;
+				color: @color-orange;
+			}
+
+			span{
+				display: block;
+				font-size: 16px;
+				line-height: 30px;
+			}
+
+			&.inline {
+				span {
+					width: 130px;
+					float: left;
+					overflow: hidden;
+					height: 30px;
+				}
+				strong {
+					margin-left: 140px;
+					text-align: right;
+					overflow: hidden;
+					height: 30px;
+				}
+			}
+		}
+
+		.params {
+			padding-bottom: 5px;
+
+			small{
+				display: block;
+				font-size: 13px;
+				color: @color-text-gray;
+			}
+			span{
+				display: block;
+				font-size: 15px;
+				color: @color-blue;
+			}
+
+			&.tour-tourists {
+				margin-bottom: 10px;
+			}
+		}
+
+		.prices {
+			padding-bottom: 5px;
+
+			&.inline {
+				small {
+					width: 130px;
+					float: left;
+					overflow: hidden;
+					height: 24px;
+				}
+				span {
+					margin-left: 140px;
+					text-align: right;
+					overflow: hidden;
+					height: 24px;
+				}
+			}
+
+			small{
+				display: block;
+				font-size: 13px;
+				color: @color-text-gray;
+			}
+			span{
+				font-size: 15px;
+				display: block;
+				color: @color-blue;
+			}
+
+			&.tour-price {
+				small {
+					font-size: 15px;
+				}
+				span{
+					font-size: 16px;
+				}
+			}
+		}
+	}
+
+	.main{
+
+		.head{
+
+			h1{
+				padding: 18px;
+				text-transform: none;
+
+				i{
+					color: @color-blue;
+				}
+			}
+		}
+
+		.content{
+			position: relative;
+			padding: 20px;
+
+			.hotel{
+				width: 100%;
+				position: relative;
+				min-height: 170px;
+
+				.image{
+					width: 250px;
+					height: 167px;
+					float: left;
+					position: relative;
+
+					.bg{
+						display: block;
+						width: 100%;
+						height: 100%;
+						background-size: 100% 100%;
+						background-position: center center;
+						background-repeat: no-repeat;
+						.transition(all 0.05s ease-out);
+
+						&:hover{
+							background-size: 105% 105%;
+							.transition(all 0.3s ease);
+						}
+					}
+				}
+
+				.info{
+					margin-left: 265px;
+					position: relative;
+
+					.touroperator{
+						border: 1px dashed @color-blue;
+						border-radius: 6px;
+						text-align: center;
+						position: absolute;
+						right: 0;
+						top: 0;
+						padding: 8px 10px 4px 10px;
+
+						img{
+							width: auto;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+
+					h2{
+						font-size: 22px;
+						text-transform: capitalize;
+						width: 450px;
+
+						a{
+							text-decoration: none;
+							color: @color-text-main;
+						}
+					}
+
+					.stars{
+						font-size: 14px;
+						letter-spacing: -2px;
+						line-height: 24px;
+
+						.star{
+							color: @color-blue;
+						}
+
+						.no-star{
+							color: @color-text-light;
+						}
+					}
+
+					.place{
+						margin-top: 5px;
+						font-size: 13px;
+						color: @color-blue;
+
+						.font-thin;
+					}
+
+					.description{
+						margin: 5px 0;
+					}
+
+					.icons{
+						display: table;
+						width: 100%;
+
+						& > div{
+							display: table-cell;
+							width: 33%;
+							vertical-align: middle;
+							height:50px;
+
+							&.room{
+
+								span{
+									text-transform: capitalize;
+								}
+							}
+							.icon{
+								width: 30px;
+								float:left;
+								text-align: center;
+								height: 30px;
+								font-size: 30px;
+								color: @color-blue;
+							}
+
+							.data{
+								margin-left: 40px;
+
+								span{
+									display: block;
+								}
+
+								small{
+									display: block;
+									color: @color-text-gray;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.actualize {
+				margin-top: 15px;
+				margin-bottom: 20px;
+				height: 200px;
+				position: relative;
+
+				.loader {
+					background: @color-gray-light;
+					.border-radius(6px);
+
+					.wrap {
+						width: 100%;
+						margin-left: -50%;
+
+						.object {
+							background: @color-blue;
+						}
+
+						span {
+							font-size: 20px;
+							display: block;
+							margin-top: 10px;
+
+						}
+					}
+				}
+			}
+
+			.flights{
+				padding: 20px 0;
+
+				.flight{
+					margin: 10px 0;
+					height: 70px;
+					border: 1px solid @color-border;
+					border-radius: 6px;
+					position: relative;
+					cursor: pointer;
+
+					.forward{
+						left: 0;
+					}
+
+					.backward{
+						right: 0;
+					}
+
+					&.active,
+					&:hover{
+						border-color: @color-blue;
+						background-color: lighten(@color-gray-light, 3%);
+
+						.arrow i,
+						.time{
+							color: @color-blue;
+						}
+
+						.charge{
+							color: @color-orange;
+						}
+					}
+
+					.forward,
+					.backward{
+						width: 300px;
+						height: 70px;
+						position: absolute;
+						top: 0;
+
+						.icon{
+							width: 50px;
+							height: 70px;
+							font-size: 34px;
+							line-height: 70px;
+							text-align: center;
+							color: @color-text-light;
+						}
+
+						.data{
+							max-width: 110px;
+
+							.date{
+								font-size: 14px;
+								line-height: 24px;
+							}
+
+							.time{
+								font-size: 24px;
+								line-height: 24px;
+							}
+
+							.airport{
+								font-size: 12px;
+								line-height: 20px;
+								color: @color-text-gray;
+								overflow: hidden;
+								width: 100%;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+							}
+						}
+
+						.departure{
+							float: left;
+
+							.icon{
+								float: left;
+
+								i{
+									&:before{
+										.rotate(45);
+									}
+								}
+							}
+
+							.data{
+								margin-left: 50px;
+								text-align: left;
+							}
+						}
+
+						.arrow{
+							display: block;
+							position: absolute;
+							top: 0;
+							left: 135px;
+							width: 30px;
+							height: 68px;
+							text-align: center;
+
+							small{
+								display: block;
+								margin-bottom: 4px;
+							}
+
+							i{
+								display: block;
+								font-size: 16px;
+								line-height: 68px;
+							}
+
+							span{
+								display: block;
+								font-size: 12px;
+								margin-top: 3px;
+								color: @color-text-gray;
+							}
+						}
+
+						.arrival{
+							float: right;
+
+							.icon{
+								float: right;
+
+								i{
+									&:before{
+										.rotate(135);
+									}
+								}
+							}
+
+							.data{
+								margin-right: 50px;
+								text-align: right;
+							}
+						}
+					}
+
+					.fuel{
+						position: absolute;
+						width: 120px;
+						height: 68px;
+						top: 0;
+						left: 50%;
+						margin-left: -60px;
+						background: @color-gray-light;
+
+						border-left: 1px solid @color-border;
+						border-right: 1px solid @color-border;
+
+						text-align: center;
+
+						.changed{
+							position: absolute;
+							top: 0;
+							width: 160px;
+							font-size:12px;
+							color: white;
+
+							.less,
+							.more{
+								position: absolute;
+								width: 100px;
+								top: 0;
+								left: 30px;
+								text-align: center;
+								border-radius: 0 0 4px 4px;
+							}
+
+							.more{
+								background-color: @color-main-orange;
+							}
+
+							.less{
+								background-color: @color-blue;
+							}
+						}
+
+						.data{
+
+							.charge{
+								margin-top: 13px;
+								font-size: 24px;
+								line-height: 26px;
+							}
+
+							span{
+								font-size: 12px;
+								color: @color-text-gray;
+							}
+
+							&.is-changed{
+								margin-top: 24px;
+
+								.charge{
+									line-height: 18px;
+								}
+							}
+						}
+					}
+				}
+
+				.no-flights{
+					display: block;
+					padding: 20px 20px 10px 20px;
+					margin: 10px 0;
+					text-align: center;
+					background: @color-gray-light;
+				}
+
+				.variants{
+					padding: 4px;
+					text-align: center;
+					margin-top: -5px;
+					display: block;
+
+					&:hover a{
+						border-bottom: none;
+					}
+
+					a{
+						text-decoration: none;
+						color: @color-blue;
+						border-bottom: 1px dashed @color-blue;
+						font-size: 12px;
+					}
+				}
+			}
+
+			.includes{
+				margin-top:30px;
+
+				dt, dd {
+
+					span{
+						display: none;
+					}
+
+					div{
+						display: block;
+					}
+
+					&.none {
+
+						span{
+							display: block;
+						}
+
+						div{
+							display: none;
+						}
+					}
+				}
+
+				dd{
+					&.none {
+						color: @color-orange;
+					}
+				}
+
+				dt{
+					&.none {
+						color: @color-text-gray;
+					}
+				}
+			}
+
+			.add-payments{
+				padding: 10px 0;
+				margin-bottom: 30px;
+
+				.payments{
+					margin-top: 10px;
+				}
+			}
+
+			.person{
+				padding-top: 10px;
+				padding-bottom: 20px;
+
+				h3{
+					margin-bottom: 10px;
+				}
+
+				.wrap{
+					background: lighten(@color-gray-light, 2%);
+					padding: 10px 10px 10px 10px;
+
+					.form-control{
+						background: @color-white;
+					}
+				}
+
+				.message{
+					color: @color-text-gray;
+					font-size: 12px;
+					margin-top: 3px;
+					text-align: right;
+				}
+
+				.confirm{
+					margin-top: 10px;
+					padding-left: 10px;
+					line-height: 1.3;
+				}
+			}
+
+			.tourists{
+				min-height: 100px;
+
+				h3{
+					margin-bottom: 10px;
+
+					.check-later{
+						float: right;
+						font-size: 15px;
+						text-transform: none;
+					}
+				}
+
+				.message{
+
+					&.later{
+						padding: 20px;
+						color: @color-text-gray;
+						border-color: @color-text-gray;
+					}
+				}
+
+				.tourist{
+					margin-bottom: 20px;
+
+					.title{
+						margin-bottom: 8px;
+
+						i{
+							color: @color-blue;
+						}
+					}
+
+					.wrap{
+						background: lighten(@color-gray-light, 2%);
+						padding: 10px 0;
+						.clearfix();
+
+						.left,
+						.right{
+							width: 50%;
+							float:left;
+							padding: 0 10px;
+
+							label{
+								font-size: 14px;
+								line-height: 16px;
+								display: block;
+							}
+
+							.form-control{
+								font-size: 15px;
+								margin-bottom: 10px;
+								background-color: @color-white;
+
+							}
+
+							.cell{
+								width: 100%;
+								clear: both;
+
+								.first{
+									float:left;
+									width: 164px;
+								}
+								.second{
+									margin-left: 174px;
+									width: 164px;
+								}
+
+								.form-group{
+									margin-bottom: 10px;
+								}
+
+								&:nth-child(2){
+									.form-group{
+										margin-bottom: 0;
+									}
+								}
+							}
+
+							label{
+
+								&.gender{
+									width: 74px;
+									float:left;
+									text-align: center;
+
+									input{
+										display: block;
+										margin: 0 auto;
+									}
+								}
+							}
+						}
+
+						.right{
+							border-left: 1px solid @color-border;
+						}
+					}
+
+					.order{
+						text-align: center;
+						font-size: 13px;
+						color: @color-blue;
+						padding: 5px;
+					}
+				}
+
+				.message{
+					color: @color-orange;
+					font-size: 15px;
+					text-align: center;
+					border: 1px dashed @color-orange;
+					border-radius: 4px;
+					padding: 5px;
+					margin-bottom: 20px;
+
+				}
+
+
+			}
+
+			.comments{
+				margin-top: 40px;
+				background: lighten(@color-gray-light, 2%);
+				padding: 10px;
+
+				textarea{
+					background: @color-white;
+				}
+			}
+
+			.pay-variants{
+				margin-top: 10px;
+				position: relative;
+
+				&.locked{
+					.overflow{
+						display: block;
+					}
+				}
+
+				.overflow{
+					display: none;
+					position: absolute;
+					top:0;
+					right:0;
+					left:0;
+					bottom:0;
+					width: 100%;
+					height: 100%;
+					z-index: 999;
+					background-color: @color-white-opacity;
+				}
+
+				.tab-content{
+					margin-top: 20px;
+				}
+
+				.variant{
+					width: 237px;
+
+					a{
+						border: none;
+						text-decoration: none;
+						color: @color-blue;
+					}
+
+					&.disabled{
+						a{
+							color: @color-text-light;
+
+							small {
+								color: @color-text-light;
+							}
+						}
+					}
+
+					&.active{
+						a{
+							background: @color-blue;
+							color: @color-white;
+
+							small {
+								color: @color-white;
+							}
+						}
+					}
+
+					.icon{
+						width: 55px;
+						float:left;
+						text-align: center;
+						height: 50px;
+						font-size: 50px;
+						line-height: 35px;
+						margin-top: -3px;
+					}
+
+					.data{
+						margin-left: 65px;
+						margin-top: 2px;
+						text-align: left;
+
+						span{
+							display: block;
+							font-size: 20px;
+							line-height: 24px;
+						}
+						small{
+							display: block;
+							font-size: 13px;
+							line-height: 20px;
+							color: @color-text-dark;
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	.map{
+		position: relative;
+
+		.city-select{
+			height: 46px;
+			padding: 6px;
+
+			span{
+				line-height: 34px;
+			}
+		}
+
+		.loader{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 546px;
+			z-index: 101;
+		}
+
+		#officesMap{
+			width: 100%;
+			height: 500px;
+		}
+	}
+
+	.tab-pane{
+		.message{
+			margin-top: 20px;
+			font-size: 12px;
+			color: @color-text-gray;
+			text-align: center;
+		}
+	}
+
+	.message{
+		&.no-online{
+			padding: 10px 20px;
+			color: @color-white;
+			background: @color-orange;
+			text-align: center;
+			border: 1px dashed @color-white;
+			border-radius: 10px;
+			margin-bottom: 30px;
+		}
+
+		&.no-actualize{
+			display: block;
+			padding: 40px 20px 30px 20px;
+			margin: 30px 0 30px 0;
+			text-align: center;
+			background: @color-gray-light;
+		}
+	}
+}
+

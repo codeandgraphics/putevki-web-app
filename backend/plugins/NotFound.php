@@ -8,11 +8,10 @@ class NotFound extends Plugin
 {
 	public function beforeException($event, $dispatcher, $exception)
 	{
-
 		$dispatcher->forward(
 			array(
 				'controller' => 'index',
-				'action'     => 'error404'
+				'action' => 'error404'
 			)
 		);
 

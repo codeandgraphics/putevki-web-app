@@ -1,5 +1,5 @@
 <div class="person">
-	<h2>Покупатель</h2>
+	<h3>Покупатель</h3>
 	<div class="wrap">
 		{% if type == 'online' %}
 		<div class="row">
@@ -19,7 +19,14 @@
 		<div class="row">
 			<div class="col-xs-6 form-group">
 				<label for="person-phone-{{ type }}" class="control-label">Телефон<sup>*</sup></label>
-				<input type="tel" class="form-control" id="person-phone-{{ type }}" name="person[phone]" placeholder="+7(495)123-45-67" required>
+				<input type="tel"
+					   class="form-control"
+					   id="person-phone-{{ type }}"
+					   name="person[phone]"
+					   data-inputmask="'mask':'+7 (999) 999-99-99'"
+					   placeholder="+7 (495) 123-45-67"
+					   required
+				/>
 			</div>
 			<div class="col-xs-6 form-group">
 				<label for="person-email-{{ type }}" class="control-label">Электронная почта<sup>*</sup></label>
@@ -54,7 +61,7 @@
 			{% if type == 'online' %}
 			<div class="confirm form-group">
 				<input type="checkbox" name="confirm" id="confirmation-{{ type }}" required>
-				<label class="control-label" for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement.pdf') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
+				<label for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement.pdf') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
 			</div>
 			{% endif %}
 		</div>

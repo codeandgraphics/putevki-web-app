@@ -60,7 +60,7 @@
 	$(document).ready(function(){
 
 		$('#hotelName').autocomplete({
-			source: "{{ url('requests/ajaxHotels') }}",
+			source: "{{ backend_url('requests/ajaxHotels') }}",
 			minLength: 3,
 			select: function(event, ui){
 				event.preventDefault();

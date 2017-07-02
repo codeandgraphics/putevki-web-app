@@ -76,7 +76,7 @@
 	$(document).ready(function(){
 
 		$('#touristsTable .tourist a.editable').editable({
-			url: '{{ url('tourists/ajaxEditField') }}'
+			url: '{{ backend_url('tourists/ajaxEditField') }}'
 		});
 
 		$('#touristsTable a.delete').click(function(){

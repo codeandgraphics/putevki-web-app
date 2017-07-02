@@ -1,25 +1,19 @@
-<div class="hero little">
-	<div class="hero-overlay"></div>
-	<div class="container">
-	</div>
-</div>
-
-<div class="page" id="hotel" data-hotelId="{{ hotelId }}">
+<div class="page" id="hotel" data-hotelId="{{ hotel.db.id }}">
 	<div class="container tour">
 		<div class="row no-gutter">
 			<section class="main left">
 				<div class="head">
 					<h1>
-						{{ hotel.name|lower }}
+                        {{ hotel.name|lower }}
 					</h1>
 					<div class="stars">
-						{% for i in 0..4 %}
-						<i class="star ion-ios-star{% if i >= hotel.stars %}-outline{% endif %}"></i>
-						{% endfor %}
+                        {% for i in 0..4 %}
+							<i class="star ion-ios-star{% if i >= hotel.stars %}-outline{% endif %}"></i>
+                        {% endfor %}
 
-						{% if hotel.types['deluxe'] %}
-						<small class="deluxe">Эксклюзивный</small>
-						{% endif %}
+                        {% if hotel.types['deluxe'] %}
+							<small class="deluxe">Эксклюзивный</small>
+                        {% endif %}
 					</div>
 					<div class="place">
 						<i class="ion-ios-location"></i>
@@ -30,26 +24,28 @@
 				<div class="content">
 					<div class="title">
 						<div class="gallery">
-							<div class="fotorama" data-nav="thumbs" data-width="400" data-height="260" data-loop="true">
-								{% for i in 0..hotel.imagescount-1 %}
-								<img src="{{ hotel.images.image[i] }}" />
-								{% endfor %}
-							</div>
+							<ul class="light-slider">
+                                {% for i in 0..hotel.imagescount-1 %}
+									<li data-thumb="{{ hotel.images.image[i] }}">
+										<img src="{{ hotel.images.image[i] }}" />
+									</li>
+                                {% endfor %}
+							</ul>
 						</div>
 
 						<div class="description">
 							<ul class="types list-unstyled list-inline">
-								{% for key, type in hotel.types %}
-								<li class="type {{ key }}">{{ type }}</li>
-								{% endfor %}
+                                {% for key, type in hotel.types %}
+									<li class="type {{ key }}">{{ type }}</li>
+                                {% endfor %}
 							</ul>
-							{% if hotel.description is defined %}
-							{{ hotel.description }}
-							{% else %}
-							<div class="message">
-								К сожалению, описания отеля у нас пока нет :(
-							</div>
-							{% endif %}
+                            {% if hotel.description is defined %}
+                                {{ hotel.description }}
+                            {% else %}
+								<div class="message">
+									К сожалению, описания отеля у нас пока нет :(
+								</div>
+                            {% endif %}
 						</div>
 					</div>
 
@@ -57,97 +53,103 @@
 						<h3>Туры в отель {{ hotel.name|lower }}</h3>
 
 						<div class="hotel-form">
-							<form class="form-inline search" action="" method="get" id="searchForm"
-								  data-departure="{{ params.departureId }}"
-								  data-country="{{ hotel.db.country.id }}"
-								  data-hotel="{{ hotel.db.id }}"
-								  data-region="{{ hotel.db.region.id }}"
-								  data-date="<?=implode('.', array_reverse(explode('-',$params->date)));?>"
-								  data-date-range="{{ params.date_range }}"
-								  data-nights="{{ params.nights }}"
-								  data-nights-range="{{ params.nights_range }}"
-								  data-adults="{{ params.adults }}"
-								  data-kids="{{ params.kids }}"
-								  data-stars="{{ params.starsId }}"
-								  data-meal="{{ params.mealId }}"
-								  data-operator="{{ operator }}"
+							<form class="search-form" action="" id="searchForm"
 								  data-countries="{{ formCountries }}"
 								  data-regions="{{ formRegions }}"
-								>
-								<div class="progressbar"></div>
-								<div class="loader" style="display: none;">
-									<div class="wrap">
-										<div class="object"></div>
-									</div>
-								</div>
-								<div class="from form-group">
-									<select name="departure" class="form-control">
-{% for departure in departures %}
-										<option value="{{ departure.id }}"{% if departure.id == params.departureId %} selected="selected"{% endif %}>
-											{% if departure.id != 99 %}из {% endif %}{{ departure.name_from }}
-										</option>
-{% endfor %}
-									</select>
-								</div>
-								<div class="when form-group">
-									<span class="range">± 2 дня</span>
-									<div class="value"></div>
-								</div>
-								<div class="length form-group popup-nights">
-									<span class="range">± 2</span>
-									<div class="value"></div>
-									<div class="popup nights hidden">
-										<div class="selector">
-											<div class="minus">-</div>
-											<div class="plus">+</div>
-											<div class="param"></div>
-										</div>
-										<div class="range-checkbox">
-											<input type="checkbox" id="nights-range-days" value="1" name="nights-range-days" checked>
-											<label for="nights-range-days">± 2 ночи</label>
+								  data-from="{{ params.search.from }}"
+								  data-where='{{ params.search.where|json_encode }}'
+								  data-when='{{ params.search.when|json_encode }}'
+								  data-people='{{ params.search.people|json_encode }}'
+								  data-filters='{{ params.search.filters|json_encode }}'
+							>
+								{% set departure = params.search.fromEntity() %}
+								<div class="form-container">
+									<div class="loader" style="display: none;">
+										<div class="wrap">
+											<div class="object"></div>
 										</div>
 									</div>
-								</div>
-								<div class="people form-group popup-people">
-									<div class="value"></div>
-									<div class="popup people hidden">
-										<div class="adults selector">
-											<div class="minus">-</div>
-											<div class="plus">+</div>
-											<div class="param"></div>
+									<div class="inputs">
+										<div class="when input">
+											<span class="range">± 2 дня</span>
+											<div class="value"></div>
+											<input title="when" />
 										</div>
-										<div class="kids">
-											<div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
-										</div>
-										<div class="add-kids">
-											<div class="add">
-												<select>
-													<option value="">Добавить ребенка</option>
-													<option value="1">до 2х лет</option>
-													<option value="2">2 года</option>
-													<option value="3">3 года</option>
-													<option value="4">4 года</option>
-													<option value="5">5 лет</option>
-													<option value="6">6 лет</option>
-													<option value="7">7 лет</option>
-													<option value="8">8 лет</option>
-													<option value="9">9 лет</option>
-													<option value="10">10 лет</option>
-													<option value="11">11 лет</option>
-													<option value="12">12 лет</option>
-													<option value="13">13 лет</option>
-													<option value="14">14 лет</option>
-												</select>
-												<div class="info">
-													Чтобы взять с собой больше детей, разделите взрослых и детей на несколько групп или обратитесь в турагентство.
+										<div class="length input popup-nights">
+											<span class="range">± 2</span>
+											<div class="value"></div>
+											<div class="popup nights">
+												<i class="popup-pointer"></i>
+												<div class="selector">
+													<div class="minus">–</div>
+													<div class="plus">+</div>
+												</div>
+												<div class="range-checkbox">
+													<input type="checkbox" id="nights-range-days" checked>
+													<label for="nights-range-days">± 2 ночи</label>
 												</div>
 											</div>
 										</div>
+										<div class="people input popup-people">
+											<div class="value"></div>
+											<div class="popup people">
+												<i class="popup-pointer"></i>
+												<div class="adults selector">
+													<div class="minus">-</div>
+													<div class="plus">+</div>
+													<div class="param"><span></span> <i class="ion-man"></i></div>
+												</div>
+												<div class="kids">
+													<div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
+												</div>
+												<div class="add-kids">
+													<div class="add">
+														<select title="kids">
+															<option value="">Добавить ребенка</option>
+															<option value="1">до 2х лет</option>
+															<option value="2">2 года</option>
+															<option value="3">3 года</option>
+															<option value="4">4 года</option>
+															<option value="5">5 лет</option>
+															<option value="6">6 лет</option>
+															<option value="7">7 лет</option>
+															<option value="8">8 лет</option>
+															<option value="9">9 лет</option>
+															<option value="10">10 лет</option>
+															<option value="11">11 лет</option>
+															<option value="12">12 лет</option>
+															<option value="13">13 лет</option>
+															<option value="14">14 лет</option>
+														</select>
+														<div class="info">
+															Чтобы взять с собой больше детей, разделите взрослых и детей на несколько групп или обратитесь в турагентство.
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="from input dropdown">
+											<span class="from-text range"{% if departure.id == 99 %} style="display:none;"{% endif %}>из</span>
+											<div class="value">{{ departure.name_from }}</div>
+											<select title="from-select">
+												<optgroup label="Популярные">
+													<option value="1" data-gen="Москвы">из Москвы</option>
+													<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>
+													<option value="99" data-gen="Без перелета">Без перелета</option>
+												</optgroup>
+												<optgroup label="Все">
+                                                    {% for item in departures %}
+														<option value="{{ item.id }}" data-gen="{{ item.name_from }}">из {{ item.name_from }}</option>
+                                                    {% endfor %}
+												</optgroup>
+											</select>
+										</div>
+										<div class="search-button">
+											<button class="btn btn-primary">Искать туры</button>
+										</div>
 									</div>
 								</div>
-								<div class="search form-group">
-									<button class="btn btn-default">Искать туры</button>
-								</div>
+								<div class="progressbar"></div>
 							</form>
 						</div>
 
@@ -221,9 +223,9 @@
 						</div>
 					</div>
 
-					<div class="row services">
-						<div class="col-sm-6">
-							{% if hotel.territory is defined %}
+					<div class="services">
+						<div class="grid-sizer"></div>
+                        {% if hotel.territory is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-territory">
 									<div class="icon">
@@ -233,28 +235,28 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-territory">
-									{{ hotel.territory }}
+                                    {{ hotel.territory }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.meallist is defined %}
+                        {% if hotel.meallist is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-meallist">
 									<div class="icon">
 										<i class="ion-fork"></i>
 										<i class="ion-knife"></i>
 									</div>
-									 Питание
+									Питание
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-meallist">
-									{{ hotel.meallist }}
+                                    {{ hotel.meallist }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.inroom is defined %}
+                        {% if hotel.inroom is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-inroom">
 									<div class="icon">
@@ -264,12 +266,12 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-inroom">
-									{{ hotel.inroom }}
+                                    {{ hotel.inroom }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.roomtypes is defined %}
+                        {% if hotel.roomtypes is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-roomtypes">
 									<div class="icon">
@@ -279,13 +281,12 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-roomtypes">
-									{{ hotel.roomtypes }}
+                                    {{ hotel.roomtypes }}
 								</div>
 							</div>
-							{% endif %}
-						</div>
-						<div class="col-sm-6">
-							{% if hotel.servicefree is defined %}
+                        {% endif %}
+
+                        {% if hotel.servicefree is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-servicefree">
 									<div class="icon">
@@ -295,12 +296,12 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-servicefree">
-									{{ hotel.servicefree }}
+                                    {{ hotel.servicefree }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.servicepay is defined %}
+                        {% if hotel.servicepay is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-servicepay">
 									<div class="icon">
@@ -310,12 +311,12 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-servicepay">
-									{{ hotel.servicepay }}
+                                    {{ hotel.servicepay }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.services is defined %}
+                        {% if hotel.services is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-services">
 									<div class="icon">
@@ -325,12 +326,12 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-services">
-									{{ hotel.services }}
+                                    {{ hotel.services }}
 								</div>
 							</div>
-							{% endif %}
+                        {% endif %}
 
-							{% if hotel.child is defined %}
+                        {% if hotel.child is defined %}
 							<div class="grid-item">
 								<h3 data-toggle="collapse" data-target="#collapse-child">
 									<div class="icon">
@@ -340,11 +341,10 @@
 									<i class="ion-ios-arrow-down open"></i>
 								</h3>
 								<div class="collapse in item" id="collapse-child">
-									{{ hotel.child }}
+                                    {{ hotel.child }}
 								</div>
 							</div>
-							{% endif %}
-						</div>
+                        {% endif %}
 					</div>
 				</div>
 			</section>
@@ -356,40 +356,40 @@
 				</div>
 				<div class="content">
 					<div class="wrap">
-						<dl class="dl-horizontal about">
-							{% if hotel.build is defined %}
-							<dt>Построен:</dt>
-							<dd>{{ hotel.build }}</dd>
-							{% endif %}
+						<div class="about">
+                            {% if hotel.build is defined %}
+								<small>Построен:</small>
+								<span>{{ hotel.build }}</span>
+                            {% endif %}
 
-							{% if hotel.repair is defined %}
-							<dt>Реставрация:</dt>
-							<dd>{{ hotel.repair }}</dd>
-							{% endif %}
+                            {% if hotel.repair is defined %}
+								<small>Реставрация:</small>
+								<span>{{ hotel.repair }}</span>
+                            {% endif %}
 
-							{% if hotel.placement is defined %}
-							<dt>Расположен:</dt>
-							<dd>{{ hotel.placement }}</dd>
-							{% endif %}
+                            {% if hotel.placement is defined %}
+								<small>Расположен:</small>
+								<span>{{ hotel.placement }}</span>
+                            {% endif %}
 
-							{% if hotel.phone is defined %}
-							<dt>Телефон:</dt>
-							<dd>{{ hotel.phone }}</dd>
-							{% endif %}
+                            {% if hotel.phone is defined %}
+								<small>Телефон:</small>
+								<span>{{ hotel.phone }}</span>
+                            {% endif %}
 
-							{% if hotel.site is defined %}
-							<dt>Сайт:</dt>
-							<dd>
-								<a href="http://{{ hotel.site }}" target="_blank">{{ hotel.site }}</a>
-							</dd>
-							{% endif %}
-						</dl>
-						{% if (hotel.coord1 is not null) and (hotel.coord2 is not null) %}
-						<a href="//www.google.ru/maps/search/{{ hotel.name }}/@{{ hotel.coord1 }},{{ hotel.coord2 }},16z?hl=ru" target="_blank">
-							<img src="//maps.googleapis.com/maps/api/staticmap?center={{ hotel.coord1 }},{{ hotel.coord2 }}&zoom=16&size=280x280&maptype=hybrid
+                            {% if hotel.site is defined %}
+								<small>Сайт:</small>
+								<span>
+									<a href="http://{{ hotel.site }}" target="_blank">{{ hotel.site }}</a>
+								</span>
+                            {% endif %}
+						</div>
+                        {% if (hotel.coord1 is not null) and (hotel.coord2 is not null) %}
+							<a href="//www.google.ru/maps/search/{{ hotel.name }}/@{{ hotel.coord1 }},{{ hotel.coord2 }},16z?hl=ru" target="_blank">
+								<img src="//maps.googleapis.com/maps/api/staticmap?center={{ hotel.coord1 }},{{ hotel.coord2 }}&zoom=16&size=280x280&maptype=hybrid
 	&markers=color:blue%7Clabel:H%7C{{ hotel.coord1 }},{{ hotel.coord2 }}" />
-						</a>
-						{% endif %}
+							</a>
+                        {% endif %}
 					</div>
 				</div>
 			</aside>

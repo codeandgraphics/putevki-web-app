@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li class="active">Популярные страны</li>
 </ol>
 
@@ -9,7 +9,7 @@
 		<p>Выбор популярных стран для отображения в приложении </p>
 	</div>
 	<div class="panel-body">
-		<table class="table" id="populars" data-url="{{ url('populars/_setPopular') }}">
+		<table class="table" id="populars" data-url="{{ backend_url('populars/_setPopular') }}">
 			<thead>
 			<tr>
 				<th>Страна</th>
@@ -20,7 +20,7 @@
 			{% for country in countries %}
 				<tr>
 					<td>
-						<a href="{{ url('populars/country/') }}{{ country.id }}">
+						<a href="{{ backend_url('populars/country/') }}{{ country.id }}">
 							{{ country.name }}
 						</a>
 					</td>

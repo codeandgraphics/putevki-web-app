@@ -1,26 +1,32 @@
 <?php
 
-use Phalcon\Http\Response			as Response,
-	Models\Tourvisor				as Tourvisor,
-	Models\Cities					as Cities,
-	Frontend\Models\SearchQueries	as SearchQueries;
+namespace Frontend\Controllers;
 
-class HotelController extends ControllerFrontend
+use Frontend\Models\Params;
+use Models\Origin;
+use Models\SearchQuery;
+use Models\Tourvisor;
+use Utils\Tourvisor as TourvisorUtils;
+use Utils\Text as TextUtils;
+
+class HotelController extends BaseController
 {
-	public function indexAction($name, $id)
+	public function indexAction()
 	{
-		$result = Utils\Tourvisor::getMethod('hotel', array(
-			'hotelcode'		=> $id,
-			'imgwidth'		=> 400,
-			'imgheight'		=> 260
+		$id = $this->dispatcher->getParam('id', 'int');
+
+        $result = TourvisorUtils::getMethod('hotel', array(
+			'hotelcode' => $id,
+			'imgwidth' => 400,
+			'imgheight' => 260
 		));
-		
+
 		$hotel = $result->data->hotel;
 
-		$dbHotel = Tourvisor\Hotels::findFirst($id);
-		
-		$dbTypes = new stdClass();
-		
+        $dbHotel = Tourvisor\Hotels::findFirst('id="' . $id . '"');
+
+		$dbTypes = new \stdClass();
+
 		$dbTypes->active = $dbHotel->active;
 		$dbTypes->relax = $dbHotel->relax;
 		$dbTypes->family = $dbHotel->family;
@@ -28,48 +34,53 @@ class HotelController extends ControllerFrontend
 		$dbTypes->city = $dbHotel->city;
 		$dbTypes->beach = $dbHotel->beach;
 		$dbTypes->deluxe = $dbHotel->deluxe;
-		
+
 		$types = [];
-		
-		foreach($dbTypes as $key=>$value)
-		{
-			if($value == 1)
-			{
-				$types[$key] = Utils\Text::humanize('types',$key);
+
+		foreach ((array)$dbTypes as $key => $value) {
+
+			if ((int) $value === 1) {
+				$types[$key] = TextUtils::humanize('types', $key);
 			}
-			
 		}
 
 		$operator = $this->request->get('operator');
-		
+
 		$hotel->types = $types;
 
+		if (!array_key_exists('deluxe', $hotel->types)) {
+			$hotel->types['deluxe'] = false;
+		}
+
 		$hotel->db = $dbHotel;
-		
-		$hotel->humanizeRating = Utils\Text::humanize('rating',$hotel->rating);
-		
-		$hotel->coord1 = str_replace(',','.',$hotel->coord1);
-		$hotel->coord2 = str_replace(',','.',$hotel->coord2);
 
-		/*$hotel->description = isset($hotel->description) ? $hotel->description : '';
-		$hotel->build = isset($hotel->build) ? $hotel->build : '';
-		$hotel->repair = isset($hotel->repair) ? $hotel->repair : '';
-		$hotel->phone = isset($hotel->phone) ? $hotel->phone : '';
-		$hotel->site = isset($hotel->site) ? $hotel->site : '';*/
+		$hotel->humanizeRating = TextUtils::humanize('rating', $hotel->rating);
 
-		//print_r($hotel);
-		//die();
+		$hotel->coord1 = str_replace(',', '.', $hotel->coord1);
+		$hotel->coord2 = str_replace(',', '.', $hotel->coord2);
 
-		$title = 'Туры в ' . $hotel->name . ' из ' . $this->currentCity->name_rod . ' на ';
+        $departures = Tourvisor\Departures::find([
+            'id NOT IN (:moscowId:, :spbId:, :noId:)',
+            'bind' => [
+                'moscowId'	=> 1,
+                'spbId'		=> 5,
+                'noId'		=> 99
+            ],
+            'order'	=> 'name'
+        ]);
+
+		$title = 'Путёвки в отель ' . $hotel->name . ' из ' . $this->city->name_rod . ' по самым низким ценам на ';
+
+		$this->params->search->where->hotels = $hotel->db->id;
 
 		$this->view->setVars([
-			'departures'	=> Tourvisor\Departures::find(),
-			'params'		=> $this->params,
-			'hotel'			=> $hotel,
-			'title'			=> $title,
-			'page'			=> 'hotel',
-			'operator'		=> $operator
+			'departures' => $departures,
+			'params' => $this->params,
+			'hotel' => $hotel,
+			'title' => $title,
+			'page' => 'hotel',
+			'operator' => $operator
 		]);
 	}
-	
+
 }

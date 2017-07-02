@@ -9,12 +9,12 @@ class UsersController extends ControllerBase
 	private function _registerSession($user)
 	{
 		$this->session->set('auth', [
-			'id'        => $user->id,
-			'name'      => $user->name,
-			'role'      => $user->role,
-			'company'   => $user->company,
-			'email'     => $user->email,
-			'imageUrl'  => $user->imageUrl
+			'id' => $user->id,
+			'name' => $user->name,
+			'role' => $user->role,
+			'company' => $user->company,
+			'email' => $user->email,
+			'imageUrl' => $user->imageUrl
 		]);
 	}
 
@@ -24,28 +24,20 @@ class UsersController extends ControllerBase
 
 	public function loginAction()
 	{
-		if($this->request->isPost())
-		{
+		if ($this->request->isPost()) {
 			$email = $this->request->getPost('email');
 			$password = $this->request->getPost('password');
 
-			$user = Users::findFirstByEmail($email);
+			$user = Users::findFirst('email="' . $email . '"');
 
-			if ($user)
-			{
-				if ($this->security->checkHash($password, $user->password))
-				{
+			if ($user) {
+				if ($this->security->checkHash($password, $user->password)) {
 					$this->_registerSession($user);
 					$this->flashSession->success('Вы успешно вошли в систему');
-					return $this->response->redirect('');
+					return $this->response->redirect($this->backendUrl->get(''));
 				}
-				else
-				{
-					$this->flashSession->error('Неправильный пароль');
-				}
-			}
-			else
-			{
+				$this->flashSession->error('Неправильный пароль');
+			} else {
 				$this->flashSession->error('Нет такого пользователя');
 			}
 		}
@@ -56,13 +48,12 @@ class UsersController extends ControllerBase
 		$this->session->destroy();
 		$this->flashSession->success('Вы вышли из системы');
 
-		return $this->response->redirect('/');
+		return $this->response->redirect($this->backendUrl->get(''));
 	}
 
 	public function registerAction()
 	{
-		if($this->request->isPost())
-		{
+		if ($this->request->isPost()) {
 			$user = new Users();
 
 			$name = $this->request->getPost('name');

@@ -1,119 +1,9 @@
-<div class="hero little">
-	<div class="hero-overlay"></div>
-	<div class="container">
-		<form class="form-inline" action="" method="get" id="searchForm"
-			  data-departure="{{ params.departureId }}"
-			  data-country="{{ params.countryId }}"
-			  data-region="{{ params.regionId }}"
-			  data-date="<?=implode('.', array_reverse(explode('-',$params->date)));?>"
-			  data-date-range="{{ params.date_range }}"
-			  data-nights="{{ params.nights }}"
-			  data-nights-range="{{ params.nights_range }}"
-			  data-adults="{{ params.adults }}"
-			  data-kids="{{ params.kids }}"
-			  data-stars="{{ params.starsId }}"
-			  data-meal="{{ params.mealId }}"
-			  data-countries="{{ formCountries }}"
-			  data-regions="{{ formRegions }}"
-		>
-			<div class="search-form">
-				<div class="loader">
-					<div class="wrap">
-						<div class="object"></div>
-					</div>
-				</div>
-				<div class="where form-group">
-					<input type="text" class="form-control" placeholder="Страна, регион или отель">
-				</div>
-				<div class="when form-group">
-					<span class="range">± 2 дня</span>
-					<div class="value"></div>
-				</div>
-				<div class="length form-group popup-nights">
-					<span class="range">± 2</span>
-					<div class="value"></div>
-					<div class="popup nights hidden">
-						<div class="selector">
-							<div class="minus">-</div>
-							<div class="plus">+</div>
-							<div class="param"></div>
-						</div>
-						<div class="range-checkbox">
-							<input type="checkbox" id="nights-range-days" value="1" name="nights-range-days" checked>
-							<label for="nights-range-days">± 2 ночи</label>
-						</div>
-					</div>
-				</div>
-				<div class="people form-group popup-people">
-					<div class="value"></div>
-					<div class="popup people hidden">
-						<div class="adults selector">
-							<div class="minus">-</div>
-							<div class="plus">+</div>
-							<div class="param"></div>
-						</div>
-						<div class="kids">
-							<div class="kid template"><span></span> <i class="ion-ios-close-empty"></i></div>
-						</div>
-						<div class="add-kids">
-							<div class="add">
-								<select>
-									<option value="">Добавить ребенка</option>
-									<option value="1">до 2х лет</option>
-									<option value="2">2 года</option>
-									<option value="3">3 года</option>
-									<option value="4">4 года</option>
-									<option value="5">5 лет</option>
-									<option value="6">6 лет</option>
-									<option value="7">7 лет</option>
-									<option value="8">8 лет</option>
-									<option value="9">9 лет</option>
-									<option value="10">10 лет</option>
-									<option value="11">11 лет</option>
-									<option value="12">12 лет</option>
-									<option value="13">13 лет</option>
-									<option value="14">14 лет</option>
-								</select>
-								<div class="info">
-									Чтобы взять с собой больше детей, разделите взрослых и детей на несколько групп или обратитесь в турагентство.
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="search-button">
-					<button class="btn btn-default">Искать туры</button>
-				</div>
-				<div class="from dropdown search" id="searchFrom">
-					<span class="from-text"{% if currentDeparture.id == 99 %} style="display:none;"{% endif %}>Вылет из</span>
-					<a id="fromDropdown" href="javascript:">
-						<span>{{ params.departure.name_from }}</span><b class="caret"></b>
-						<select title="from-select">
-							<optgroup label="Популярные">
-								<option value="1" data-gen="Москвы">из Москвы</option>
-								<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>
-								<option value="99" data-gen="Без перелета">Без перелета</option>
-							</optgroup>
-							<optgroup label="Все">
-								{% for departure in departures %}
-									<option value="{{ departure.id }}" data-gen="{{ departure.name_from }}">из {{ departure.name_from }}</option>
-								{% endfor %}
-							</optgroup>
-						</select>
-					</a>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-
-
-<div class="page" id="search" data-tourvisorId="{{ tourvisorId }}">
+<div class="page" id="search" data-searchId="{{ searchId }}" data-no-image="{{ static_url('img/no-image.png') }}">
 	<div class="container search">
 		<div class="row no-gutter">
 			<aside class="sidebar left">
 				<div class="progressbar head">
-					<div class="bar" style="width:0%;"></div>
+					<div class="bar" style="width:0;"></div>
 					<div class="percent">
 						<span class="count">0</span> <span class="text">отелей найдено</span>
 					</div>
@@ -145,7 +35,7 @@
 							<div class="hotel">
 								<div class="form-group ion-ios-search-strong">
 									<label for="filters-hotel">Название отеля:</label>
-									<input type="text" id="filters-hotel" placeholder=""/>
+									<input id="filters-hotel" placeholder=""/>
 								</div>
 							</div>
 
@@ -154,46 +44,46 @@
 
 								<ul class="list-unstyled" id="types">
 									<li>
-										<input type="checkbox" id="type-active" value="active" checked="checked">
+										<input type="checkbox" id="type-active" value="active" checked>
 										<label for="type-active">Активный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-relax" value="relax" checked="checked">
+										<input type="checkbox" id="type-relax" value="relax" checked>
 										<label for="type-relax">Спокойный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-family" value="family" checked="checked">
+										<input type="checkbox" id="type-family" value="family" checked>
 										<label for="type-family">Семейный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-health" value="health" checked="checked">
+										<input type="checkbox" id="type-health" value="health" checked>
 										<label for="type-health">Лечебный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-city" value="city" checked="checked">
+										<input type="checkbox" id="type-city" value="city" checked>
 										<label for="type-city">Городской</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-beach" value="beach" checked="checked">
+										<input type="checkbox" id="type-beach" value="beach" checked>
 										<label for="type-beach">Пляжный</label>
 									</li>
 									<li>
-										<input type="checkbox" id="type-deluxe" value="deluxe" checked="checked">
+										<input type="checkbox" id="type-deluxe" value="deluxe" checked>
 										<label for="type-deluxe">Эксклюзивный</label>
 									</li>
 								</ul>
 							</div>
 
 							<div class="form-block">
-								<label>Цена тура</label>
-								<input type="text" id="price" name="price" value="" />
+								<label>Цена путёвки</label>
+								<input id="price" name="price" value="" />
 							</div>
 
 						</form>
 					</div>
 
 					<div class="tour-includes">
-						В стоимость каждого тура входит:
+						В стоимость каждой путёвки входит:
 						<dl class="dl-horizontal">
 							<dt><i class="ion-plane"></i></dt>
 							<dd>Перелет</dd>
@@ -213,7 +103,7 @@
 			<section class="main right">
 				<div class="steps head">
 					<ul class="list-inline">
-						<li class="current">Выбор тура</li>
+						<li class="current">Выбор путёвки</li>
 						<li>&rarr;</li>
 						<li>Перелет и оформление</li>
 					</ul>
@@ -227,43 +117,39 @@
 							Звезд:
 							<button class="dropdown-toggle" type="button" id="starsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<div class="text">
-									<?php
-									$star = (int) $params->stars->name;
-									for($i=1;$i<=$star;$i++){
-									echo '<i class="ion-star"></i>';
-									}
-									?>
-									<?=($params->stars->id == 6) ? '<span class="label label-warning">эксклюзив</span>': "и выше";?>
+									{% set star = params.search.starsEntity() %}
+									{% for i in 1..star.name %}<i class="ion-star"></i>{% endfor %}
+									{% if star.id == 6 %}<span class="label label-warning">эксклюзив</span>{% else %}и выше{% endif %}
 								</div>
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="starsMenu">
-								<li>
+								<li{% if star.id == 6 %} class="active"{% endif %}>
 									<a href="#" data-stars="6">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										<span class="label label-warning">эксклюзив</span>
 									</a>
 								</li>
 								<li role="separator" class="divider"></li>
-								<li>
+								<li{% if star.id == 5 %} class="active"{% endif %}>
 									<a href="#" data-stars="5">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 4 %} class="active"{% endif %}>
 									<a href="#" data-stars="4">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 3 %} class="active"{% endif %}>
 									<a href="#" data-stars="3">
 										<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
 										и выше
 									</a>
 								</li>
-								<li>
+								<li{% if star.id == 2 %} class="active"{% endif %}>
 									<a href="#" data-stars="2">
 										<i class="ion-star"></i><i class="ion-star"></i>
 										и выше
@@ -277,30 +163,23 @@
 							<button class="dropdown-toggle" type="button" id="mealMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<i class="ion-fork"></i> <i class="ion-knife"></i> &nbsp;
 								<div class="text">
-									<?=$params->meal->name;?> <?=($params->meal->name !== 'UAI') ? 'и выше':'';?>
+									{% set meal = params.search.mealsEntity() %}
+									{{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
 								</div>
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="mealMenu">
-								<?php
-								foreach($meals as $meal)
-								{
-									?>
-								<li>
-									<a href="#" data-meal="<?=$meal->id;?>">
-										<?=$meal->name;?> <?=($meal->name !== 'UAI') ? 'и выше':'';?>
-										<small><?=$meal->russian;?></small>
-									</a>
-								</li>
-								<?php
-									if($meal->name === 'AI')
-								{
-								?>
-								<li role="separator" class="divider"></li>
-								<?php
-									}
-								}
-								?>
+								{% for item in meals %}
+									<li{% if item.name == meal.name %} class="active"{% endif %}>
+										<a href="#" data-meal="{{ item.id }}">
+											{{ item.name }} {% if item.name != 'UAI' %}и выше{% endif %}
+											<small>{{ item.russian }}</small>
+										</a>
+									</li>
+									{% if item.name == 'AI' %}
+										<li role="separator" class="divider"></li>
+									{% endif %}
+								{% endfor %}
 							</ul>
 						</div>
 					</div>
@@ -313,17 +192,17 @@
 							<div class="info">
 								<div class="image">
 									<a href="#" target="_blank">
-										<div class="bg" style="background-image: url();"></div>
+										<div class="bg" style="background-image: url('');"></div>
 									</a>
 								</div>
 								<div class="price">
-									<div class="text">Стоимость путевки в этот отель:</div>
+									<div class="text">Стоимость путёвки в этот отель:</div>
 									<div class="sum">
-										<a href="#" class="btn btn-primary order" target="_blank"></a>
+										от <span></span> р.
 									</div>
 									<div class="other">
-										<a href="#" class="variants-open">показать другие варианты</a>
-										<a href="#" class="variants-close">закрыть</a>
+										<a href="#" class="variants-open internal"><span>показать путёвки</span></a>
+										<a href="#" class="variants-close internal"><span>скрыть</span></a>
 									</div>
 								</div>
 								<div class="about">
@@ -331,20 +210,23 @@
 										<a href="#" target="_blank"></a>
 									</h4>
 									<div class="rating">
-										<span class="stars">
-										</span>
+										<span class="stars"></span>
 										<span class="review">
-											<strong></strong> &mdash; <span></span>
-										</span>
+												<strong></strong> &mdash; <span></span>
+											</span>
 									</div>
 									<ul class="types list-unstyled list-inline">
 									</ul>
+									<div class="place">
+										<i class="ion-location"></i>
+										<span></span>
+									</div>
 									<div class="description">
 										Описания пока нет :(
 									</div>
 								</div>
 
-								<div class="icons">
+								<!--<div class="icons">
 									<div class="operator">
 										<div class="icon">
 											<img src="" data-src="//tourvisor.ru/pics/operators/searchlogo/{id}.gif"/>
@@ -382,7 +264,7 @@
 											<span></span>
 										</div>
 									</div>
-								</div>
+								</div>-->
 							</div>
 
 							<div class="variants">
@@ -433,8 +315,8 @@
 									</div>
 								</div>
 								<div class="more">
-									<a href="#">
-										Показать еще туры
+									<a href="#" class="internal">
+										<span>Показать еще путёвки</span>
 									</a>
 								</div>
 							</div>
@@ -443,38 +325,33 @@
 					</div>
 
 					<div class="more-results block">
-						<a href="#">Показать еще</a>
+						<a href="#" class="internal">
+							<span>Показать еще</span>
+						</a>
 						<div class="loader">
 							<div class="wrap">
 								<div class="object"></div>
-								<span>Ищем лучшие предложения для вас...</span>
+								<span>Ищем лучшие путёвки для вас...</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="help block">
-						<p>Нужна помощь с поиском туров?</p>
-						<button class="btn btn-primary with-icon" data-toggle="modal" data-target="#callBackModal">
-							<div class="icon">
+						<h4>Не удается найти нужную путёвку? Мы поможем!</h4>
+						<p>
+							Просто оставьте нам свой номер телефона,
+							и наши опытные менеджеры подберут для вас путешествие мечты!
+						</p>
+						<button class="btn btn-default with-icon" data-toggle="modal" data-target="#callBackModal">
+							<span class="icon">
 								<i class="ion-ios-telephone"></i>
-							</div>
-							<div class="data">
-								<span>Позвоните мне!</span>
+							</span>
+							<span class="data">
+								Позвоните мне!
 								<small>Мы поможем с подбором</small>
-							</div>
-						</button>
-						или
-						<button class="btn btn-default with-icon" data-toggle="modal" data-target="#findTourModal">
-							<div class="icon">
-								<i class="ion-ios-email"></i>
-							</div>
-							<div class="data">
-								<span>Напишите мне!</span>
-								<small>Подберем и отправим на email</small>
-							</div>
+							</span>
 						</button>
 					</div>
-
 				</div>
 			</section>
 		</div>

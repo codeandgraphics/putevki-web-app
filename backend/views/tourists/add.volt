@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li><a href="{{ url('tourists') }}">Туристы</a></li>
+	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('tourists') }}">Туристы</a></li>
 	<li class="active">Добавление туриста</li>
 </ol>
 

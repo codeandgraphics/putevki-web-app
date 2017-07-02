@@ -1,108 +1,115 @@
 <?php
 
-use Phalcon\Http\Response,
-	Models\Tourvisor,
-	Frontend\Models\SearchQueries;
+namespace Frontend\Controllers;
 
-class SearchController extends ControllerFrontend
+use Frontend\Models\Params;
+use Phalcon\Http\Response;
+use Models\Origin;
+use Models\Tourvisor;
+use Models\SearchQuery;
+use Models\StoredQueries;
+
+class SearchController extends BaseController
 {
-	public function indexAction($from, $where, $date, $nights, $adults, $kids, $stars, $meal)
+	public function indexAction()
 	{
+		$params = Params::getInstance();
+		$params->search->fromDispatcher($this->dispatcher);
+		$params->store();
 
-		$params = new \stdClass();
-		$params->from = $from;
-		$params->where = $where;
-		$params->date = $date;
-		$params->nights = $nights;
-		$params->adults = $adults;
-		$params->kids = $kids;
-		$params->stars = $stars;
-		$params->meal = $meal;
-		
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
-		$searchQuery->run();
+		$searchQuery = new SearchQuery();
+		$searchQuery->fromParams($params->search);
+		$searchId = $searchQuery->run();
 
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
 		]);
 
-		$title = 'Поиск путевок ' . $searchQuery->departure->name .
-			' &mdash; ' . $searchQuery->buildTitle() . ' на ';
+		$title = 'Путёвки ' . $params->search->fromEntity()->name .
+			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
 			'bind' => [
-				'moscowId'	=> 1,
-				'spbId'		=> 5,
-				'noId'		=> 99
+				'moscowId' => 1,
+				'spbId' => 5,
+				'noId' => 99
 			],
-			'order'	=> 'name'
+			'order' => 'name'
 		]);
 
 		$this->view->setVars([
-			'tourvisorId'	=> $searchQuery->tourvisorId,
-			'params'		=> $searchQuery,
-			'meals'			=> $meals,
-			'departures'    => $departures,
-			'title'			=> $title,
-			'page'			=> 'search'
+			'searchId' => $searchId,
+			'params' => $params,
+			'meals' => $meals,
+			'departures' => $departures,
+			'title' => $title,
+			'page' => 'search'
 		]);
 	}
 
-	public function hotelAction($from, $where, $hotelName, $hotelId, $date, $nights, $adults, $kids, $stars, $meal)
+	public function hotelAction()
 	{
-		$params = new \stdClass();
-		$params->from = $from;
-		$params->where = $where;
-		$params->hotel = $hotelId;
-		$params->date = $date;
-		$params->nights = $nights;
-		$params->adults = $adults;
-		$params->kids = $kids;
-		$params->stars = $stars;
-		$params->meal = $meal;
+        $params = Params::getInstance();
+        $params->search->fromDispatcher($this->dispatcher);
 
-		$searchQuery = new SearchQueries();
-		$searchQuery->fillFromParams($params);
+		$searchQuery = new SearchQuery();
+		$searchQuery->fromParams($params->search);
 		$searchQuery->run();
 
-		$response = new Phalcon\Http\Response();
+		$hotelName = $this->dispatcher->getParam('hotelName', 'string');
+		$hotelId = $this->dispatcher->getParam('hotelId', 'int');
 
-		$url = $this->config->frontend->publicURL . 'hotel/' . $hotelName . '-' . $hotelId . '#tours';
+		$response = new Response();
+
+		$url = $this->url->get('hotel/' . $hotelName . '-' . $hotelId . '#tours');
 
 		$response->setHeader('Location', $url);
 
 		return $response;
 	}
 
-	public function hotelShortAction($from, $where, $hotelName, $hotelId)
+	public function hotelShortAction()
 	{
-		$response = new Phalcon\Http\Response();
+		$from = $this->dispatcher->getParam('from', 'string');
+		$where = $this->dispatcher->getParam('where', 'string');
+		$hotelId = $this->dispatcher->getParam('hotelId', 'int');
 
-		$this->params->hotel = $hotelName . '-' . $hotelId;
-		$this->params->departure = $from;
-		$this->params->country = $where;
+		$response = new Response();
 
-		$url = SearchQueries::buildQueryStringFromParams($this->params);
+		$params = Params::getInstance();
 
-		$response->setHeader('Location', $this->config->frontend->publicURL . 'search/' . $url);
+		$params->search->fromFromQuery($from);
+		$params->search->whereFromQuery($where, $hotelId);
+
+		$params->store();
+
+		$url = $params->search->buildQueryString();
+
+		$response->setHeader('Location', $this->url->get('search/' . $url));
 
 		return $response;
 	}
 
-	public function shortAction($from, $where)
+	public function shortAction()
 	{
-		$response = new Phalcon\Http\Response();
+		$from = $this->dispatcher->getParam('from', 'string');
+		$where = $this->dispatcher->getParam('where', 'string');
 
-		$this->params->departure = $from;
-		$this->params->country = $where;
+		$response = new Response();
 
-		$url = SearchQueries::buildQueryStringFromParams($this->params);
+		$params = Params::getInstance();
 
-		$response->setHeader('Location', $this->config->frontend->publicURL . 'search/' . $url);
+		$params->search->fromFromQuery($from);
+		$params->search->whereFromQuery($where, null);
+
+		$params->store();
+
+		$url = $params->search->buildQueryString();
+
+		$response->setHeader('Location', $this->url->get('search/' . $url));
 
 		return $response;
 	}
-	
+
 }

@@ -1,0 +1,844 @@
+@import "../imports";
+@import "../variables";
+
+body{
+	background: @color-gray-light;
+}
+
+#search{
+
+	//.clearfix;
+}
+
+.search{
+
+
+	.sidebar{
+
+		.head{
+
+			&.progressbar{
+				color: @color-white;
+				padding: 10px;
+				position: relative;
+
+				.bar{
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: @color-blue;
+					height: 100%;
+					z-index: 0;
+					border-top-left-radius: 10px;
+				}
+
+				.percent{
+					position: absolute;
+					left: 15px;
+					top: 12px;
+					z-index: 1;
+
+					.count{
+						font-size: 24px;
+					}
+				}
+
+
+				.loader{
+					width: 60px;
+					height: 60px;
+					position: absolute;
+					right: 0;
+					top: 0;
+					background: none;
+
+					.wrap{
+						height: 60px;
+						width: 60px;
+						margin-left: -30px;
+						margin-top: -30px;
+
+						.object{
+							width: 30px;
+							height: 30px;
+							background-color: @color-white;
+							margin-top: 15px;
+						}
+					}
+				}
+			}
+		}
+
+		.filters{
+
+			.overlay{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background: @color-white-opacity-95;
+				z-index: 500;
+
+				.filters-loading{
+					position: absolute;
+					top: 20px;
+					width: 100%;
+					height: 200px;
+					text-align: center;
+					color: @color-blue;
+
+					i{
+						font-size: 50px;
+						.animation(rotation 1s infinite ease-in-out);
+					}
+
+					small{
+						display: block;
+						font-size: 16px;
+					}
+				}
+			}
+
+			.search-process{
+				height: 126px;
+				display: none;
+				position: relative;
+				background: @color-white;
+				border-bottom: 1px dashed @color-border;
+				text-align: center;
+
+				.found{
+					padding: 10px 20px 20px 20px;
+
+					.cheaper-found,
+					.other-found{
+						display: none;
+					}
+
+					.tours-found{
+						color: @color-blue;
+						font-size: 20px;
+					}
+
+					.price-found{
+						color: @color-orange;
+						font-size: 16px;
+					}
+				}
+
+			}
+
+			#filters{
+
+				#price{
+					margin-top: 5px;
+				}
+
+				.form-group{
+					margin-bottom: 10px;
+					position: relative;
+
+					&:before{
+						position: absolute;
+						bottom: 2px;
+						right: 0;
+						font-size: 20px;
+						color: @color-text-light;
+					}
+
+					label{
+						font-size: 14px;
+						color: @color-text-gray;
+						display: block;
+						font-weight: @font-light;
+						margin-bottom: 0px;
+					}
+
+					input{
+						height: 25px;
+						width: 100%;
+						border: none;
+						border-bottom: 1px solid @color-border;
+						color: @color-blue;
+						font-size: 18px;
+						line-height: 22px;
+						outline: none;
+						padding-right: 20px;
+
+						.box-shadow(none);
+
+						&:focus{
+							outline: none;
+							.box-shadow(none);
+						}
+					}
+				}
+
+				.main{
+					padding: 20px;
+				}
+
+				.hotel{
+					padding:20px;
+				}
+
+				.form-block{
+					border-top: 1px dashed @color-border;
+					padding: 16px 20px;
+
+					label{
+						font-size: 14px;
+						color: @color-text-gray;
+						display: block;
+						font-weight: @font-light;
+						margin-bottom: 0px;
+					}
+
+					ul{
+						margin-top: 15px;
+
+						&.list-unstyled{
+							li{
+								padding-left: 0;
+								margin-bottom: 9px;
+							}
+						}
+
+						li{
+							padding-right: 10px;
+							padding-left: 5px;
+						}
+					}
+
+				}
+			}
+
+			&:before{
+				content: " ";
+				position: absolute;
+				top: -10px;
+				left: 15px;
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 0 10px 10px 10px;
+				border-color: transparent transparent #ffffff transparent;
+				line-height: 0;
+			}
+		}
+
+	}
+
+	.main{
+
+		.head{
+			.departure{
+				position: absolute;
+				right: 10px;
+				top: 0;
+				font-size: 16px;
+				color: @color-blue;
+				line-height: 60px;
+			}
+		}
+
+		.tours{
+			z-index: 1;
+			position: relative;
+			background: @color-white;
+		}
+	}
+
+}
+
+.list{
+	min-height: 666px;
+
+	.params{
+		border-bottom: 1px dashed @color-border;
+		padding: 10px;
+		height: 48px;
+
+		.dropdown{
+			display: inline-block;
+			margin-right: 20px;
+
+			&.open{
+				.caret{
+					.rotate(180);
+					.transition(transform 0.2);
+				}
+			}
+
+			&.meals{
+				button{
+					width: 130px;
+				}
+			}
+
+			&.stars{
+				button{
+					width: 165px;
+				}
+			}
+
+			button{
+				background: @color-white;
+				border: 1px solid @color-border;
+				margin-left: 5px;
+				text-align: left;
+				position: relative;
+				border-radius: 4px;
+
+				.caret{
+					position: absolute;
+					right: 8px;
+					top: 11px;
+					.transition(transform 0.2);
+				}
+
+				.label{
+					position: absolute;
+					right: 22px;
+					top: 5px;
+				}
+
+				div{
+					display: inline-block;
+				}
+			}
+
+			i{
+				color: @color-blue;
+			}
+
+			ul{
+				border: 1px solid @color-border;
+				border-radius: 4px;
+				padding: 0;
+				min-width: 170px;
+				overflow: hidden;
+
+				li{
+
+					&.active {
+						a {
+							background-color: @color-blue;
+
+							i,
+							small{
+								color: @color-white;
+							}
+						}
+					}
+
+					&.divider{
+						margin: 0;
+					}
+
+					a{
+						text-decoration: none;
+
+						small{
+							display: block;
+							color: @color-text-gray;
+						}
+
+						.label{
+							position: absolute;
+							right: 10px;
+							top: 5px;
+							margin-left: 100px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.loader{
+		.object{
+			background-color: @color-blue;
+		}
+
+		span{
+			display: block;
+			padding-top: 10px;
+			color: @color-blue;
+		}
+	}
+
+	.benefits{
+		margin-top: 0;
+	}
+
+	.block{
+		text-align: center;
+		font-size: 18px;
+		font-weight: @font-light;
+
+		&.no-results{
+			display: none;
+			padding: 20px;
+			margin-top: 20px;
+
+			i{
+				display: block;
+				text-align: center;
+				font-size: 30px;
+				color: @color-orange;
+			}
+
+			small{
+				display: block;
+				color: @color-orange;
+			}
+
+		}
+
+		&.help{
+			display: none;
+			margin: 40px;
+			background-color: @color-gray-light;
+			padding: 30px;
+			border-radius: 10px;
+			font-size: 16px;
+
+			p{
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
+
+			.btn{
+				width: 310px;
+			}
+		}
+
+		&.more-results{
+			position: relative;
+			height: 100px;
+			text-align: center;
+			margin-bottom: 20px;
+			margin-top: 30px;
+
+			a{
+				height: 100px;
+				line-height: 100px;
+				display: none;
+			}
+
+			.loader{
+				background: @color-white;
+
+				.wrap{
+					width: 400px;
+					margin-left: -200px;
+					height: 100px;
+					margin-top: -50px;
+
+					.object{
+						margin-top: 20px;
+					}
+				}
+			}
+		}
+
+	}
+
+	.items{
+		.item{
+			padding: 20px 20px 10px 20px;
+			position: relative;
+			border-bottom: 1px dashed @color-border;
+			min-height: 170px;
+
+			&.hiddenTypes,
+			&.hiddenPrice,
+			&.hiddenName{
+				display: none;
+			}
+
+
+			&.template{
+				display: none;
+			}
+
+			.info{
+				overflow: hidden;
+
+				.place {
+					display: block;
+					font-size: 13px;
+					margin: 4px 0;
+
+					i {
+						color: @color-blue;
+					}
+					span {
+						color: @color-text-gray;
+					}
+				}
+
+				.types{
+					margin: 0;
+
+					.type{
+						background: @color-blue;
+						border-radius: 4px;
+						font-size: 11px;
+						margin-right: 5px;
+						color: @color-bg;
+
+						&.deluxe{
+							background: @color-orange;
+						}
+					}
+				}
+
+				.clearfix;
+
+				.image{
+					width: 160px;
+					height: 110px;
+					float: left;
+					position: relative;
+
+					.discount{
+						position: absolute;
+						left: 10px;
+						top: 0;
+						width: 60px;
+						height: 44px;
+						text-align: center;
+						font-weight: @font-bold;
+						font-size: 18px;
+						line-height: 44px;
+						background-color: @color-orange;
+						color: @color-bg;
+					}
+
+					.bg{
+						width: 100%;
+						height: 100%;
+						background-size: 100% 100%;
+						background-position: center center;
+						background-repeat: no-repeat;
+
+						.transition(all 0.05s ease-out);
+
+						&:hover{
+							background-size: 110% 110%;
+							.transition(all 0.3s ease);
+						}
+					}
+				}
+
+				.about{
+					margin-left: 160px;
+					margin-right: 140px;
+					overflow: hidden;
+					padding: 0 20px 0 15px;
+					margin-bottom: 10px;
+
+					.title{
+						font-size: 20px;
+						margin-bottom: 1px;
+
+						a{
+							text-transform: capitalize;
+							text-decoration: none;
+							color: @color-text-dark;
+							font-weight: @font-light;
+						}
+					}
+
+					.rating{
+						display: inline-block;
+
+						.stars{
+							font-size: 14px;
+							letter-spacing: -2px;
+							line-height: 24px;
+
+							.star{
+								color: @color-blue;
+							}
+
+							.no-star{
+								color: @color-text-light;
+							}
+						}
+
+						.review{
+							margin-left: 10px;
+							color: @color-blue;
+							font-size: 12px;
+							line-height: 24px;
+
+							strong{
+								font-weight: @font-light;
+								font-size: 16px;
+							}
+						}
+					}
+
+					.description{
+						font-size: 13px;
+					}
+
+				}
+
+				.icons{
+					display: table;
+					width: 100%;
+					margin-top: 10px;
+					margin-bottom: 5px;
+
+					& > div{
+						display: table-cell;
+						vertical-align: middle;
+						height:45px;
+
+						&.operator{
+							width: 175px;
+
+							.data{
+								margin-left: 35px;
+							}
+						}
+
+						&.date{
+							width: 130px;
+						}
+
+						&.room{
+							width: 210px;
+
+							span{
+								text-transform: capitalize;
+							}
+						}
+
+						&.meal{
+						}
+						.icon{
+							width: 25px;
+							float:left;
+							text-align: center;
+							height: 25px;
+							font-size: 25px;
+							color: @color-blue;
+						}
+
+						.data{
+							margin-left: 30px;
+
+							span{
+								display: block;
+							}
+							small{
+								display: block;
+								color: @color-text-gray;
+							}
+						}
+					}
+				}
+
+				.price{
+					width: 150px;
+					height: 130px;
+					float: right;
+					border-left: 1px dashed @color-border;
+					padding-left: 20px;
+					text-align: center;
+					position: relative;
+
+					.operator
+					{
+						margin-top: 10px;
+						text-align: center;
+
+						img{
+							width: 37px;
+						}
+
+						span{
+							margin-top: 7px;
+							display: block;
+						}
+					}
+
+					.date{
+						font-size: 14px;
+					}
+
+					.text{
+						font-size: 12px;
+						margin-bottom: 8px;
+					}
+
+					.length{
+						font-size: 18px;
+					}
+
+					.meal{
+						font-size: 13px;
+					}
+
+					.sum{
+						margin-top: 8px;
+						margin-bottom: 4px;
+						padding: 2px;
+
+						a{
+							text-decoration: none;
+							display: block;
+						}
+
+						span {
+							color: @color-orange;
+							font-size: 20px;
+						}
+					}
+
+					.other{
+						margin-top: 10px;
+						font-size: 12px;
+						text-align: center;
+
+						.variants-open{
+							display: block;
+						}
+
+						.variants-close{
+							display: none;
+						}
+					}
+				}
+
+			}
+
+			.variants{
+				display: none;
+
+				.more{
+					text-align: center;
+
+					a {
+						display: block;
+						padding: 10px;
+						background-color: @color-gray-light;
+						border-radius: 6px;
+					}
+				}
+
+
+				.variant{
+					display: block;
+					position: relative;
+					width: 100%;
+					height: 55px;
+					padding: 5px 0;
+					border-top: 1px dashed @color-border;
+
+					&.hiddenPrice,
+					&.template{
+						display: none !important;
+					}
+
+					& > div{
+						display: block;
+						position: absolute;
+						height:45px;
+
+						&.operator{
+							width: 145px;
+							left: 0;
+
+							.data{
+								margin-left: 35px;
+
+								span{
+									width: 110px;
+								}
+							}
+						}
+
+						&.date{
+							width: 100px;
+							left: 145px;
+
+							.data {
+								span{
+									width: 70px;
+								}
+							}
+						}
+
+						&.room{
+							width: 170px;
+							left: 255px;
+
+							.data {
+								span{
+									width: 140px;
+									text-transform: capitalize;
+								}
+							}
+						}
+
+						&.meal{
+							width: 130px;
+							right: 130px;
+
+							.data {
+								span{
+									width: 100px;
+								}
+							}
+						}
+
+						&.price{
+							width: 140px;
+							right: 0;
+
+							.data {
+								margin: 0;
+								text-align: right;
+							}
+						}
+						.icon{
+							width: 25px;
+							float:left;
+							text-align: center;
+							height: 25px;
+							font-size: 25px;
+							color: @color-blue;
+						}
+
+						.data{
+							margin-left: 30px;
+
+							span{
+								display: block;
+								height: 20px;
+								overflow: hidden;
+								word-wrap: break-word;
+								text-overflow: ellipsis;
+							}
+							small{
+								display: block;
+								color: @color-text-gray;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+

@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
+	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li class="active">Все туристы</li>
 </ol>
 
@@ -46,7 +46,7 @@
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ url('tourists') }}/edit/{{ tourist.id }}">{{ tourist.passport_surname }} {{ tourist.passport_name }}</a>
+							<a href="{{ backend_url('tourists') }}/edit/{{ tourist.id }}">{{ tourist.passport_surname }} {{ tourist.passport_name }}</a>
 						</td>
 						<td>
 							{{ tourist.passport_number }}
@@ -79,7 +79,7 @@
 			<ul class="pagination">
 				{% if page.before != page.current %}
 				<li class="paginate_button">
-					<a href="{{ url('tourists') }}?page={{ page.before }}{{ searchAdd }}">назад</a>
+					<a href="{{ backend_url('tourists') }}?page={{ page.before }}{{ searchAdd }}">назад</a>
 				</li>
 				{% else %}
 				<li class="paginate_button disabled">
@@ -91,13 +91,13 @@
 
 				{% for i in 1..page.total_pages %}
 				<li class="paginate_button{% if page.current == i %} active{% endif %}">
-					<a href="{{ url('tourists') }}?page={{ i }}{{ searchAdd }}">{{ i }}</a>
+					<a href="{{ backend_url('tourists') }}?page={{ i }}{{ searchAdd }}">{{ i }}</a>
 				</li>
 				{% endfor %}
 
 				{% if page.next != page.current %}
 				<li>
-					<a href="{{ url('tourists') }}?page={{ page.next }}{{ searchAdd }}">вперед</a>
+					<a href="{{ backend_url('tourists') }}?page={{ page.next }}{{ searchAdd }}">вперед</a>
 				</li>
 				{% else %}
 				<li class="disabled">

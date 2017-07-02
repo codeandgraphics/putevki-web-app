@@ -1,4 +1,4 @@
-<h2>Выберите офис</h2>
+<h3>Выберите офис</h3>
 
 <div class="map">
 
@@ -14,7 +14,7 @@
 				<span>Выберите город:</span>
 			</div>
 			<div class="col-xs-8">
-				<select class="form-control">
+				<select title="city-select" class="form-control">
 				</select>
 			</div>
 		</div>

@@ -2,13 +2,13 @@
 	<div class="loader">
 		<div class="wrap">
 			<div class="object"></div>
-			<span>Идет актуализация тура... Пожалуйста, подождите</span>
+			<span>Идет актуализация перелетов... Пожалуйста, подождите</span>
 		</div>
 	</div>
 </div>
 
 <div class="flights hide" data-url="{{ url('ajax/tourDetail/') }}{{ tour.id }}">
-	<h2>Перелет</h2>
+	<h3>Перелет</h3>
 
 	<div class="flight template" data-fuel="" data-price="" data-flight-id="">
 		<div class="forward" data-placement="top" data-toggle="tooltip" title="">
@@ -82,13 +82,13 @@
 
 	<div class="no-flights hide">
 		<p>Не удалось найти информацию о перелетах.</p>
-		<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ currentCity.phone }}</p>
+		<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ city.phone }}</p>
 	</div>
 
 	<div class="includes">
-		<h2>
+		<h3>
 			Что входит в стоимость?
-		</h2>
+		</h3>
 
 		<div class="row">
 			<div class="col-xs-6 tour-includes in-tour">
@@ -129,7 +129,7 @@
 	</div>
 
 	<!--<div class="add-payments">
-		<h2>Доплаты к туру:</h2>
+		<h3>Доплаты к туру:</h3>
 		<div class="payments">
 			<ul>
 				<li>{payment.name}: <b>{payment.amount} руб.</b></li>
@@ -139,7 +139,7 @@
 </div>
 
 <div class="message no-actualize hide">
-	<p>Не удалось актуализовать тур. Оставьте заявку, и мы обязательно свяжемся с вами!</p>
-	<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ currentCity.phone }}</p>
+	<p>Не удалось актуализовать перелеты. Оставьте заявку, и мы обязательно свяжемся с вами!</p>
+	<p>Для уточнения информации <a href="#" data-toggle="modal" data-target="#callBackModal">закажите звонок</a>, или позвоните нам по телефону {{ city.phone }}</p>
 </div>
 

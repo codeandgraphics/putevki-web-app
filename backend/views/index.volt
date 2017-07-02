@@ -18,19 +18,19 @@ $current->action = $this->dispatcher->getActionName();
 
 	<title>Админ-панель Путевки.ру</title>
 
-	<link href="{{ url('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ url('/assets/css/jquery-ui.min.css') }}" rel="stylesheet">
-	<link href="{{ url('/assets/css/jquery-ui.structure.min.css') }}" rel="stylesheet">
-	<link href="{{ url('/assets/css/font-awesome.min.css') }}" rel="stylesheet">
-	<link href="{{ url('/assets/css/animate.css') }}" rel="stylesheet">
-	<link href="{{ url('/assets/css/style.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/jquery-ui.min.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/jquery-ui.structure.min.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/style.css') }}" rel="stylesheet">
 	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -64,12 +64,12 @@ $current->action = $this->dispatcher->getActionName();
 {% endif %}
 </body>
 
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-<script src="{{ url('/assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ url('/assets/js/bootstrap-notify.min.js') }}"></script>
-<script src="{{ url('/assets/js/jquery-ui.min.js') }}"></script>
-<script src="{{ url('/assets/js/libs.js') }}"></script>
-<script src="{{ url('/assets/js/script.js') }}"></script>
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="{{ static_url('static/admin/js/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('static/admin/js/bootstrap-notify.min.js') }}"></script>
+<script src="{{ static_url('static/admin/js/jquery-ui.min.js') }}"></script>
+<script src="{{ static_url('static/admin/js/libs.js') }}"></script>
+<script src="{{ static_url('static/admin/js/script.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 </html>

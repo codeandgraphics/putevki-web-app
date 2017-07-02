@@ -50,7 +50,22 @@
 			</div>
 		</div>
 		<!-- Перелет обратно -->
+
+		<!-- Комментарий к туру -->
+		<div class="panel">
+			<div class="panel-heading">
+				<h4 class="panel-title">Дополнительная информация</h4>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label for="comment">Пожелания заказчика</label>
+					{{ form.render('comment', ['class': 'form-control']) }}
+				</div>
+			</div>
+		</div>
+		<!-- Комментарий к туру -->
 	</div>
+
 	<div class="col-sm-4">
 		<div class="panel">
 			<div class="panel-heading">
@@ -95,7 +110,7 @@
 				</table>
 				<br/>
 				{% endif %}
-				<a href="{{ url('payments/') }}?request={{ req.id }}" target="_blank" class="btn btn-default btn-block btn-xs btn-stroke file">
+				<a href="{{ backend_url('payments/') }}?request={{ req.id }}" target="_blank" class="btn btn-default btn-block btn-xs btn-stroke file">
 					<i class="fa fa-money"></i>
 					<span>Все платежи</span>
 				</a>

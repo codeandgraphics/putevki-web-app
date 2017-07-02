@@ -4,9 +4,7 @@
 
 		<div class="border"></div>
 		<div class="content">
-			<div class="logo">
-				<img alt="Путевки.ру" src="/assets/img/logo.png" />
-			</div>
+			<div class="logo"></div>
 
 			<p>Все путёвки в твоём смартфоне!</p>
 
