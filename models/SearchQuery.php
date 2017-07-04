@@ -144,7 +144,8 @@ class SearchQuery
 		$bind = [
 			'departure' => $this->from,
 			'country'   => $this->where->country,
-			'region'    => is_array($this->where->regions) ? $this->where->regions[0] : 0,
+			'region'    => is_array($this->where->regions) && array_key_exists(0, $this->where->regions) ?
+                $this->where->regions[0] : 0,
 			'hotel'     => $this->where->hotels,
 			'meal'      => $this->filters->meal,
 			'stars'     => $this->filters->stars

@@ -91,7 +91,7 @@ class SearchParams
 
 		$queryString .= '/' . $this->countryEntity()->name;
 
-		if ($this->where->regions[0]) {
+		if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
 			$queryString .= '(' . $this->regionEntity()->name . ')';
 		}
 
@@ -142,7 +142,10 @@ class SearchParams
 
 	public function regionEntity()
 	{
-		return Regions::findFirst("id='" . $this->where->regions[0] . "'");
+	    if(is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
+            return Regions::findFirst("id='" . $this->where->regions[0] . "'");
+        }
+        return false;
 	}
 
 	public function hotelEntity()
