@@ -135,9 +135,17 @@ class IndexController extends BaseController
 	{
 		$this->view->disable();
 
-		//TODO: remove in production
-		echo 'User-agent: *' . "\n";
-		echo 'Disallow: /' . "\n";
+		echo 'User-agent: *' . PHP_EOL;
+		echo 'Disallow: /admin/' . PHP_EOL;
+		echo 'Disallow: /pay/' . PHP_EOL;
+		echo 'Disallow: /api/' . PHP_EOL;
+		echo 'Disallow: /ajax/' . PHP_EOL;
+		echo 'Disallow: /exports/' . PHP_EOL;
+		echo PHP_EOL;
+		echo 'Crawl-delay: 20' . PHP_EOL;
+		echo PHP_EOL;
+		echo 'Host: ' . $this->url->get() . PHP_EOL;
+
 	}
 	
 
