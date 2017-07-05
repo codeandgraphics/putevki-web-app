@@ -13,26 +13,42 @@ class TourDetails
 	public function __construct($details = null)
 	{
 		if ($details) {
-			foreach ($details->flights as $item) {
-				$this->flights[] = new Flight($item);
+			if(property_exists($details, 'flights')) {
+				foreach ($details->flights as $item) {
+					$this->flights[] = new Flight($item);
+				}
 			}
 
 			$this->info = new \stdClass();
 			$this->info->flags = new \stdClass();
-			$this->info->flags->meal = !$details->flags->nomeal;
-			$this->info->flags->insurance = !$details->flags->nomedinsurance;
-			$this->info->flags->flight = !$details->flags->noflight;
-			$this->info->flags->transfer = !$details->flags->notransfer;
+			$this->info->flags->meal = property_exists($details->flags, 'nomeal') ?
+				!$details->flags->nomeal :
+				false;
 
-			$this->addPayments = $details->addpayments;
-			$this->contents = $details->contents;
+			$this->info->flags->insurance = property_exists($details->flags, 'nomedinsurance') ?
+				!$details->flags->nomedinsurance :
+				false;
+
+			$this->info->flags->flight = property_exists($details->flags, 'noflight') ?
+				!$details->flags->noflight :
+				false;
+
+			$this->info->flags->transfer = property_exists($details->flags, 'notransfer') ?
+				!$details->flags->notransfer :
+				false;
+
+			$this->addPayments = property_exists($details, 'addpayments') ?
+				$details->addpayments :
+				false;
+			$this->contents = property_exists($details, 'contents') ?
+				$details->contents :
+				false;
 
 			$this->actualized = true;
 
 			if ($details->iserror && count($this->flights) === 0) {
 				$this->actualized = false;
-				unset($this->flights);
-				unset($this->info);
+				unset($this->flights, $this->info);
 			}
 		}
 	}

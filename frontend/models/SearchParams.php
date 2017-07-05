@@ -91,7 +91,7 @@ class SearchParams
 
 		$queryString .= '/' . $this->countryEntity()->name;
 
-		if ($this->where->regions[0]) {
+		if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
 			$queryString .= '(' . $this->regionEntity()->name . ')';
 		}
 

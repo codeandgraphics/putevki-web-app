@@ -25,7 +25,7 @@ class People
 	public function fromStored($people = null)
 	{
 		if ($people) {
-			$this->adults = $people->adults ? (int) $people->adults : (int) $this->adults;
+			$this->adults = $people->adults ? (int)$people->adults : (int)$this->adults;
 			$this->children = $people->children ?: $this->children;
 		}
 	}
@@ -35,7 +35,11 @@ class People
 		if ($people) {
 			$this->adults = $people->adults ?: 2;
 
-			if (count($people->children) > 0) {
+			if (
+				property_exists($people, 'children') &&
+				is_array($people->children) &&
+				count($people->children) > 0
+			) {
 				sort($people->children);
 				$this->children = $people->children;
 			} else {
