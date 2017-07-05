@@ -3,9 +3,10 @@
 namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
+use Models\Countries;
 use Models\SearchQuery;
+use Models\Tourvisor;
 use Models\StoredQueries;
-use Models\Tourvisor\Countries;
 use Models\Tourvisor\Departures;
 use Phalcon\Mvc\Controller;
 use Models\Cities;
@@ -46,10 +47,17 @@ class BaseController extends Controller
 			$this->formRegions .= ',' . $region->name;
 		}
 
-		$countries = Countries::find([
-			'active = 1',
-			'order' => 'name'
-		]);
+		$builder = $this->modelsManager->createBuilder()
+			->columns([
+				'country.*',
+				'tourvisor.*'
+			])
+			->addFrom(Countries::name(), 'country')
+			->join(Tourvisor\Countries::name(), 'country.tourvisorId = tourvisor.id', 'tourvisor')
+			->where('country.active = 1')
+			->orderBy('tourvisor.name');
+
+		$countries = $builder->getQuery()->execute();
 
 		$this->city = Cities::findFirst('id=' . $this->params->city);
 		$this->departure = Departures::findFirst('id=' . $this->params->search->from);

@@ -6,7 +6,6 @@ $router = new Router();
 
 $router->removeExtraSlashes(true);
 
-
 $router->add(
 	'/',
 	[
@@ -101,6 +100,22 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'hotel',
+	]
+);
+
+/** Countries routes */
+$router->add(
+	'/countries',
+	[
+		'controller'    => 'countries',
+		'action'        => 'index',
+	]
+);
+$router->add(
+	'/countries/{country:[a-z\-]+}',
+	[
+		'controller' => 'countries',
+		'action' => 'country',
 	]
 );
 

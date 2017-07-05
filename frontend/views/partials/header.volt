@@ -25,6 +25,8 @@
 			{{ partial('partials/search-form') }}
 		{% elseif page === 'search' %}
 			{{ partial('partials/search-form') }}
+		{% elseif page === 'country' %}
+			{{ partial('partials/search-form') }}
 		{% endif %}
 	</div>
 </header>

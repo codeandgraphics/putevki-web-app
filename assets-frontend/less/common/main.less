@@ -9,8 +9,10 @@ main {
 
 	.page{
 
-		& > .container > .row{
+		& > .container.flex{
 			.display(flex);
+			padding-right: 5px;
+			padding-left: 5px;
 
 			.sidebar{
 				.flex(1);
@@ -125,34 +127,34 @@ main {
 		}
 	}
 
-	.countries{
-		margin-top: 40px;
+	.bottomCountries{
+		 margin-top: 40px;
 
-		.row{
-			margin: 20px auto;
-			width: 90%;
-		}
+		 .row{
+			 margin: 20px auto;
+			 width: 90%;
+		 }
 
-		.country{
-			padding: 3px 6px;
+		 .country{
+			 padding: 3px 6px;
 
-			img{
-				width: auto;
-				margin-top: -7px;
-			}
+			 img{
+				 width: auto;
+				 margin-top: -7px;
+			 }
 
-			a{
-				color: @color-text-gray;
-				display: inline-block;
-				width: 105px;
-				height: 22px;
-				line-height: 28px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
-	}
+			 a{
+				 color: @color-text-gray;
+				 display: inline-block;
+				 width: 105px;
+				 height: 22px;
+				 line-height: 28px;
+				 overflow: hidden;
+				 white-space: nowrap;
+				 text-overflow: ellipsis;
+			 }
+		 }
+	 }
 
 	#upButton{
 		position: fixed;

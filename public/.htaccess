@@ -3,13 +3,6 @@
 	RewriteCond %{HTTPS} !=on
 	RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 	
-	#обработчик для joomla
-	RewriteRule ^countries(.*)$ jindex.php [L]
-	RewriteRule ^blog(.*)$ jindex.php [L]
-	RewriteRule ^akcii(.*)$ jindex.php [L]
-	RewriteRule ^tury(.*)$ jindex.php [L]
-	RewriteRule ^o-kompanii(.*)$ jindex.php [L]
-	
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]

@@ -1,0 +1,49 @@
+#countries {
+	> .container.flex {
+		.main {
+			.head {
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+
+				h1 {
+					line-height: 60px;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+	.countries {
+		padding: 20px;
+
+		.country {
+			margin-bottom: 20px;
+
+			h3 {
+				margin-top: 10px;
+				margin-bottom: 10px;
+
+				a {
+					text-decoration: none;
+				}
+			}
+
+			.about {
+				padding-left: 0;
+			}
+		}
+	}
+
+	&.country {
+		.main {
+			.head {
+				border-top-right-radius: 0 !important;
+			}
+		}
+
+		.sidebar {
+			.head {
+				color: @color-white;
+			}
+		}
+	}
+}

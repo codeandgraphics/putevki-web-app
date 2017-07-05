@@ -23,6 +23,7 @@ $current->action = $this->dispatcher->getActionName();
 	<link href="{{ static_url('static/admin/css/jquery-ui.structure.min.css') }}" rel="stylesheet">
 	<link href="{{ static_url('static/admin/css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ static_url('static/admin/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ static_url('static/admin/css/quill.snow.css') }}" rel="stylesheet">
 	<link href="{{ static_url('static/admin/css/style.css') }}" rel="stylesheet">
 	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
