@@ -21,12 +21,12 @@ class SearchController extends BaseController
 		$searchQuery->fromParams($params->search);
 		$searchId = $searchQuery->run();
 
+		$title = 'Путёвки ' . $params->search->fromEntity()->name .
+			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
+
 		$meals = Tourvisor\Meals::find([
 			'order' => 'id DESC'
 		]);
-
-		$title = 'Путёвки ' . $params->search->fromEntity()->name .
-			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',

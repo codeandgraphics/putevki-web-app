@@ -2,8 +2,10 @@
 
 namespace Frontend\Controllers;
 
+use Frontend\Models\Params;
 use Models\Countries;
 use Models\Regions;
+use Models\SearchQuery;
 use Models\Tourvisor;
 
 class CountriesController extends BaseController
@@ -41,7 +43,14 @@ class CountriesController extends BaseController
 
 		$regions = $builder->getQuery()->execute();
 
+		$params = Params::getInstance();
+
+		$params->search->where->country = $country->tourvisorId;
+		$params->search->where->regions = [];
+		$params->search->where->hotels = 0;
+
 		$this->view->setVars([
+			'params'    => $params,
 			'page'      => 'country',
 			'country'   => $country,
 			'regions'   => $regions,
