@@ -14,6 +14,7 @@ use Backend\Models\Payments;
 use Backend\Models\Tourists;
 use Backend\Models\RequestTourists;
 use Backend\Controllers\EmailController;
+use Utils\Tourvisor as TourvisorUtils;
 
 class AjaxController extends BaseController
 {
@@ -382,6 +383,35 @@ class AjaxController extends BaseController
 		$result = Tourvisor\Regions::find("countryId = $countryId");
 
 		$response->setJsonContent($result->toArray());
+
+		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
+
+		return $response;
+	}
+
+	public function hotToursAction()
+	{
+		$response = new Response();
+
+		$country = $this->request->get('country', 'int');
+		$region = $this->request->get('region', 'int');
+		$items = $this->request->get('items', 'int');
+
+		$params = [
+			'city' => $this->request->get('departure', 'int'),
+			'items' => $items ? : 8,
+		];
+
+		if($country) {
+			$params['countries'] = $country;
+		}
+		if($region) {
+			$params['regions'] = $region;
+		}
+
+		$tours = TourvisorUtils::getMethod('hottours', $params);
+
+		$response->setJsonContent($tours->hottours->tour);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 

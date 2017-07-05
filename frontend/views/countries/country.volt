@@ -7,13 +7,19 @@
 				</h1>
 			</div>
 			<div class="content">
-				{{ country.about }}
+				<ol class="breadcrumb">
+					<li><a href="{{ url('countries') }}">Страны</a></li>
+					<li class="active">{{ country.tourvisor.name }}</li>
+				</ol>
+				<div class="about">
+					{{ country.about }}
+				</div>
 			</div>
 		</section>
 		<aside class="sidebar right">
 			<div class="head">
 				<div class="wrap">
-					<h3>Регионы</h3>
+					<h2>Регионы</h2>
 				</div>
 			</div>
 			<div class="content">
@@ -21,7 +27,9 @@
 					<div class="regions">
 						{% for item in regions %}
 							<div class="region">
-								{{ item.tourvisor.name }}
+								<a href="{{ url('countries/') }}{{ country.uri }}/{{ item.region.uri }}">
+									{{ item.tourvisor.name }}
+								</a>
 							</div>
 						{% endfor %}
 					</div>

@@ -27,10 +27,45 @@
 			</div>
 			<div class="form-group">
 				<label for="name">Текст страницы</label>
-				{{ form.render('about', ["class":"form-control"]) }}
+				<div class="editable" style="height: 300px;">
+					{{ region.about }}
+				</div>
+				{{ form.render('about', ["class":"form-control hidden"]) }}
 			</div>
 
 			<button type="submit" class="btn btn-success">Сохранить</button>
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    var toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+
+      [{ 'header': [2, 3, 4, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+
+      ['clean']                                         // remove formatting button
+    ];
+
+    var quill = new Quill('.editable', {
+      modules: {
+        toolbar: toolbarOptions
+      },
+      theme: 'snow'
+    });
+
+    quill.on('text-change', function(){
+      document.getElementById('about').value = quill.root.innerHTML;
+    });
+  });
+</script>

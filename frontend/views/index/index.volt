@@ -43,7 +43,7 @@
 		</div>
 	</section>
 
-	<section class="block hot" id="hot">
+	<section class="block hot" id="hot" data-url="{{ url('ajax/hotTours') }}">
 		<div class="container header">
 			<h2 style="text-align: center;">
 				Горящие туры<br/><small>Самые выгодные предложения для вас!</small>
@@ -58,35 +58,7 @@
 						Ищем самые горячие туры...
 					</div>
 				</div>
-				<div class="items">
-
-					<div class="hotel item template">
-						<a href="#" target="_blank">
-							<div class="image">
-								<div class="discount">
-
-								</div>
-								<div class="bg" style="background-image: url('');"></div>
-							</div>
-							<div class="about">
-								<h4 class="title">
-
-								</h4>
-								<small class="where"><span class="region"></span>, <span class="country"></span></small>
-								<div class="info">
-									<div class="length">
-										<span class="date"></span>,
-										<span class="nights"></span>
-									</div>
-									<div class="price">
-										<span></span> р/чел.
-									</div>
-								</div>
-							</div>
-						</a>
-					</div>
-
-				</div>
+				{{ partial('partials/hot') }}
 			</div>
 		</div>
 	</section>

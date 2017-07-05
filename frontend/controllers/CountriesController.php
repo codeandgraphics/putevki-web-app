@@ -49,11 +49,59 @@ class CountriesController extends BaseController
 		$params->search->where->regions = [];
 		$params->search->where->hotels = 0;
 
+		$departures = Tourvisor\Departures::find([
+			'id NOT IN (:moscowId:, :spbId:, :noId:)',
+			'bind' => [
+				'moscowId' => 1,
+				'spbId' => 5,
+				'noId' => 99
+			],
+			'order' => 'name'
+		]);
+
 		$this->view->setVars([
-			'params'    => $params,
-			'page'      => 'country',
-			'country'   => $country,
-			'regions'   => $regions,
+			'params'        => $params,
+			'page'          => 'country',
+			'departures'    => $departures,
+			'country'       => $country,
+			'regions'       => $regions,
+		]);
+	}
+
+	public function regionAction()
+	{
+		$countryUri = $this->dispatcher->getParam('country');
+		$regionUri = $this->dispatcher->getParam('region');
+
+		$country = Countries::findFirstByUri($countryUri);
+		$region = Regions::findFirstByUri($regionUri);
+
+		if(!$country || !$region) {
+			return $this->response->setStatusCode(404);
+		}
+
+		$params = Params::getInstance();
+
+		$params->search->where->country = $country->tourvisorId;
+		$params->search->where->regions = [$region->tourvisorId];
+		$params->search->where->hotels = 0;
+
+		$departures = Tourvisor\Departures::find([
+			'id NOT IN (:moscowId:, :spbId:, :noId:)',
+			'bind' => [
+				'moscowId' => 1,
+				'spbId' => 5,
+				'noId' => 99
+			],
+			'order' => 'name'
+		]);
+
+		$this->view->setVars([
+			'params'        => $params,
+			'page'          => 'country',
+			'departures'    => $departures,
+			'country'       => $country,
+			'region'        => $region,
 		]);
 	}
 }

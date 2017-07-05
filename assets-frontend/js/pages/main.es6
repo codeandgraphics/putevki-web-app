@@ -16,7 +16,6 @@ export default class MainPage {
     this.form = new SearchForm();
     this.form.init();
 
-    this.hotCity = $('#searchForm').data('departure');
 
     this.$ = {
       hot: $('#hot'),
@@ -25,6 +24,9 @@ export default class MainPage {
       mobilePromo: $('#mobile-promo'),
       map: $('.block.map'),
     };
+
+    this.hotCity = $('#searchForm').data('departure');
+    this.hotUrl = this.$.hot.data('url');
   }
 
   init() {
@@ -51,16 +53,14 @@ export default class MainPage {
   }
 
   initHot() {
-    $.getJSON(`//tourvisor.ru/xml/hottours.php?format=json&items=8&city=${this.hotCity}&callback=?`, (response) => {
+    $.getJSON(`${this.hotUrl}?items=8&departure=${this.hotCity}`, (response) => {
       if (IS_DEV) {
         console.log('[HOT TOURS] Response:', response);
       }
       const $tourTemplate = this.$.hot.find('.hotel.template');
       const $items = this.$.hot.find('.items');
 
-      const tours = (response.hottours !== undefined && response.hottours.hotcount !== 0) ?
-        response.hottours.tour :
-        [];
+      const tours = (response.length !== 0) ? response : [];
 
       $.each(tours, (i, tour) => {
         const $tour = $tourTemplate.clone();
