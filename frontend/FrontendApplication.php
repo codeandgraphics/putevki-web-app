@@ -236,6 +236,9 @@ class FrontendApplication extends Application
 				$compiler->addFunction('images_url', function($resolvedParams) {
 					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
 				});
+				$compiler->addFilter('phone', function($resolvedArgs) {
+					return "\Utils\Text::cleanPhone(" . $resolvedArgs . ')';
+				});
 				return $volt;
 			}));
 			return $view;

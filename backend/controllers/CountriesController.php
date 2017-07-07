@@ -46,6 +46,8 @@ class CountriesController extends ControllerBase
 		$form->add(new Text('title'));
 		$form->add(new TextArea('excerpt'));
 		$form->add(new TextArea('about'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaDescription'));
 		$form->add(new Select('active', [0 => 'Выкл', 1 => 'Вкл']));
 
 		if ($this->request->isPost()) {
@@ -88,6 +90,8 @@ class CountriesController extends ControllerBase
 		$form->add(new Text('title'));
 		$form->add(new File('preview'));
 		$form->add(new TextArea('about'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaDescription'));
 
 		if ($this->request->isPost()) {
 			$form->bind($_POST, $region);

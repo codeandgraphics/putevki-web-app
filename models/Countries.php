@@ -12,6 +12,8 @@ class Countries extends BaseModel
 	public $uri;
 	public $title;
 	public $about;
+	public $metaKeywords;
+	public $metaDescription;
 	public $popular;
 	public $visa;
 	public $active;
@@ -21,6 +23,13 @@ class Countries extends BaseModel
 		$this->belongsTo('tourvisorId', Tourvisor\Countries::name(), 'id', [
 			'alias' => 'tourvisor'
 		]);
+	}
+
+	/**
+	 * @return Meta
+	 */
+	public function getMeta() : Meta {
+		return new Meta($this->metaKeywords, $this->metaDescription);
 	}
 
 	/**

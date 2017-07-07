@@ -22,7 +22,7 @@
 				<a class="brand" href="/"></a>
 				<div class="phone">
 					<div class="number">
-						<a href="tel:{{ city.phone }}">{{ city.phone }}</a>
+						<a href="tel:+{{ city.phone|phone }}">{{ city.phone }}</a>
 					</div>
 					служба поддержки клиентов
 				</div>

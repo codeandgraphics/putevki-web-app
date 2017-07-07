@@ -66,6 +66,7 @@ class CountriesController extends BaseController
 			'departures'    => $departures,
 			'country'       => $country,
 			'regions'       => $regions,
+			'meta'          => $country->getMeta()
 		]);
 	}
 
@@ -104,6 +105,7 @@ class CountriesController extends BaseController
 			'departures'    => $departures,
 			'country'       => $country,
 			'region'        => $region,
+			'meta'          => $region->getMeta()
 		]);
 	}
 }

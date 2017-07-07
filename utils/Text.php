@@ -91,7 +91,11 @@ class Text
 
 		return $date ? $date->format('d ') . self::humanize('months', $date->format('n')) : false;
 	}
-	
+
+	public static function cleanPhone($phone) {
+		return preg_replace('/\D+/', '', $phone);
+	}
+
 	public static function humanize($type, $value)
 	{
 		if($type === 'price')

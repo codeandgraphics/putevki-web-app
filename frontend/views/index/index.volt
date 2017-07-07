@@ -101,7 +101,7 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<i class="ion-compass"></i>
-						<a href="https://putevki.ru/o-kompanii" target="_blank">
+						<a href="{{ url('about') }}" target="_blank">
 							Более <?=$interval->format('%y');?> лет на рынке туристических услуг
 						</a>
 					</div>
@@ -115,7 +115,7 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<i class="ion-card"></i>
-						<a href="https://online.putevki.ru/uniteller" target="_blank">
+						<a href="{{ url('uniteller') }}" target="_blank">
 							Онлайн-оплата и бронирование
 						</a>
 					</div>

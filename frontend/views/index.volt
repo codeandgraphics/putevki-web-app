@@ -12,12 +12,13 @@
 
 	<meta name="mobile-web-app-capable" content="yes">
 
-	{% if city.meta_keywords %}
-		<meta name="keywords" content="{{ city.meta_keywords }}" />
+	{% if meta.keywords %}
+		<meta name="keywords" content="{{ meta.keywords }}" />
 	{% endif %}
-	{% if city.meta_description %}
-		<meta name="description" content="{{ city.meta_description }}" />
+	{% if meta.description %}
+		<meta name="description" content="{{ meta.description }}" />
 	{% endif %}
+
 	<meta name="author" content="Путёвки.ру" />
 
 	<meta property="og:title" content="{{ title }} Путёвки.ру" />

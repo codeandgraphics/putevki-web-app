@@ -13,6 +13,8 @@ class Regions extends BaseModel
 	public $title;
 	public $preview;
 	public $about;
+	public $metaKeywords;
+	public $metaDescription;
 	public $popular;
 	public $active;
 
@@ -21,6 +23,13 @@ class Regions extends BaseModel
 		$this->belongsTo('tourvisorId', Tourvisor\Regions::name(), 'id', [
 			'alias' => 'tourvisor'
 		]);
+	}
+
+	/**
+	 * @return Meta
+	 */
+	public function getMeta() : Meta {
+		return new Meta($this->metaKeywords, $this->metaDescription);
 	}
 
 	/**

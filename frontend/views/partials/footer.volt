@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-3 text-center putevki">
-				<a href="https://online.putevki.ru" class="putevki-logo"></a>
+				<a href="{{ url() }}" class="putevki-logo"></a>
 				Интернет-магазин туров<br/>
 				2000-<?= date('Y'); ?> &copy; <a href="{{ url() }}">putevki.ru</a>
 			</div>

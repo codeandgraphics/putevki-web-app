@@ -31,6 +31,14 @@
 				</div>
 				{{ form.render('about', ["class":"form-control hidden"]) }}
 			</div>
+			<div class="form-group">
+				<label for="name">Ключевые слова</label>
+				{{ form.render('metaKeywords', ["class":"form-control"]) }}
+			</div>
+			<div class="form-group">
+				<label for="name">Мета-описание</label>
+				{{ form.render('metaDescription', ["class":"form-control", "style":"height:70px;"]) }}
+			</div>
 
 			<button type="submit" class="btn btn-success">Сохранить</button>
 		</form>
