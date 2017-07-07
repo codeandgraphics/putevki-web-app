@@ -5,6 +5,7 @@ namespace Backend\Controllers;
 use Models\Countries;
 use Models\Regions;
 use Models\Tourvisor;
+use Phalcon\Forms\Element\File;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
@@ -77,6 +78,7 @@ class CountriesController extends ControllerBase
 	}
 
 	public function regionAction() {
+
 		$id = $this->dispatcher->getParam(0, 'int');
 		$region = Regions::findFirstByTourvisorId($id);
 
@@ -84,11 +86,23 @@ class CountriesController extends ControllerBase
 
 		$form->add(new Text('uri'));
 		$form->add(new Text('title'));
-		$form->add(new TextArea('excerpt'));
+		$form->add(new File('preview'));
 		$form->add(new TextArea('about'));
 
 		if ($this->request->isPost()) {
 			$form->bind($_POST, $region);
+
+			if($this->request->hasFiles()) {
+				$file = $this->request->getUploadedFiles()[0];
+
+				if($file->getSize() > 0) {
+					$fileName = $region->tourvisorId . '.' . $file->getExtension();
+					$path = $this->config->images->path . 'regions/' . $fileName;
+					$file->moveTo($path);
+					$region->preview = $fileName;
+				}
+			}
+
 			if ($form->isValid()) {
 				$region->save();
 				$this->flashSession->success('Регион успешно сохранен');

@@ -178,12 +178,14 @@ export default class Tour {
     $flight.find('.charge').html(`${flight.fuelcharge.value} <span>руб.</span>`);
 
     const $fuel = $flight.find('.fuel');
-    if (this.basePrice < flight.price.value) {
-      $fuel.find('.changed .more').removeClass('hide');
+    const diff = this.basePrice + this.price.fuel - flight.price.value;
+
+    if (diff < 0) {
+      $fuel.find('.changed .more').removeClass('hide').text(`Дороже на ${Humanize.price(Math.abs(diff))} руб.`);
       $fuel.find('.data').addClass('is-changed');
     }
-    if (this.basePrice > flight.price.value) {
-      $fuel.find('.changed .less').removeClass('hide');
+    if (diff > 0) {
+      $fuel.find('.changed .less').removeClass('hide').text(`Дешевле на ${Humanize.price(Math.abs(diff))} руб.`);
       $fuel.find('.data').addClass('is-changed');
     }
 
@@ -341,7 +343,6 @@ export default class Tour {
   }
 
   sendOnline(data, type) {
-
     $('#onlineStatusModal').modal({
       backdrop: 'static',
       keyboard: false,
@@ -399,5 +400,9 @@ export default class Tour {
     if (type === 'price') { this.$.tour.find('.data input[name="price"]').val(price); }
 
     this.$.prices.find('.tour-sum strong').text(`${Humanize.price(sum)} руб.`);
+  }
+
+  getFullPrice() {
+    return this.price.price;
   }
 }

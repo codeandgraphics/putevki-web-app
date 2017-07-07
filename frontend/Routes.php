@@ -119,6 +119,13 @@ $router->add(
 	]
 );
 $router->add(
+	'/tury/{region:[a-z\-]+}',
+	[
+		'controller' => 'countries',
+		'action' => 'region',
+	]
+);
+$router->add(
 	'/countries/{country:[a-z\-]+}/{region:[a-z\-]+}',
 	[
 		'controller' => 'countries',

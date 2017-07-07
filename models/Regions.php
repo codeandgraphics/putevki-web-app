@@ -11,6 +11,7 @@ class Regions extends BaseModel
 	public $tourvisorId;
 	public $uri;
 	public $title;
+	public $preview;
 	public $about;
 	public $popular;
 	public $active;

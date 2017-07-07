@@ -12,7 +12,9 @@
 					{% for item in countries %}
 						<div class="row country">
 							<div class="col-xs-3">
-								<img src="//static.tourvisor.ru/minprice/minprice-{{ item.tourvisor.id }}-1.jpg" class="img-responsive"/>
+								<a href="{{ url('countries/') }}{{ item.country.uri }}">
+									<img src="//static.tourvisor.ru/minprice/minprice-{{ item.tourvisor.id }}-1.jpg" class="img-responsive"/>
+								</a>
 							</div>
 							<div class="col-xs-9 about">
 								<h3>

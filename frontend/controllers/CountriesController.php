@@ -60,6 +60,7 @@ class CountriesController extends BaseController
 		]);
 
 		$this->view->setVars([
+			'title'         => $country->title . ' на ',
 			'params'        => $params,
 			'page'          => 'country',
 			'departures'    => $departures,
@@ -70,15 +71,15 @@ class CountriesController extends BaseController
 
 	public function regionAction()
 	{
-		$countryUri = $this->dispatcher->getParam('country');
 		$regionUri = $this->dispatcher->getParam('region');
 
-		$country = Countries::findFirstByUri($countryUri);
 		$region = Regions::findFirstByUri($regionUri);
 
-		if(!$country || !$region) {
+		if(!$region) {
 			return $this->response->setStatusCode(404);
 		}
+
+		$country = Countries::findFirstByTourvisorId($region->tourvisor->country->id);
 
 		$params = Params::getInstance();
 
@@ -97,6 +98,7 @@ class CountriesController extends BaseController
 		]);
 
 		$this->view->setVars([
+			'title'         => $region->title . ' на ',
 			'params'        => $params,
 			'page'          => 'country',
 			'departures'    => $departures,

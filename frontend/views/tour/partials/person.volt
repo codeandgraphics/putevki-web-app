@@ -61,7 +61,7 @@
 			{% if type == 'online' %}
 			<div class="confirm form-group">
 				<input type="checkbox" name="confirm" id="confirmation-{{ type }}" required>
-				<label for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement.pdf') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
+				<label for="confirmation-{{ type }}" class="control-label">Я согласен с условиями <a href="{{ url('agreement') }}" target="_blank">договора-оферты на туристическое обслуживание</a>.</label>
 			</div>
 			{% endif %}
 		</div>

@@ -1,12 +1,12 @@
 <ol class="breadcrumb">
 	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li class="active">Популярные страны</li>
+	<li class="active">Все страны</li>
 </ol>
 
 <div class="panel">
 	<div class="panel-heading">
 		<h4 class="panel-title">Все страны и курорты</h4>
-		<p>Популярные страны и курорты, визы, описания</p>
+		<p>Информация о странах и курортах, визы, описания</p>
 	</div>
 	<div class="panel-body">
 		<table class="table"

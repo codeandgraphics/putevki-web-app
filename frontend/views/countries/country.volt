@@ -28,7 +28,12 @@
 						{% for item in regions %}
 							<div class="region">
 								<a href="{{ url('countries/') }}{{ country.uri }}/{{ item.region.uri }}">
-									{{ item.tourvisor.name }}
+									<div class="image">
+										<div class="bg" style="background-image: url('{{ images_url('regions/') }}{{ item.region.preview }}');"></div>
+									</div>
+									<div class="title">
+										<h3>{{ item.tourvisor.name }}</h3>
+									</div>
 								</a>
 							</div>
 						{% endfor %}

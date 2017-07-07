@@ -21,7 +21,9 @@ export default class CountryPage {
     this.form = new SearchForm();
     this.form.init();
 
-    this.initHot();
+    if (this.url) {
+      this.initHot();
+    }
   }
 
   initHot() {

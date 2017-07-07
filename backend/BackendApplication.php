@@ -35,8 +35,10 @@ class BackendApplication extends \Phalcon\Mvc\Application
 			'loader',
 			'url',
 			'backendUrl',
+			'imagesUrl',
 			'managers',
 			'session',
+			'flashSession',
 			'db',
 			'view',
 			'dispatcher',
@@ -108,6 +110,21 @@ class BackendApplication extends \Phalcon\Mvc\Application
 		});
 	}
 
+	protected function imagesUrl() {
+		$this->di->setShared('imagesUrl', function() {
+			$url = new \Phalcon\Mvc\Url();
+
+			$config = $this->get('config');
+
+			$protocol = $config->app->https ? 'https://' : 'http://';
+			$baseUri = $protocol . $config->images->domain . $config->images->baseUri;
+
+			$url->setBaseUri($baseUri);
+
+			return $url;
+		});
+	}
+
 	protected function db()
 	{
 		$this->di->setShared('db', function () {
@@ -130,9 +147,9 @@ class BackendApplication extends \Phalcon\Mvc\Application
 		$this->di->set('flashSession', function () {
 			return new FlashSession(
 				array(
-					'error' => 'danger',
+					'error'   => 'danger',
 					'success' => 'success',
-					'notice' => 'info',
+					'notice'  => 'info',
 					'warning' => 'warning'
 				)
 			);
@@ -198,8 +215,12 @@ class BackendApplication extends \Phalcon\Mvc\Application
 					'compiledPath' => APP_PATH . $this->get('config')->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
-				$volt->getCompiler()->addFunction('backend_url', function($resolvedParams) {
+				$compiler = $volt->getCompiler();
+				$compiler->addFunction('backend_url', function($resolvedParams) {
 					return "\Phalcon\Di::getDefault()->get('backendUrl')->get(" . $resolvedParams . ')';
+				});
+				$compiler->addFunction('images_url', function($resolvedParams) {
+					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
 				});
 				return $volt;
 			}));

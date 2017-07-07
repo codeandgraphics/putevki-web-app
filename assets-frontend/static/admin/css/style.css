@@ -1,3 +1,4 @@
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&subset=cyrillic");
 
 body {
 	 padding-top: 50px;
@@ -3394,4 +3395,43 @@ a.label:focus {
 	right: 10px;
 	top: 5px;
 	padding: 14px 6px;
+}
+
+.editable {
+	max-height:500px;
+	height: 500px;
+	overflow: hidden;
+}
+
+.ql-snow .ql-editor {
+	font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+	font-size: 15px;
+}
+.ql-snow .ql-editor img {
+	float: right;
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+.ql-snow .ql-editor h2 {
+	font-size: 24px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor h3 {
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor h4 {
+	font-size: 18px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor p {
+	margin: 0 0 10px;
+	font-size: 15px;
+}
+.ql-snow .ql-editor ul {
+	margin-top: 0;
+	margin-bottom: 10px;
 }

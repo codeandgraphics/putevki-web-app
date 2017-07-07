@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
 	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li><a href="{{ backend_url('countries') }}">Популярные страны</a></li>
+	<li><a href="{{ backend_url('countries') }}">Все страны</a></li>
 	<li><a href="{{ backend_url('countries/country/') }}{{ region.tourvisor.countryId }}">{{ region.tourvisor.country.name }}</a></li>
 	<li class="active">{{ region.tourvisor.name }}</li>
 </ol>
@@ -11,7 +11,7 @@
 		<p></p>
 	</div>
 	<div class="panel-body">
-		<form method="post">
+		<form method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="name">Заголовок страницы</label>
 				{{ form.render('title', ["class":"form-control"]) }}
@@ -22,12 +22,20 @@
 				<span class="help-block">Латиницей, в нижнем регистре, используется в URL</span>
 			</div>
 			<div class="form-group">
-				<label for="name">Краткое описание</label>
-				{{ form.render('excerpt', ["class":"form-control"]) }}
+				<label for="name">Превью-картинка</label>
+				<div class="row">
+					<div class="col-xs-3">
+						<img src="{{ images_url('regions/') }}{{ region.preview }}" class="img-responsive"/>
+					</div>
+					<div class="col-xs-9">
+						{{ form.render('preview', ["class":"form-control"]) }}
+					</div>
+				</div>
+				<span class="help-block">Используется в боковом меню</span>
 			</div>
 			<div class="form-group">
 				<label for="name">Текст страницы</label>
-				<div class="editable" style="height: 300px;">
+				<div class="editable">
 					{{ region.about }}
 				</div>
 				{{ form.render('about', ["class":"form-control hidden"]) }}
@@ -43,7 +51,7 @@
 
     var toolbarOptions = [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
+      ['blockquote', 'image'],
 
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript

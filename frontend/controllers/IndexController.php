@@ -78,7 +78,11 @@ class IndexController extends BaseController
         }
         $params->store();
 
-        $this->response->redirect('');
+	    if(strpos($this->request->getHTTPReferer(), $this->url->get('')) !== false) {
+		    $this->response->redirect($this->request->getHTTPReferer());
+	    } else {
+	    	return $this->response->redirect('');
+	    }
     }
 
 	public function agreementAction()
@@ -113,12 +117,10 @@ class IndexController extends BaseController
 		$this->view->disable();
 		$detect = new Mobile_Detect();
 
-		if($detect->isiOS()) {
-			$this->response->redirect($this->config->appStore);
-		} else if($detect->isAndroidOS()) {
-			$this->response->redirect($this->config->googlePlay);
+		if($detect->isAndroidOS()) {
+			$this->response->redirect($this->config->defaults->googlePlay);
 		} else {
-			$this->response->redirect('/');
+			$this->response->redirect($this->config->defaults->appStore);
 		}
 
 	}

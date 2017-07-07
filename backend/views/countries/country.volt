@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
 	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
-	<li><a href="{{ backend_url('countries') }}">Популярные страны</a></li>
+	<li><a href="{{ backend_url('countries') }}">Все страны</a></li>
 	<li class="active">{{ country.tourvisor.name }}</li>
 </ol>
 
@@ -22,11 +22,11 @@
 			</div>
 			<div class="form-group">
 				<label for="name">Краткое описание</label>
-				{{ form.render('excerpt', ["class":"form-control"]) }}
+				{{ form.render('excerpt', ["class":"form-control", "style":"height:70px;"]) }}
 			</div>
 			<div class="form-group">
 				<label for="name">Текст страницы</label>
-				<div class="editable" style="height: 300px;">
+				<div class="editable">
 					{{ country.about }}
 				</div>
 				{{ form.render('about', ["class":"form-control hidden"]) }}
@@ -117,7 +117,7 @@
 
     var toolbarOptions = [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
+      ['blockquote', 'image'],
 
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript

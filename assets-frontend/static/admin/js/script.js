@@ -4,6 +4,8 @@ $(document).ready(function(){
 
 		var $message = $(message);
 
+		console.log($message.attr('class'));
+
 		$.notify({
 			message: $message.html()
 		},{

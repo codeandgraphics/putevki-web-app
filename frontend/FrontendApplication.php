@@ -38,6 +38,7 @@ class FrontendApplication extends Application
 			'loader',
 			'url',
 			'backendUrl',
+			'imagesUrl',
 			'managers',
 			'router',
 			'session',
@@ -104,6 +105,21 @@ class FrontendApplication extends Application
 
 			$protocol = $config->app->https ? 'https://' : 'http://';
 			$baseUri = $protocol . $config->app->domain . $config->backend->baseUri;
+
+			$url->setBaseUri($baseUri);
+
+			return $url;
+		});
+	}
+
+	protected function imagesUrl() {
+		$this->di->setShared('imagesUrl', function() {
+			$url = new \Phalcon\Mvc\Url();
+
+			$config = $this->get('config');
+
+			$protocol = $config->app->https ? 'https://' : 'http://';
+			$baseUri = $protocol . $config->images->domain . $config->images->baseUri;
 
 			$url->setBaseUri($baseUri);
 
@@ -216,6 +232,10 @@ class FrontendApplication extends Application
 					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
+				$compiler = $volt->getCompiler();
+				$compiler->addFunction('images_url', function($resolvedParams) {
+					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
+				});
 				return $volt;
 			}));
 			return $view;
