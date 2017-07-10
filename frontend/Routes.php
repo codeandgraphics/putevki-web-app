@@ -133,6 +133,29 @@ $router->add(
 	]
 );
 
+/** Blog routes */
+$router->add(
+	'/blog',
+	[
+		'controller'    => 'blog',
+		'action'        => 'index',
+	]
+);
+$router->add(
+	'/blog/{post:[a-z0-9\-]+}',
+	[
+		'controller' => 'blog',
+		'action' => 'post',
+	]
+);
+$router->add(
+	'/blog/entry/{post:[a-z0-9\-]+}',
+	[
+		'controller' => 'blog',
+		'action' => 'post',
+	]
+);
+
 /** Other routes */
 $router->add(
 	'/robots.txt',

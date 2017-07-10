@@ -64,7 +64,7 @@ class UsersController extends ControllerBase
 			$user->name = $name;
 			$user->email = $email;
 			$user->password = $this->security->hash($password);
-			$user->company = 'Путевки.ру';
+			$user->company = 'Путёвки.ру';
 
 			$success = $user->save();
 

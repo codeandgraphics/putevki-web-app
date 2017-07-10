@@ -8,7 +8,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="{{ backend_url('') }}">
-				<img src="{{ static_url('static/yo.png') }}" alt="Путевки.ру"/> онлайн.путевки.ру
+				<img src="{{ static_url('static/yo.png') }}" alt="Путевки.ру"/> Панель управления Путёвки.ру
 			</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">

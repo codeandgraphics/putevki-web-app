@@ -9,6 +9,7 @@
 	<div class="media-body">
 		<h4 class="media-heading">{{ user.name }}</h4>
 		<span>{{ user.company }}</span>
+		<span>{{ user.email }}</span>
 	</div>
 </div>
 <h5 class="sidebar-title"></h5>

@@ -4,7 +4,8 @@ namespace Backend\Models;
 
 use Models\BaseModel;
 use Models\Branches;
-use Phalcon\Mvc\Model\Validator\Uniqueness;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Uniqueness;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
@@ -54,14 +55,15 @@ class Users extends BaseModel
 
 	public function validation()
 	{
-		$this->validate(new Uniqueness(
-			array(
-				'field' => 'email',
-				'message' => 'E-mail пользователя должен быть уникальным'
-			)
-		));
+		$validator = new Validation();
 
-		return $this->validationHasFailed() !== true;
+		$validator->add(
+			'email',
+			new Uniqueness(
+				['message' => 'E-mail пользователя должен быть уникальным']
+			));
+
+		return $this->validate($validator);
 	}
 
 }

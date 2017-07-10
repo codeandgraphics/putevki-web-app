@@ -9,6 +9,9 @@ html, body {
 	min-width: 960px;
 	font-size: 15px;
 
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-text-stroke:1px transparent;
+
 	.font-light;
 }
 
@@ -321,4 +324,26 @@ a.internal {
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+.pagination {
+	> li {
+		> a,
+		> span {
+			color: @color-blue;
+			border-color: @color-border;
+		}
+	}
+
+	> .active {
+		> a,
+		> span,
+		> a:hover,
+		> span:hover,
+		> a:focus,
+		> span:focus {
+			background-color: @color-blue;
+			border-color: @color-blue;
+		}
+	}
 }

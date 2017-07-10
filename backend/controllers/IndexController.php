@@ -5,6 +5,7 @@ namespace Backend\Controllers;
 use Backend\Models\Requests;
 use Backend\Models\Payments;
 use Backend\Models\Tourists;
+use Models\Blog\Posts;
 use Utils;
 
 class IndexController extends ControllerBase
@@ -96,6 +97,28 @@ class IndexController extends ControllerBase
 		$this->view->setVar('today', $today);
 		$this->view->setVar('week', $week);
 
+	}
+
+	public function blogAction() {
+
+		/*$this->view->disable();
+		echo '<pre>';
+
+		$db = mysqli_connect('localhost', 'putevki', 'Oz2000Pvv2013', 'putevki_ru');
+
+		$items = $db->query('
+			SELECT post.*, user.nickname as author, user.id as authorId FROM dwdlu_easyblog_post AS post 
+			LEFT JOIN dwdlu_easyblog_users AS user ON user.id = post.created_by
+			WHERE post.published = 1
+			ORDER BY post.created DESC
+			LIMIT 1000
+		')->fetch_all(MYSQLI_ASSOC);
+
+		foreach($items as $item) {
+			$post = new Posts();
+			$post->fromJoomla($item);
+			$post->create();
+		}*/
 	}
 
 }
