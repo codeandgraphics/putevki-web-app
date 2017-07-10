@@ -40,6 +40,7 @@
 
 	<h5 class="sidebar-title">Настройки</h5>
 	<ul class="nav nav-sidebar">
+		<li{% if(current.controller == 'blog') %} class="active"{% endif %}><a href="{{ backend_url('blog') }}"><i class="fa fa-commenting"></i>Блог</a></li>
 		<li{% if(current.controller == 'countries') %} class="active"{% endif %}><a href="{{ backend_url('countries') }}"><i class="fa fa-globe"></i>Страны и курорты</a></li>
 		<li{% if(current.controller == 'cities') %} class="active"{% endif %}><a href="{{ backend_url('cities') }}"><i class="fa fa-building-o"></i>Города и офисы</a></li>
 	</ul>
