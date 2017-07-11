@@ -6,11 +6,9 @@
 
 <div class="panel">
 	<div class="panel-heading">
+		<a href="{{ backend_url('blog') }}" class="btn btn-success btn-stroke btn-sm pull-right">Посты</a>
 		<h4 class="panel-title">Блогеры</h4>
 		<p>Все блогеры</p>
-		<p>
-			<a href="{{ backend_url('blog') }}" class="btn btn-primary">Посты</a>
-		</p>
 	</div>
 	<div class="panel-body">
 		<table class="table"

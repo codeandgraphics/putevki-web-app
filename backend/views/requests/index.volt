@@ -8,7 +8,7 @@
 		<a href="{{ backend_url('requests/add') }}" class="btn btn-success btn-stroke btn-sm pull-right">Создать заявку</a>
 		<h4 class="panel-title">Все заявки</h4>
 
-		<p>...</p>
+		<p>Заявки на бронирование и покупку туров</p>
 	</div>
 	<div class="panel-body">
 		<div class="table_pagination">
