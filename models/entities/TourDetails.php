@@ -8,10 +8,16 @@ class TourDetails
 	public $info;
 	public $addPayments;
 	public $contents;
+	public $operatorLink;
 	public $actualized = false;
 
-	public function __construct($details = null)
+	public function __construct($details = null, $actualize = null)
 	{
+		if($actualize) {
+			$this->operatorLink = property_exists($actualize, 'operatorlink') ?
+				$actualize->operatorlink :
+				false;
+		}
 		if ($details) {
 			if(property_exists($details, 'flights')) {
 				foreach ($details->flights as $item) {

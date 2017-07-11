@@ -68,8 +68,18 @@ class ApiController extends BaseController
 
 			$request = new Requests();
 
-			// TODO: split to mobile systems
-			$request->origin = Requests::ORIGIN_MOBILE;
+			switch ($data->origin) {
+				case Requests::ORIGIN_IOS:
+					$request->origin = Requests::ORIGIN_IOS;
+					break;
+				case Requests::ORIGIN_ANDROID:
+					$request->origin = Requests::ORIGIN_ANDROID;
+					break;
+				default:
+					$request->origin = Requests::ORIGIN_MOBILE;
+					break;
+			}
+
 
 			$order = $data->order;
 
@@ -392,13 +402,10 @@ class ApiController extends BaseController
 		);
 
 		$actdetail = TourvisorUtils::getMethod('actdetail', $params);
-		//$actualize = Utils\Tourvisor::getMethod('actualize', $params);
-
-		//return new JSONResponse(Error::NO_ERROR, ['result' => $result]);
+		$actualize = TourvisorUtils::getMethod('actualize', $params);
 
 		return new JSONResponse(Error::NO_ERROR, [
-			'details' => new Entities\TourDetails($actdetail),
-			//'actualize' => $actualize,
+			'details' => new Entities\TourDetails($actdetail, $actualize->data->tour),
 		]);
 	}
 

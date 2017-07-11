@@ -53,8 +53,6 @@ class BlogController extends BaseController
 			return $this->response->setStatusCode(404);
 		}
 
-
-
 		$this->view->setVars([
 			'title'         => $post->title . ' на ',
 			'post'          => $post,
