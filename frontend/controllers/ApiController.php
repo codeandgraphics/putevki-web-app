@@ -89,37 +89,11 @@ class ApiController extends BaseController
 			$request->subjectEmail = $order->subject->email;
 
 			//Данные тура
-			$request->hotelName = $order->hotel->name;
-			$request->hotelCountry = $order->hotel->country;
-			$request->hotelRegion = $order->hotel->region;
+			$request->setHotel($order->hotel);
 
-			$request->hotelDate = $order->hotel->date;
-			$request->hotelNights = $order->hotel->nights;
-			$request->hotelPlacement = $order->hotel->placement;
-			$request->hotelMeal = $order->hotel->meal;
-			$request->hotelRoom = $order->hotel->room;
-
-			if ($order->flight) {
-				$request->flightToNumber = $order->flight->to->number;
-				$request->flightToDepartureDate = $order->flight->to->departure->date;
-				$request->flightToDepartureTime = $order->flight->to->departure->time;
-				$request->flightToDepartureTerminal = $order->flight->to->departure->port;
-				$request->flightToArrivalDate = $order->flight->to->arrival->date;
-				$request->flightToArrivalTime = $order->flight->to->arrival->time;
-				$request->flightToArrivalTerminal = $order->flight->to->arrival->port;
-				$request->flightToCarrier = $order->flight->to->carrier;
-				$request->flightToPlane = $order->flight->to->plane;
-
-				$request->flightFromNumber = $order->flight->from->number;
-				$request->flightFromDepartureDate = $order->flight->from->departure->date;
-				$request->flightFromDepartureTime = $order->flight->from->departure->time;
-				$request->flightFromDepartureTerminal = $order->flight->from->departure->port;
-				$request->flightFromArrivalDate = $order->flight->from->arrival->date;
-				$request->flightFromArrivalTime = $order->flight->from->arrival->time;
-				$request->flightFromArrivalTerminal = $order->flight->from->arrival->port;
-				$request->flightFromCarrier = $order->flight->from->carrier;
-				$request->flightFromPlane = $order->flight->from->plane;
-				$request->flightFromClass = '';
+			if ($order->flights) {
+				$request->setFlights('To', $order->flights->to);
+				$request->setFlights('From', $order->flights->from);
 			}
 
 			$request->tourOperatorId = $order->tour->operator;
