@@ -19,16 +19,13 @@ class Posts extends BaseModel {
 	public $created;
 	public $active;
 
+	public function initialize() {
+		$this->hasOne('created_by', Bloggers::name(), 'id', ['alias' => 'author']);
+	}
+
 	public function getSource()
 	{
 		return 'blog_posts';
-	}
-
-	/**
-	 * @return Meta
-	 */
-	public function getMeta() : Meta {
-		return new Meta($this->metaKeywords, $this->metaDescription);
 	}
 
 	public function fromJoomla($data) {

@@ -7,6 +7,9 @@
 	<div class="panel-heading">
 		<h4 class="panel-title">Блог</h4>
 		<p>Все посты</p>
+		<p>
+			<a href="{{ backend_url('blog/bloggers') }}" class="btn btn-primary">Блоггеры</a>
+		</p>
 	</div>
 	<div class="panel-body">
 		<table class="table"
@@ -23,19 +26,49 @@
 			</tr>
 			</thead>
 			<tbody>
-			{% for item in posts %}
+			{% for item in pagination.items %}
 				<tr>
 					<td>
 						<a href="{{ backend_url('blog/post/') }}{{ item.post.id }}">
 							{{ item.post.title }}
 						</a>
 					</td>
-					<td><img src="{{ item.author.image }}" width="20" class="img-circle"/> {{ item.author.name }}</td>
+					<td>
+						<a href="{{ backend_url('blog/blogger/') }}{{ item.author.id }}">
+							<img src="{{ images_url('blog/bloggers/') }}{{ item.author.image }}" width="17" class="img-circle"/>{{ item.author.name }}
+						</a>
+					</td>
 					<td>{{ item.post.created }}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
 		</table>
+
+		{% if pagination.items %}
+			<ul class="pagination">
+				{% if pagination.before != pagination.current %}
+					<li class="paginate_button">
+						<a href="{{ backend_url('blog') }}?page={{ pagination.before }}">назад</a>
+					</li>
+				{% else %}
+					<li class="paginate_button disabled"><span>назад</span></li>
+				{% endif %}
+
+				{% for i in 1..pagination.total_pages %}
+					<li class="paginate_button{% if pagination.current == i %} active{% endif %}">
+						<a href="{{ backend_url('blog') }}?page={{ i }}">{{ i }}</a>
+					</li>
+				{% endfor %}
+
+				{% if pagination.next != pagination.current %}
+					<li>
+						<a href="{{ backend_url('blog') }}?page={{ pagination.next }}">вперед</a>
+					</li>
+				{% else %}
+					<li class="disabled"><span>вперед</span></li>
+				{% endif %}
+			</ul>
+		{% endif %}
 	</div>
 </div>
 

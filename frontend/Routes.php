@@ -149,6 +149,13 @@ $router->add(
 	]
 );
 $router->add(
+	'/blog/author/{author:[a-z0-9\-]+}',
+	[
+		'controller' => 'blog',
+		'action' => 'author',
+	]
+);
+$router->add(
 	'/blog/entry/{post:[a-z0-9\-]+}',
 	[
 		'controller' => 'blog',

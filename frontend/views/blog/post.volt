@@ -9,6 +9,7 @@
 			<div class="content">
 				<ol class="breadcrumb">
 					<li><a href="{{ url('blog') }}">Блог</a></li>
+					<li><a href="{{ url('blog/author/') }}{{ post.author.uri }}">{{ post.author.name }}</a></li>
 					<li class="active">{{ post.title }}</li>
 				</ol>
 				<div class="content">

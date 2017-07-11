@@ -6,6 +6,13 @@ use \Phalcon\Mvc\Model;
 
 class BaseModel extends Model
 {
+	/**
+	 * @return Meta
+	 */
+	public function getMeta() : Meta {
+		return new Meta($this->metaKeywords, $this->metaDescription);
+	}
+
 	public static function name()
 	{
 		return get_called_class();

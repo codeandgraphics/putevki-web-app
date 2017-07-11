@@ -5,6 +5,7 @@ namespace Frontend\Controllers;
 use Models\Blog\Bloggers;
 use Models\Blog\Posts;
 use Phalcon\Paginator\Adapter\Model as PaginatorModel;
+use Phalcon\Paginator\Adapter\QueryBuilder as PaginatorBuilder;
 
 class BlogController extends BaseController
 {
@@ -59,6 +60,37 @@ class BlogController extends BaseController
 			'post'          => $post,
 			'page'          => 'post',
 			'meta'          => $post->getMeta()
+		]);
+	}
+
+	public function authorAction() {
+		$authorUri = $this->dispatcher->getParam('author');
+
+		$author = Bloggers::findFirstByUri($authorUri);
+
+		if(!$author) {
+			return $this->response->setStatusCode(404);
+		}
+
+		$builder = $this->modelsManager->createBuilder()
+			->from(Posts::name())
+			->where('created_by = :author:', ['author' => $author->id])
+			->orderBy('created DESC');
+
+		$paginator = new PaginatorBuilder(
+			array(
+				'builder'   => $builder,
+				'limit'     => 10,
+				'page'      => $this->request->get('page')
+			)
+		);
+
+		$this->view->setVars([
+			'title'         => 'Блог ' . $author->name . ' на ',
+			'pagination'    => $paginator->getPaginate(),
+			'author'        => $author,
+			'page'          => 'post',
+			'meta'          => $author->getMeta()
 		]);
 	}
 }
