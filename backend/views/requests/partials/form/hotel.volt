@@ -1,27 +1,28 @@
+{% set hotel = req.getHotel() %}
 <div class="form-group">
-	<label for="hotelName">Название отеля</label>
-	{{ form.render('hotelName', ['class': 'form-control']) }}
+	<label>Название отеля</label>
+	<input name="_hotel[name]" type="text" value="{{ hotel.name }}" class="form-control"/>
 </div>
 <div class="row">
 	<div class="col-sm-6">
 		<div class="form-group">
-			<label for="hotelCountry">Страна</label>
-			{{ form.render('hotelCountry', ['class': 'form-control']) }}
+			<label>Страна</label>
+			<input name="_hotel[country]" type="text" value="{{ hotel.country }}" class="form-control"/>
 		</div>
 	</div>
 	<div class="col-sm-6">
 		<div class="form-group">
-			<label for="hotelRegion">Курорт</label>
-			{{ form.render('hotelRegion', ['class': 'form-control']) }}
+			<label>Курорт</label>
+			<input name="_hotel[region]" type="text" value="{{ hotel.region }}" class="form-control"/>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-sm-4">
 		<div class="form-group">
-			<label for="hotelDate">Дата заезда</label>
+			<label>Дата заезда</label>
 			<div class="input-group">
-				{{ form.render('hotelDate', ['class': 'form-control dp']) }}
+				<input name="_hotel[date]" type="text" value="{{ hotel.date }}" class="form-control dp"/>
 				<span class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</span>
@@ -30,28 +31,28 @@
 	</div>
 	<div class="col-sm-4">
 		<div class="form-group">
-			<label for="hotelNights">Ночей</label>
-			{{ form.render('hotelNights', ['class': 'form-control']) }}
+			<label>Ночей</label>
+			<input name="_hotel[nights]" type="text" value="{{ hotel.nights }}" class="form-control"/>
 		</div>
 	</div>
 	<div class="col-sm-4">
 		<div class="form-group">
-			<label for="hotelPlacement">Размещение</label>
-			{{ form.render('hotelPlacement', ['class': 'form-control']) }}
+			<label>Размещение</label>
+			<input name="_hotel[placement]" type="text" value="{{ hotel.placement }}" class="form-control"/>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-sm-6">
 		<div class="form-group">
-			<label for="hotelMeal">Питание</label>
-			{{ form.render('hotelMeal', ['class': 'form-control']) }}
+			<label>Питание</label>
+			<input name="_hotel[meal]" type="text" value="{{ hotel.meal }}" class="form-control"/>
 		</div>
 	</div>
 	<div class="col-sm-6">
 		<div class="form-group">
-			<label for="hotelRoom">Тип номера</label>
-			{{ form.render('hotelRoom', ['class': 'form-control']) }}
+			<label>Тип номера</label>
+			<input name="_hotel[room]" type="text" value="{{ hotel.room }}" class="form-control"/>
 		</div>
 	</div>
 </div>

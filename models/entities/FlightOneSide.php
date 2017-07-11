@@ -24,7 +24,6 @@ class FlightOneSide
 			$this->number = $oneSide->number;
 			$this->plane = $oneSide->plane;
 
-
 			$this->departure = new \stdClass();
 			$this->departure->time = $oneSide->departure->time;
 			$this->departure->port = new \stdClass();

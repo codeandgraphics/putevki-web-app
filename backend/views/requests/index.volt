@@ -55,6 +55,9 @@
 				</thead>
 				<tbody>
 				{% for req in page.items %}
+					{% set hotel = req.getHotel() %}
+					{% set flightsTo = req.getFlights('To') %}
+					{% set flightsFrom = req.getFlights('From') %}
 					{% set paid = req.getPaid() %}
 					{% set payStatus = 'partial' %}
 					{% if req.price <= paid %}
@@ -95,8 +98,8 @@
 							&nbsp;{{ req.creationDate }}
 						</td>
 						<td>
-							{% if req.hotelCountry %}
-								{{ req.hotelCountry }}
+							{% if hotel.country %}
+								{{ hotel.country }}
 							{% else %}
 								не указана
 							{% endif %}
@@ -113,14 +116,14 @@
 							</small>
 						</td>
 						<td class="text-center">
-							{% if req.flightToDepartureDate %}
-								<?=Utils\Text::formatToDayMonth($req->flightToDepartureDate, 'd.m.Y');?>
+							{% if flightsTo[0].departure.date %}
+								{{ flightsTo[0].departure.date }}
 							{% else %}
 								не указана
 							{% endif %}
 							<small>
-								{% if req.hotelNights %}
-									<?=Utils\Text::humanize('nights', $req->hotelNights);?>
+								{% if hotel.nights %}
+									<?=Utils\Text::humanize('nights', $hotel->nights);?>
 								{% else %}
 									не указано
 								{% endif %}
@@ -213,41 +216,45 @@
 											<tr>
 												<td>
 													<i class="fa fa-hotel"></i>
-													<span class="text-primary">{{ req.hotelName }}</span>,
-													{{ req.hotelCountry }}, {{ req.hotelRegion }}
+													<span class="text-primary">{{ hotel.name }}</span>,
+													{{ hotel.country }}, {{ hotel.region }}
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<i class="fa fa-hotel"></i> {{ req.hotelMeal }}, {{ req.hotelPlacement }}, {{ req.hotelRoom }},
-													{{ req.flightToArrivalDate }},
-													<?=Utils\Text::humanize('nights', $req->hotelNights);?>
+													<i class="fa fa-hotel"></i> {{ hotel.meal }}, {{ hotel.placement }}, {{ hotel.room }},
+													{{ hotel.date }},
+													<?=Utils\Text::humanize('nights', $hotel->nights);?>
 												</td>
 											</tr>
+											{% for flight in flightsTo %}
 											<tr>
 												<td>
 													<i class="fa fa-plane"></i>
-													{% if req.flightToNumber %}
-														{{ req.flightToDepartureDate }}, {{ req.flightToNumber }},
-														{{ req.flightToDepartureTerminal }} {{ req.flightToDepartureTime }}
-														-  {{ req.flightToArrivalTerminal }} {{ req.flightToArrivalTime }}
+													{% if flight.number %}
+														{{ flight.departure.date }}, {{ flight.number }},
+														{{ flight.departure.port }} {{ flight.departure.time }}
+														-  {{ flight.arrival.port }} {{ flight.arrival.time }}
 													{% else %}
 														нет информации о рейсе
 													{% endif %}
 												</td>
 											</tr>
-											<tr>
-												<td>
-													<i class="fa fa-plane"></i>
-													{% if req.flightFromNumber %}
-														{{ req.flightFromDepartureDate }}, {{ req.flightFromNumber }},
-														{{ req.flightFromDepartureTerminal }} {{ req.flightFromDepartureTime }}
-														-  {{ req.flightFromArrivalTerminal }} {{ req.flightFromArrivalTime }}
-													{% else %}
-														нет информации о рейсе
-													{% endif %}
-												</td>
-											</tr>
+											{% endfor %}
+											{% for flight in flightsFrom %}
+												<tr>
+													<td>
+														<i class="fa fa-plane"></i>
+														{% if flight.number %}
+															{{ flight.departure.date }}, {{ flight.number }},
+															{{ flight.departure.port }} {{ flight.departure.time }}
+															-  {{ flight.arrival.port }} {{ flight.arrival.time }}
+														{% else %}
+															нет информации о рейсе
+														{% endif %}
+													</td>
+												</tr>
+											{% endfor %}
 											</tbody>
 										</table>
 										<br/>

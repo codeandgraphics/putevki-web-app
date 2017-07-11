@@ -49,7 +49,10 @@
 
 
 <h1>Перелет</h1>
-{% if req.flightToDepartureDate and req.flightFromDepartureDate %}
+{% set flightsTo = req.getFlights('To') %}
+{% set flightsFrom = req.getFlights('From') %}
+
+{% if flightsTo|length > 0 and flightsFrom|length > 0 %}
 <table class="flight bordered">
 	<thead>
 	<tr>
@@ -60,31 +63,33 @@
 	</tr>
 	</thead>
 	<tbody>
+	{% for flight in flightsTo %}
 	<tr>
 		<td class="left">
 			<div class="number">
-				{{ req.flightToNumber }}
+				{{ flight.number }}
 			</div>
 			<div class="terminal">
-				{{ req.flightToDepartureTerminal }} - {{ req.flightToArrivalTerminal }}
+				{{ flight.departure.port }} – {{ flight.arrival.port }}
 			</div>
 		</td>
 		<td>
-			{{ req.flightToDepartureDate }}<br/>
-			в {{ req.flightToDepartureTime }}
+			{{ flight.departure.date }}<br/>
+			в {{ flight.departure.time }}
 		</td>
 		<td>
-			{{ req.flightToArrivalDate }}<br/>
-			в {{ req.flightToArrivalTime }}
+			{{ flight.arrival.date }}<br/>
+			в {{ flight.arrival.time }}
 		</td>
 		<td>
 			{% if req.flightToClass %}
-				{{ req.flightToClass }}
+				Class
 			{% else %}
 				эконом
 			{% endif %}
 		</td>
 	</tr>
+	{% endfor %}
 	</tbody>
 
 	<thead>
@@ -96,31 +101,33 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr>
-		<td class="left">
-			<div class="number">
-				{{ req.flightFromNumber }}
-			</div>
-			<div class="terminal">
-				{{ req.flightFromDepartureTerminal }} - {{ req.flightFromArrivalTerminal }}
-			</div>
-		</td>
-		<td>
-			{{ req.flightFromDepartureDate }}<br/>
-			в {{ req.flightFromDepartureTime }}
-		</td>
-		<td>
-			{{ req.flightFromArrivalDate }}<br/>
-			в {{ req.flightFromArrivalTime }}
-		</td>
-		<td>
-			{% if req.flightFromClass %}
-				{{ req.flightFromClass }}
-			{% else %}
-				эконом
-			{% endif %}
-		</td>
-	</tr>
+	{% for flight in flightsFrom %}
+		<tr>
+			<td class="left">
+				<div class="number">
+					{{ flight.number }}
+				</div>
+				<div class="terminal">
+					{{ flight.departure.port }} – {{ flight.arrival.port }}
+				</div>
+			</td>
+			<td>
+				{{ flight.departure.date }}<br/>
+				в {{ flight.departure.time }}
+			</td>
+			<td>
+				{{ flight.arrival.date }}<br/>
+				в {{ flight.arrival.time }}
+			</td>
+			<td>
+				{% if req.flightToClass %}
+					Class
+				{% else %}
+					эконом
+				{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
 	</tbody>
 </table>
 <p class="help">
@@ -132,6 +139,8 @@
 </div>
 {% endif %}
 
+
+{% set hotel = req.getHotel() %}
 <h1>Проживание</h1>
 <table class="placement bordered">
 	<thead>
@@ -146,21 +155,21 @@
 	<tbody>
 	<tr>
 		<td class="left">
-			{{ req.hotelName }}
-			<div>{{ req.hotelCountry }}, {{ req.hotelRegion }}</div>
+			{{ hotel.name }}
+			<div>{{ hotel.country }}, {{ hotel.region }}</div>
 		</td>
 		<td>
-			{{ req.hotelMeal }}
+			{{ hotel.meal }}
 		</td>
 		<td>
-			{{ req.hotelPlacement }}
+			{{ hotel.placement }}
 		</td>
 		<td>
-			{{ req.hotelRoom }}
+			{{ hotel.room }}
 		</td>
 		<td>
-			{{ req.flightToArrivalDate }}
-			<div><?=Utils\Text::humanize('nights', $req->hotelNights);?></div>
+			{{ hotel.date }}
+			<div><?=Utils\Text::humanize('nights', $hotel->nights);?></div>
 		</td>
 	</tr>
 	</tbody>

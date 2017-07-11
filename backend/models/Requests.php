@@ -23,14 +23,9 @@ class Requests extends BaseModel
 
 	public $manager_id;
 
-	public $hotelName;
-	public $hotelCountry;
-	public $hotelRegion;
-	public $hotelDate;
-	public $hotelNights = 0;
-	public $hotelPlacement;
-	public $hotelMeal;
-	public $hotelRoom;
+	public $flightsTo;
+	public $flightsFrom;
+	public $hotel;
 
 	public $subjectSurname;
 	public $subjectName;
@@ -38,28 +33,6 @@ class Requests extends BaseModel
 	public $subjectAddress;
 	public $subjectPhone;
 	public $subjectEmail;
-
-	public $flightToNumber;
-	public $flightToDepartureDate;
-	public $flightToDepartureTime;
-	public $flightToDepartureTerminal;
-	public $flightToArrivalDate;
-	public $flightToArrivalTime;
-	public $flightToArrivalTerminal;
-	public $flightToCarrier;
-	public $flightToPlane;
-	public $flightToClass;
-
-	public $flightFromNumber;
-	public $flightFromDepartureDate;
-	public $flightFromDepartureTime;
-	public $flightFromDepartureTerminal;
-	public $flightFromArrivalDate;
-	public $flightFromArrivalTime;
-	public $flightFromArrivalTerminal;
-	public $flightFromCarrier;
-	public $flightFromPlane;
-	public $flightFromClass;
 
 	public $price;
 	public $departureId;
@@ -75,6 +48,10 @@ class Requests extends BaseModel
 
 	public $creationDate;
 	public $deleted = Tourists::NOT_DELETED;
+
+	private $_flightsTo;
+	private $_flightsFrom;
+	private $_hotel;
 
 	public function initialize()
 	{
@@ -125,19 +102,6 @@ class Requests extends BaseModel
 
 	public function beforeSave()
 	{
-		$fields = [
-			'hotelDate',
-			'flightToDepartureDate',
-			'flightToArrivalDate',
-			'flightFromDepartureDate',
-			'flightFromArrivalDate'
-		];
-
-		foreach ($fields as $field) {
-			$date = \DateTime::createFromFormat('d.m.Y', $this->$field);
-			$this->$field = $date ? $date->format('Y-m-d') : null;
-		}
-
 		$this->hotelNights = $this->hotelNights ?: 0;
 	}
 
@@ -189,18 +153,9 @@ class Requests extends BaseModel
 
 	public function afterFetch()
 	{
-		$fields = [
-			'hotelDate',
-			'flightToDepartureDate',
-			'flightToArrivalDate',
-			'flightFromDepartureDate',
-			'flightFromArrivalDate'
-		];
-
-		foreach ($fields as $field) {
-			$date = \DateTime::createFromFormat('Y-m-d', $this->$field);
-			$this->$field = $date ? $date->format('d.m.Y') : null;
-		}
+		$this->_flightsTo = json_decode($this->flightsTo);
+		$this->_flightsFrom = json_decode($this->flightsFrom);
+		$this->_hotel = json_decode($this->hotel);
 	}
 
 	public function getMessages($filter = null)
@@ -231,13 +186,35 @@ class Requests extends BaseModel
 		return $statuses[$status];
 	}
 
-	public function getDate()
+	public function setFlights($direction, $flights) {
+		if($direction === 'To') {
+			$this->flightsTo = json_encode($flights);
+		}
+		$this->flightsFrom = json_encode($flights);
+	}
+
+	public function setHotel($hotel) {
+		$this->hotel = json_encode($hotel);
+	}
+
+	public function getDate() : string
 	{
 		return date('d.m.Y', strtotime($this->creationDate));
 	}
 
-	public function getNumber()
+	public function getNumber() : string
 	{
 		return $this->id . date('dmy', strtotime($this->creationDate));
+	}
+
+	public function getFlights($direction){
+		if($direction === 'To') {
+			return $this->_flightsTo;
+		}
+		return $this->_flightsFrom;
+	}
+
+	public function getHotel(){
+		return $this->_hotel;
 	}
 }

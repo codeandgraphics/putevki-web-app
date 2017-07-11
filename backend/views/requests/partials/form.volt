@@ -29,27 +29,34 @@
 		</div>
 		<!-- Информация об отеле -->
 
-		<!-- Перелет туда -->
-		<div class="panel">
-			<div class="panel-heading">
-				<h4 class="panel-title">Перелет туда</h4>
-			</div>
-			<div class="panel-body">
-				{{ partial('requests/partials/form/flight', ['direction':'To']) }}
-			</div>
-		</div>
-		<!-- Перелет туда -->
+		<!-- Перелеты -->
 
-		<!-- Перелет обратно -->
+		<!-- Перелеты туда -->
 		<div class="panel">
+			{{ form.render('flightsTo') }}
+
 			<div class="panel-heading">
-				<h4 class="panel-title">Перелет обратно</h4>
+				<h4 class="panel-title">Перелеты туда</h4>
 			</div>
 			<div class="panel-body">
-				{{ partial('requests/partials/form/flight', ['direction':'From']) }}
+				{{ partial('requests/partials/form/flights', ['direction':'To']) }}
 			</div>
 		</div>
-		<!-- Перелет обратно -->
+		<!-- Перелеты туда -->
+
+		<!-- Перелеты обратно -->
+		<div class="panel">
+			{{ form.render('flightsFrom') }}
+			<div class="panel-heading">
+				<h4 class="panel-title">Перелеты обратно</h4>
+			</div>
+			<div class="panel-body">
+				{{ partial('requests/partials/form/flights', ['direction':'From']) }}
+			</div>
+		</div>
+		<!-- Перелеты обратно -->
+
+		<!-- Перелеты -->
 
 		<!-- Комментарий к туру -->
 		<div class="panel">
@@ -185,6 +192,5 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-
 	});
 </script>

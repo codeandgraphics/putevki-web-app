@@ -4,7 +4,9 @@
 
 namespace Backend\Controllers;
 
+use Backend\Models\Tourists;
 use Models\Branches;
+use Phalcon\Forms\Element\Hidden;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
@@ -179,6 +181,10 @@ class RequestsController extends ControllerBase
 		$form->add(new Text('hotelMeal'));
 		$form->add(new Text('hotelRoom'));
 
+		$form->add(new Hidden('flightsTo'));
+		$form->add(new Hidden('flightsFrom'));
+		$form->add(new Hidden('hotel'));
+
 		$departures = Tourvisor\Departures::find(['order' => 'name']);
 		$form->add(new Select('departureId', $departures, ['using' => ['id', 'name']]));
 
@@ -187,19 +193,6 @@ class RequestsController extends ControllerBase
 
 		$requestStatuses = RequestStatuses::find();
 		$form->add(new Select('requestStatusId', $requestStatuses, ['using' => ['id', 'name']]));
-
-		foreach (['To', 'From'] as $direction) {
-			$form->add(new Text('flight' . $direction . 'Number'));
-			$form->add(new Text('flight' . $direction . 'DepartureDate'));
-			$form->add(new Text('flight' . $direction . 'DepartureTime'));
-			$form->add(new Text('flight' . $direction . 'DepartureTerminal'));
-			$form->add(new Text('flight' . $direction . 'ArrivalDate'));
-			$form->add(new Text('flight' . $direction . 'ArrivalTime'));
-			$form->add(new Text('flight' . $direction . 'ArrivalTerminal'));
-			$form->add(new Text('flight' . $direction . 'Carrier'));
-			$form->add(new Text('flight' . $direction . 'Plane'));
-			$form->add(new Text('flight' . $direction . 'Class'));
-		}
 
 		$tourists = [];
 
@@ -231,7 +224,7 @@ class RequestsController extends ControllerBase
 				]);
 
 				$tourists = $this->modelsManager->createBuilder()
-					->from('Backend\Models\Tourists')
+					->from(Tourists::name())
 					->inWhere('id', $touristIds)
 					->getQuery()
 					->execute();
@@ -247,6 +240,14 @@ class RequestsController extends ControllerBase
 			$form->bind($_POST, $request);
 
 			if ($form->isValid()) {
+
+				$flightsTo = $this->request->getPost('_flightsTo');
+				$flightsFrom = $this->request->getPost('_flightsFrom');
+
+				$request->setFlights('To', $flightsTo);
+				$request->setFlights('From', $flightsFrom);
+				$request->setHotel($this->request->getPost('_hotel'));
+
 				if ($request->save()) {
 					if ((int)$request->branch_id !== (int)$oldBranch) {
 						$email = new EmailController();
