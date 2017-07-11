@@ -207,6 +207,10 @@ class Requests extends BaseModel
 		return $this->id . date('dmy', strtotime($this->creationDate));
 	}
 
+	public function hasFlights() {
+		return (count($this->_flightsTo) > 0 && count($this->_flightsFrom) > 0);
+	}
+
 	public function getFlights($direction){
 		if($direction === 'To') {
 			return $this->_flightsTo;

@@ -9,16 +9,43 @@ use Utils;
 
 class EmailController extends ControllerBase
 {
-	public function onlineAction()
+	public function testAction($type)
 	{
 		$this->view->disable();
 
-		$request = Requests::findFirst(33);
+		$request = Requests::findFirstById(21);
 
-		$this->sendRequest('online', $request);
+		switch ($type) {
+			case 'online':
+				$this->sendRequest('online', $request, true);
+				break;
+			case 'request':
+				$this->sendRequest('request', $request, true);
+				break;
+			case 'password':
+				$this->sendPassword('test@test.com', 'asd', true);
+				break;
+			case 'admin':
+				$this->sendAdminNotification($request, true);
+				break;
+			case 'manager':
+				$this->sendManagerNotification($request, true);
+				break;
+			case 'branch':
+				$this->sendBranchNotification($request, true);
+				break;
+			case 'findTour':
+				$this->sendFindTour((object) ['name'=>'test', 'from'=>'asd'], true);
+				break;
+			case 'tourHelp':
+				$this->sendTourHelp('phone', (object) ['name'=>'test', 'from'=>'asd'], true);
+				break;
+			default:
+				break;
+		}
 	}
 
-	public function sendPassword($email, $password)
+	public function sendPassword($email, $password, $isTest = false)
 	{
 		$params = [
 			'email' => $email,
@@ -27,21 +54,27 @@ class EmailController extends ControllerBase
 
 		$body = $this->generate('passwordNotification', $params);
 
-		$mailgun = new Mailgun();
-		$mailgun->send($email, 'Регистрация в панели управления Путевки.ру', $body);
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($email, 'Регистрация в панели управления Путевки.ру', $body);
+		}
 	}
 
-	public function sendAdminNotification(Requests $request)
+	public function sendAdminNotification(Requests $request, $isTest = false)
 	{
 		$tour = new \stdClass();
 
-		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
-		$tour->hotel = $request->hotelName;
-		$tour->people = $request->hotelPlacement;
-		$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
-		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
+		$hotel = $request->getHotel();
+
+		$tour->name = $hotel->region . ', ' . $hotel->country;
+		$tour->hotel = $hotel->name;
+		$tour->people = $hotel->placement;
+		$tour->from = Utils\Text::formatToDayMonth($hotel->date, 'd.m.Y');
+		$tour->nights = Utils\Text::humanize('nights', $hotel->nights);
+		$tour->meal = Utils\Text::humanize('meal', $hotel->meal);
 		$tour->price = $request->price;
-		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 		$tour->manager = $request->manager;
 		$tour->orderName = $request->subjectName . ' ' . $request->subjectSurname;
 		$tour->phone = $request->subjectPhone;
@@ -54,23 +87,28 @@ class EmailController extends ControllerBase
 
 		$body = $this->generate('managerNotification', $params);
 
-		$mailgun = new Mailgun();
-		$mailgun->send($this->config->defaults->requestsEmail, 'Новая заявка на тур', $body);
-
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($this->config->defaults->requestsEmail, 'Новая заявка на тур', $body);
+		}
 	}
 
-	public function sendManagerNotification(Requests $request)
+	public function sendManagerNotification(Requests $request, $isTest = false)
 	{
 		if ($request->manager) {
 			$tour = new \stdClass();
 
-			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
-			$tour->hotel = $request->hotelName;
-			$tour->people = $request->hotelPlacement;
-			$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
-			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
+			$hotel = $request->getHotel();
+
+			$tour->name = $hotel->region . ', ' . $hotel->country;
+			$tour->hotel = $hotel->name;
+			$tour->people = $hotel->placement;
+			$tour->from = Utils\Text::formatToDayMonth($hotel->date, 'd.m.Y');
+			$tour->nights = Utils\Text::humanize('nights', $hotel->nights);
+			$tour->meal = Utils\Text::humanize('meal', $hotel->meal);
 			$tour->price = $request->price;
-			$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 			$tour->manager = $request->manager;
 			$tour->orderName = $request->subjectName . ' ' . $request->subjectSurname;
 			$tour->phone = $request->subjectPhone;
@@ -83,27 +121,36 @@ class EmailController extends ControllerBase
 
 			$body = $this->generate('managerNotification', $params);
 
-			$mailgun = new Mailgun();
-			$mailgun->send($request->manager->email, 'Новая заявка на тур', $body);
+			if($isTest) {
+				echo $body;
+			} else {
+				$mailgun = new Mailgun();
+				$mailgun->send($this->config->defaults->requestsEmail, 'Новая заявка на тур', $body);
+			}
 		}
 	}
 
-	public function sendBranchNotification(Requests $request)
+	public function sendBranchNotification(Requests $request, $isTest = false)
 	{
 		if ($request->branch_id) {
 			$manager = $request->branch->manager;
 
 			$tour = new \stdClass();
 
-			$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
-			$tour->hotel = $request->hotelName;
-			$tour->people = $request->hotelPlacement;
+
+			$hotel = $request->getHotel();
+
+			$tour->name = $hotel->region . ', ' . $hotel->country;
+			$tour->hotel = $hotel->name;
+			$tour->people = $hotel->placement;
+			$tour->from = Utils\Text::formatToDayMonth($hotel->date, 'd.m.Y');
+			$tour->nights = Utils\Text::humanize('nights', $hotel->nights);
+			$tour->meal = Utils\Text::humanize('meal', $hotel->meal);
+
 			$tour->departure = $request->departure->name;
 			$tour->departureFrom = $request->departure->name_from;
-			$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
-			$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
+
 			$tour->price = $request->price;
-			$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 			$tour->manager = $manager;
 			$tour->orderName = $request->subjectName . ' ' . $request->subjectSurname;
 			$tour->phone = $request->subjectPhone;
@@ -116,94 +163,73 @@ class EmailController extends ControllerBase
 
 			$body = $this->generate('managerNotification', $params);
 
-			$mailgun = new Mailgun();
-			$mailgun->send($manager->email, 'Новая заявка на тур', $body, $request->branch->additionalEmails);
+			if($isTest) {
+				echo $body;
+			} else {
+				$mailgun = new Mailgun();
+				$mailgun->send($manager->email, 'Новая заявка на тур', $body, $request->branch->additionalEmails);
+			}
 		}
 	}
 
-	public function sendRequest($type, Requests $request)
+	public function sendRequest($type, Requests $request, $isTest = false)
 	{
 		$tour = new \stdClass();
 
+		$hotel = $request->getHotel();
+
+		$tour->name = $hotel->region . ', ' . $hotel->country;
+		$tour->hotel = $hotel->name;
+		$tour->people = $hotel->placement;
+		$tour->from = Utils\Text::formatToDayMonth($hotel->date, 'd.m.Y');
+		$tour->nights = Utils\Text::humanize('nights', $hotel->nights);
+		$tour->meal = Utils\Text::humanize('meal', $hotel->meal);
+
 		$tour->requestId = $request->id;
-		$tour->name = $request->hotelRegion . ', ' . $request->hotelCountry;
-		$tour->hotel = $request->hotelName;
-		$tour->from = Utils\Text::formatToDayMonth($request->hotelDate, 'Y-m-d');
-		$tour->people = $request->hotelPlacement;
 		$tour->departure = $request->departure->name;
 		$tour->departureFrom = $request->departure->name_from;
-		$tour->nights = Utils\Text::humanize('nights', $request->hotelNights);
 		$tour->price = $request->price;
-		$tour->meal = Utils\Text::humanize('meal', $request->hotelMeal);
 
 		$tour->agreementLink = $this->url->get('tour/agreement/' . $request->id);
 		$tour->bookingLink = $this->url->get('tour/booking/' . $request->id);
 
-		$tour->flight = new \stdClass();
+		$tour->flights = new \stdClass();
 
-		if ($request->flightToNumber) {
-			$tour->flight->to = new \stdClass();
-			$tour->flight->to->number = $request->flightToNumber;
-			$tour->flight->to->plane = $request->flightToPlane;
-			$tour->flight->to->carrier = $request->flightToCarrier;
-
-			$tour->flight->to->departure = new \stdClass();
-			$tour->flight->to->departure->date = Utils\Text::formatToDayMonth($request->flightToDepartureDate, 'Y-m-d');
-			$tour->flight->to->departure->time = $request->flightToDepartureTime;
-			$tour->flight->to->departure->terminal = $request->flightToDepartureTerminal;
-
-			$tour->flight->to->arrival = new \stdClass();
-			$tour->flight->to->arrival->date = Utils\Text::formatToDayMonth($request->flightToArrivalDate, 'Y-m-d');
-			$tour->flight->to->arrival->time = $request->flightToArrivalTime;
-			$tour->flight->to->arrival->terminal = $request->flightToArrivalTerminal;
-
-			$tour->flight->from = new \stdClass();
-			$tour->flight->from->number = $request->flightFromNumber;
-			$tour->flight->from->plane = $request->flightFromPlane;
-			$tour->flight->from->carrier = $request->flightFromCarrier;
-
-			$tour->flight->from->departure = new \stdClass();
-			$tour->flight->from->departure->date = Utils\Text::formatToDayMonth($request->flightFromDepartureDate, 'Y-m-d');
-			$tour->flight->from->departure->time = $request->flightFromDepartureTime;
-			$tour->flight->from->departure->terminal = $request->flightFromDepartureTerminal;
-
-			$tour->flight->from->arrival = new \stdClass();
-			$tour->flight->from->arrival->date = Utils\Text::formatToDayMonth($request->flightFromArrivalDate, 'Y-m-d');
-			$tour->flight->from->arrival->time = $request->flightFromArrivalTime;
-			$tour->flight->from->arrival->terminal = $request->flightFromArrivalTerminal;
+		if ($request->hasFlights()) {
+			$tour->flights->to = $request->getFlights('To');
+			$tour->flights->from = $request->getFlights('From');
 		} else {
-			$tour->flight = false;
+			$tour->flights = false;
 		}
+
+		$template = 'request';
+		$subject = 'Заявка на тур на Путевки.ру';
 
 		if ($type === 'online') {
 			$payment = Payments::findFirst('requestId = ' . $request->id);
 			$tour->payLink = $this->url->get('pay/' . $payment->id);
 
-			$params = [
-				'tour' => $tour,
-				'year' => date('Y'),
-				'phone' => $this->config->defaults->phone
-			];
+			$template = 'online';
+			$subject = 'Заказ тура на Путевки.ру';
+		}
 
-			$body = $this->generate('online', $params);
+		$params = [
+			'tour' => $tour,
+			'year' => date('Y'),
+			'phone' => $this->config->defaults->phone
+		];
 
-			$mailgun = new Mailgun();
-			$mailgun->send($request->subjectEmail, 'Заказ тура на Путевки.ру', $body);
+		$body = $this->generate($template, $params);
+
+		if($isTest) {
+			echo $body;
 		} else {
-			$params = [
-				'tour' => $tour,
-				'year' => date('Y'),
-				'phone' => $this->config->frontend->phone
-			];
-
-			$body = $this->generate('request', $params);
-
 			$mailgun = new Mailgun();
-			$mailgun->send($request->subjectEmail, 'Заявка на тур на Путевки.ру', $body);
+			$mailgun->send($request->subjectEmail, $subject, $body);
 		}
 	}
 
-	public function sendFindTour($data)
+	public function sendFindTour($data, $isTest = false)
 	{
 		$params = [
 			'find' => $data,
@@ -212,11 +238,15 @@ class EmailController extends ControllerBase
 
 		$body = $this->generate('findTour', $params);
 
-		$mailgun = new Mailgun();
-		$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на подбор тура на Путевки.ру', $body);
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на подбор тура на Путевки.ру', $body);
+		}
 	}
 
-	public function sendTourHelp($phone, $queries)
+	public function sendTourHelp($phone, $queries, $isTest = false)
 	{
 		$params = [
 			'phone' => $phone,
@@ -226,8 +256,12 @@ class EmailController extends ControllerBase
 
 		$body = $this->generate('tourHelp', $params);
 
-		$mailgun = new Mailgun();
-		$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на звонок на Путевки.ру', $body);
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на звонок на Путевки.ру', $body);
+		}
 	}
 
 	public function generate($template, $params)
