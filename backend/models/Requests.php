@@ -100,11 +100,6 @@ class Requests extends BaseModel
 		]);
 	}
 
-	public function beforeSave()
-	{
-		$this->hotelNights = $this->hotelNights ?: 0;
-	}
-
 	public function afterSave()
 	{
 		if ($this->price > 0) {

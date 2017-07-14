@@ -25,6 +25,15 @@
 	<meta property="og:image" content="{{ static_url() }}static/yo.png" />
 	<meta property="og:description" content="Поиск и продажа путёвок по ценам ниже чем у туроператоров" />
 
+	<script type="text/javascript">
+      var env = '{{ config.frontend.env }}';
+      var version = '{{ config.frontend.version }}';
+      var route = '{{ page }}';
+      var branches = {{ branches|json_encode }};
+      var cities = {{ cities|json_encode }};
+      var currentCity = {{ city|json_encode }};
+	</script>
+
 	<script src="{{ static_url('bundle.js') }}"></script>
 
 	<title>{{ title }} Путёвки.ру</title>
@@ -47,15 +56,6 @@
 {{ partial('partials/modals') }}
 
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-
-<script type="text/javascript">
-  var env = '{{ config.frontend.env }}';
-  var version = '{{ config.frontend.version }}';
-  var route = '{{ page }}';
-  var branches = {{ branches|json_encode }};
-  var cities = {{ cities|json_encode }};
-  var currentCity = {{ city|json_encode }};
-</script>
 
 </body>
 </html>

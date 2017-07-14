@@ -31,10 +31,11 @@ class AjaxController extends BaseController
 		$form = json_decode($_POST['data']);
 		$type = $_POST['type'];
 
-		$fullPrice = (int)$form->price;
 		$tour = $form->tour;
 
 		$request = new Requests();
+
+		$request->price = (int) $form->price;
 
 		$request->origin = Requests::ORIGIN_WEB;
 
@@ -47,39 +48,23 @@ class AjaxController extends BaseController
 		$request->comment = $form->comments;
 
 		//Данные тура
-		$request->hotelName = $tour->hotelname;
-		$request->hotelCountry = $tour->countryname;
-		$request->hotelRegion = $tour->hotelregionname;
-		$request->hotelDate = $tour->flydate;
-		$request->hotelNights = $tour->nights;
-		$request->hotelPlacement = $tour->placement;
-		$request->hotelMeal = $tour->meal;
-		$request->hotelRoom = $tour->room;
+		$hotel = new \stdClass();
+		$hotel->name = $tour->hotelname;
+		$hotel->country = $tour->countryname;
+		$hotel->region = $tour->hotelregionname;
+		$hotel->date = $tour->flydate;
+		$hotel->nights = $tour->nights;
+		$hotel->placement = $tour->placement;
+		$hotel->meal = $tour->meal;
+		$hotel->room = $tour->room;
+
+		$request->setHotel($hotel);
 
 		$flight = $form->flight;
 
 		if ($flight) {
-			$request->flightToNumber = $flight->forward[0]->number;
-			$request->flightToDepartureDate = $flight->dateforward;
-			$request->flightToDepartureTime = $flight->forward[0]->departure->time;
-			$request->flightToDepartureTerminal = $flight->forward[0]->departure->port->id;
-			$request->flightToArrivalDate = $flight->dateforward;
-			$request->flightToArrivalTime = $flight->forward[0]->arrival->time;
-			$request->flightToArrivalTerminal = $flight->forward[0]->arrival->port->id;
-			$request->flightToCarrier = $flight->forward[0]->company->name;
-			$request->flightToPlane = $flight->forward[0]->plane;
-			$request->flightToClass = '';
-
-			$request->flightFromNumber = $flight->backward[0]->number;
-			$request->flightFromDepartureDate = $flight->datebackward;
-			$request->flightFromDepartureTime = $flight->backward[0]->departure->time;
-			$request->flightFromDepartureTerminal = $flight->backward[0]->departure->port->id;
-			$request->flightFromArrivalDate = $flight->datebackward;
-			$request->flightFromArrivalTime = $flight->backward[0]->arrival->time;
-			$request->flightFromArrivalTerminal = $flight->backward[0]->arrival->port->id;
-			$request->flightFromCarrier = $flight->backward[0]->company->name;
-			$request->flightFromPlane = $flight->backward[0]->plane;
-			$request->flightFromClass = '';
+			$request->setFlights('To', $flight->forward);
+			$request->setFlights('From', $flight->backward);
 		}
 
 		$request->tourOperatorId = $tour->operatorcode;
@@ -90,10 +75,6 @@ class AjaxController extends BaseController
 
 		foreach ($form->tourists as $i => $formTourist) {
 			$tourist = new \stdClass();
-
-			if (property_exists($formTourist, 'visa')) {
-				$fullPrice += $tour->visa;
-			}
 
 			$tourist->passport_name = $formTourist->firstname;
 			$tourist->passport_surname = $formTourist->lastname;
@@ -109,8 +90,6 @@ class AjaxController extends BaseController
 
 			$tourists[] = $touristModel;
 		}
-
-		$request->price = $fullPrice;
 
 		if ($type === 'office') {
 			$request->branch_id = (int)$form->branch;
@@ -132,7 +111,7 @@ class AjaxController extends BaseController
 				$response->setJsonContent(['res' => '/pay/' . $payment->id]);
 			} else if ($type === 'office') {
 				$mailController = new EmailController();
-				$mailController->sendBranchNotification($request);
+				$mailController->sendBranchNotification($request->id);
 				$response->setJsonContent(['res' => '/']);
 			} else {
 				$response->setJsonContent(['res' => '/']);
@@ -140,8 +119,8 @@ class AjaxController extends BaseController
 
 			//Отправляем email
 			$emailController = new EmailController();
-			$emailController->sendRequest($type, $request);
-			$emailController->sendAdminNotification($request);
+			$emailController->sendRequest($type, $request->id);
+			$emailController->sendAdminNotification($request->id);
 		} else {
 			$response->setJsonContent(['error' => 'save error']);
 		}

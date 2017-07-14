@@ -26,28 +26,13 @@ class TourDetails
 			}
 
 			$this->info = new \stdClass();
-			$this->info->flags = new \stdClass();
-			$this->info->flags->meal = property_exists($details->flags, 'nomeal') ?
-				!$details->flags->nomeal :
-				false;
+			$this->info->flags = new Flags($details->tourinfo->flags);
 
-			$this->info->flags->insurance = property_exists($details->flags, 'nomedinsurance') ?
-				!$details->flags->nomedinsurance :
+			$this->addPayments = property_exists($details->tourinfo, 'addpayments') ?
+				$details->tourinfo->addpayments :
 				false;
-
-			$this->info->flags->flight = property_exists($details->flags, 'noflight') ?
-				!$details->flags->noflight :
-				false;
-
-			$this->info->flags->transfer = property_exists($details->flags, 'notransfer') ?
-				!$details->flags->notransfer :
-				false;
-
-			$this->addPayments = property_exists($details, 'addpayments') ?
-				$details->addpayments :
-				false;
-			$this->contents = property_exists($details, 'contents') ?
-				$details->contents :
+			$this->contents = property_exists($details->tourinfo, 'contents') ?
+				$details->tourinfo->contents :
 				false;
 
 			$this->actualized = true;

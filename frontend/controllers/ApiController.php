@@ -105,8 +105,8 @@ class ApiController extends BaseController
 
 				//Отправляем email
 				$emailController = new EmailController();
-				$emailController->sendRequest('app', $request);
-				$emailController->sendAdminNotification($request);
+				$emailController->sendRequest('app', $request->id);
+				$emailController->sendAdminNotification($request->id);
 
 				return new JSONResponse(Error::NO_ERROR, ['success' => true]);
 			}
@@ -377,6 +377,7 @@ class ApiController extends BaseController
 
 		$actdetail = TourvisorUtils::getMethod('actdetail', $params);
 		$actualize = TourvisorUtils::getMethod('actualize', $params);
+
 
 		return new JSONResponse(Error::NO_ERROR, [
 			'details' => new Entities\TourDetails($actdetail, $actualize->data->tour),

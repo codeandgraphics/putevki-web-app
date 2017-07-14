@@ -7,73 +7,51 @@
 	</div>
 </div>
 
-<div class="flights hide" data-url="{{ url('ajax/tourDetail/') }}{{ tour.id }}">
+<div class="flights hide" data-url="{{ url('api/actualizeTour/') }}?tourId={{ tour.id }}">
 	<h3>Перелет</h3>
 
-	<div class="flight template" data-fuel="" data-price="" data-flight-id="">
-		<div class="forward" data-placement="top" data-toggle="tooltip" title="">
-			<div class="departure">
-				<div class="icon">
-					<i class="ion-plane"></i>
-				</div>
-				<div class="data">
-					<div class="date"></div>
-					<div class="time"></div>
-					<div class="airport"></div>
-				</div>
+	<div class="part template">
+		<div class="departure">
+			<div class="icon">
+				<i class="ion-plane"></i>
 			</div>
-			<div class="arrow">
-				<i class="ion-chevron-right"></i>
-			</div>
-			<div class="arrival">
-				<div class="icon" >
-					<i class="ion-plane"></i>
-				</div>
-				<div class="data">
-					<div class="date"></div>
-					<div class="time"></div>
-					<div class="airport"></div>
-				</div>
+			<div class="data">
+				<div class="date"></div>
+				<div class="time"></div>
+				<div class="airport"></div>
 			</div>
 		</div>
+		<div class="arrow">
+			<i class="ion-chevron-right"></i>
+		</div>
+		<div class="arrival">
+			<div class="icon" >
+				<i class="ion-plane"></i>
+			</div>
+			<div class="data">
+				<div class="date"></div>
+				<div class="time"></div>
+				<div class="airport"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="flight template" data-fuel="" data-price="" data-flight-id="">
+		<div class="changed">
+			<div class="more"></div>
+			<div class="less"></div>
+		</div>
+
+		<div class="forward" data-placement="top" data-toggle="tooltip" title=""></div>
 
 		<div class="fuel">
-			<div class="changed">
-				<div class="more"></div>
-				<div class="less"></div>
-			</div>
 			<div class="data">
 				<div class="charge"></div>
 				<span>Топливный сбор</span>
 			</div>
 		</div>
 
-
-		<div class="backward" data-placement="top" data-toggle="tooltip" title="">
-			<div class="departure">
-				<div class="icon">
-					<i class="ion-plane"></i>
-				</div>
-				<div class="data">
-					<div class="date"></div>
-					<div class="time"></div>
-					<div class="airport"></div>
-				</div>
-			</div>
-			<div class="arrow">
-				<i class="ion-chevron-right"></i>
-			</div>
-			<div class="arrival">
-				<div class="icon" >
-					<i class="ion-plane"></i>
-				</div>
-				<div class="data">
-					<div class="date"></div>
-					<div class="time"></div>
-					<div class="airport"></div>
-				</div>
-			</div>
-		</div>
+		<div class="backward" data-placement="top" data-toggle="tooltip" title=""></div>
 	</div>
 
 	<div class="items">
@@ -100,14 +78,14 @@
 					<dt><i class="ion-key"></i></dt>
 					<dd>Проживание в отеле</dd>
 
-					<dt class="nomeal"><i class="ion-fork"></i><i class="ion-knife"></i></dt>
-					<dd class="nomeal">
+					<dt class="flag-meal"><i class="ion-fork"></i><i class="ion-knife"></i></dt>
+					<dd class="flag-meal">
 						<div>Питание</div>
 						<span>Наличие питания уточняйте у менеджера!</span>
 					</dd>
 
-					<dt class="nomedinsurance"><i class="ion-medkit"></i></dt>
-					<dd class="nomedinsurance">
+					<dt class="flag-insurance"><i class="ion-medkit"></i></dt>
+					<dd class="flag-insurance">
 						<div>Медицинская страховка</div>
 						<span>Наличие страховки уточняйте у менеджера!</span>
 					</dd>
@@ -116,14 +94,14 @@
 			</div>
 			<div class="col-xs-6 tour-includes in-tour">
 				<dl class="dl-horizontal">
-					<dt class="noflight"><i class="ion-plane"></i></dt>
-					<dd class="noflight">
+					<dt class="flag-flight"><i class="ion-plane"></i></dt>
+					<dd class="flag-flight">
 						<div>Перелет</div>
 						<span>Наличие перелета уточняйте у менеджера!</span>
 					</dd>
 
-					<dt class="notransfer"><i class="ion-model-s"></i></dt>
-					<dd class="notransfer">
+					<dt class="flag-transfer"><i class="ion-model-s"></i></dt>
+					<dd class="flag-transfer">
 						<div>Трансфер</div>
 						<span>Наличие трансфера уточняйте у менеджера!</span>
 					</dd>

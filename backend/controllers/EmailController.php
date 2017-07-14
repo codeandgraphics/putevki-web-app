@@ -13,32 +13,32 @@ class EmailController extends ControllerBase
 	{
 		$this->view->disable();
 
-		$request = Requests::findFirstById(21);
+		$requestId = 30;
 
 		switch ($type) {
 			case 'online':
-				$this->sendRequest('online', $request, true);
+				$this->sendRequest('online', $requestId, true);
 				break;
 			case 'request':
-				$this->sendRequest('request', $request, true);
-				break;
-			case 'password':
-				$this->sendPassword('test@test.com', 'asd', true);
+				$this->sendRequest('request', $requestId, true);
 				break;
 			case 'admin':
-				$this->sendAdminNotification($request, true);
+				$this->sendAdminNotification($requestId, true);
 				break;
 			case 'manager':
-				$this->sendManagerNotification($request, true);
+				$this->sendManagerNotification($requestId, true);
 				break;
 			case 'branch':
-				$this->sendBranchNotification($request, true);
+				$this->sendBranchNotification($requestId, true);
 				break;
 			case 'findTour':
 				$this->sendFindTour((object) ['name'=>'test', 'from'=>'asd'], true);
 				break;
 			case 'tourHelp':
 				$this->sendTourHelp('phone', (object) ['name'=>'test', 'from'=>'asd'], true);
+				break;
+			case 'password':
+				$this->sendPassword('test@test.com', 'asd', true);
 				break;
 			default:
 				break;
@@ -62,9 +62,15 @@ class EmailController extends ControllerBase
 		}
 	}
 
-	public function sendAdminNotification(Requests $request, $isTest = false)
+	public function sendAdminNotification(int $requestId, $isTest = false)
 	{
 		$tour = new \stdClass();
+
+		$request = Requests::findFirstById($requestId);
+
+		if(!$request) {
+			return false;
+		}
 
 		$hotel = $request->getHotel();
 
@@ -95,8 +101,14 @@ class EmailController extends ControllerBase
 		}
 	}
 
-	public function sendManagerNotification(Requests $request, $isTest = false)
+	public function sendManagerNotification(int $requestId, $isTest = false)
 	{
+		$request = Requests::findFirstById($requestId);
+
+		if(!$request) {
+			return false;
+		}
+
 		if ($request->manager) {
 			$tour = new \stdClass();
 
@@ -130,8 +142,14 @@ class EmailController extends ControllerBase
 		}
 	}
 
-	public function sendBranchNotification(Requests $request, $isTest = false)
+	public function sendBranchNotification(int $requestId, $isTest = false)
 	{
+		$request = Requests::findFirstById($requestId);
+
+		if(!$request) {
+			return false;
+		}
+
 		if ($request->branch_id) {
 			$manager = $request->branch->manager;
 
@@ -172,9 +190,15 @@ class EmailController extends ControllerBase
 		}
 	}
 
-	public function sendRequest($type, Requests $request, $isTest = false)
+	public function sendRequest($type, int $requestId, $isTest = false)
 	{
+		$request = Requests::findFirstById($requestId);
+
+		if(!$request) {
+			return false;
+		}
 		$tour = new \stdClass();
+
 
 		$hotel = $request->getHotel();
 
