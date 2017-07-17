@@ -52,6 +52,8 @@ class SearchController extends BaseController
 	{
         $params = Params::getInstance();
         $params->search->fromDispatcher($this->dispatcher);
+        $params->search->where->hotels = 0;
+		$params->store();
 
 		$searchQuery = new SearchQuery();
 		$searchQuery->fromParams($params->search);
@@ -81,6 +83,7 @@ class SearchController extends BaseController
 
 		$params->search->fromFromQuery($from);
 		$params->search->whereFromQuery($where, $hotelId);
+		$params->search->where->hotels = 0;
 
 		$params->store();
 
