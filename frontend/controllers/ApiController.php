@@ -414,8 +414,6 @@ class ApiController extends BaseController
 
 	public function hotelsAction() : JSONResponse
 	{
-		$response = new Response();
-
 		$query = mb_strtoupper($this->request->get('query'), 'UTF-8');
 
 		$hotels = [];
@@ -448,14 +446,10 @@ class ApiController extends BaseController
 			$dbHotels = $builder->getQuery()->execute(['query' => '%' . $query . '%']);
 
 			foreach ($dbHotels as $hotel) {
-				$hotels[] = $hotel;
+				$hotels[] = new Entities\SearchHotel($hotel);
 			}
 		}
 
-		$response->setJsonContent($hotels);
-
-		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');
-
-		return $response;
+		return new JSONResponse(Error::NO_ERROR, ['hotels' => $hotels]);
 	}
 }
