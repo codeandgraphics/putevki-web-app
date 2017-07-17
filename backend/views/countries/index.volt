@@ -9,7 +9,7 @@
 		<p>Информация о странах и курортах, визы, описания</p>
 	</div>
 	<div class="panel-body">
-		<table class="table"
+		<table class="table table-hover"
 			   id="populars"
 			   data-popular-url="{{ backend_url('countries/_setPopular') }}"
 			   data-active-url="{{ backend_url('countries/_setActive') }}"
@@ -42,11 +42,11 @@
 							<option value="2"{% if item.country.visa === '2' %} selected{% endif %}>Онлайн-виза</option>
 						</select>
 					</td>
-					<td class="popular text-center">
-						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.country.popular %} checked{% endif %}/>
+					<td class="isPopular text-center">
+						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.country.popular %} checked{% endif %} />
 					</td>
-					<td class="active text-center">
-						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.country.active %} checked{% endif %}/>
+					<td class="isActive text-center">
+						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.country.active %} checked{% endif %} />
 					</td>
 				</tr>
 			{% endfor %}
@@ -63,7 +63,7 @@
     var popularUrl = $populars.data('popular-url');
     var activeUrl = $populars.data('active-url');
 
-    $populars.find('.popular input').on('change', function(){
+    $populars.find('.isPopular input').on('change', function(){
       var $item = $(this);
       var id = $item.data('id');
       var checked = $item.is(':checked');
@@ -77,7 +77,7 @@
       });
     });
 
-    $populars.find('.active input').on('change', function(){
+    $populars.find('.isActive input').on('change', function(){
       var $item = $(this);
       var id = $item.data('id');
       var checked = $item.is(':checked');

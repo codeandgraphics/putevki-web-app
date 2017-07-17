@@ -38,7 +38,7 @@ class CountriesController extends BaseController
 				'region.tourvisorId = tourvisor.id',
 				'region'
 			)
-			->where('tourvisor.countryId = :id: AND region.active = 1', ['id' => $country->tourvisorId])
+			->where('tourvisor.countryId = :id: AND region.active = 1 AND region.hasInfo = 1', ['id' => $country->tourvisorId])
 			->orderBy('tourvisor.name');
 
 		$regions = $builder->getQuery()->execute();

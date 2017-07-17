@@ -2,6 +2,8 @@
 
 use Phalcon\CLI\Task;
 use Models\Tourvisor;
+use Models\Countries;
+use Models\Regions;
 use Utils\Tourvisor as TourvisorUtils;
 
 class TourvisorTask extends Task
@@ -63,13 +65,18 @@ class TourvisorTask extends Task
 		$transaction = $manager->get();
 
 		foreach ($items as $item) {
-			$country = new Tourvisor\Countries();
-			$country->setTransaction($transaction);
-			$country->fromTourvisor($item);
+			$tourvisorCountry = new Tourvisor\Countries();
+			$tourvisorCountry->setTransaction($transaction);
+			$tourvisorCountry->fromTourvisor($item);
 
-			$country->save();
+			$tourvisorCountry->save();
 
-			$enabledCountries[] = $country->name;
+			$country = new Countries();
+			$country->tourvisorId = $tourvisorCountry->id;
+			$country->active = 0;
+			$country->create();
+
+			$enabledCountries[] = $tourvisorCountry->name;
 		}
 
 		$transaction->commit();
@@ -89,10 +96,15 @@ class TourvisorTask extends Task
 		$transaction = $manager->get();
 
 		foreach ($items as $item) {
-			$region = new Tourvisor\Regions();
-			$region->setTransaction($transaction);
-			$region->fromTourvisor($item);
-			$region->save();
+			$tourvisorRegion = new Tourvisor\Regions();
+			$tourvisorRegion->setTransaction($transaction);
+			$tourvisorRegion->fromTourvisor($item);
+			$tourvisorRegion->save();
+
+			$region = new Regions();
+			$region->tourvisorId = $tourvisorRegion->id;
+			$region->active = 0;
+			$region->create();
 		}
 
 		$transaction->commit();

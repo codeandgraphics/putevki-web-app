@@ -20,25 +20,19 @@
 		<aside class="sidebar right">
 			<div class="head">
 				<div class="wrap">
-					<h2>Регионы</h2>
+					<h2>Еще от автора</h2>
 				</div>
 			</div>
 			<div class="content">
 				<div class="wrap">
-					<div class="regions">
-						{% for item in regions %}
-							<div class="region">
-								<a href="{{ url('countries/') }}{{ country.uri }}/{{ item.region.uri }}">
-									<div class="image">
-										<div class="bg" style="background-image: url('{{ images_url('regions/') }}{{ item.region.preview }}');"></div>
-									</div>
-									<div class="title">
-										<h3>{{ item.tourvisor.name }}</h3>
-									</div>
-								</a>
-							</div>
+					<ul class="more-posts list-unstyled">
+						{% for item in morePosts %}
+							<li>
+								<a href="{{ url('blog') }}/{{ item.uri }}">{{ item.title }}</a>
+								<span>опубликовано {{ item.created }}</span>
+							</li>
 						{% endfor %}
-					</div>
+					</ul>
 				</div>
 			</div>
 		</aside>

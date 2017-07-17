@@ -2,7 +2,8 @@
 
 namespace Models\Entities;
 
-use Models\Tourvisor\Regions;
+use Models\Regions;
+use Models\Tourvisor;
 
 class Region
 {
@@ -10,11 +11,11 @@ class Region
 	public $name;
 	public $popular;
 
-	public function __construct(Regions $region = null)
+	public function __construct(Regions $region = null, Tourvisor\Regions $tourvisorRegion = null)
 	{
-		if ($region) {
-			$this->id = (int)$region->id;
-			$this->name = $region->name;
+		if ($region && $tourvisorRegion) {
+			$this->id = (int)$tourvisorRegion->id;
+			$this->name = $tourvisorRegion->name;
 			$this->popular = (int)$region->popular;
 		}
 	}

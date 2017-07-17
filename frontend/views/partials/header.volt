@@ -12,6 +12,9 @@
 						<a href="{{ url('countries') }}">Страны</a>
 					</li>
 					<li>
+						<a href="{{ url('blog') }}">Блог</a>
+					</li>
+					<li>
 						<a href="{{ url('app') }}" target="_blank">Приложение "Путёвки.ру"</a>
 					</li>
 				</ul>

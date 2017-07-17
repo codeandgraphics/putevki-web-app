@@ -178,4 +178,19 @@ class CountriesController extends ControllerBase
 		}
 		return false;
 	}
+
+	public function _setHasInfoAction()
+	{
+		$this->view->disable();
+		if ($this->request->isAjax()) {
+			$id = $this->request->getPost('id', 'int');
+			$hasInfo = $this->request->getPost('hasInfo', 'int');
+
+			$region = Regions::findFirstByTourvisorId($id);
+			$region->hasInfo = $hasInfo;
+			$region->save();
+			echo 1;
+		}
+		return false;
+	}
 }

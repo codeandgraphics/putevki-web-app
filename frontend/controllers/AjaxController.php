@@ -167,7 +167,7 @@ class AjaxController extends BaseController
 
 		$countries = [];
 		foreach ($items as $item) {
-		    $country = new Entities\Country($item);
+		    $country = new Entities\Country(null, $item);
 		    unset($country->regions);
 			$countries[] = $country;
 		}

@@ -17,6 +17,7 @@ class Regions extends BaseModel
 	public $metaDescription;
 	public $popular;
 	public $active;
+	public $hasInfo;
 
 	public function initialize()
 	{

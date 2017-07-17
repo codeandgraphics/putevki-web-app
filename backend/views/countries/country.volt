@@ -51,9 +51,10 @@
 		<p>Выбор популярных регионов для отображения в приложении </p>
 	</div>
 	<div class="panel-body">
-		<table class="table" id="populars"
+		<table class="table table-hover" id="populars"
 			   data-popular-url="{{ backend_url('countries/_setPopular') }}"
 			   data-active-url="{{ backend_url('countries/_setActive') }}"
+			   data-has-info-url="{{ backend_url('countries/_setHasInfo') }}"
 		>
 			<thead>
 			<tr>
@@ -61,7 +62,8 @@
 				<th>Заголовок страницы</th>
 				<th>URI</th>
 				<th width="120">Популярный</th>
-				<th width="120">Включен</th>
+				<th width="100">На сайте</th>
+				<th width="90">Включен</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -74,10 +76,13 @@
 					</td>
 					<td>{{ item.region.title }}</td>
 					<td>{{ item.region.uri }}</td>
-					<td class="popular text-center">
+					<td class="isPopular text-center">
 						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.region.popular %} checked{% endif %}/>
 					</td>
-					<td class="active text-center">
+					<td class="hasInfo text-center">
+						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.region.hasInfo %} checked{% endif %}/>
+					</td>
+					<td class="isActive text-center">
 						<input type="checkbox" data-id="{{ item.tourvisor.id }}" {% if item.region.active %} checked{% endif %}/>
 					</td>
 				</tr>
@@ -93,8 +98,9 @@
     var $populars = $('#populars');
     var popularUrl = $populars.data('popular-url');
     var activeUrl = $populars.data('active-url');
+    var hasInfoUrl = $populars.data('has-info-url');
 
-    $populars.find('.popular input').on('change', function(){
+    $populars.find('.isPopular input').on('change', function(){
       var $item = $(this);
       var id = $item.data('id');
       var checked = $item.is(':checked');
@@ -108,7 +114,7 @@
       });
     });
 
-    $populars.find('.active input').on('change', function(){
+    $populars.find('.isActive input').on('change', function(){
       var $item = $(this);
       var id = $item.data('id');
       var checked = $item.is(':checked');
@@ -117,6 +123,19 @@
         type: 'region',
         id: id,
         checked: (checked) ? 1 : 0
+      }, function(response){
+        console.log(response);
+      });
+    });
+
+    $populars.find('.hasInfo input').on('change', function(){
+      var $item = $(this);
+      var id = $item.data('id');
+      var checked = $item.is(':checked');
+
+      $.post(hasInfoUrl, {
+        id: id,
+        hasInfo: (checked) ? 1 : 0
       }, function(response){
         console.log(response);
       });

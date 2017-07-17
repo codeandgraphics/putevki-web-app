@@ -53,10 +53,20 @@ class BlogController extends BaseController
 			return $this->response->setStatusCode(404);
 		}
 
+		$morePosts = $this->modelsManager->createBuilder()
+			->addFrom(Posts::name())
+			->where('created_by = :authorId:', ['authorId' => $post->created_by])
+			->andWhere('id <> :postId:', ['postId' => $post->id])
+			->orderBy('created DESC')
+			->limit(5)
+			->getQuery()
+			->execute();
+
 		$this->view->setVars([
 			'title'         => $post->title . ' на ',
 			'post'          => $post,
 			'page'          => 'post',
+			'morePosts'     => $morePosts,
 			'meta'          => $post->getMeta()
 		]);
 	}

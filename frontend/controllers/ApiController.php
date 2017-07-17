@@ -5,12 +5,9 @@ namespace Frontend\Controllers;
 use Backend\Models\Requests;
 use Models\Branches;
 use Models\Cities;
-use Models\Tourvisor\Countries;
-use Models\Tourvisor\Departures;
-use Models\Tourvisor\Hotels;
-use Models\Tourvisor\Meals;
-use Models\Tourvisor\Regions;
-use Models\Tourvisor\Stars;
+use Models\Countries;
+use Models\Regions;
+use Models\Tourvisor;
 use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
@@ -49,15 +46,9 @@ class ApiController extends BaseController
 		$this->view->disable();
 	}
 
-	public function indexAction()
+	public function indexAction() : JSONResponse
 	{
-		$response = new Response();
-
-		$data = [];
-
-		$response->setJsonContent($data);
-
-		return $response;
+		return new JSONResponse(Error::NO_ERROR);
 	}
 
 	public function requestAction()
@@ -79,7 +70,6 @@ class ApiController extends BaseController
 					$request->origin = Requests::ORIGIN_MOBILE;
 					break;
 			}
-
 
 			$order = $data->order;
 
@@ -115,7 +105,7 @@ class ApiController extends BaseController
 		}
 	}
 
-	public function dictionariesAction()
+	public function dictionariesAction() : JSONResponse
 	{
 		$response = array(
 			'cities' => [],
@@ -160,7 +150,7 @@ class ApiController extends BaseController
 		$response['cities'] = array_values($cities);
 
 		/* Departures */
-		$departures = Departures::find();
+		$departures = Tourvisor\Departures::find();
 
 		foreach ($departures as $departure) {
 			$response['departures'][] = new Entities\Departure($departure);
@@ -169,40 +159,53 @@ class ApiController extends BaseController
 		/* Destinations */
 		$builder = $this->modelsManager->createBuilder()
 			->columns([
+				'country.*',
 				'region.*',
-				'country.*'
+				'tourvisorRegion.*',
+				'tourvisorCountry.*'
 			])
-			->addFrom(Regions::name(), 'region')
-			->join(
-				Countries::name(),
-				'region.countryId = country.id',
-				'country'
+			->addFrom(Countries::name(), 'country')
+			->innerJoin(
+				Tourvisor\Countries::name(),
+				'tourvisorCountry.id = country.tourvisorId',
+				'tourvisorCountry')
+			->innerJoin(
+				Tourvisor\Regions::name(),
+				'tourvisorRegion.countryId = tourvisorCountry.id',
+				'tourvisorRegion'
 			)
-			->where('country.active = 1')
-			->orderBy('country.popular DESC, country.name, region.popular DESC, region.name');
+			->innerJoin(
+				Regions::name(),
+				'region.tourvisorId = tourvisorRegion.id',
+				'region'
+			)
+			->where('country.active = 1 AND region.active = 1')
+			->orderBy('country.popular DESC, tourvisorCountry.name, region.popular DESC, tourvisorRegion.name');
 
 		$items = $builder->getQuery()->execute();
 
 		foreach ($items as $item) {
 			$country = $item->country;
 			$region = $item->region;
-			$countryId = (int)$region->countryId;
+			$tourvisorCountry = $item->tourvisorCountry;
+			$tourvisorRegion = $item->tourvisorRegion;
+			$countryId = (int)$tourvisorRegion->countryId;
 
 			if (!array_key_exists($countryId, $response['destinations'])) {
-				$response['destinations'][$countryId] = new Entities\Country($country);
+				$response['destinations'][$countryId] = new Entities\Country($country, $tourvisorCountry);
 			}
 
-			$response['destinations'][$region->countryId]->regions[] = new Entities\Region($region);
+			$response['destinations'][$countryId]->regions[] = new Entities\Region($region, $tourvisorRegion);
 		}
 
 		$response['destinations'] = array_values($response['destinations']);
 
-		$meals = Meals::find();
+		$meals = Tourvisor\Meals::find();
 		foreach ($meals as $meal) {
 			$response['meal'][] = new Entities\Meal($meal);
 		}
 
-		$stars = Stars::find();
+		$stars = Tourvisor\Stars::find();
 		foreach ($stars as $star) {
 			$response['stars'][] = new Entities\Star($star);
 		}
@@ -210,7 +213,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::NO_ERROR, $response);
 	}
 
-	public function initSearchAction()
+	public function initSearchAction() : JSONResponse
 	{
 		$body = $this->request->getJsonRawBody();
 
@@ -225,7 +228,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function initSearchSignedAction()
+	public function initSearchSignedAction() : JSONResponse
 	{
 		$body = $this->request->getJsonRawBody();
 
@@ -253,7 +256,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_AUTH_ERROR);
 	}
 
-	public function searchStatusAction()
+	public function searchStatusAction() : JSONResponse
 	{
 		$searchId = $this->request->get('searchId');
 
@@ -309,7 +312,7 @@ class ApiController extends BaseController
 
             if (!empty($hotelIds)) {
                 $items = $this->modelsManager->createBuilder()
-                    ->from(Hotels::name())
+                    ->from(Tourvisor\Hotels::name())
                     ->inWhere('id', $hotelIds)
                     ->getQuery()
                     ->execute();
@@ -334,7 +337,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function fullSearchResultAction()
+	public function fullSearchResultAction() : JSONResponse
 	{
 
 		$searchId = $this->request->get('searchId');
@@ -367,7 +370,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function actualizeTourAction()
+	public function actualizeTourAction() : JSONResponse
 	{
 		$tourId = $this->request->get('tourId');
 
@@ -384,7 +387,7 @@ class ApiController extends BaseController
 		]);
 	}
 
-	public function hotelAction()
+	public function hotelAction() : JSONResponse
 	{
 
 		$hotelId = $this->request->get('hotelId');
@@ -409,7 +412,7 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::API_ERROR);
 	}
 
-	public function hotelsAction()
+	public function hotelsAction() : JSONResponse
 	{
 		$response = new Response();
 
@@ -427,14 +430,14 @@ class ApiController extends BaseController
 					'country.name AS countryName',
 					'region.name AS regionName'
 				])
-				->addFrom(Hotels::name(), 'hotel')
+				->addFrom(Tourvisor\Hotels::name(), 'hotel')
 				->join(
-					Countries::name(),
+					Tourvisor\Countries::name(),
 					'country.id = hotel.countryId',
 					'country'
 				)
 				->join(
-					Regions::name(),
+					Tourvisor\Regions::name(),
 					'region.id = hotel.regionId',
 					'region'
 				)

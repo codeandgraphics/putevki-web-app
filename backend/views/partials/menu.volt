@@ -20,7 +20,7 @@
 <h5 class="sidebar-title">Заявки</h5>
 <ul class="nav nav-sidebar">
 	<li{% if(current.controller == 'requests' AND current.action != 'add') %} class="active"{% endif %}><a href="{{ backend_url('requests') }}"><i class="fa fa-file-text-o"></i> Все заявки</a></li>
-	<li{% if(current.controller == 'requests' AND current.action == 'add') %} class="active"{% endif %}><a href="{{ backend_url('requests/add') }}"><i class="fa fa-plus-square-o"></i> Создать заявку</a></li>
+	<!--<li{% if(current.controller == 'requests' AND current.action == 'add') %} class="active"{% endif %}><a href="{{ backend_url('requests/add') }}"><i class="fa fa-plus-square-o"></i> Создать заявку</a></li>-->
 </ul>
 
 {% if user.role is 'Admin' %}
