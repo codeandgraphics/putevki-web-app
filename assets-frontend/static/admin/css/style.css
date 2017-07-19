@@ -3430,6 +3430,7 @@ a.label:focus {
 .ql-snow .ql-editor p {
 	margin: 0 0 10px;
 	font-size: 15px;
+	width: 828px;
 }
 .ql-snow .ql-editor ul {
 	margin-top: 0;

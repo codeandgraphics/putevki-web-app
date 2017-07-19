@@ -61,11 +61,12 @@
 						{{ partial('tour/partials/checkout', ['small' : true]) }}
 					</div>
 					<div class="col-xs-7">
-
 						<div class="button-wrap">
 							<button type="submit" class="btn btn-primary btn-lg btn-block buy-online">
 								Купить путёвку
 							</button>
+
+							<p class="small">Нажимая "Купить путёвку" Вы подтверждаете согласие на обработку персональных данных.</p>
 						</div>
 
 						<ul class="list-unstyled payment-info">

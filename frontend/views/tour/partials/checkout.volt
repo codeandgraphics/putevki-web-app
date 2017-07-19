@@ -49,7 +49,7 @@
 			<span></span>
 		</div>
 		<div class="tour-sum">
-			<span>К оплате:</span>
+			<span>Итого:</span>
 			<strong></strong>
 		</div>
 	{% endif %}
