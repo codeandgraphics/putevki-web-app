@@ -1,6 +1,6 @@
 body{
 	font-size: 12px;
-	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif;
 }
 .header-wrap{
 	height: 60px;
@@ -115,7 +115,7 @@ p.operator strong{
 
 
 .agreement{
-	font-size: 8px;
+	font-size: 7.5px;
 	color: #333333;
 }
 
