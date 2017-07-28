@@ -7,7 +7,7 @@ class Filters
 
 	public $stars = 3;
 	public $meal = 3;
-	public $rating = 3;
+	public $rating = 0;
 	public $operator = 0;
 
 	public function __construct($filters = null)
