@@ -3436,3 +3436,13 @@ a.label:focus {
 	margin-top: 0;
 	margin-bottom: 10px;
 }
+
+.icon-origin {
+	font-size: 20px;
+	padding-top: 15px !important;
+}
+
+.icon-origin .fa-mobile {
+	margin-left: 6px;
+	font-size: 24px;
+}

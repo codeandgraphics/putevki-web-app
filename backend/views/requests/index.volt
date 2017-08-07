@@ -16,6 +16,7 @@
 				<thead>
 				<tr>
 					<th>&nbsp;</th>
+					<th>&nbsp;</th>
 					<th>
 						Заказчик
 						<small>Адрес</small>
@@ -69,8 +70,15 @@
 					<tr class="header">
 						<td>
 							<button class="btn btn-default more">
-								<i class="fa fa-arrow-down"></i>
+								<i class="fa fa-caret-down"></i>
 							</button>
+						</td>
+						<td class="icon-origin">
+                            {% if req.origin == 'mobile' %}
+								<i class="fa fa-mobile"></i>
+                            {% else %}
+								<i class="fa fa-desktop"></i>
+                            {% endif %}
 						</td>
 						<td>
 							<a href="{{ backend_url('requests') }}/edit/{{ req.id }}">
@@ -87,14 +95,8 @@
 									{% endif %}
 								</small>
 							</a>
-
 						</td>
 						<td>
-							{% if req.origin == 'mobile' %}
-								<i class="fa fa-mobile"></i>
-							{% else %}
-								<i class="fa fa-desktop"></i>
-							{% endif %}
 							&nbsp;{{ req.creationDate }}
 						</td>
 						<td>
@@ -333,14 +335,14 @@
 
 			if($nextRow.hasClass('shown'))
 			{
-				$(this).find('i').removeClass('fa-arrow-up');
-				$(this).find('i').addClass('fa-arrow-down');
+				$(this).find('i').removeClass('fa-caret-up');
+				$(this).find('i').addClass('fa-caret-down');
 				$nextRow.removeClass('shown');
 			}
 			else
 			{
-				$(this).find('i').removeClass('fa-arrow-down');
-				$(this).find('i').addClass('fa-arrow-up');
+				$(this).find('i').removeClass('fa-caret-down');
+				$(this).find('i').addClass('fa-caret-up');
 				$nextRow.addClass('shown');
 			}
 
