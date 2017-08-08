@@ -88,8 +88,6 @@
 
 				{{ partial('tour/partials/person', ['type': 'request']) }}
 
-				{{ partial('tour/partials/tourists', ['type': 'request']) }}
-
 				<button type="submit" class="btn btn-primary btn-lg btn-block buy-request">
 					Отправить заявку
 				</button>

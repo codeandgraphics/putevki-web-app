@@ -41,7 +41,13 @@
 			</div>
 			<div class="col-xs-4 form-group">
 				<label for="person-phone-{{ type }}" class="control-label">Телефон<sup>*</sup></label>
-				<input type="tel" class="form-control" id="person-phone-{{ type }}" name="person[phone]" placeholder="+7(495)123-45-67" required>
+				<input type="tel"
+					   class="form-control"
+					   id="person-phone-{{ type }}"
+					   name="person[phone]"
+					   data-inputmask="'mask':'+7 (999) 999-99-99'"
+					   placeholder="+7 (495) 123-45-67"
+					   required>
 			</div>
 			<div class="col-xs-4 form-group">
 				<label for="person-email-{{ type }}" class="control-label">Электронная почта<sup>*</sup></label>

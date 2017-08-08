@@ -10,7 +10,7 @@
 		<p></p>
 	</div>
 	<div class="panel-body">
-		<form method="post">
+		<form method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="name">Заголовок страницы</label>
 				{{ form.render('title', ["class":"form-control"]) }}
@@ -19,6 +19,18 @@
 				<label for="name">URI страны</label>
 				{{ form.render('uri', ["class":"form-control"]) }}
 				<span class="help-block">Латиницей, в нижнем регистре, используется в URL</span>
+			</div>
+			<div class="form-group">
+				<label for="name">Превью-картинка</label>
+				<div class="row">
+					<div class="col-xs-3">
+						<img src="{{ images_url('countries/') }}{{ country.preview }}" class="img-responsive"/>
+					</div>
+					<div class="col-xs-9">
+						{{ form.render('preview', ["class":"form-control"]) }}
+					</div>
+				</div>
+				<span class="help-block">Используется в боковом меню</span>
 			</div>
 			<div class="form-group">
 				<label for="name">Краткое описание</label>

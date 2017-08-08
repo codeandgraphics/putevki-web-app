@@ -11,6 +11,7 @@ class Countries extends BaseModel
 	public $tourvisorId;
 	public $uri;
 	public $title;
+	public $preview;
 	public $about;
 	public $metaKeywords;
 	public $metaDescription;

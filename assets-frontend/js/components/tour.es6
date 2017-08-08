@@ -264,15 +264,16 @@ export default class Tour {
     this.$.forms.online.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('online');
+      return false;
     });
 
-    this.$.forms.office.on('submit', function submitOffice(e) {
+    this.$.forms.office.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('office');
       return false;
     });
 
-    this.$.forms.request.on('submit', function submitRequest(e) {
+    this.$.forms.request.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('request');
       return false;
@@ -402,6 +403,10 @@ export default class Tour {
 
   transformFlight() {
     const newFlight = Object.assign({}, this.flight);
+
+    if(!this.flight) {
+      return false;
+    }
 
     if (this.flight.forward.length > 0 && this.flight.backward.length > 0) {
       newFlight.forward = [];

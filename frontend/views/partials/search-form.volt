@@ -18,14 +18,14 @@
 		</div>
 		<div class="inputs">
 			<div class="where input">
-				<input title="where" class="form-control" placeholder="Страна, регион или отель">
+				<input title="Куда едете?" class="form-control" placeholder="Страна, регион или отель">
 			</div>
 			<div class="when input">
 				<span class="range">± 2 дня</span>
 				<div class="value"></div>
-				<input title="when" />
+				<input title="Когда?" />
 			</div>
-			<div class="length input popup-nights">
+			<div class="length input popup-nights" title="На сколько?">
 				<span class="range">± 2</span>
 				<div class="value"></div>
 				<div class="popup nights">
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="people input popup-people">
+			<div class="people input popup-people" title="Сколько человек?">
 				<div class="value"></div>
 				<div class="popup people">
 					<i class="popup-pointer"></i>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="add-kids">
 						<div class="add">
-							<select title="kids">
+							<select title="Дети">
 								<option value="">Добавить ребенка</option>
 								<option value="1">до 2х лет</option>
 								<option value="2">2 года</option>
@@ -81,7 +81,7 @@
 			<div class="from input dropdown">
 				<span class="from-text range"{% if departure.id == 99 %} style="display:none;"{% endif %}>из</span>
 				<div class="value">{{ departure.name_from }}</div>
-				<select title="from-select">
+				<select title="Откуда?">
 					<optgroup label="Популярные">
 						<option value="1" data-gen="Москвы">из Москвы</option>
 						<option value="5" data-gen="Санкт-Петербурга">из Санкт-Петербурга</option>

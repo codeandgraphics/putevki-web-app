@@ -44,6 +44,7 @@ class CountriesController extends ControllerBase
 
 		$form->add(new Text('uri'));
 		$form->add(new Text('title'));
+		$form->add(new File('preview'));
 		$form->add(new TextArea('excerpt'));
 		$form->add(new TextArea('about'));
 		$form->add(new Text('metaKeywords'));
@@ -52,6 +53,18 @@ class CountriesController extends ControllerBase
 
 		if ($this->request->isPost()) {
 			$form->bind($_POST, $country);
+
+			if($this->request->hasFiles()) {
+				$file = $this->request->getUploadedFiles()[0];
+
+				if($file->getSize() > 0) {
+					$fileName = $country->tourvisorId . '.' . $file->getExtension();
+					$path = $this->config->images->path . 'countries/' . $fileName;
+					$file->moveTo($path);
+					$country->preview = $fileName;
+				}
+			}
+
 			if ($form->isValid()) {
 				$country->save();
 				$this->flashSession->success('Страна успешно сохранена');
