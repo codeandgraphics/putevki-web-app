@@ -284,7 +284,7 @@ export default class SearchForm {
   }
 
   whenActions() {
-    const minDate = moment().add(1, 'days');
+    const minDate = moment().add(2, 'days');
     const maxDate = moment().add(1, 'year');
     const dateFrom = moment(this.data.when.dateFrom, DATE_FORMAT);
 
@@ -436,8 +436,11 @@ export default class SearchForm {
   peopleActions() {
     const limits = this.limits.people;
     let adults = parseInt(this.data.people.adults, 10);
-    const kids = this.data.people.children;
+    let kids = this.data.people.children;
     let people = parseInt(adults, 10);
+
+    if (typeof kids === 'number') kids = [];
+    kids = kids.map(item => parseInt(item, 10));
     if (kids.length) people += kids.length;
 
     const $popup = this.$.people.find('.popup');
@@ -450,9 +453,11 @@ export default class SearchForm {
       const $el = $(e.target);
 
       kids.splice($.inArray(parseInt($el.parent().data('age'), 10), kids), 1);
+
       people -= 1;
       this.setText('people', people);
       $el.parent().remove();
+      this.data.people.children = kids;
 
       if (kids.length >= limits.kids) {
         $kidsSelect.hide();
@@ -558,6 +563,8 @@ export default class SearchForm {
 
         kids.push(age);
         people += 1;
+
+        this.data.people.children = kids;
 
         this.setText('people', people);
 
