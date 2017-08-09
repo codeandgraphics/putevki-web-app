@@ -21,10 +21,13 @@ class IndexController extends ControllerBase
 		$lastDayQuery = 'creationDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
 		$lastDayPaymentsQuery = 'payDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
 
+		$webQuery = " AND origin = 'web'";
+		$mobileQuery =  " AND (origin = 'ios' OR origin = 'android' OR origin = 'mobile')";
+
 		//Заявки
 		$todayRequests = new \stdClass();
-		$todayRequests->count = (int)Requests::count($todayQuery);
-		$lastDayRequestsCount = (int)Requests::count($lastDayQuery);
+		$todayRequests->count = (int)Requests::count($todayQuery . $webQuery);
+		$lastDayRequestsCount = (int)Requests::count($lastDayQuery . $webQuery);
 		$todayRequests->diff = Utils\Text::countDiff($todayRequests->count, $lastDayRequestsCount);
 		$today->requests = $todayRequests;
 		//Заявки
@@ -43,13 +46,13 @@ class IndexController extends ControllerBase
 		$today->payments = $todayPayments;
 		//Деньги
 
-		//Туристы
-		$todayTourists = new \stdClass();
-		$todayTourists->count = (int)Tourists::count($todayQuery);
-		$lastDayTouristsCount = (int)Tourists::count($lastDayQuery);
-		$todayTourists->diff = Utils\Text::countDiff($todayTourists->count, $lastDayTouristsCount);
-		$today->tourists = $todayTourists;
-		//Туристы
+		//Заявки из приложения
+		$todayApps = new \stdClass();
+		$todayApps->count = (int)Requests::count($todayQuery  . $mobileQuery);
+		$lastDayAppsCount = (int)Requests::count($lastDayQuery  . $mobileQuery);
+		$todayApps->diff = Utils\Text::countDiff($todayApps->count, $lastDayAppsCount);
+		$today->apps = $todayApps;
+		//Заявки из приложения
 
 		$week = new \stdClass();
 
@@ -66,8 +69,8 @@ class IndexController extends ControllerBase
 
 		//Заявки
 		$weekRequests = new \stdClass();
-		$weekRequests->count = (int)Requests::count($weekQuery);
-		$lastWeekRequestsCount = (int)Requests::count($lastWeekQuery);
+		$weekRequests->count = (int)Requests::count($weekQuery. $webQuery);
+		$lastWeekRequestsCount = (int)Requests::count($lastWeekQuery. $webQuery);
 		$weekRequests->diff = Utils\Text::countDiff($weekRequests->count, $lastWeekRequestsCount);
 		$week->requests = $weekRequests;
 		//Заявки
@@ -86,13 +89,13 @@ class IndexController extends ControllerBase
 		$week->payments = $weekPayments;
 		//Деньги
 
-		//Туристы
-		$weekTourists = new \stdClass();
-		$weekTourists->count = (int)Tourists::count($weekQuery);
-		$lastWeekTouristsCount = (int)Tourists::count($lastWeekQuery);
-		$weekTourists->diff = Utils\Text::countDiff($weekTourists->count, $lastWeekTouristsCount);
-		$week->tourists = $weekTourists;
-		//Туристы
+		//Заявки из приложений
+		$weekApps = new \stdClass();
+		$weekApps->count = (int)Requests::count($weekQuery  . $mobileQuery);
+		$lastWeekAppsCount = (int)Requests::count($lastWeekQuery  . $mobileQuery);
+		$weekApps->diff = Utils\Text::countDiff($weekApps->count, $lastWeekAppsCount);
+		$week->apps = $weekApps;
+		//Заявки из приложений
 
 		$this->view->setVar('today', $today);
 		$this->view->setVar('week', $week);

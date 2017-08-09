@@ -76,6 +76,10 @@
 						<td class="icon-origin">
                             {% if req.origin == 'mobile' %}
 								<i class="fa fa-mobile"></i>
+							{% elseif req.origin == 'ios' %}
+								<i class="fa fa-apple"></i>
+							{% elseif req.origin == 'android' %}
+								<i class="fa fa-android"></i>
                             {% else %}
 								<i class="fa fa-desktop"></i>
                             {% endif %}

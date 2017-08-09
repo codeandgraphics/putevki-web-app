@@ -940,9 +940,9 @@ pre code {
 	background: #259dab;
 	padding: 7px 9px;
 }
-.panel-body .icon.tourists{
+.panel-body .icon.apps{
 	background: #5bc0de;
-	padding: 7px 16px;
+	padding: 7px 24px;
 }
 .panel-body .panel-title {
 	color: #818da7;
@@ -3445,4 +3445,12 @@ a.label:focus {
 .icon-origin .fa-mobile {
 	margin-left: 6px;
 	font-size: 24px;
+}
+
+.icon-origin .fa-apple {
+	margin-left: 4px;
+}
+
+.icon-origin .fa-android {
+	margin-left: 4px;
 }

@@ -59,7 +59,9 @@ class ApiController extends BaseController
 
 			$request = new Requests();
 
-			switch ($data->origin) {
+			$order = $data->order;
+
+			switch ($order->origin) {
 				case Requests::ORIGIN_IOS:
 					$request->origin = Requests::ORIGIN_IOS;
 					break;
@@ -70,8 +72,6 @@ class ApiController extends BaseController
 					$request->origin = Requests::ORIGIN_MOBILE;
 					break;
 			}
-
-			$order = $data->order;
 
 			//Клиент
 			$request->subjectName = $order->subject->name;

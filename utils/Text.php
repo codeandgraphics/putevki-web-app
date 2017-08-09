@@ -12,7 +12,7 @@ class Text
 		if($first === $second)
 		{
 			$result->count = 0;
-			$result->text = 'столько же';
+			$result->text = 'столько же, как и вчера';
 			$result->class = 'primary';
 		}
 		elseif($first > $second)
