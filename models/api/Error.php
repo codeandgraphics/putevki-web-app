@@ -14,6 +14,7 @@ class Error
 	const API_AUTH_ERROR = 1001;
 	const API_METHOD_NOT_FOUND = 1002;
 	const API_PARAMS_MISSED = 1003;
+	const API_CREDENTIALS_MISSED = 1004;
 
 	public function __construct($code)
 	{
@@ -24,6 +25,7 @@ class Error
 			self::API_AUTH_ERROR => 'API Authentication error',
 			self::API_METHOD_NOT_FOUND => 'Method not found',
 			self::API_PARAMS_MISSED => 'Some params missed',
+            self::API_CREDENTIALS_MISSED => 'API credentials missed'
 		];
 		$this->code = $code;
 		$this->text = $errors[$code];

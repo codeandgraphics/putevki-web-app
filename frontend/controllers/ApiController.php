@@ -8,7 +8,6 @@ use Models\Cities;
 use Models\Countries;
 use Models\Regions;
 use Models\Tourvisor;
-use Phalcon\Http\Response;
 use Phalcon\Cache\Backend\File as Cache;
 use Phalcon\Cache\Frontend\Data as CacheData;
 
@@ -25,6 +24,7 @@ class ApiController extends BaseController
 {
 	protected $_cache;
 	protected $_KEY = 'u67x9raC(Y|Mt;R|?3+1y|Vv:O|}5>r/JwBLtE>,E+y-Z>Hnf_J<<9.rkrbv~dMF';
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
 	public function initialize()
 	{
@@ -42,9 +42,46 @@ class ApiController extends BaseController
 				'cacheDir' => '../app/cache/'
 			)
 		);
-
-		$this->view->disable();
 	}
+
+	public function onConstruct() {
+	    $this->view->disable();
+    }
+
+	public function beforeExecuteRoute($dispatcher) {
+	    //Need to fix this
+	    $isLocal = $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
+
+	    if($isLocal) return true;
+
+        $clientSign = $this->request->getHeader('X-Request-Sign');
+        $clientDate = $this->request->getHeader('X-Request-Time');
+
+        if(!$clientSign || !$clientDate) {
+            $response = new JSONResponse(Error::API_CREDENTIALS_MISSED);
+            echo $response->getContent();
+            return false;
+        }
+
+        $body = $this->request->getJsonRawBody();
+
+        $body->date = $clientDate;
+
+        $string = json_encode($body);
+
+        $sec = new Security();
+        $serverSign = $sec->computeHmac($string, $this->_KEY, 'sha512');
+
+        $isExpired = abs(time() - strtotime($clientDate)) > 300;
+
+        if($serverSign !== $clientSign || $isExpired){
+            $response = new JSONResponse(Error::API_AUTH_ERROR);
+            echo $response->getContent();
+            return false;
+        }
+
+        return true;
+    }
 
 	public function indexAction() : JSONResponse
 	{
@@ -234,28 +271,17 @@ class ApiController extends BaseController
 		$body = $this->request->getJsonRawBody();
 
 		$params = $body->params;
-		$sign = $params->sign;
-		unset($params->sign);
 
-		$string = json_encode($params);
+        $query = new SearchQuery($params);
 
-		$sec = new Security();
-		$serverHMAC = $sec->computeHmac($string, $this->_KEY, 'sha512');
+        $searchId = $query->run();
 
-		if ($serverHMAC === $sign) {
-			$query = new SearchQuery($params);
+        if ($searchId) {
+            return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
+        }
 
-			$searchId = $query->run();
-
-			if ($searchId) {
-				return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
-			}
-
-			return new JSONResponse(Error::API_ERROR);
-		}
-
-		return new JSONResponse(Error::API_AUTH_ERROR);
-	}
+        return new JSONResponse(Error::API_ERROR);
+    }
 
 	public function searchStatusAction() : JSONResponse
 	{
