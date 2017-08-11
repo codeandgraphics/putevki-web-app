@@ -55,7 +55,7 @@ class ApiController extends BaseController
 	    if($isLocal) return true;
 
         $clientSign = $this->request->getHeader('X-Request-Sign');
-        $clientDate = $this->request->getHeader('X-Request-Time');
+        $clientDate = (int) $this->request->getHeader('X-Request-Time');
 
         if(!$clientSign || !$clientDate) {
             $response = new JSONResponse(Error::API_CREDENTIALS_MISSED);
@@ -72,7 +72,7 @@ class ApiController extends BaseController
         $sec = new Security();
         $serverSign = $sec->computeHmac($string, $this->_KEY, 'sha512');
 
-        $isExpired = abs(time() - strtotime($clientDate)) > 300;
+        $isExpired = abs(time() - $clientDate) > 300;
 
         if($serverSign !== $clientSign || $isExpired){
             $response = new JSONResponse(Error::API_AUTH_ERROR);
