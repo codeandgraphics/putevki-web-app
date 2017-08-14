@@ -9,7 +9,7 @@ class Rating
 
 	public function __construct($id = null, $name = null)
 	{
-		if ($id) {
+		if ($id >= 0) {
 			$this->id = $id;
 		}
 		if ($name) {

@@ -152,9 +152,9 @@ class ApiController extends BaseController
 			'meal' => [],
 			'rating' => [
 				new Entities\Rating(0, 'Любой'),
-				new Entities\Rating(2, '3.0 и выше'),
+				new Entities\Rating(2, '3 и выше'),
 				new Entities\Rating(3, '3.5 и выше'),
-				new Entities\Rating(4, '4.0 и выше'),
+				new Entities\Rating(4, '4 и выше'),
 				new Entities\Rating(5, '4.5 и выше')
 			]
 		);
