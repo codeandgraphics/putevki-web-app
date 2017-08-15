@@ -12,6 +12,7 @@ class Uniteller extends Plugin
 	const PAY_URL = 'https://wpay.uniteller.ru/pay/';
 	const RESULTS_URL = 'https://wpay.uniteller.ru/results/';
 	const UNBLOCK_URL = 'https://wpay.uniteller.ru/unblock/';
+	const CONFIRM_URL = 'https://wpay.uniteller.ru/confirm/';
 
 	private $Login;
 	private $Password;
@@ -121,8 +122,8 @@ class Uniteller extends Plugin
 		curl_setopt($ch, CURLOPT_URL, self::RESULTS_URL);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -133,8 +134,7 @@ class Uniteller extends Plugin
 		$curl_response = curl_exec($ch);
 		$curl_error = curl_error($ch);
 
-		if ($curl_error) {
-		} else {
+		if (!$curl_error) {
 			$arr = explode(';', $curl_response);
 
 			if (count($arr) === 3) {
@@ -144,19 +144,53 @@ class Uniteller extends Plugin
 					'BillNumber' => $arr[2]
 				);
 
-				$paymentId = $this->getPaymentId($Order_ID);
-				$payment = Payments::findFirst($paymentId);
-
-				if ($payment) {
-					$payment->status = Text::lower($data['Status']);
-					$payment->approval_code = $data['ApprovalCode'];
-					$payment->bill_number = $data['BillNumber'];
-					$payment->save();
-				}
-
-			} else {
-
+				return $data;
 			}
 		}
+
+		return false;
+	}
+
+	public function confirmPayment($billNumber) {
+		$postFields =
+			'Shop_ID=' . $this->Shop_IDP .
+			'&Login=' . $this->Login .
+			'&Password=' . $this->Password .
+			'&Billnumber=' . $billNumber .
+			'&S_FIELDS=Status;ApprovalCode;BillNumber';
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, self::CONFIRM_URL);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_VERBOSE, 0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+
+		$curl_response = curl_exec($ch);
+		$curl_error = curl_error($ch);
+
+		if (!$curl_error) {
+			$arr = explode(';', $curl_response);
+
+			if ($arr[0] !== 'ErrorCode') {
+				$data = array(
+					'Status' => $arr[0],
+					'ApprovalCode' => $arr[1],
+					'BillNumber' => $arr[2]
+				);
+
+				return $data;
+			}
+
+			return $arr[2];
+		}
+
+		return false;
 	}
 }

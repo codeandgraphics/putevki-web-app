@@ -101,7 +101,7 @@
 							</a>
 						</td>
 						<td>
-							&nbsp;{{ req.creationDate }}
+							&nbsp;{{ req.creationDate|humanDate }}
 						</td>
 						<td>
 							{% if hotel.country %}

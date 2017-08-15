@@ -32,7 +32,7 @@
 			<div class="col-sm-4">
 				<form class="form-inline pull-right" method="post">
 					<div class="form-group">
-						<input class="form-control" type="text" name="paymentSum" id="paymentSum" placeholder="10000" />
+						<input class="form-control" type="text" name="paymentSum" id="paymentSum" placeholder="10000.00" />
 					</div>
 					<button type="submit" class="btn btn-success btn-stroke btn-sm">Создать</button>
 				</form>
@@ -44,21 +44,29 @@
 			<table class="table payments">
 				<thead>
 				<tr>
-					<th>Статус</th>
+					<th>ID платежа</th>
 					<th>Сумма</th>
 					<th>Ссылка на оплату</th>
 					<th>Номер заявки</th>
-					<th class="text-center">Дата оплаты</th>
-					<th></th>
+					<th>Статус заказа</th>
 				</tr>
 				</thead>
 				<tbody>
 				{% for payment in page.items %}
 					<tr class="table-{{ paymentClasses[payment.status] }}" data-payment-id="{{ payment.id }}">
 						<td>
-							<div class="label label-{{ paymentClasses[payment.status] }}">
-								{{ paymentTexts[payment.status] }}
-							</div>
+							<h4>
+								{% if payment.status === 'authorized' %}
+									{% if payment.bill_number is null %}
+										<i class="fa fa-exclamation-triangle text-danger" data-toggle="tooltip" title="Не получен код подтверждения"></i>
+									{% elseif payment.auth_confirmed is false %}
+										<i class="fa fa-exclamation-triangle text-danger" data-toggle="tooltip" title="Не подтверждена авторизация"></i>
+									{% endif %}
+								{% endif %}
+								<a href="{{ backend_url('payments/payment/') }}{{ payment.id }}">
+									{{ payment.getOrder() }}
+								</a>
+							</h4>
 						</td>
 						<td>
 							<h4>
@@ -67,7 +75,7 @@
 						</td>
 						<td>
 							{% if payment.status not in paymentStatuses %}
-								<a href="{{ url('pay') }}/{{ payment.id }}" target="_blank">{{ url('pay') }}/{{ payment.id }}</a>
+								<u>{{ url('pay') }}/{{ payment.id }}</u>
 							{% else %}
 								<s>{{ url('pay') }}/{{ payment.id }}</s>
 							{% endif %}
@@ -81,15 +89,10 @@
 								не указан
 							{% endif %}
 						</td>
-						<td>
-							{{ payment.payDate }}
-						</td>
-						<td>
-							{% if payment.status not in paymentStatuses %}
-								<button class="btn btn-danger remove pull-right">
-									<i class="fa fa-remove"></i>
-								</button>
-							{% endif %}
+						<td class="text-right">
+							<div class="label label-{{ paymentClasses[payment.status] }}">
+								{{ paymentTexts[payment.status] }}
+							</div>
 						</td>
 					</tr>
 				{% else %}
@@ -150,5 +153,7 @@
       }
       return false;
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
   });
 </script>

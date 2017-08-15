@@ -25,7 +25,7 @@
 			</div>
 			<div class="content">
 				<div class="wrap">
-					<div class="block" id="hot"
+					<div class="block" id="hotRegion"
 						 data-region="{{ region.tourvisor.id }}"
 						 data-country="{{ country.tourvisor.id }}"
 						 data-departure="{{ city.flight_city }}"

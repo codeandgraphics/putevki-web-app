@@ -5,6 +5,15 @@ namespace Utils;
 class Text
 {
 
+	public static function humanDate($argument) {
+
+		$date = new \DateTime($argument);
+
+		$date->setTimezone(new \DateTimeZone('Europe/Moscow'));
+
+		return $date->format('d.m.Y в H:i:s');
+	}
+
 	public static function countDiff($first, $second)
 	{
 		$result = new \stdClass();

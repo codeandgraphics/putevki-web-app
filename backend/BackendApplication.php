@@ -222,6 +222,10 @@ class BackendApplication extends \Phalcon\Mvc\Application
 				$compiler->addFunction('images_url', function($resolvedParams) {
 					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
 				});
+
+				$compiler->addFilter('humanDate', function($resolvedArgs) {
+					return 'Utils\Text::humanDate(' . $resolvedArgs . ');';
+				});
 				return $volt;
 			}));
 			return $view;

@@ -2,6 +2,7 @@
 
 namespace Backend\Controllers;
 
+use Backend\Plugins\Uniteller;
 use Phalcon\Http\Response;
 use Phalcon\Paginator\Adapter\Model as PaginatorModel;
 use Backend\Models\Payments;
@@ -16,6 +17,7 @@ class PaymentsController extends ControllerBase
 		if ($this->request->has('request')) {
 			$requestId = $this->request->get('request', 'int');
 		}
+
 
 		if ($this->request->isPost()) {
 			$paymentSum = $this->request->getPost('paymentSum');
@@ -64,6 +66,42 @@ class PaymentsController extends ControllerBase
 		$this->view->setVar('publicUrl', $this->frontendConfig->publicURL);
 		$this->view->setVar('page', $paginator->getPaginate());
 
+	}
+
+	public function paymentAction() {
+		$paymentId = $this->dispatcher->getParam(0);
+		$payment = Payments::findFirst('id="' . $paymentId . '"');
+
+		if ($this->request->has('confirmPayment')) {
+
+			$uniteller = new Uniteller();
+			$data = $uniteller->confirmPayment(trim($payment->bill_number));
+
+			if(is_array($data)) {
+				$payment->auth_confirmed = 1;
+				$payment->save();
+				$this->flashSession->success('Авторизация платежа успешно подтверждена');
+
+			} else {
+				$this->flashSession->error('Авторизация платежа не подтверждена. Ошибка: ' . $data);
+			}
+		}
+
+		if ($this->request->has('getOrderCode')) {
+			$uniteller = new Uniteller();
+			$orderData = $uniteller->getPaymentResult($payment->getOrder());
+
+			if($orderData) {
+				$payment->status = \Phalcon\Text::lower($orderData['Status']);
+				$payment->approval_code = $orderData['ApprovalCode'];
+				$payment->bill_number = $orderData['BillNumber'];
+				$payment->save();
+			} else {
+				$this->flashSession->error('Невозможно получить код авторизации');
+			}
+		}
+
+		$this->view->setVar('payment', $payment);
 	}
 
 	public function deleteAction()

@@ -10,33 +10,42 @@ export default class CountryPage {
 
   init() {
     this.$ = {
-      hot: $('#hot'),
+      hotRegion: $('#hotRegion'),
+      hotCountry: $('#hotCountry'),
     };
 
-    this.url = this.$.hot.data('url');
-    this.country = this.$.hot.data('country');
-    this.region = this.$.hot.data('region');
-    this.departure = this.$.hot.data('departure');
+    this.hotRegionUrl = this.$.hotRegion.data('url');
+    this.hotRegionCountry = this.$.hotRegion.data('country');
+    this.hotRegion = this.$.hotRegion.data('region');
+    this.hotRegionDeparture = this.$.hotRegion.data('departure');
+
+    this.hotCountryUrl = this.$.hotCountry.data('url');
+    this.hotCountry = this.$.hotCountry.data('country');
+    this.hotCountryDeparture = this.$.hotCountry.data('departure');
 
     this.form = new SearchForm();
     this.form.init();
 
-    if (this.url) {
-      this.initHot();
+    if (this.hotRegionUrl) {
+      this.initHotRegion();
+    }
+
+    if (this.hotCountryUrl) {
+      this.initHotCountry();
     }
   }
 
-  initHot() {
+  initHotCountry() {
     $.getJSON(
-      `${this.url}?items=6&departure=${this.departure}&country=${this.country}&region=${this.region}`,
+      `${this.hotCountryUrl}?items=9&departure=${this.hotCountryDeparture}&country=${this.hotCountry}`,
       (response) => {
         if (IS_DEV) {
-          console.log('[HOT TOURS] Response:', response);
+          console.log('[HOT TOURS COUNTRY] Response:', response);
         }
-        const $tourTemplate = this.$.hot.find('.hotel.template');
-        const $items = this.$.hot.find('.items');
+        const $tourTemplate = this.$.hotCountry.find('.hotel.template');
+        const $items = this.$.hotCountry.find('.items');
 
-        const tours = (response.length !== 0) ? response : [];
+        const tours = (response !== null) ? response : [];
 
         $.each(tours, (i, tour) => {
           const $tour = $tourTemplate.clone();
@@ -63,7 +72,54 @@ export default class CountryPage {
           if (i < 8) $items.append($tour);
         });
 
-        if (tours.length > 0) { this.$.hot.find('.loader').hide(); }
+        this.$.hotRegion.find('.loader').hide();
+
+        // TODO
+        if (tours.length === 0) { console.log('empty'); }
+      });
+  }
+
+  initHotRegion() {
+    $.getJSON(
+      `${this.hotRegionUrl}?items=6&departure=${this.hotRegionDeparture}&country=${this.hotRegionCountry}&region=${this.hotRegion}`,
+      (response) => {
+        if (IS_DEV) {
+          console.log('[HOT TOURS REGION] Response:', response);
+        }
+        const $tourTemplate = this.$.hotRegion.find('.hotel.template');
+        const $items = this.$.hotRegion.find('.items');
+
+        const tours = (response !== null) ? response : [];
+
+        $.each(tours, (i, tour) => {
+          const $tour = $tourTemplate.clone();
+          $tour.removeClass('template');
+
+          const discount = parseInt((100 * tour.price) / tour.priceold, 10);
+
+          $tour.find('a').attr('href', `/tour/${tour.tourid}`);
+
+          $tour.find('.image .bg').css('background-image', `url(${tour.hotelpicture.replace('small', 'medium')})`);
+          $tour.find('.image .discount').text(`-${discount}%`);
+
+          $tour.find('.about .title').text(`${tour.hotelstars}* ${tour.hotelname.toLowerCase()}`);
+          $tour.find('.about .where .country').text(tour.countryname);
+          $tour.find('.about .where .region').text(tour.hotelregionname);
+
+          const date = moment(tour.flydate, 'DD.MM.YYYY');
+
+          $tour.find('.about .info .length .date').text(date.format('D MMMM'));
+          $tour.find('.about .info .length .nights').text(Humanize.nights(tour.nights));
+
+          $tour.find('.about .info .price span').text(Humanize.price(tour.price));
+
+          if (i < 8) $items.append($tour);
+        });
+
+        this.$.hotRegion.find('.loader').hide();
+
+        // TODO
+        if (tours.length === 0) { console.log('empty'); }
       });
   }
 }

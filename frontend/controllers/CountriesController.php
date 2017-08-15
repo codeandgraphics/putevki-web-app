@@ -59,11 +59,14 @@ class CountriesController extends BaseController
 			'order' => 'name'
 		]);
 
+		$popularDepartures = Tourvisor\Departures::find('popular = 1');
+
 		$this->view->setVars([
 			'title'         => $country->title . ' на ',
 			'params'        => $params,
 			'page'          => 'country',
 			'departures'    => $departures,
+			'popularDepartures' => $popularDepartures,
 			'country'       => $country,
 			'regions'       => $regions,
 			'meta'          => $country->getMeta()

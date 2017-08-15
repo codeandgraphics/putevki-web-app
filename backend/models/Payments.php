@@ -15,6 +15,7 @@ class Payments extends BaseModel
 	public $status;
 	public $approval_code;
 	public $bill_number;
+	public $auth_confirmed;
 	public $creationDate;
 
 	public function initialize()
