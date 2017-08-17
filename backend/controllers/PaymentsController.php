@@ -63,22 +63,21 @@ class PaymentsController extends ControllerBase
 			)
 		);
 
-		$this->view->setVar('publicUrl', $this->frontendConfig->publicURL);
 		$this->view->setVar('page', $paginator->getPaginate());
 
 	}
 
 	public function paymentAction() {
 		$paymentId = $this->dispatcher->getParam(0);
-		$payment = Payments::findFirst('id="' . $paymentId . '"');
+		$payment = Payments::findFirstById($paymentId);
 
 		if ($this->request->has('confirmPayment')) {
 
 			$uniteller = new Uniteller();
-			$data = $uniteller->confirmPayment(trim($payment->bill_number));
+			$data = $uniteller->confirmPayment(trim($payment->billNumber));
 
 			if(is_array($data)) {
-				$payment->auth_confirmed = 1;
+				$payment->authConfirmed = 1;
 				$payment->save();
 				$this->flashSession->success('Авторизация платежа успешно подтверждена');
 
@@ -87,17 +86,19 @@ class PaymentsController extends ControllerBase
 			}
 		}
 
-		if ($this->request->has('getOrderCode')) {
+		if($this->request->has('update')) {
 			$uniteller = new Uniteller();
 			$orderData = $uniteller->getPaymentResult($payment->getOrder());
 
 			if($orderData) {
-				$payment->status = \Phalcon\Text::lower($orderData['Status']);
-				$payment->approval_code = $orderData['ApprovalCode'];
-				$payment->bill_number = $orderData['BillNumber'];
+				$payment->status = \Phalcon\Text::lower($orderData[Uniteller::FIELDS_STATUS]);
+				$payment->approvalCode = $orderData[Uniteller::FIELDS_APPROVAL_CODE];
+				$payment->billNumber = $orderData[Uniteller::FIELDS_BILL_NUMBER];
+				$payment->totalPaid = $orderData[Uniteller::FIELDS_TOTAL];
+
 				$payment->save();
 			} else {
-				$this->flashSession->error('Невозможно получить код авторизации');
+				$this->flashSession->error('Ошибка при обновлении данных платежа');
 			}
 		}
 

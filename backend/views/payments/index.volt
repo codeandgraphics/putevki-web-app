@@ -57,9 +57,9 @@
 						<td>
 							<h4>
 								{% if payment.status === 'authorized' %}
-									{% if payment.bill_number is null %}
+									{% if payment.billNumber is null %}
 										<i class="fa fa-exclamation-triangle text-danger" data-toggle="tooltip" title="Не получен код подтверждения"></i>
-									{% elseif payment.auth_confirmed is false %}
+									{% elseif payment.authConfirmed is false %}
 										<i class="fa fa-exclamation-triangle text-danger" data-toggle="tooltip" title="Не подтверждена авторизация"></i>
 									{% endif %}
 								{% endif %}

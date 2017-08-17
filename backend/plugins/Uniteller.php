@@ -14,6 +14,15 @@ class Uniteller extends Plugin
 	const UNBLOCK_URL = 'https://wpay.uniteller.ru/unblock/';
 	const CONFIRM_URL = 'https://wpay.uniteller.ru/confirm/';
 
+
+	const FIELDS_STATUS = 'Status';
+	const FIELDS_APPROVAL_CODE = 'ApprovalCode';
+	const FIELDS_BILL_NUMBER = 'BillNumber';
+	const FIELDS_TOTAL = 'Total';
+	const FIELDS_CURRENCY = 'Currency';
+	const FIELDS_DATE = 'Date';
+	const FIELDS_EMAIL = 'Email';
+
 	private $Login;
 	private $Password;
 
@@ -109,14 +118,23 @@ class Uniteller extends Plugin
 
 	public function getPaymentResult($Order_ID)
 	{
-		$sPostFields =
+		$S_FIELDS = [
+			self::FIELDS_STATUS,
+			self::FIELDS_APPROVAL_CODE,
+			self::FIELDS_BILL_NUMBER,
+			self::FIELDS_TOTAL,
+			self::FIELDS_CURRENCY,
+			self::FIELDS_EMAIL
+		];
+
+		$postFields =
 			'Shop_ID=' . $this->Shop_IDP .
 			'&Login=' . $this->Login .
 			'&Password=' . $this->Password .
 			'&Preauth=' . $this->Preauth .
 			'&Format=1' .
 			'&ShopOrderNumber=' . $Order_ID .
-			'&S_FIELDS=Status;ApprovalCode;BillNumber';
+			'&S_FIELDS=' . implode(';', $S_FIELDS);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, self::RESULTS_URL);
@@ -127,7 +145,7 @@ class Uniteller extends Plugin
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $sPostFields);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
 		curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
 		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
 
@@ -137,12 +155,13 @@ class Uniteller extends Plugin
 		if (!$curl_error) {
 			$arr = explode(';', $curl_response);
 
-			if (count($arr) === 3) {
-				$data = array(
-					'Status' => $arr[0],
-					'ApprovalCode' => $arr[1],
-					'BillNumber' => $arr[2]
-				);
+			if (count($arr) === count($S_FIELDS)) {
+
+				$data = [];
+
+				foreach($S_FIELDS as $i => $field) {
+					$data[$field] = trim($arr[$i]);
+				}
 
 				return $data;
 			}

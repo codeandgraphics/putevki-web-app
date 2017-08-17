@@ -207,34 +207,42 @@ class BackendApplication extends \Phalcon\Mvc\Application
 	protected function view()
 	{
 		$this->di->set('view', function () {
+
+			$config = $this->get('config');
 			$view = new View();
-			$view->setViewsDir(APP_PATH . $this->get('config')->backend->viewsDir);
-			$view->registerEngines(array('.volt' => function ($view, $di) {
+			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
+			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
 				$volt = new View\Engine\Volt($view, $di);
 				$volt->setOptions(array(
-					'compiledPath' => APP_PATH . $this->get('config')->common->cacheDir . 'volt/',
+					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
 					'compiledSeparator' => '_'
 				));
 				$compiler = $volt->getCompiler();
-				$compiler->addFunction('backend_url', function($resolvedParams) {
-					return "\Phalcon\Di::getDefault()->get('backendUrl')->get(" . $resolvedParams . ')';
-				});
-				$compiler->addFunction('images_url', function($resolvedParams) {
-					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
-				});
 
-				$compiler->addFilter('humanDate', function($resolvedArgs) {
-					return 'Utils\Text::humanDate(' . $resolvedArgs . ');';
-				});
+				\Utils\Common::addCompilerActions($compiler);
+
 				return $volt;
 			}));
 			return $view;
 		});
 
 		$this->di->set('simpleView', function () {
+			$config = $this->get('config');
+
 			$view = new Phalcon\Mvc\View\Simple();
-			$view->setViewsDir(APP_PATH . $this->get('config')->backend->viewsDir);
-			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
+			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
+			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
+				$volt = new View\Engine\Volt($view, $di);
+				$volt->setOptions(array(
+					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
+					'compiledSeparator' => '_'
+				));
+				$compiler = $volt->getCompiler();
+
+				\Utils\Common::addCompilerActions($compiler);
+
+				return $volt;
+			}));
 			return $view;
 		});
 	}

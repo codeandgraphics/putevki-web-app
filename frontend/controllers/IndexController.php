@@ -2,6 +2,8 @@
 
 namespace Frontend\Controllers;
 
+use Backend\Controllers\EmailController;
+use Backend\Models\Payments;
 use Backend\Models\Requests;
 use Frontend\Models\Params;
 use Models\StoredQueries;
@@ -153,7 +155,47 @@ class IndexController extends BaseController
 			echo 'Disallow: /' . PHP_EOL;
 		}
 	}
-	
+
+	public function testAction($type) {
+		$this->view->disable();
+
+		$requestId = 30;
+
+		$emailController = new EmailController();
+
+		switch ($type) {
+			case 'online':
+				$emailController->sendRequest('online', $requestId, true);
+				break;
+			case 'request':
+				$emailController->sendRequest('request', $requestId, true);
+				break;
+			case 'admin':
+				$emailController->sendAdminNotification($requestId, true);
+				break;
+			case 'manager':
+				$emailController->sendManagerNotification($requestId, true);
+				break;
+			case 'branch':
+				$emailController->sendBranchNotification($requestId, true);
+				break;
+			case 'findTour':
+				$emailController->sendFindTour((object) ['name'=>'test', 'from'=>'asd'], true);
+				break;
+			case 'tourHelp':
+				$emailController->sendTourHelp('phone', (object) ['name'=>'test', 'from'=>'asd'], true);
+				break;
+			case 'password':
+				$emailController->sendPassword('test@test.com', 'asd', true);
+				break;
+			case 'payment':
+				$emailController->sendManagerPaymentNotification(Payments::findFirstById(50), true);
+				break;
+			default:
+				break;
+		}
+
+	}
 
 	
 }

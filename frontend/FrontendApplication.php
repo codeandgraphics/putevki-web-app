@@ -233,12 +233,9 @@ class FrontendApplication extends Application
 					'compiledSeparator' => '_'
 				));
 				$compiler = $volt->getCompiler();
-				$compiler->addFunction('images_url', function($resolvedParams) {
-					return "\Phalcon\Di::getDefault()->get('imagesUrl')->get(" . $resolvedParams . ')';
-				});
-				$compiler->addFilter('phone', function($resolvedArgs) {
-					return "\Utils\Text::cleanPhone(" . $resolvedArgs . ')';
-				});
+
+				\Utils\Common::addCompilerActions($compiler);
+
 				return $volt;
 			}));
 			return $view;
@@ -251,7 +248,18 @@ class FrontendApplication extends Application
 
 			$view = new Phalcon\Mvc\View\Simple();
 			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
-			$view->registerEngines(array('.volt' => 'Phalcon\Mvc\View\Engine\Volt'));
+			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
+				$volt = new View\Engine\Volt($view, $di);
+				$volt->setOptions(array(
+					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
+					'compiledSeparator' => '_'
+				));
+				$compiler = $volt->getCompiler();
+
+				\Utils\Common::addCompilerActions($compiler);
+
+				return $volt;
+			}));
 			return $view;
 		});
 	}

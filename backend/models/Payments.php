@@ -13,9 +13,10 @@ class Payments extends BaseModel
 	public $sum;
 	public $payDate;
 	public $status;
-	public $approval_code;
-	public $bill_number;
-	public $auth_confirmed;
+	public $approvalCode;
+	public $billNumber;
+	public $authConfirmed;
+	public $totalPaid;
 	public $creationDate;
 
 	public function initialize()
@@ -59,5 +60,14 @@ class Payments extends BaseModel
 	public static function findFirst($parameters = null)
 	{
 		return parent::findFirst($parameters);
+	}
+
+	/**
+	 * @param null $parameters
+	 * @return Payments|Model
+	 */
+	public static function findFirstById($parameters = null)
+	{
+		return parent::findFirstById($parameters);
 	}
 }

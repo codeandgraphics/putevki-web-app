@@ -40,8 +40,41 @@ class EmailController extends ControllerBase
 			case 'password':
 				$this->sendPassword('test@test.com', 'asd', true);
 				break;
+			case 'payment':
+				$this->sendManagerPaymentNotification(Payments::findFirstById(50), true);
+				break;
 			default:
 				break;
+		}
+	}
+
+	public function sendPaymentNotification($email, $payment, $isTest = false) {
+
+		$body = $this->generate('paymentNotification', ['payment' => $payment]);
+
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($email, 'Информация о платеже', $body);
+		}
+	}
+
+	public function sendManagerPaymentNotification($payment, $isTest = false) {
+
+		$email = $this->config->defaults->paymentsEmail;
+
+		if($payment->request && $payment->request->manager) {
+			$email = $payment->request->manager->email;
+		}
+
+		$body = $this->generate('managerPaymentNotification', ['payment' => $payment]);
+
+		if($isTest) {
+			echo $body;
+		} else {
+			$mailgun = new Mailgun();
+			$mailgun->send($email, 'Информация о платеже', $body);
 		}
 	}
 
@@ -58,7 +91,7 @@ class EmailController extends ControllerBase
 			echo $body;
 		} else {
 			$mailgun = new Mailgun();
-			$mailgun->send($email, 'Регистрация в панели управления Путевки.ру', $body);
+			$mailgun->send($email, 'Регистрация в панели управления Путёвки.ру', $body);
 		}
 	}
 
@@ -266,7 +299,7 @@ class EmailController extends ControllerBase
 			echo $body;
 		} else {
 			$mailgun = new Mailgun();
-			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на подбор тура на Путевки.ру', $body);
+			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на подбор тура на Путёвки.ру', $body);
 		}
 	}
 
@@ -284,7 +317,7 @@ class EmailController extends ControllerBase
 			echo $body;
 		} else {
 			$mailgun = new Mailgun();
-			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на звонок на Путевки.ру', $body);
+			$mailgun->send($this->config->defaults->requestsEmail, 'Заявка на звонок на Путёвки.ру', $body);
 		}
 	}
 
@@ -294,7 +327,9 @@ class EmailController extends ControllerBase
 			'baseUrl' => $this->url->get(),
 			'adminUrl' => $this->backendUrl->get(),
 			'assetsUrl' => $this->url->getStatic(),
-			'year' => date('Y')
+			'year' => date('Y'),
+			'mainPhone' => $this->config->defaults->phone,
+			'mainPhoneLink' => $this->config->defaults->phoneLink
 		]);
 
 		$this->simpleView->setVars($params);

@@ -16,10 +16,12 @@
 'canceled'			: 'Отменен'
 ] %}
 
+{% set paymentOrder = payment.getOrder() %}
+
 <ol class="breadcrumb">
 	<li><a href="{{ backend_url('/') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li><a href="{{ backend_url('payments') }}">Все платежи</a></li>
-	<li class="active">Платеж {{ payment.getOrder() }}</li>
+	<li class="active">Платеж {{ paymentOrder }}</li>
 </ol>
 
 <div class="panel">
@@ -27,7 +29,8 @@
 		<div class="pull-right label text-lg label-{{ paymentClasses[payment.status] }}">
 			{{ paymentTexts[payment.status] }}
 		</div>
-		<h4 class="panel-title">Платеж {{ payment.getOrder() }}</h4>
+		<h4 class="panel-title">Платеж {{ paymentOrder }}</h4>
+		<a href="{{ backend_url('payments/payment/') }}{{ payment.id }}?update" class="btn btn-xs btn-success">Обновить данные платежа</a>
 	</div>
 	<div class="panel-body">
 		<div class="payment">
@@ -44,6 +47,13 @@
 				<div class="col-xs-3">Сумма</div>
 				<div class="col-xs-9">
 					<strong>{{ payment.sum }} руб.</strong>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3">Всего оплачено:</div>
+				<div class="col-xs-9">
+					<strong>{{ payment.totalPaid }} руб.</strong>
 				</div>
 			</div>
 
@@ -85,15 +95,15 @@
 
 			{% if payment.status is 'authorized' %}
 				<div class="well well-sm text-center" style="margin-top:20px;">
-					{% if payment.bill_number is null %}
+					{% if payment.billNumber is null %}
 						<p>
 							Этот платеж только что был авторизован. Вы должны запросить код подтверждения, чтобы после бронирования можно было подтвердить авторизацию платежа.
 						</p>
-						<a href="{{ backend_url('payments/payment/') }}{{ payment.id }}?getOrderCode" class="btn btn-warning">Получить код подтверждения</a>
+						<a href="{{ backend_url('payments/payment/') }}{{ payment.id }}?update" class="btn btn-warning">Получить код подтверждения</a>
 
-					{% elseif payment.auth_confirmed is false %}
+					{% elseif payment.authConfirmed is false %}
 						<p>
-							Код авторизации: {{ payment.approval_code }}, номер заказа Uniteller: {{ payment.bill_number }}.<br/>
+							Код авторизации: <strong>{{ payment.approvalCode }}</strong>, номер заказа Uniteller: <strong>{{ payment.billNumber }}</strong>.<br/>
 							После подтверждения авторизации платежа деньги спишутся с карты клиента в конце операционного дня
 						</p>
 						<a href="{{ backend_url('payments/payment/') }}{{ payment.id }}?confirmPayment" class="btn btn-success">
