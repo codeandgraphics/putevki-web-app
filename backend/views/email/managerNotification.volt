@@ -78,7 +78,7 @@
 						<tr>
 							<td style="-webkit-font-smoothing:subpixel-antialiased;padding-bottom:10px">
 								<div class="h1" style="-webkit-font-smoothing:subpixel-antialiased;color:#333;font-family:helvetica,arial;font-size:24px;line-height:30px;text-align:left">
-									Добрый день, {{ tour.manager.name }}!
+									Добрый день!
 								</div>
 								<p style="-webkit-font-smoothing:subpixel-antialiased;Margin:1em 0;color:#333;font-family:helvetica,arial;font-size:14px;line-height:20px;text-align:left">Пришел новый заказ тура на Путевки.ру, и мы отправляем вам подробности заказа:</p>
 								<table bgcolor="#F4F4F4" cellpadding="10" style="border-collapse:collapse" width="100%">

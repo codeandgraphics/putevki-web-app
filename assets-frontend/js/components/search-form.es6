@@ -303,7 +303,7 @@ export default class SearchForm {
 
           if (
             cellType === 'day' &&
-            (currentDate.isSameOrAfter(minDate) && currentDate.isBefore(maxDate)) &&
+            (currentDate.isSameOrAfter(minDate) && currentDate.isSameOrBefore(maxDate)) &&
             (currentDate.isSameOrAfter(startDate) && currentDate.isSameOrBefore(endDate))
           ) {
             return {
@@ -344,10 +344,13 @@ export default class SearchForm {
       datepicker.selectDate(datepicker.selectedDates[0]);
     });
 
-    const selectedDate = moment(dateFrom);
+    let selectedDate = moment(dateFrom).add(this.range, 'days');
 
-    // TODO: add datepicker range
-    datepicker.selectDate(selectedDate.add(this.range, 'days').toDate());
+    if (selectedDate.diff(minDate, 'days') < 0) {
+      selectedDate = minDate;
+    }
+
+    datepicker.selectDate(selectedDate.toDate());
   }
 
   nightsActions() {

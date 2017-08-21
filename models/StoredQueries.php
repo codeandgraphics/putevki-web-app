@@ -154,7 +154,7 @@ class StoredQueries extends BaseModel {
 			->innerJoin(Countries::name(), 'country.id = query.whereCountry', 'country')
 			->where('country.active = 1')
 			->andWhere('query.date > :date:')
-			->groupBy('region.id')
+			->groupBy('country.id')
 			->orderBy('COUNT(query.id) DESC')
 			->limit($limit)
 			->getQuery()
