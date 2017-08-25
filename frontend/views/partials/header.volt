@@ -15,7 +15,13 @@
 						<a href="{{ url('blog') }}">Блог</a>
 					</li>
 					<li>
-						<a href="{{ url('app') }}" target="_blank">Приложение "Путёвки.ру"</a>
+						<a href="{{ url('app') }}" target="_blank">Приложение</a>
+					</li>
+					<li>
+						<a href="{{ url('about') }}">О нас</a>
+					</li>
+					<li>
+						<a href="{{ url('contacts') }}">Контакты</a>
 					</li>
 				</ul>
 			</div>

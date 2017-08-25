@@ -66,7 +66,7 @@
 	<section class="block map">
 		<div class="container header">
 			<h2 style="text-align: center;">
-				Наши представительства<br/><small>Более 30 филиалов по всей стране</small>
+				Вылеты из {{ cities|length }} городов<br/><small>Мы отправляем туристов по всей России</small>
 			</h2>
 		</div>
 
@@ -78,12 +78,6 @@
 
 		<div id="mainMap"></div>
 
-		<div class="content">
-			<div class="container">
-				<ul id="mapCities" class="list-unstyled list-inline">
-				</ul>
-			</div>
-		</div>
 	</section>
 
 	<section class="block benefits" id="benefits">

@@ -31,23 +31,12 @@
 				</div>
 			</a>
 		</li>
-		<li class="variant">
-			<a href="#buy-office">
-				<div class="icon">
-					<i class="ion-location"></i>
-				</div>
-				<div class="data">
-					<span>Купить в офисе</span>
-					<small>За наличные</small>
-				</div>
-			</a>
-		</li>
 	</ul>
 
 	<div class="tab-content">
 		<div class="tab-pane active" id="buy-online">
 
-			<form method="POST" id="online-form" data-toggle="validator" action="/ajax/formOnline">
+			<form method="POST" id="online-form" data-toggle="validator" action="{{ url('ajax/formOnline') }}">
 				<input type="hidden" name="flight" value="0" />
 
 				{{ partial('tour/partials/person', ['type': 'online']) }}
@@ -62,7 +51,7 @@
 					</div>
 					<div class="col-xs-7">
 						<div class="button-wrap">
-							<button type="submit" class="btn btn-primary btn-lg btn-block buy-online">
+							<button class="btn btn-primary btn-lg btn-block buy-online">
 								Купить путёвку
 							</button>
 
@@ -84,11 +73,11 @@
 			</form>
 		</div>
 		<div class="tab-pane" id="buy-request">
-			<form method="POST" id="request-form" data-toggle="validator" action="/ajax/formRequest">
+			<form method="POST" id="request-form" data-toggle="validator" action="{{ url('ajax/formRequest') }}">
 
 				{{ partial('tour/partials/person', ['type': 'request']) }}
 
-				<button type="submit" class="btn btn-primary btn-lg btn-block buy-request">
+				<button class="btn btn-primary btn-lg btn-block buy-request">
 					Отправить заявку
 				</button>
 
@@ -96,15 +85,6 @@
 					<p>Заявка на путёвку не является бронированием и не накладывает на Вас каких-либо обязательств.</p>
 					<p>Отправляя запрос, Вы подтверждаете согласие на обработку персональных данных.</p>
 				</div>
-
-			</form>
-		</div>
-		<div class="tab-pane" id="buy-office">
-			<form method="POST" id="office-form" data-toggle="validator" action="/ajax/formOffice">
-
-				{{ partial('tour/partials/person', ['type': 'office']) }}
-
-				{{ partial('tour/partials/buy-office') }}
 
 			</form>
 		</div>

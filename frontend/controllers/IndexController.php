@@ -6,12 +6,16 @@ use Backend\Controllers\EmailController;
 use Backend\Models\Payments;
 use Backend\Models\Requests;
 use Frontend\Models\Params;
+use Models\Blog\Posts;
+use Models\Countries;
+use Models\Regions;
 use Models\StoredQueries;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
 use Frontend\Models\SearchQueries;
 use Mobile_Detect;
 use Phalcon\Db;
+use Phalcon\Mvc\Model\Transaction\Failed;
 
 class IndexController extends BaseController
 {
@@ -132,6 +136,55 @@ class IndexController extends BaseController
 		$this->view->setVars([
 			'title' => 'Онлайн-оплата Uniteller',
 			'page' => 'uniteller'
+		]);
+	}
+
+	public function aboutAction() {
+		$this->view->setVars([
+			'title' => 'О нас –',
+			'page' => 'about'
+		]);
+	}
+
+	public function migrateAction() {
+		$this->view->disable();
+
+		/*$countries = Countries::find();
+
+			$tx = $this->transactionManager->get();
+
+			foreach ($countries as $country) {
+				$about = $country->about;
+				$country->setTransaction($tx);
+
+				$imgPos = stripos($about, 'src="image');
+				if ($imgPos !== false) {
+
+					$newAbout = str_ireplace('="images/July', '="//static.putevki.ru/images/blog/July', $about);
+					echo $about;
+					echo PHP_EOL . PHP_EOL;
+					echo $newAbout;
+					echo PHP_EOL . PHP_EOL;
+
+					$country->about = $newAbout;
+
+					/*if ($country->save() === false) {
+						$tx->rollback(
+							'Cannot save'
+						);
+					}
+				}
+			}
+		//$tx->commit();
+		} catch (Failed $e) {
+			echo 'Failed, reason: ', $e->getMessage();
+		}*/
+	}
+
+	public function contactsAction() {
+		$this->view->setVars([
+			'title' => 'Контакты –',
+			'page' => 'contacts'
 		]);
 	}
 

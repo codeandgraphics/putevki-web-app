@@ -25,7 +25,7 @@ export default class MainPage {
       map: $('.block.map'),
     };
 
-    this.hotCity = $('#searchForm').data('departure');
+    this.hotCity = $('#searchForm').data('from');
     this.hotUrl = this.$.hot.data('url');
   }
 

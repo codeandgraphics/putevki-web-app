@@ -28,10 +28,31 @@ $router->add(
 	]
 );
 $router->add(
+	'/about',
+	[
+		'controller' => 'index',
+		'action' => 'about',
+	]
+);
+$router->add(
+	'/contacts',
+	[
+		'controller' => 'index',
+		'action' => 'contacts',
+	]
+);
+$router->add(
 	'/app',
 	[
 		'controller' => 'index',
 		'action' => 'app',
+	]
+);
+$router->add(
+	'/migrate',
+	[
+		'controller' => 'index',
+		'action' => 'migrate',
 	]
 );
 $router->add(

@@ -14,6 +14,7 @@
 				</ol>
 				<div class="content">
 					{{ post.content }}
+					<div class="clearfix"></div>
 				</div>
 			</div>
 		</section>
