@@ -161,35 +161,48 @@ class AjaxController extends BaseController
 
 	public function destinationsAction()
 	{
-		$response = new Response();
+        $response = new Response();
+        $builder = $this->modelsManager->createBuilder()
+            ->columns([
+                'country.*',
+                'region.*'
+            ])
+            ->addFrom(Tourvisor\Countries::name(), 'country')
+            ->join(Tourvisor\Regions::name(), 'region.countryId = country.id', 'region')
+            ->where('country.active = 1');
 
-		$items = Tourvisor\Countries::find('active = 1');
+        $items = $builder->getQuery()->execute();
 
-		$countries = [];
-		foreach ($items as $item) {
-		    $country = new Entities\Country(null, $item);
-		    unset($country->regions);
-			$countries[] = $country;
-		}
+        $countries = [];
+        $regions = [];
 
-		$dbRegions = $this->db->fetchAll('
-			SELECT r.name, r.id, r.countryId, c.name AS country_name FROM tourvisor_regions AS r
-			INNER JOIN tourvisor_countries AS c ON c.active = 1 AND c.id = r.countryId;
-		', Db::FETCH_OBJ);
+        foreach ($items as $item) {
+            if(!array_key_exists($item->country->id, $countries)) {
+                $country = new Entities\Country(null, $item->country);
+                unset($country->regions, $country->popular, $country->visa);
+                $countries[$country->id] = $country;
+            }
 
-		$regions = [];
-		foreach ($dbRegions as $item) {
-			$region = new \stdClass();
-			$region->id = (int) $item->id;
-			$region->name = $item->name;
-			$region->country = (int) $item->countryId;
-			$region->countryName = $item->country_name;
-			$regions[] = $region;
-		}
+            $region = new \stdClass();
+            $region->id = (int) $item->region->id;
+            $region->name = $item->region->name;
+            $region->country = (int) $item->country->id;
+            $region->countryName = $item->country->name;
+            $regions[] = $region;
+        }
+
+        $departuresToCountries = [];
+
+        $depItems = Tourvisor\DeparturesToCountries::find();
+
+        foreach ($depItems as $depItem) {
+            $departuresToCountries[(int) $depItem->departureId][] = (int) $depItem->countryId;
+        }
 
 		$response->setJsonContent([
-			'countries' => $countries,
-			'regions' => $regions
+			'countries' => array_values($countries),
+			'regions' => $regions,
+            'departuresToCountries' => $departuresToCountries
 		]);
 
 		$response->setHeader('Content-Type', 'application/json; charset=UTF-8');

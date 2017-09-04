@@ -64,6 +64,8 @@ class TourvisorTask extends Task
 		$manager = $this->di->get('transactions');
 		$transaction = $manager->get();
 
+		$countries = [];
+
 		foreach ($items as $item) {
 			$tourvisorCountry = new Tourvisor\Countries();
 			$tourvisorCountry->setTransaction($transaction);
@@ -76,13 +78,44 @@ class TourvisorTask extends Task
 			$country->active = 0;
 			$country->create();
 
-			$enabledCountries[] = $tourvisorCountry->name;
+			$countries[] = $country;
 		}
 
 		$transaction->commit();
 
+		$this->departureToCountries($countries);
+
 		echo PHP_EOL . 'Countries count: ' . count($items) . PHP_EOL;
 	}
+
+	public function departureToCountriesAction() {
+	    $departures = Tourvisor\Departures::find();
+
+        $manager = $this->di->get('transactions');
+        $transaction = $manager->get();
+
+        foreach ($departures as $departure) {
+            $params = array(
+                'type' => 'country',
+                'cndep' => $departure->id
+            );
+
+            $items = TourvisorUtils::getMethod('list', $params)->lists->countries->country;
+
+            if(sizeof($items) > 0) {
+                foreach ($items as $item) {
+                    $depToCountry = new Tourvisor\DeparturesToCountries();
+                    $depToCountry->departureId = (int) $departure->id;
+                    $depToCountry->countryId = (int) $item->id;
+
+                    $depToCountry->setTransaction($transaction);
+                    $depToCountry->save();
+                }
+            }
+        }
+
+        $transaction->commit();
+    }
 
 	public function regionsAction()
 	{
