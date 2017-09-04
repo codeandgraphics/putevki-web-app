@@ -15,22 +15,6 @@
 					{{ country.about }}
 				</div>
 
-				<div class="block" id="hotCountry"
-					 data-country="{{ country.tourvisor.id }}"
-					 data-departure="{{ city.flight_city }}"
-					 data-url="{{ url('ajax/hotTours') }}"
-				>
-					<h2>Горящие предложения</h2>
-					<div class="loader">
-						<div class="wrap">
-							<div class="object">
-							</div>
-							Загружаем...
-						</div>
-					</div>
-					{{ partial('partials/hot') }}
-				</div>
-
 				<div class="countryDepartures">
 					<h2>Популярные города вылета</h2>
 					<div class="row">

@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-xs-3 text-center putevki">
 				<a href="{{ url() }}" class="putevki-logo"></a>
-				Интернет-магазин туров<br/>
+				Интернет-магазин путёвок<br/>
 				2000-<?= date('Y'); ?> &copy; <a href="{{ url() }}">putevki.ru</a>
 			</div>
 			<div class="col-xs-6 text-center">
