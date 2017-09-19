@@ -24,8 +24,8 @@ $current->action = $this->dispatcher->getActionName();
 	<link href="{{ static_url('static/admin/css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ static_url('static/admin/css/bootstrap-editable.css') }}" rel="stylesheet"/>
 	<link href="{{ static_url('static/admin/css/animate.css') }}" rel="stylesheet">
-	<link href="{{ static_url('static/admin/css/quill.snow.css') }}" rel="stylesheet">
 	<link href="{{ static_url('static/admin/css/style.css') }}" rel="stylesheet">
+	<link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
 	<script src="{{ static_url('static/admin/js/jquery.min.js?1.11.3') }}"></script>
 
@@ -72,5 +72,6 @@ $current->action = $this->dispatcher->getActionName();
 <script src="{{ static_url('static/admin/js/jquery-ui.min.js') }}"></script>
 <script src="{{ static_url('static/admin/js/libs.js') }}"></script>
 <script src="{{ static_url('static/admin/js/script.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.min.js"></script>
 
 </html>
