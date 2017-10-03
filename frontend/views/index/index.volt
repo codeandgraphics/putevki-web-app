@@ -122,10 +122,16 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
-						<i class="ion-thumbsup"></i> Поиск туров от лучших туроператоров
+						<i class="ion-thumbsup"></i>
+						<a href="{{ url('best-tours') }}" target="_blank">
+							Поиск туров от лучших туроператоров
+						</a>
 					</div>
 					<div class="col-xs-6">
-						<i class="ion-heart"></i> Персональный подход к каждому клиенту
+						<i class="ion-heart"></i>
+						<a href="{{ url('personal') }}" target="_blank">
+							Персональный подход к каждому клиенту
+						</a>
 					</div>
 				</div>
 			</div>

@@ -63,6 +63,20 @@ $router->add(
 	]
 );
 $router->add(
+    '/best-tours',
+    [
+        'controller' => 'index',
+        'action' => 'bestTours',
+    ]
+);
+$router->add(
+    '/personal',
+    [
+        'controller' => 'index',
+        'action' => 'personal',
+    ]
+);
+$router->add(
 	'/tour/{id}',
 	[
 		'controller' => 'tour',

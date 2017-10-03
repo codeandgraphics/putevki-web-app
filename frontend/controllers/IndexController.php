@@ -139,6 +139,22 @@ class IndexController extends BaseController
 		]);
 	}
 
+    public function bestToursAction()
+    {
+        $this->view->setVars([
+            'title' => 'Поиск туров от лучших туроператоров',
+            'page' => 'best-tours'
+        ]);
+    }
+
+    public function personalAction()
+    {
+        $this->view->setVars([
+            'title' => 'Персональный подход к каждому клиенту и гарантия лучшей цены',
+            'page' => 'personal'
+        ]);
+    }
+
 	public function aboutAction() {
 		$this->view->setVars([
 			'title' => 'О нас –',
