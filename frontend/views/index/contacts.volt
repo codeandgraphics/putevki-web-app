@@ -55,6 +55,7 @@
 							<h2>Адрес в&nbsp;Дмитрове</h2>
 							<br/>
 							<iframe src="https://yandex.ru/map-widget/v1/-/CBUZY8qcpA" width="100%" height="300" frameborder="0"></iframe>
+							<h4>Офис Sunmar Dmitrov</h4>
 							<p>Дмитров, ул. Профессиональная&nbsp;3, этаж&nbsp;2, офис 206</p>
 							<h3>График работы офиса:</h3>
 							<p>

@@ -58,7 +58,7 @@
 						Ищем самые горячие туры...
 					</div>
 				</div>
-				{{ partial('partials/hot') }}
+                {{ partial('partials/hot') }}
 			</div>
 		</div>
 	</section>
@@ -95,22 +95,23 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<i class="ion-compass"></i>
-						<a href="{{ url('about') }}" target="_blank">
-							Более <?=$interval->format('%y');?> лет на рынке туристических услуг
-						</a>
+						<a href="{{ url('about') }}" target="_blank" class="internal">
+							<span>Более <?=$interval->format('%y');?> лет</span>
+						</a> на рынке туристических услуг
 					</div>
 					<div class="col-xs-6">
 						<i class="ion-iphone" style="padding-left: 10px"></i>
+						Удобное
 						<a href="#" id="mobile-promo-link" class="internal">
-							<span>Удобное мобильное приложение</span>
+							<span>мобильное приложение</span>
 						</a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
 						<i class="ion-card"></i>
-						<a href="{{ url('uniteller') }}" target="_blank">
-							Онлайн-оплата и бронирование
+						<a href="{{ url('uniteller') }}" target="_blank" class="internal">
+							<span>Онлайн-оплата и бронирование</span>
 						</a>
 					</div>
 					<div class="col-xs-6">
@@ -123,15 +124,16 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<i class="ion-thumbsup"></i>
-						<a href="{{ url('best-tours') }}" target="_blank">
-							Поиск туров от лучших туроператоров
+						Поиск туров
+						<a href="{{ url('best-tours') }}" target="_blank" class="internal">
+							<span>от лучших туроператоров</span>
 						</a>
 					</div>
 					<div class="col-xs-6">
 						<i class="ion-heart"></i>
-						<a href="{{ url('personal') }}" target="_blank">
-							Персональный подход к каждому клиенту
-						</a>
+						<a href="{{ url('personal') }}" target="_blank" class="internal">
+							<span>Персональный подход</span>
+						</a> к каждому клиенту
 					</div>
 				</div>
 			</div>
