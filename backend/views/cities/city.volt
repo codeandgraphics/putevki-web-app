@@ -74,6 +74,11 @@
 						<span class="help-block">Основной телефон, используемый на сайте</span>
 					</div>
 
+					<div class="form-group">
+						<label for="popular_countries[]">Популярные страны</label>
+                        {{ form.render('popular_countries[]', ["class":"form-control select2"]) }}
+					</div>
+
 				</div>
 				<div class="col-xs-6">
 
@@ -143,6 +148,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+
+        $('.select2').select2();
+
 		ymaps.ready(init);
 		var myMap;
 

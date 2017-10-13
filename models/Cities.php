@@ -25,6 +25,7 @@ class Cities extends BaseModel
 	public $phone = 0;
 	public $main = 0;
 	public $active = 1;
+	public $popular_countries;
 	public $meta_description;
 	public $meta_keywords;
 	public $meta_text;
@@ -35,6 +36,14 @@ class Cities extends BaseModel
 			'alias' => 'departure'
 		]);
 	}
+
+	public function afterFetch() {
+        $this->popular_countries = explode(',', $this->popular_countries);
+    }
+
+	public function beforeSave() {
+	    $this->popular_countries = implode(',', $this->popular_countries);
+    }
 
 	public function beforeValidation()
 	{

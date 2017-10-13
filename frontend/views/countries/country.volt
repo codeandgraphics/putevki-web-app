@@ -20,7 +20,7 @@
 					<div class="row">
 						{% for departure in popularDepartures %}
 							<div class="col-xs-6">
-								<a href="{{ url('search') }}/{{ country.tourvisor.name }}/{{ departure.name }}">
+								<a href="{{ url('search') }}/{{ departure.name }}/{{ country.tourvisor.name }}">
 									{{ country.title }} из {{ departure.name_from }}
 								</a>
 							</div>

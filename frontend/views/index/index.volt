@@ -143,8 +143,7 @@
 	<section class="block about" id="about">
 		<div class="container header">
 			<h2 style="text-align: center;">
-				Поиск туров по всем туроператорам<br/>
-				<small>Купить путёвку онлайн</small>
+				Поиск туров по всем туроператорам
 			</h2>
 		</div>
 

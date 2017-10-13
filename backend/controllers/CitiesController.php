@@ -2,6 +2,7 @@
 
 namespace Backend\Controllers;
 
+use Models\Countries;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
@@ -35,6 +36,27 @@ class CitiesController extends ControllerBase
 			$formDepartures[$item->id] = $item->name;
 		}
 
+		$countries = Countries::find();
+
+		$formCountries = [];
+
+		foreach($countries as $country) {
+		    if($country->tourvisorId > 0) {
+                $formCountries[$country->tourvisorId] = $country->tourvisor->name;
+            }
+        }
+
+        $popCountries = $this->request->getPost('popular_countries');
+
+
+		if($popCountries) {
+            $city->popular_countries = $popCountries;
+        }
+
+		$countriesSelect = new Select('popular_countries[]', $formCountries, ['multiple' => true]);
+
+        $countriesSelect->setDefault($city->popular_countries);
+
 		$form->add(new Text('name'));
 		$form->add(new Text('name_gen'));
 		$form->add(new Text('uri'));
@@ -42,6 +64,7 @@ class CitiesController extends ControllerBase
 		$form->add(new Text('lon'));
 		$form->add(new Text('zoom'));
 		$form->add(new Select('flight_city', $formDepartures));
+        $form->add($countriesSelect);
 		$form->add(new Text('phone'));
 		$form->add(new Select('main', [0 => 'Выкл', 1 => 'Вкл']));
 		$form->add(new Select('active', [0 => 'Выкл', 1 => 'Вкл']));
@@ -51,6 +74,7 @@ class CitiesController extends ControllerBase
 
 		if ($this->request->isPost()) {
 			$form->bind($_POST, $city);
+
 			if ($form->isValid()) {
 				$city->save();
 				$this->flashSession->success('Город успешно сохранен');
