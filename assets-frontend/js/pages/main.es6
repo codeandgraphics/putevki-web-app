@@ -10,7 +10,24 @@ import SearchForm from '../components/search-form.es6';
 export default class MainPage {
 
   constructor() {
-    this.map = new BranchesMap();
+    const { countries, cities } = global;
+
+    const countriesByIds = countries.reduce((result, country) => {
+          // eslint-disable-next-line no-param-reassign
+      result[country.tourvisor.id] = country.tourvisor;
+      return result;
+    }, {});
+
+    const citiesWithCountries = cities.map((city) => {
+      if (city.popular_countries) {
+        const ids = city.popular_countries.split(',');
+              // eslint-disable-next-line no-param-reassign
+        city.countries = ids.map(id => countriesByIds[id]);
+      }
+      return city;
+    });
+
+    this.map = new BranchesMap(citiesWithCountries);
     this.map.init();
 
     this.form = new SearchForm();

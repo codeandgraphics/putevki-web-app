@@ -31,6 +31,7 @@
       var route = '{{ page }}';
       var branches = {{ branches|json_encode }};
       var cities = {{ cities|json_encode }};
+      var countries = {{ countries|json_encode }};
       var currentCity = {{ city|json_encode }};
 	</script>
 

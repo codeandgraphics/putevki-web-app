@@ -1,14 +1,25 @@
 import $ from 'jquery';
 import pin from '../../img/pin.png';
 
+const buildHref = (city, country) => ` <a href="/search/${city.name}/${country.name}" target="_blank">${country.name}</a>`;
+
+const renderBaloonBody = (city) => {
+  if (city.countries) {
+    return `Страны вылета: <br/>${city.countries.map(country => buildHref(city, country))}`;
+  }
+  return '';
+};
+
 export default class BranchesMap {
 
-  constructor() {
+  constructor(citiesWithCountries) {
     this.map = null;
     this.ymaps = global.ymaps;
 
     this.city = global.currentCity;
     this.branches = global.branches;
+
+    this.cities = citiesWithCountries;
   }
 
   init() {
@@ -23,17 +34,17 @@ export default class BranchesMap {
     });
 
     this.map.behaviors.disable('scrollZoom');
-    this.map.behaviors.disable('drag');
 
     this.addCities();
   }
 
   addCities() {
-    global.cities.forEach((city) => {
+    this.cities.forEach((city) => {
       this.map.geoObjects.add(
         new global.ymaps.Placemark([parseFloat(city.lat), parseFloat(city.lon)], {
           balloonContentHeader: `Путёвки из ${city.name_rod}`,
-          hintContent: city.name,
+          balloonContentBody: renderBaloonBody(city),
+          hintContent: `${city.name}`,
         }, {
           iconLayout: 'default#image',
           iconImageHref: pin,
