@@ -1,10 +1,13 @@
 import $ from 'jquery';
 import pin from '../../img/pin.png';
 
-const buildHref = (city, country) => ` <a href="/search/${city.name}/${country.name}" target="_blank">${country.name}</a>`;
+const buildHref = (city, country) => {
+  if (!country) return '';
+  return ` <a href="/search/${city.name}/${country.name}" target="_blank">${country.name}</a>`;
+};
 
 const renderBaloonBody = (city) => {
-  if (city.countries) {
+  if (city.countries && city.name) {
     return `Страны вылета: <br/>${city.countries.map(country => buildHref(city, country))}`;
   }
   return '';
