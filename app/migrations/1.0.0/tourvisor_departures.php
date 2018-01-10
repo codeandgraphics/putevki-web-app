@@ -38,9 +38,10 @@ class TourvisorDeparturesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'name_from',
+                        'nameFrom',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
                             'after' => 'name'
@@ -53,7 +54,7 @@ class TourvisorDeparturesMigration_100 extends Migration
                             'default' => "0",
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'name_from'
+                            'after' => 'nameFrom'
                         ]
                     )
                 ],

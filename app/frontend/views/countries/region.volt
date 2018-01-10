@@ -28,7 +28,7 @@
 					<div class="block" id="hotRegion"
 						 data-region="{{ region.tourvisor.id }}"
 						 data-country="{{ country.tourvisor.id }}"
-						 data-departure="{{ city.flight_city }}"
+						 data-departure="{{ city.flightCity }}"
 						 data-url="{{ url('ajax/hotTours') }}"
 					>
 						<div class="loader">

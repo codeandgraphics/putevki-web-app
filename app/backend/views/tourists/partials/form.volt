@@ -6,14 +6,14 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="passport_name">Имя в загранпаспорте</label>
-					{{ form.render('passport_name', ['class': 'form-control']) }}
+					<label for="passportName">Имя в загранпаспорте</label>
+					{{ form.render('passportName', ['class': 'form-control']) }}
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="passport_surname">Фамилия в загранпаспорте</label>
-					{{ form.render('passport_surname', ['class': 'form-control']) }}
+					<label for="passportSurname">Фамилия в загранпаспорте</label>
+					{{ form.render('passportSurname', ['class': 'form-control']) }}
 				</div>
 			</div>
 
@@ -22,15 +22,15 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="passport_number">Серия и номер паспорта</label>
-					{{ form.render('passport_number', ['class': 'form-control']) }}
+					<label for="passportNumber">Серия и номер паспорта</label>
+					{{ form.render('passportNumber', ['class': 'form-control']) }}
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="passport_endDate">Годен до</label>
+					<label for="passportEndDate">Годен до</label>
 					<div class="input-group">
-						{{ form.render('passport_endDate', ['class': 'form-control']) }}
+						{{ form.render('passportEndDate', ['class': 'form-control']) }}
 						<span class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</span>
@@ -53,8 +53,8 @@
 		<div class="row">
 			<div class="col-sm-8">
 				<div class="form-group">
-					<label for="passport_issued">Кем выдан</label>
-					{{ form.render('passport_issued', ['class': 'form-control']) }}
+					<label for="passportIssued">Кем выдан</label>
+					{{ form.render('passportIssued', ['class': 'form-control']) }}
 				</div>
 			</div>
 			<div class="col-sm-4">

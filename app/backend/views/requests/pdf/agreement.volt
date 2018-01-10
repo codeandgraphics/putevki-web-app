@@ -694,7 +694,7 @@
 					Подтверждаю наличие у меня права заключить настоящий Договор также в
 					интересах следующих лиц:<br/>
 					{% for tourist in req.tourists %}
-					{{ tourist.tourist.passport_surname }} {{ tourist.tourist.passport_name }}<br/>
+					{{ tourist.tourist.passportSurname }} {{ tourist.tourist.passportName }}<br/>
 					{% endfor %}
 				</p>
 			</li>

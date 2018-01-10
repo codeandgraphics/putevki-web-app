@@ -11,7 +11,7 @@ class Departures extends BaseModel implements ITourvisorEntity
 
 	public $id;
 	public $name;
-	public $name_from;
+	public $nameFrom;
 
 	public function initialize()
 	{
@@ -22,7 +22,7 @@ class Departures extends BaseModel implements ITourvisorEntity
 	{
 		$this->id = $item->id;
 		$this->name = $item->name;
-		$this->name_from = $item->namefrom;
+		$this->nameFrom = $item->namefrom;
 	}
 
 	public function format()
@@ -31,7 +31,7 @@ class Departures extends BaseModel implements ITourvisorEntity
 
 		$departure->id = $this->id;
 		$departure->name = $this->name;
-		$departure->name_from = $this->name_from;
+		$departure->nameFrom = $this->nameFrom;
 
 		return $departure;
 	}

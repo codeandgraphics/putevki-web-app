@@ -16,11 +16,11 @@ class Morpher
 
 		$result = new \stdClass();
 
-		$result->name_rod = $cases['Р'];
-		$result->name_dat = $cases['Д'];
-		$result->name_vin = $cases['В'];
-		$result->name_tvo = $cases['Т'];
-		$result->name_pre = $cases['П'];
+		$result->nameRod = $cases['Р'];
+		$result->nameDat = $cases['Д'];
+		$result->nameVin = $cases['В'];
+		$result->nameTvo = $cases['Т'];
+		$result->namePre = $cases['П'];
 
 		return $result;
 	}

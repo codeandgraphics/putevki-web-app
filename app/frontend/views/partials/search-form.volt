@@ -80,7 +80,7 @@
 			</div>
 			<div class="from input dropdown">
 				<span class="from-text range"{% if departure.id == 99 %} style="display:none;"{% endif %}>из</span>
-				<div class="value">{{ departure.name_from }}</div>
+				<div class="value">{{ departure.nameFrom }}</div>
 				<select title="Откуда?">
 					<optgroup label="Популярные">
 						<option value="1" data-gen="Москвы">из Москвы</option>
@@ -89,7 +89,7 @@
 					</optgroup>
 					<optgroup label="Все">
                         {% for item in departures %}
-							<option value="{{ item.id }}" data-gen="{{ item.name_from }}">из {{ item.name_from }}</option>
+							<option value="{{ item.id }}" data-gen="{{ item.nameFrom }}">из {{ item.nameFrom }}</option>
                         {% endfor %}
 					</optgroup>
 				</select>

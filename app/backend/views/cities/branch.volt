@@ -7,7 +7,7 @@
 
 <div class="panel">
 	<div class="panel-heading">
-		<h4 class="panel-title">Редактирование филиала {{ branch.name }} в {{ city.name_pre }}</h4>
+		<h4 class="panel-title">Редактирование филиала {{ branch.name }} в {{ city.namePre }}</h4>
 		<p>...</p>
 	</div>
 	<div class="panel-body">
@@ -100,18 +100,18 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_keywords">Ключевые слова (meta keywords)</label>
-						{{ form.render('meta_keywords', ["class":"form-control"]) }}
+						<label for="metaKeywords">Ключевые слова (meta keywords)</label>
+						{{ form.render('metaKeywords', ["class":"form-control"]) }}
 					</div>
 					<div class="form-group">
-						<label for="meta_description">Описание (meta description)</label>
-						{{ form.render('meta_description', ["class":"form-control"]) }}
+						<label for="metaDescription">Описание (meta description)</label>
+						{{ form.render('metaDescription', ["class":"form-control"]) }}
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_text">Текст</label>
-						{{ form.render('meta_text', ["class":"form-control"]) }}
+						<label for="metaText">Текст</label>
+						{{ form.render('metaText', ["class":"form-control"]) }}
 					</div>
 				</div>
 			</div>

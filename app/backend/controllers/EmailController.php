@@ -183,7 +183,7 @@ class EmailController extends ControllerBase
 			return false;
 		}
 
-		if ($request->branch_id) {
+		if ($request->branchId) {
 			$manager = $request->branch->manager;
 
 			$tour = new \stdClass();
@@ -199,7 +199,7 @@ class EmailController extends ControllerBase
 			$tour->meal = Utils\Text::humanize('meal', $hotel->meal);
 
 			$tour->departure = $request->departure->name;
-			$tour->departureFrom = $request->departure->name_from;
+			$tour->departureFrom = $request->departure->nameFrom;
 
 			$tour->price = $request->price;
 			$tour->manager = $manager;
@@ -244,7 +244,7 @@ class EmailController extends ControllerBase
 
 		$tour->requestId = $request->id;
 		$tour->departure = $request->departure->name;
-		$tour->departureFrom = $request->departure->name_from;
+		$tour->departureFrom = $request->departure->nameFrom;
 		$tour->price = $request->price;
 
 		$tour->agreementLink = $this->url->get('tour/agreement/' . $request->id);

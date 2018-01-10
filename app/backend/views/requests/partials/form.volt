@@ -136,8 +136,8 @@
 				</div>
 				{% if user.role is 'Admin' %}
 				<div class="form-group">
-					<label for="branch_id">Филиал</label>
-					{{ form.render('branch_id', ['class': 'form-control']) }}
+					<label for="branchId">Филиал</label>
+					{{ form.render('branchId', ['class': 'form-control']) }}
 				</div>
 				{% endif %}
 			</div>

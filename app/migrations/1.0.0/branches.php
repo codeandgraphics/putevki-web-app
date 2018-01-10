@@ -143,7 +143,7 @@ class BranchesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'meta_description',
+                        'metaDescription',
                         [
                             'type' => Column::TYPE_TEXT,
                             'size' => 1,
@@ -151,27 +151,27 @@ class BranchesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'meta_keywords',
+                        'metaKeywords',
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
-                            'after' => 'meta_description'
+                            'after' => 'metaDescription'
                         ]
                     ),
                     new Column(
-                        'meta_text',
+                        'metaText',
                         [
                             'type' => Column::TYPE_TEXT,
                             'size' => 1,
-                            'after' => 'meta_keywords'
+                            'after' => 'metaKeywords'
                         ]
                     ),
                     new Column(
-                        'manager_id',
+                        'managerId',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'size' => 11,
-                            'after' => 'meta_text'
+                            'after' => 'metaText'
                         ]
                     ),
                     new Column(
@@ -179,7 +179,7 @@ class BranchesMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
-                            'after' => 'manager_id'
+                            'after' => 'managerId'
                         ]
                     )
                 ],

@@ -76,11 +76,11 @@ class AjaxController extends BaseController
 		foreach ($form->tourists as $i => $formTourist) {
 			$tourist = new \stdClass();
 
-			$tourist->passport_name = $formTourist->firstname;
-			$tourist->passport_surname = $formTourist->lastname;
-			$tourist->passport_number = $formTourist->passport;
-			$tourist->passport_endDate = $formTourist->end_date;
-			$tourist->passport_issued = $formTourist->issue;
+			$tourist->passportName = $formTourist->firstname;
+			$tourist->passportSurname = $formTourist->lastname;
+			$tourist->passportNumber = $formTourist->passport;
+			$tourist->passportEndDate = $formTourist->end_date;
+			$tourist->passportIssued = $formTourist->issue;
 			$tourist->birthDate = $formTourist->birth;
 			$tourist->gender = ($formTourist->gender === 'man') ? 'm' : 'f';
 			$tourist->visa = (property_exists($formTourist, 'visa') && $formTourist->visa === 'on') ? 1 : 0;
@@ -92,7 +92,7 @@ class AjaxController extends BaseController
 		}
 
 		if ($type === 'office') {
-			$request->branch_id = (int)$form->branch;
+			$request->branchId = (int)$form->branch;
 		}
 
 		if ($request->save()) {

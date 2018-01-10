@@ -30,7 +30,7 @@ class BlogPostsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'created_by',
+                        'createdBy',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'notNull' => true,
@@ -43,7 +43,7 @@ class BlogPostsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
-                            'after' => 'created_by'
+                            'after' => 'createdBy'
                         ]
                     ),
                     new Column(

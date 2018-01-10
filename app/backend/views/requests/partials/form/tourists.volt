@@ -29,23 +29,23 @@
 						{% endif %}
 					</td>
 					<td>
-						<a href="#" class="editable" data-name="passport_surname" data-pk="{{ tourist.id }}">{{ tourist.passport_surname }}</a>
-						<a href="#" class="editable" data-name="passport_name" data-pk="{{ tourist.id }}">{{ tourist.passport_name }}</a>
+						<a href="#" class="editable" data-name="passportSurname" data-pk="{{ tourist.id }}">{{ tourist.passportSurname }}</a>
+						<a href="#" class="editable" data-name="passportName" data-pk="{{ tourist.id }}">{{ tourist.passportName }}</a>
 						<input type="hidden" name="tourists[]" value="{{ tourist.id }}" />
 					</td>
 					<td>
-						<a href="#" class="editable" data-name="passport_number" data-pk="{{ tourist.id }}">
-							{{ tourist.passport_number }}
+						<a href="#" class="editable" data-name="passportNumber" data-pk="{{ tourist.id }}">
+							{{ tourist.passportNumber }}
 						</a>
 					</td>
 					<td>
-						<a href="#" class="editable" data-name="passport_endDate" data-type="date" data-format="dd.mm.yyyy" data-pk="{{ tourist.id }}">
-							{{ tourist.passport_endDate }}
+						<a href="#" class="editable" data-name="passportEndDate" data-type="date" data-format="dd.mm.yyyy" data-pk="{{ tourist.id }}">
+							{{ tourist.passportEndDate }}
 						</a>
 					</td>
 					<td>
-						<a href="#" class="editable" data-name="passport_issued" data-pk="{{ tourist.id }}">
-							{{ tourist.passport_issued }}
+						<a href="#" class="editable" data-name="passportIssued" data-pk="{{ tourist.id }}">
+							{{ tourist.passportIssued }}
 						</a>
 					</td>
 					<td>

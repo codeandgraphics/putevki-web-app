@@ -128,7 +128,8 @@ class BackendApplication extends \Phalcon\Mvc\Application
 	protected function db()
 	{
 		$this->di->setShared('db', function () {
-			$config = $this->get('config');
+
+            $config = new Config(APP_PATH . 'config/db.ini');
 
 			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
 				'host' => $config->database->host,

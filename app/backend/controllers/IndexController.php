@@ -6,6 +6,7 @@ use Backend\Models\Requests;
 use Backend\Models\Payments;
 use Backend\Models\Tourists;
 use Models\Blog\Posts;
+use Models\Origin;
 use Utils;
 
 class IndexController extends ControllerBase
@@ -21,8 +22,8 @@ class IndexController extends ControllerBase
 		$lastDayQuery = 'creationDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
 		$lastDayPaymentsQuery = 'payDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
 
-		$webQuery = " AND origin = 'web'";
-		$mobileQuery =  " AND (origin = 'ios' OR origin = 'android' OR origin = 'mobile')";
+		$webQuery = " AND origin = '" . Origin::WEB . "'";
+		$mobileQuery =  " AND (origin = '" . Origin::MOBILE_IOS . "' OR origin = '" . Origin::MOBILE_ANDROID . "' OR origin = '" . Origin::MOBILE . "')";
 
 		//Заявки
 		$todayRequests = new \stdClass();
@@ -111,7 +112,7 @@ class IndexController extends ControllerBase
 
 		$items = $db->query('
 			SELECT post.*, user.nickname as author, user.id as authorId FROM dwdlu_easyblog_post AS post 
-			LEFT JOIN dwdlu_easyblog_users AS user ON user.id = post.created_by
+			LEFT JOIN dwdlu_easyblog_users AS user ON user.id = post.createdBy
 			WHERE post.published = 1
 			ORDER BY post.created DESC
 			LIMIT 1000

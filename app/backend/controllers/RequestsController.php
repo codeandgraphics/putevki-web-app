@@ -28,7 +28,7 @@ class RequestsController extends ControllerBase
 		];
 
 		if ($this->user->role === Users::ROLE_MANAGER) {
-			$query[] = 'branch_id = ' . $this->user->branch_id;
+			$query[] = 'branchId = ' . $this->user->branchId;
 		}
 
 		$requests = Requests::find($query);
@@ -100,7 +100,7 @@ class RequestsController extends ControllerBase
 
 			if ($form->isValid()) {
 				if ($this->user->role === Users::ROLE_MANAGER) {
-					$request->branch_id = $this->user->branch_id;
+					$request->branchId = $this->user->branchId;
 				}
 
 				if ($request->save()) {
@@ -137,7 +137,7 @@ class RequestsController extends ControllerBase
 			$branches = Branches::find('active = 1');
 			$this->view->setVar('branches', $branches);
 
-			$form->add(new Select('branch_id', $branches, ['using' => ['id', 'name']]));
+			$form->add(new Select('branchId', $branches, ['using' => ['id', 'name']]));
 		}
 
 		$this->view->setVars([
@@ -149,7 +149,7 @@ class RequestsController extends ControllerBase
 	public function editAction($requestId)
 	{
 		if ($this->user->role === Users::ROLE_MANAGER) {
-			$request = Requests::findFirst('id = ' . $requestId . ' AND branch_id = ' . $this->user->branch_id);
+			$request = Requests::findFirst('id = ' . $requestId . ' AND branchId = ' . $this->user->branchId);
 		} else {
 			$request = Requests::findFirst('id = ' . $requestId);
 		}
@@ -158,7 +158,7 @@ class RequestsController extends ControllerBase
 			return $this->error404();
 		}
 
-		$oldBranch = $request->branch_id;
+		$oldBranch = $request->branchId;
 
 		$form = new Form($request);
 
@@ -209,7 +209,7 @@ class RequestsController extends ControllerBase
 				$branches[$branch->id] = $branch->name . ' ' . $branch->city->name . ' (' . $branch->manager->name . ')';
 			}
 
-			$form->add(new Select('branch_id', $branches));
+			$form->add(new Select('branchId', $branches));
 		}
 
 		if ($this->request->isPost()) {
@@ -249,7 +249,7 @@ class RequestsController extends ControllerBase
 				$request->setHotel($this->request->getPost('_hotel'));
 
 				if ($request->save()) {
-					if ((int)$request->branch_id !== (int)$oldBranch) {
+					if ((int)$request->branchId !== (int)$oldBranch) {
 						$email = new EmailController();
 						$email->sendManagerNotification($request);
 					}

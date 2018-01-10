@@ -55,12 +55,12 @@ class IndexController extends BaseController
 		]);
 
 		$add = '';
-		if($this->city->name_rod !== $this->city->departure->name_from)
+		if($this->city->nameRod !== $this->city->departure->nameFrom)
 		{
-			$add = ' с вылетом из ' . $this->city->departure->name_from;
+			$add = ' с вылетом из ' . $this->city->departure->nameFrom;
 		}
 
-		$title = 'Путёвки из ' . $this->city->name_rod . $add . ' по лучшим ценам на ';
+		$title = 'Путёвки из ' . $this->city->nameRod . $add . ' по лучшим ценам на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
@@ -80,7 +80,7 @@ class IndexController extends BaseController
 	    $city = Cities::findFirstByUri($cityUri);
 	    if($city) {
             $params->city = (int) $city->id;
-            $params->search->from = (int) $city->flight_city;
+            $params->search->from = (int) $city->flightCity;
         }
         $params->store();
 

@@ -2,6 +2,7 @@
 
 namespace Backend\Models;
 
+use Models\Origin;
 use Models\BaseModel;
 use Models\Branches;
 use Models\Tourvisor\Departures;
@@ -14,14 +15,14 @@ class Requests extends BaseModel
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
 
-	const ORIGIN_WEB = 'web';
-	const ORIGIN_ANDROID = 'android';
-	const ORIGIN_IOS = 'ios';
-	const ORIGIN_MOBILE = 'mobile';
+	const ORIGIN_WEB = Origin::WEB;
+	const ORIGIN_ANDROID = Origin::MOBILE_ANDROID;
+	const ORIGIN_IOS = Origin::MOBILE_IOS;
+	const ORIGIN_MOBILE = Origin::MOBILE;
 
 	public $id;
 
-	public $manager_id;
+	public $managerId;
 
 	public $flightsTo;
 	public $flightsFrom;
@@ -42,7 +43,7 @@ class Requests extends BaseModel
 
 	public $comment;
 
-	public $branch_id;
+	public $branchId;
 
 	public $origin;
 
@@ -87,11 +88,11 @@ class Requests extends BaseModel
 			'alias' => 'status'
 		]);
 
-		$this->hasOne('manager_id', Users::name(), 'id', [
+		$this->hasOne('managerId', Users::name(), 'id', [
 			'alias' => 'manager'
 		]);
 
-		$this->hasOne('branch_id', Branches::name(), 'id', [
+		$this->hasOne('branchId', Branches::name(), 'id', [
 			'alias' => 'branch'
 		]);
 

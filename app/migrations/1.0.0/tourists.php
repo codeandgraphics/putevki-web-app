@@ -30,7 +30,7 @@ class TouristsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'manager_id',
+                        'managerId',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'size' => 11,
@@ -38,48 +38,51 @@ class TouristsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'passport_name',
+                        'passportName',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'manager_id'
+                            'after' => 'managerId'
                         ]
                     ),
                     new Column(
-                        'passport_surname',
+                        'passportSurname',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'passport_name'
+                            'after' => 'passportName'
                         ]
                     ),
                     new Column(
-                        'passport_number',
+                        'passportNumber',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 20,
-                            'after' => 'passport_surname'
+                            'after' => 'passportSurname'
                         ]
                     ),
                     new Column(
-                        'passport_endDate',
+                        'passportEndDate',
                         [
                             'type' => Column::TYPE_DATE,
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'passport_number'
+                            'after' => 'passportNumber'
                         ]
                     ),
                     new Column(
-                        'passport_issued',
+                        'passportIssued',
                         [
                             'type' => Column::TYPE_TEXT,
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'passport_endDate'
+                            'after' => 'passportEndDate'
                         ]
                     ),
                     new Column(
@@ -88,7 +91,7 @@ class TouristsMigration_100 extends Migration
                             'type' => Column::TYPE_DATE,
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'passport_issued'
+                            'after' => 'passportIssued'
                         ]
                     ),
                     new Column(

@@ -24,7 +24,7 @@ class BlogController extends ControllerBase
 			->addFrom(Posts::name(), 'post')
 			->leftJoin(
 				Bloggers::name(),
-				'post.created_by = author.id',
+				'post.createdBy = author.id',
 				'author')
 			->orderBy('post.created DESC');
 

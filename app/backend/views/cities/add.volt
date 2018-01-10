@@ -26,8 +26,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="flight_city">Город вылета</label>
-						{{ form.render('flight_city', ["class":"form-control"]) }}
+						<label for="flightCity">Город вылета</label>
+						{{ form.render('flightCity', ["class":"form-control"]) }}
 						<span class="help-block">Города из базы Tourvisor</span>
 					</div>
 
@@ -78,18 +78,18 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_keywords">Ключевые слова (meta keywords)</label>
-						{{ form.render('meta_keywords', ["class":"form-control"]) }}
+						<label for="metaKeywords">Ключевые слова (meta keywords)</label>
+						{{ form.render('metaKeywords', ["class":"form-control"]) }}
 					</div>
 					<div class="form-group">
-						<label for="meta_description">Описание (meta description)</label>
-						{{ form.render('meta_description', ["class":"form-control"]) }}
+						<label for="metaDescription">Описание (meta description)</label>
+						{{ form.render('metaDescription', ["class":"form-control"]) }}
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_text">Текст</label>
-						{{ form.render('meta_text', ["class":"form-control"]) }}
+						<label for="metaText">Текст</label>
+						{{ form.render('metaText', ["class":"form-control"]) }}
 					</div>
 				</div>
 			</div>

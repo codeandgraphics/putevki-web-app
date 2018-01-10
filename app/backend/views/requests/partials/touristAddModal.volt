@@ -54,10 +54,10 @@
 
 					var hidden = '<input type="hidden" name="tourists[]" value="' + tourist.id + '" />';
 
-					$touristRow.append('<td>'+tourist.passport_surname+' '+tourist.passport_name + hidden + '</td>');
-					$touristRow.append('<td>'+tourist.passport_number+'</td>');
-					$touristRow.append('<td>'+tourist.passport_endDate+'</td>');
-					$touristRow.append('<td>'+tourist.passport_issued+'</td>');
+					$touristRow.append('<td>'+tourist.passportSurname+' '+tourist.passportName + hidden + '</td>');
+					$touristRow.append('<td>'+tourist.passportNumber+'</td>');
+					$touristRow.append('<td>'+tourist.passportEndDate+'</td>');
+					$touristRow.append('<td>'+tourist.passportIssued+'</td>');
 					$touristRow.append('<td>'+tourist.birthDate+'</td>');
 
 					var $delete = $('<a/>');
@@ -98,11 +98,11 @@
 			minLength: 3,
 			select: function(event, ui){
 				event.preventDefault();
-				$('#tourist-passport-surname').val(ui.item.passport_surname);
-				$('#tourist-passport-name').val(ui.item.passport_name);
-				$('#tourist-passport-number').val(ui.item.passport_number);
-				$('#tourist-passport-issued').val(ui.item.passport_issued);
-				$('#tourist-passport-endDate').val(ui.item.passport_endDate);
+				$('#tourist-passport-surname').val(ui.item.passportSurname);
+				$('#tourist-passport-name').val(ui.item.passportName);
+				$('#tourist-passport-number').val(ui.item.passportNumber);
+				$('#tourist-passport-issued').val(ui.item.passportIssued);
+				$('#tourist-passport-endDate').val(ui.item.passportEndDate);
 				$('#tourist-gender').val(ui.item.gender);
 				$('#tourist-birthDate').val(ui.item.birthDate);
 				$('#tourist-phone').val(ui.item.phone);
@@ -113,7 +113,7 @@
 			}
 		}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 			return $( "<li>" )
-				.append( item.passport_name + " " + item.passport_surname + "<br>" + item.passport_number)
+				.append( item.passportName + " " + item.passportSurname + "<br>" + item.passportNumber)
 				.appendTo( ul );
 		};
 

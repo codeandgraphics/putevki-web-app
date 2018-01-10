@@ -46,13 +46,13 @@
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ backend_url('tourists') }}/edit/{{ tourist.id }}">{{ tourist.passport_surname }} {{ tourist.passport_name }}</a>
+							<a href="{{ backend_url('tourists') }}/edit/{{ tourist.id }}">{{ tourist.passportSurname }} {{ tourist.passportName }}</a>
 						</td>
 						<td>
-							{{ tourist.passport_number }}
+							{{ tourist.passportNumber }}
 						</td>
 						<td>
-							{{ tourist.passport_endDate }}
+							{{ tourist.passportEndDate }}
 						</td>
 						<td>
 							{{ tourist.birthDate }}

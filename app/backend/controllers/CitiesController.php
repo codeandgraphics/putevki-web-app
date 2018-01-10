@@ -46,31 +46,31 @@ class CitiesController extends ControllerBase
             }
         }
 
-        $popCountries = $this->request->getPost('popular_countries');
+        $popCountries = $this->request->getPost('popularCountries');
 
 
 		if($popCountries) {
-            $city->popular_countries = $popCountries;
+            $city->popularCountries = $popCountries;
         }
 
-		$countriesSelect = new Select('popular_countries[]', $formCountries, ['multiple' => true]);
+		$countriesSelect = new Select('popularCountries[]', $formCountries, ['multiple' => true]);
 
-        $countriesSelect->setDefault($city->popular_countries);
+        $countriesSelect->setDefault($city->popularCountries);
 
 		$form->add(new Text('name'));
-		$form->add(new Text('name_gen'));
+		$form->add(new Text('nameGen'));
 		$form->add(new Text('uri'));
 		$form->add(new Text('lat'));
 		$form->add(new Text('lon'));
 		$form->add(new Text('zoom'));
-		$form->add(new Select('flight_city', $formDepartures));
+		$form->add(new Select('flightCity', $formDepartures));
         $form->add($countriesSelect);
 		$form->add(new Text('phone'));
 		$form->add(new Select('main', [0 => 'Выкл', 1 => 'Вкл']));
 		$form->add(new Select('active', [0 => 'Выкл', 1 => 'Вкл']));
-		$form->add(new Text('meta_keywords'));
-		$form->add(new TextArea('meta_text'));
-		$form->add(new TextArea('meta_description'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaText'));
+		$form->add(new TextArea('metaDescription'));
 
 		if ($this->request->isPost()) {
 			$form->bind($_POST, $city);
@@ -103,13 +103,13 @@ class CitiesController extends ControllerBase
 		$form->add(new Text('lat'));
 		$form->add(new Text('lon'));
 		$form->add(new Text('zoom'));
-		$form->add(new Select('flight_city', $formDepartures));
+		$form->add(new Select('flightCity', $formDepartures));
 		$form->add(new Text('phone'));
 		$form->add(new Select('main', [0 => 'Нет', 1 => 'Да']));
 		$form->add(new Select('active', [0 => 'Нет', 1 => 'Да']));
-		$form->add(new Text('meta_keywords'));
-		$form->add(new TextArea('meta_text'));
-		$form->add(new TextArea('meta_description'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaText'));
+		$form->add(new TextArea('metaDescription'));
 
 
 		if ($this->request->isPost()) {
@@ -120,14 +120,14 @@ class CitiesController extends ControllerBase
 			$city->lat = $this->request->getPost('lat');
 			$city->lon = $this->request->getPost('lon');
 			$city->zoom = $this->request->getPost('zoom');
-			$city->flight_city = $this->request->getPost('flight_city');
+			$city->flightCity = $this->request->getPost('flightCity');
 			$city->phone = $this->request->getPost('phone');
 			$city->main = $this->request->getPost('main');
 			$city->active = $this->request->getPost('active');
 
-			$city->meta_description = $this->request->getPost('meta_description');
-			$city->meta_text = $this->request->getPost('meta_text');
-			$city->meta_keywords = $this->request->getPost('meta_keywords');
+			$city->metaDescription = $this->request->getPost('metaDescription');
+			$city->metaText = $this->request->getPost('metaText');
+			$city->metaKeywords = $this->request->getPost('metaKeywords');
 
 			if ($city->save()) {
 				$this->flashSession->success('Город успешно добавлен');
@@ -165,9 +165,9 @@ class CitiesController extends ControllerBase
 
 		$form->add(new Text('managerName'));
 
-		$form->add(new Text('meta_keywords'));
-		$form->add(new TextArea('meta_text'));
-		$form->add(new TextArea('meta_description'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaText'));
+		$form->add(new TextArea('metaDescription'));
 
 
 		if ($this->request->isPost()) {
@@ -187,9 +187,9 @@ class CitiesController extends ControllerBase
 			$branch->active = $this->request->getPost('active');
 			$branch->cityId = $city->id;
 
-			$branch->meta_description = $this->request->getPost('meta_description');
-			$branch->meta_text = $this->request->getPost('meta_text');
-			$branch->meta_keywords = $this->request->getPost('meta_keywords');
+			$branch->metaDescription = $this->request->getPost('metaDescription');
+			$branch->metaText = $this->request->getPost('metaText');
+			$branch->metaKeywords = $this->request->getPost('metaKeywords');
 
 			if ($branch->create()) {
 				$password = $this->security->getToken();
@@ -200,11 +200,11 @@ class CitiesController extends ControllerBase
 				$manager->email = $branch->email;
 				$manager->company = $branch->name;
 				$manager->password = $this->security->hash($password);
-				$manager->branch_id = $branch->id;
+				$manager->branchId = $branch->id;
 
 				if ($manager->create()) {
 					$branch->update([
-						'manager_id' => $manager->id,
+						'managerId' => $manager->id,
 						'managerPassword' => $password
 					]);
 
@@ -255,9 +255,9 @@ class CitiesController extends ControllerBase
 		$form->add(new Select('main', $yesNoArray));
 		$form->add(new Select('active', $yesNoArray));
 
-		$form->add(new Text('meta_keywords'));
-		$form->add(new TextArea('meta_text'));
-		$form->add(new TextArea('meta_description'));
+		$form->add(new Text('metaKeywords'));
+		$form->add(new TextArea('metaText'));
+		$form->add(new TextArea('metaDescription'));
 
 
 		if ($this->request->isPost()) {
@@ -272,10 +272,10 @@ class CitiesController extends ControllerBase
 					$manager->email = $branch->email;
 					$manager->company = $branch->name;
 					$manager->password = $this->security->hash($branch->managerPassword);
-					$manager->branch_id = $branch->id;
+					$manager->branchId = $branch->id;
 
 					if ($manager->create()) {
-						$branch->manager_id = $manager->id;
+						$branch->managerId = $manager->id;
 						$branch->save();
 					}
 				}

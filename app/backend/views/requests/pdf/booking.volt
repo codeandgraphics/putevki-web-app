@@ -38,10 +38,10 @@
 	<tbody>
 	{% for tourist in req.tourists %}
 	<tr>
-		<td class="left">{{ tourist.tourist.passport_surname }} {{ tourist.tourist.passport_name }}</td>
+		<td class="left">{{ tourist.tourist.passportSurname }} {{ tourist.tourist.passportName }}</td>
 		<td>{{ tourist.tourist.birthDate }}</td>
-		<td>{{ tourist.tourist.passport_number }}</td>
-		<td class="right">{{ tourist.tourist.passport_endDate }}</td>
+		<td>{{ tourist.tourist.passportNumber }}</td>
+		<td class="right">{{ tourist.tourist.passportEndDate }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>

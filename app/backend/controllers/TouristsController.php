@@ -19,11 +19,11 @@ class TouristsController extends ControllerBase
 
 		if ($search) {
 			$query = "SELECT * FROM \Backend\Models\Tourists
-						WHERE (\Backend\Models\Tourists.passport_number LIKE :search:
-						OR \Backend\Models\Tourists.passport_surname LIKE :search:) ";
+						WHERE (\Backend\Models\Tourists.passportNumber LIKE :search:
+						OR \Backend\Models\Tourists.passportSurname LIKE :search:) ";
 
 			if ($this->user->role === Users::ROLE_MANAGER) {
-				$query .= 'AND manager_id = ' . $this->user->id . ' ';
+				$query .= 'AND managerId = ' . $this->user->id . ' ';
 			}
 
 			$query .= 'ORDER BY creationDate DESC';
@@ -37,7 +37,7 @@ class TouristsController extends ControllerBase
 			];
 
 			if ($this->user->role === Users::ROLE_MANAGER) {
-				$query[] = 'manager_id = ' . $this->user->id;
+				$query[] = 'managerId = ' . $this->user->id;
 			}
 
 			$tourists = Tourists::find($query);
@@ -62,8 +62,8 @@ class TouristsController extends ControllerBase
 			$search = mb_strtoupper($this->request->get('term'));
 
 			$query = "SELECT * FROM \Backend\Models\Tourists
-						WHERE \Backend\Models\Tourists.passport_number LIKE :search:
-						OR \Backend\Models\Tourists.passport_surname LIKE :search:
+						WHERE \Backend\Models\Tourists.passportNumber LIKE :search:
+						OR \Backend\Models\Tourists.passportSurname LIKE :search:
 						LIMIT 20";
 			$tourists = $this->modelsManager->executeQuery($query, ["search" => '%' . $search . '%']);
 
@@ -109,11 +109,11 @@ class TouristsController extends ControllerBase
 			$response = new \stdClass();
 			$tourist = [];
 
-			$tourist['passport_surname'] = $this->request->getPost('tourist-passport-surname');
-			$tourist['passport_name'] = $this->request->getPost('tourist-passport-name');
-			$tourist['passport_number'] = $this->request->getPost('tourist-passport-number');
-			$tourist['passport_issued'] = $this->request->getPost('tourist-passport-issued');
-			$tourist['passport_endDate'] = $this->request->getPost('tourist-passport-endDate');
+			$tourist['passportSurname'] = $this->request->getPost('tourist-passport-surname');
+			$tourist['passportName'] = $this->request->getPost('tourist-passport-name');
+			$tourist['passportNumber'] = $this->request->getPost('tourist-passport-number');
+			$tourist['passportIssued'] = $this->request->getPost('tourist-passport-issued');
+			$tourist['passportEndDate'] = $this->request->getPost('tourist-passport-endDate');
 			$tourist['birthDate'] = $this->request->getPost('tourist-birthDate');
 			$tourist['phone'] = $this->request->getPost('tourist-phone');
 			$tourist['email'] = $this->request->getPost('tourist-email');
@@ -121,15 +121,15 @@ class TouristsController extends ControllerBase
 			$tourist['nationality'] = $this->request->getPost('tourist-nationality');
 
 			$query = "SELECT * FROM \Backend\Models\Tourists
-						WHERE \Backend\Models\Tourists.passport_number = :passport_number:
-						AND \Backend\Models\Tourists.passport_surname = :passport_surname:
-						AND \Backend\Models\Tourists.passport_name = :passport_name:
+						WHERE \Backend\Models\Tourists.passportNumber = :passportNumber:
+						AND \Backend\Models\Tourists.passportSurname = :passportSurname:
+						AND \Backend\Models\Tourists.passportName = :passportName:
 						LIMIT 1";
 
 			$touristModel = $this->modelsManager->executeQuery($query, [
-				'passport_number' => $tourist['passport_number'],
-				'passport_name' => $tourist['passport_name'],
-				'passport_surname' => $tourist['passport_surname']
+				'passportNumber' => $tourist['passportNumber'],
+				'passportName' => $tourist['passportName'],
+				'passportSurname' => $tourist['passportSurname']
 			])->getFirst();
 
 			if ($touristModel) {
@@ -137,11 +137,11 @@ class TouristsController extends ControllerBase
 			} else {
 				$touristModel = new Tourists();
 
-				$touristModel->passport_number = $tourist['passport_number'];
-				$touristModel->passport_surname = $tourist['passport_surname'];
-				$touristModel->passport_name = $tourist['passport_name'];
-				$touristModel->passport_issued = $tourist['passport_issued'];
-				$touristModel->passport_endDate = $tourist['passport_endDate'];
+				$touristModel->passportNumber = $tourist['passportNumber'];
+				$touristModel->passportSurname = $tourist['passportSurname'];
+				$touristModel->passportName = $tourist['passportName'];
+				$touristModel->passportIssued = $tourist['passportIssued'];
+				$touristModel->passportEndDate = $tourist['passportEndDate'];
 				$touristModel->birthDate = $tourist['birthDate'];
 				$touristModel->phone = $tourist['phone'];
 				$touristModel->email = $tourist['email'];
@@ -168,11 +168,11 @@ class TouristsController extends ControllerBase
 		$tourist = Tourists::findFirst($touristId);
 
 		$form = new Form($tourist);
-		$form->add(new Text('passport_name'));
-		$form->add(new Text('passport_surname'));
-		$form->add(new Text('passport_number'));
-		$form->add(new Text('passport_endDate'));
-		$form->add(new Text('passport_issued'));
+		$form->add(new Text('passportName'));
+		$form->add(new Text('passportSurname'));
+		$form->add(new Text('passportNumber'));
+		$form->add(new Text('passportEndDate'));
+		$form->add(new Text('passportIssued'));
 		$form->add(new Select('gender', ['m' => 'Мужской', 'f' => 'Женский']));
 		$form->add(new Text('phone'));
 		$form->add(new Text('email'));
@@ -195,11 +195,11 @@ class TouristsController extends ControllerBase
 	{
 		$form = new Form();
 
-		$form->add(new Text('passport_name'));
-		$form->add(new Text('passport_surname'));
-		$form->add(new Text('passport_number'));
-		$form->add(new Text('passport_endDate'));
-		$form->add(new Text('passport_issued'));
+		$form->add(new Text('passportName'));
+		$form->add(new Text('passportSurname'));
+		$form->add(new Text('passportNumber'));
+		$form->add(new Text('passportEndDate'));
+		$form->add(new Text('passportIssued'));
 		$form->add(new Select('gender', ['m' => 'Мужской', 'f' => 'Женский']));
 		$form->add(new Text('phone'));
 		$form->add(new Text('email'));
@@ -209,11 +209,11 @@ class TouristsController extends ControllerBase
 		if ($this->request->isPost()) {
 			$tourist = new Tourists();
 
-			$tourist->passport_name = $this->request->getPost('passport_name');
-			$tourist->passport_surname = $this->request->getPost('passport_surname');
-			$tourist->passport_number = $this->request->getPost('passport_number');
-			$tourist->passport_endDate = $this->request->getPost('passport_endDate');
-			$tourist->passport_issued = $this->request->getPost('passport_issued');
+			$tourist->passportName = $this->request->getPost('passportName');
+			$tourist->passportSurname = $this->request->getPost('passportSurname');
+			$tourist->passportNumber = $this->request->getPost('passportNumber');
+			$tourist->passportEndDate = $this->request->getPost('passportEndDate');
+			$tourist->passportIssued = $this->request->getPost('passportIssued');
 			$tourist->gender = $this->request->getPost('gender');
 			$tourist->phone = $this->request->getPost('phone');
 			$tourist->email = $this->request->getPost('email');

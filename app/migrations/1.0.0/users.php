@@ -78,7 +78,7 @@ class UsersMigration_100 extends Migration
                         'role',
                         [
                             'type' => Column::TYPE_CHAR,
-                            'default' => "Manager",
+                            'default' => "M",
                             'notNull' => true,
                             'size' => 1,
                             'after' => 'imageUrl'
@@ -101,7 +101,7 @@ class UsersMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'branch_id',
+                        'branchId',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'size' => 11,
@@ -114,7 +114,7 @@ class UsersMigration_100 extends Migration
                             'type' => Column::TYPE_CHAR,
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'branch_id'
+                            'after' => 'branchId'
                         ]
                     )
                 ],

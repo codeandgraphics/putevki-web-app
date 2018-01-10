@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model;
 
 class Posts extends BaseModel {
 	public $id;
-	public $created_by;
+	public $createdBy;
 	public $title;
 	public $uri;
 	public $excerpt;
@@ -20,7 +20,7 @@ class Posts extends BaseModel {
 	public $active;
 
 	public function initialize() {
-		$this->hasOne('created_by', Bloggers::name(), 'id', ['alias' => 'author']);
+		$this->hasOne('createdBy', Bloggers::name(), 'id', ['alias' => 'author']);
 	}
 
 	public function getSource()
@@ -31,7 +31,7 @@ class Posts extends BaseModel {
 	public function fromJoomla($data) {
 
 		$this->id = (int) $data['id'];
-		$this->created_by = (int) $data['created_by'];
+		$this->createdBy = (int) $data['created_by'];
 		$this->created = $data['created'];
 		$this->title = $data['title'];
 		$this->uri = $data['permalink'];

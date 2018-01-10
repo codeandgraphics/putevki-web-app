@@ -39,48 +39,53 @@ class CitiesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'name_rod',
+                        'nameRod',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
                             'after' => 'name'
                         ]
                     ),
                     new Column(
-                        'name_dat',
+                        'nameDat',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'name_rod'
+                            'after' => 'nameRod'
                         ]
                     ),
                     new Column(
-                        'name_vin',
+                        'nameVin',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'name_dat'
+                            'after' => 'nameDat'
                         ]
                     ),
                     new Column(
-                        'name_tvo',
+                        'nameTvo',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'name_vin'
+                            'after' => 'nameVin'
                         ]
                     ),
                     new Column(
-                        'name_pre',
+                        'namePre',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'name_tvo'
+                            'after' => 'nameTvo'
                         ]
                     ),
                     new Column(
@@ -89,7 +94,7 @@ class CitiesMigration_100 extends Migration
                             'type' => Column::TYPE_VARCHAR,
                             'notNull' => true,
                             'size' => 100,
-                            'after' => 'name_pre'
+                            'after' => 'namePre'
                         ]
                     ),
                     new Column(
@@ -122,7 +127,7 @@ class CitiesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'flight_city',
+                        'flightCity',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'notNull' => true,
@@ -136,7 +141,7 @@ class CitiesMigration_100 extends Migration
                             'type' => Column::TYPE_VARCHAR,
                             'notNull' => true,
                             'size' => 20,
-                            'after' => 'flight_city'
+                            'after' => 'flightCity'
                         ]
                     ),
                     new Column(
@@ -159,7 +164,7 @@ class CitiesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'popular_countries',
+                        'popularCountries',
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
@@ -167,27 +172,27 @@ class CitiesMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'meta_description',
+                        'metaDescription',
                         [
                             'type' => Column::TYPE_TEXT,
                             'size' => 1,
-                            'after' => 'popular_countries'
+                            'after' => 'popularCountries'
                         ]
                     ),
                     new Column(
-                        'meta_keywords',
+                        'metaKeywords',
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
-                            'after' => 'meta_description'
+                            'after' => 'metaDescription'
                         ]
                     ),
                     new Column(
-                        'meta_text',
+                        'metaText',
                         [
                             'type' => Column::TYPE_TEXT,
                             'size' => 1,
-                            'after' => 'meta_keywords'
+                            'after' => 'metaKeywords'
                         ]
                     )
                 ],

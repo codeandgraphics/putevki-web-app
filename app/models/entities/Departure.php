@@ -15,7 +15,7 @@ class Departure
 		if ($departure) {
 			$this->id = (int)$departure->id;
 			$this->name = $departure->name;
-			$this->nameFrom = $departure->name_from;
+			$this->nameFrom = $departure->nameFrom;
 		}
 	}
 }

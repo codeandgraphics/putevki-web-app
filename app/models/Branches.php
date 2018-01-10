@@ -21,14 +21,14 @@ class Branches extends BaseModel
 	public $lon;
 	public $cityId = 0;
 	public $main = 0;
-	public $manager_id;
+	public $managerId;
 	public $active;
 
 	public $managerPassword;
 
-	public $meta_description;
-	public $meta_keywords;
-	public $meta_text;
+	public $metaDescription;
+	public $metaKeywords;
+	public $metaText;
 
 	public function initialize()
 	{
@@ -36,7 +36,7 @@ class Branches extends BaseModel
 			'alias' => 'city'
 		]);
 
-		$this->hasOne('manager_id', Users::name(), 'id', [
+		$this->hasOne('managerId', Users::name(), 'id', [
 			'alias'	=> 'manager'
 		]);
 	}

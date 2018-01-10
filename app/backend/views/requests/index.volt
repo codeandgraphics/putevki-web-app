@@ -74,11 +74,11 @@
 							</button>
 						</td>
 						<td class="icon-origin">
-                            {% if req.origin == 'mobile' %}
+                            {% if req.origin == 'M' %}
 								<i class="fa fa-mobile"></i>
-							{% elseif req.origin == 'ios' %}
+							{% elseif req.origin == 'I' %}
 								<i class="fa fa-apple"></i>
-							{% elseif req.origin == 'android' %}
+							{% elseif req.origin == 'A' %}
 								<i class="fa fa-android"></i>
                             {% else %}
 								<i class="fa fa-desktop"></i>
@@ -114,7 +114,7 @@
 									{% if req.departure.id == 99 %}
 										Без перелета
 									{% else %}
-										из {{ req.departure.name_from }}
+										из {{ req.departure.nameFrom }}
 									{% endif %}
 								{% else %}
 									не указан
@@ -276,10 +276,10 @@
 											<tbody>
 											{% for tourist in req.tourists %}
 												<tr>
-													<td>{{ tourist.tourist.passport_surname }} {{ tourist.tourist.passport_name }}</td>
+													<td>{{ tourist.tourist.passportSurname }} {{ tourist.tourist.passportName }}</td>
 													<td>{{ tourist.tourist.birthDate }}</td>
-													<td>{{ tourist.tourist.passport_number }}</td>
-													<td>{{ tourist.tourist.passport_endDate }}</td>
+													<td>{{ tourist.tourist.passportNumber }}</td>
+													<td>{{ tourist.tourist.passportEndDate }}</td>
 												</tr>
 											{% endfor %}
 											</tbody>

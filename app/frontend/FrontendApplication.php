@@ -4,6 +4,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Config\Adapter\Ini as Config;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\View;
@@ -131,15 +132,16 @@ class FrontendApplication extends Application
 	{
 		$this->di->setShared('db', function () {
 
-			$config = $this->get('config');
+            $config = $this->get('config');
 
-			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
-				'host' => $config->database->host,
-				'username' => $config->database->username,
-				'password' => $config->database->password,
-				'dbname' => $config->database->dbname,
-				'charset' => $config->database->charset
-			]);
+            $connection = new Mysql([
+                'host' => $config->database->host,
+                'username' => $config->database->username,
+                'password' => $config->database->password,
+                'dbname' => $config->database->dbname,
+                'charset' => $config->database->charset
+            ]);
+
 			$connection->setEventsManager($this->getShared('eventsManager'));
 			return $connection;
 		});

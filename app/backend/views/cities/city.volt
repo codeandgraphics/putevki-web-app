@@ -11,7 +11,7 @@
 <div class="panel">
 	<div class="panel-heading">
 		<a href="{{ backend_url('cities') }}/branchAdd/{{ city.id }}" class="btn btn-success pull-right">Добавить филиал</a>
-		<h4 class="panel-title">Филиалы в {{ city.name_pre }}</h4>
+		<h4 class="panel-title">Филиалы в {{ city.namePre }}</h4>
 		<p>Список всех филиалов в городе</p>
 	</div>
 	<div class="panel-body">
@@ -63,8 +63,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="flight_city">Город вылета</label>
-						{{ form.render('flight_city', ["class":"form-control"]) }}
+						<label for="flightCity">Город вылета</label>
+						{{ form.render('flightCity', ["class":"form-control"]) }}
 						<span class="help-block">Города из базы Tourvisor</span>
 					</div>
 
@@ -75,8 +75,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="popular_countries[]">Популярные страны</label>
-                        {{ form.render('popular_countries[]', ["class":"form-control select2"]) }}
+						<label for="popularCountries[]">Популярные страны</label>
+                        {{ form.render('popularCountries[]', ["class":"form-control select2"]) }}
 					</div>
 
 				</div>
@@ -121,18 +121,18 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_keywords">Ключевые слова (meta keywords)</label>
-						{{ form.render('meta_keywords', ["class":"form-control"]) }}
+						<label for="metaKeywords">Ключевые слова (meta keywords)</label>
+						{{ form.render('metaKeywords', ["class":"form-control"]) }}
 					</div>
 					<div class="form-group">
-						<label for="meta_description">Описание (meta description)</label>
-						{{ form.render('meta_description', ["class":"form-control"]) }}
+						<label for="metaDescription">Описание (meta description)</label>
+						{{ form.render('metaDescription', ["class":"form-control"]) }}
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="meta_text">Текст</label>
-						{{ form.render('meta_text', ["class":"form-control"]) }}
+						<label for="metaText">Текст</label>
+						{{ form.render('metaText', ["class":"form-control"]) }}
 					</div>
 				</div>
 			</div>

@@ -19,9 +19,9 @@
 		</div>
 	</div>
 
-	{% if city.meta_text %}
+	{% if city.metaText %}
 		<div class="meta">
-			{{ city.meta_text }}
+			{{ city.metaText }}
 		</div>
 	{% endif %}
 </footer>

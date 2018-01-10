@@ -14,9 +14,9 @@ class Users extends BaseModel
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
 
-	const ROLE_GUEST = 'Guest';
-	const ROLE_MANAGER = 'Manager';
-	const ROLE_ADMIN = 'Admin';
+	const ROLE_GUEST = 'G';
+	const ROLE_MANAGER = 'M';
+	const ROLE_ADMIN = 'A';
 
 	public $id;
 	public $name;
@@ -28,7 +28,7 @@ class Users extends BaseModel
 	public $lastLogin = null;
 	public $creationDate = null;
 	public $deleted = Users::NOT_DELETED;
-	public $branch_id = null;
+	public $branchId = null;
 
 	public function initialize()
 	{
@@ -48,7 +48,7 @@ class Users extends BaseModel
 			)
 		));
 
-		$this->hasOne('id', Branches::name(), 'manager_id', [
+		$this->hasOne('id', Branches::name(), 'managerId', [
 			'alias' => 'branch'
 		]);
 	}

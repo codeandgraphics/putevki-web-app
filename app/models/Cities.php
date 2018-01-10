@@ -12,48 +12,48 @@ class Cities extends BaseModel
 
 	public $id;
 	public $name;
-	public $name_rod;
-	public $name_dat;
-	public $name_vin;
-	public $name_tvo;
-	public $name_pre;
+	public $nameRod;
+	public $nameDat;
+	public $nameVin;
+	public $nameTvo;
+	public $namePre;
 	public $uri;
 	public $lat;
 	public $lon;
 	public $zoom;
-	public $flight_city = 0;
+	public $flightCity = 0;
 	public $phone = 0;
 	public $main = 0;
 	public $active = 1;
-	public $popular_countries;
-	public $meta_description;
-	public $meta_keywords;
-	public $meta_text;
+	public $popularCountries;
+	public $metaDescription;
+	public $metaKeywords;
+	public $metaText;
 
 	public function initialize()
 	{
-		$this->belongsTo('flight_city', Departures::name(), 'id', [
+		$this->belongsTo('flightCity', Departures::name(), 'id', [
 			'alias' => 'departure'
 		]);
 	}
 
 	public function afterFetch() {
-        $this->popular_countries = explode(',', $this->popular_countries);
+        $this->popularCountries = explode(',', $this->popularCountries);
     }
 
 	public function beforeSave() {
-	    $this->popular_countries = implode(',', $this->popular_countries);
+	    $this->popularCountries = implode(',', $this->popularCountries);
     }
 
 	public function beforeValidation()
 	{
 		$cases = Morpher::cases($this->name);
 
-		$this->name_rod = $cases->name_rod;
-		$this->name_dat = $cases->name_dat;
-		$this->name_vin = $cases->name_vin;
-		$this->name_tvo = $cases->name_tvo;
-		$this->name_pre = $cases->name_pre;
+		$this->nameRod = $cases->nameRod;
+		$this->nameDat = $cases->nameDat;
+		$this->nameVin = $cases->nameVin;
+		$this->nameTvo = $cases->nameTvo;
+		$this->namePre = $cases->namePre;
 
 		return true;
 	}

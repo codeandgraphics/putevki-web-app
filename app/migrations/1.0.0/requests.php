@@ -30,7 +30,7 @@ class RequestsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'manager_id',
+                        'managerId',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'size' => 11,
@@ -42,7 +42,7 @@ class RequestsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'size' => 255,
-                            'after' => 'manager_id'
+                            'after' => 'managerId'
                         ]
                     ),
                     new Column(
@@ -170,7 +170,7 @@ class RequestsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'branch_id',
+                        'branchId',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'size' => 11,
@@ -181,10 +181,10 @@ class RequestsMigration_100 extends Migration
                         'origin',
                         [
                             'type' => Column::TYPE_CHAR,
-                            'default' => "web",
+                            'default' => "W",
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'branch_id'
+                            'after' => 'branchId'
                         ]
                     ),
                     new Column(

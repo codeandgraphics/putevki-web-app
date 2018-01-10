@@ -12,18 +12,18 @@ class Tourists extends BaseModel
 	const NOT_DELETED = 'N';
 
 	public $id;
-	public $manager_id;
+	public $managerId;
 	public $name;
 	public $surname;
 	public $patronymic;
 	public $phone;
 	public $address;
 	public $email;
-	public $passport_name;
-	public $passport_surname;
-	public $passport_number;
-	public $passport_endDate;
-	public $passport_issued;
+	public $passportName;
+	public $passportSurname;
+	public $passportNumber;
+	public $passportEndDate;
+	public $passportIssued;
 	public $birthDate;
 	public $nationality;
 	public $discount;
@@ -60,9 +60,9 @@ class Tourists extends BaseModel
 			$date = \DateTime::createFromFormat('d.m.Y', $this->birthDate);
 			if ($date) $this->birthDate = $date->format('Y-m-d');
 		}
-		if ($this->passport_endDate) {
-			$endDate = \DateTime::createFromFormat('d.m.Y', $this->passport_endDate);
-			if ($endDate) $this->passport_endDate = $endDate->format('Y-m-d');
+		if ($this->passportEndDate) {
+			$endDate = \DateTime::createFromFormat('d.m.Y', $this->passportEndDate);
+			if ($endDate) $this->passportEndDate = $endDate->format('Y-m-d');
 		}
 	}
 
@@ -72,9 +72,9 @@ class Tourists extends BaseModel
 			$date = \DateTime::createFromFormat('Y-m-d', $this->birthDate);
 			if ($date) $this->birthDate = $date->format('d.m.Y');
 		}
-		if ($this->passport_endDate) {
-			$endDate = \DateTime::createFromFormat('Y-m-d', $this->passport_endDate);
-			if ($endDate) $this->passport_endDate = $endDate->format('d.m.Y');
+		if ($this->passportEndDate) {
+			$endDate = \DateTime::createFromFormat('Y-m-d', $this->passportEndDate);
+			if ($endDate) $this->passportEndDate = $endDate->format('d.m.Y');
 		}
 	}
 
@@ -95,13 +95,13 @@ class Tourists extends BaseModel
 	public static function addOrUpdate($tourist)
 	{
 		$touristModel = Tourists::query()
-			->where('passport_number = :passport_number:')
-			->andWhere('passport_surname = :passport_surname:')
-			->andWhere('passport_name = :passport_name:')
+			->where('passportNumber = :passportNumber:')
+			->andWhere('passportSurname = :passportSurname:')
+			->andWhere('passportName = :passportName:')
 			->bind([
-				'passport_number' => $tourist->passport_number,
-				'passport_name' => $tourist->passport_name,
-				'passport_surname' => $tourist->passport_surname
+				'passportNumber' => $tourist->passportNumber,
+				'passportName' => $tourist->passportName,
+				'passportSurname' => $tourist->passportSurname
 			])
 			->execute()
 			->getFirst();
@@ -110,11 +110,11 @@ class Tourists extends BaseModel
 		if (!$touristModel) {
 			$touristModel = new Tourists();
 
-			$touristModel->passport_number = $tourist->passport_number;
-			$touristModel->passport_surname = $tourist->passport_surname;
-			$touristModel->passport_name = $tourist->passport_name;
-			$touristModel->passport_issued = $tourist->passport_issued;
-			$touristModel->passport_endDate = $tourist->passport_endDate;
+			$touristModel->passportNumber = $tourist->passportNumber;
+			$touristModel->passportSurname = $tourist->passportSurname;
+			$touristModel->passportName = $tourist->passportName;
+			$touristModel->passportIssued = $tourist->passportIssued;
+			$touristModel->passportEndDate = $tourist->passportEndDate;
 			$touristModel->birthDate = $tourist->birthDate;
 			$touristModel->phone = $tourist->phone;
 			$touristModel->email = $tourist->email;
