@@ -42,7 +42,8 @@ class PaymentsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_DOUBLE,
                             'notNull' => true,
-                            'size' => 1,
+                            'size' => 10,
+                            'scale' => 3,
                             'after' => 'requestId'
                         ]
                     ),
@@ -50,7 +51,8 @@ class PaymentsMigration_100 extends Migration
                         'totalPaid',
                         [
                             'type' => Column::TYPE_DOUBLE,
-                            'size' => 1,
+                            'size' => 10,
+                            'scale' => 3,
                             'after' => 'sum'
                         ]
                     ),
@@ -73,10 +75,10 @@ class PaymentsMigration_100 extends Migration
                     new Column(
                         'status',
                         [
-                            'type' => Column::TYPE_CHAR,
+                            'type' => Column::TYPE_VARCHAR,
                             'default' => "new",
                             'notNull' => true,
-                            'size' => 1,
+                            'size' => 30,
                             'after' => 'creationDate'
                         ]
                     ),

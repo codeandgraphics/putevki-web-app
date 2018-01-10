@@ -180,17 +180,17 @@ class RequestsMigration_100 extends Migration
                     new Column(
                         'origin',
                         [
-                            'type' => Column::TYPE_CHAR,
-                            'default' => "W",
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "web",
                             'notNull' => true,
-                            'size' => 1,
+                            'size' => 10,
                             'after' => 'branchId'
                         ]
                     ),
                     new Column(
                         'deleted',
                         [
-                            'type' => Column::TYPE_CHAR,
+                            'type' => Column::TYPE_VARCHAR,
                             'default' => "N",
                             'notNull' => true,
                             'size' => 1,

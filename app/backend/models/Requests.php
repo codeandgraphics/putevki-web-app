@@ -128,7 +128,7 @@ class Requests extends BaseModel
 		$paid = 0;
 
 		foreach ($this->payments as $payment) {
-			if ($payment->status === 'authorized' || $payment->status === 'paid') {
+			if ($payment->status === Payments::AUTHORIZED || $payment->status === Payments::PAID) {
 				$paid += $payment->sum;
 			}
 		}

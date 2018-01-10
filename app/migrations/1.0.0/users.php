@@ -77,10 +77,10 @@ class UsersMigration_100 extends Migration
                     new Column(
                         'role',
                         [
-                            'type' => Column::TYPE_CHAR,
-                            'default' => "M",
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "Manager",
                             'notNull' => true,
-                            'size' => 1,
+                            'size' => 10,
                             'after' => 'imageUrl'
                         ]
                     ),
@@ -111,7 +111,8 @@ class UsersMigration_100 extends Migration
                     new Column(
                         'deleted',
                         [
-                            'type' => Column::TYPE_CHAR,
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "N",
                             'notNull' => true,
                             'size' => 1,
                             'after' => 'branchId'

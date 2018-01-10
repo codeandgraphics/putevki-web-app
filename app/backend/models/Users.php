@@ -14,9 +14,9 @@ class Users extends BaseModel
 	const DELETED = 'Y';
 	const NOT_DELETED = 'N';
 
-	const ROLE_GUEST = 'G';
-	const ROLE_MANAGER = 'M';
-	const ROLE_ADMIN = 'A';
+	const ROLE_GUEST = 'Guest';
+	const ROLE_MANAGER = 'Manager';
+	const ROLE_ADMIN = 'Admin';
 
 	public $id;
 	public $name;

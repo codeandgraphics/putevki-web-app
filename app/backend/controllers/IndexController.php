@@ -36,11 +36,11 @@ class IndexController extends ControllerBase
 		//Деньги
 		$todayPayments = new \stdClass();
 		$todayPayments->count = round(Payments::sum([
-			'conditions' => $todayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
+			'conditions' => $todayPaymentsQuery . " AND (status = '" . Payments::PAID . "' OR status = '" . Payments::AUTHORIZED . "')",
 			'column' => 'sum'
 		]));
 		$lastDayPaymentsCount = round(Payments::sum([
-			'conditions' => $lastDayPaymentsQuery . " AND (status = 'paid' OR status = 'authorized')",
+			'conditions' => $lastDayPaymentsQuery . " AND (status = '" . Payments::PAID . "' OR status = '" . Payments::AUTHORIZED . "')",
 			'column' => 'sum'
 		]));
 		$todayPayments->diff = Utils\Text::countDiff($todayPayments->count, $lastDayPaymentsCount);
@@ -79,11 +79,11 @@ class IndexController extends ControllerBase
 		//Деньги
 		$weekPayments = new \stdClass();
 		$weekPayments->count = round(Payments::sum([
-			'conditions' => $weekPaymentsQuery . " AND status = 'paid'",
+			'conditions' => $weekPaymentsQuery . " AND status = '" . Payments::PAID . "'",
 			'column' => 'sum'
 		]));
 		$lastWeekPaymentsCount = round(Payments::sum([
-			'conditions' => $lastWeekPaymentsQuery . " AND status = 'paid'",
+			'conditions' => $lastWeekPaymentsQuery . " AND status = '" . Payments::PAID . "'",
 			'column' => 'sum'
 		]));
 		$weekPayments->diff = Utils\Text::countDiff($weekPayments->count, $lastWeekPaymentsCount);

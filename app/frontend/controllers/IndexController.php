@@ -6,16 +6,11 @@ use Backend\Controllers\EmailController;
 use Backend\Models\Payments;
 use Backend\Models\Requests;
 use Frontend\Models\Params;
-use Models\Blog\Posts;
-use Models\Countries;
-use Models\Regions;
+use Models\Meta;
 use Models\StoredQueries;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
-use Frontend\Models\SearchQueries;
 use Mobile_Detect;
-use Phalcon\Db;
-use Phalcon\Mvc\Model\Transaction\Failed;
 
 class IndexController extends BaseController
 {
@@ -68,7 +63,8 @@ class IndexController extends BaseController
 			'departures'		=> $departures,
 			'params'			=> $this->params,
 			'title'				=> $title,
-			'page'				=> 'main'
+			'page'				=> 'main',
+            'meta'              => new Meta('', ''),
 		]);
 	}
 

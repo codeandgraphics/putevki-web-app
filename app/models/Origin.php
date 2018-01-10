@@ -3,8 +3,8 @@
 namespace Models;
 
 class Origin {
-    const WEB = 'W';
-    const MOBILE = 'M';
-    const MOBILE_IOS = 'I';
-    const MOBILE_ANDROID = 'A';
+    const WEB = 'web';
+    const MOBILE = 'mobile';
+    const MOBILE_IOS = 'iOS';
+    const MOBILE_ANDROID = 'android';
 }

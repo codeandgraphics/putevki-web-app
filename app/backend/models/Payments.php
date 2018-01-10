@@ -19,6 +19,13 @@ class Payments extends BaseModel
 	public $totalPaid;
 	public $creationDate;
 
+	const PAID = 'paid';
+	const AUTHORIZED = 'authorized';
+	const NOT_AUTHORIZED = 'not authorized';
+	const CANCELED = 'canceled';
+	const WAITING = 'waiting';
+	const NEW = 'new';
+
 	public function initialize()
 	{
 		$this->addBehavior(new Model\Behavior\Timestampable(
@@ -37,7 +44,7 @@ class Payments extends BaseModel
 
 	public function beforeSave()
 	{
-		if ($this->status === 'authorized' || $this->status === 'paid') {
+		if ($this->status === Payments::AUTHORIZED || $this->status === Payments::PAID) {
 			//Send Email
 			// Utils\Email::send
 		}
@@ -45,7 +52,7 @@ class Payments extends BaseModel
 
 	public function isSuccess()
 	{
-		return ($this->status === 'authorized' || $this->status === 'paid');
+		return ($this->status === Payments::AUTHORIZED || $this->status === Payments::PAID);
 	}
 
 	public function getOrder()
