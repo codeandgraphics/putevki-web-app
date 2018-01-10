@@ -113,4 +113,22 @@ class TourvisorOperatorsMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('tourvisor_operators', [
+                'id',
+                'name',
+                'fullName',
+                'russian',
+                'onlineBooking',
+                'legal',
+                'guarantee'
+            ]
+        );
+     }
 }

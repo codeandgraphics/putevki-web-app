@@ -90,4 +90,19 @@ class RequestStatusesMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('request_statuses', [
+                'id',
+                'key',
+                'name',
+                'class'
+            ]
+        );
+     }
 }

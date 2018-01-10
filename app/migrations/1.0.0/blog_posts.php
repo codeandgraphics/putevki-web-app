@@ -146,4 +146,26 @@ class BlogPostsMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('blog_posts', [
+                'id',
+                'createdBy',
+                'title',
+                'uri',
+                'excerpt',
+                'content',
+                'preview',
+                'metaKeywords',
+                'metaDescription',
+                'created',
+                'active'
+            ]
+        );
+     }
 }

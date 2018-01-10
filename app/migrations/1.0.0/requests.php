@@ -180,10 +180,10 @@ class RequestsMigration_100 extends Migration
                     new Column(
                         'origin',
                         [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "web",
+                            'type' => Column::TYPE_INTEGER,
+                            'default' => "1",
                             'notNull' => true,
-                            'size' => 10,
+                            'size' => 11,
                             'after' => 'branchId'
                         ]
                     ),
@@ -203,7 +203,7 @@ class RequestsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '61',
+                    'AUTO_INCREMENT' => '1',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8_bin'
                 ],
@@ -230,5 +230,4 @@ class RequestsMigration_100 extends Migration
     {
 
     }
-
 }

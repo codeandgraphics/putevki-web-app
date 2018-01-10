@@ -6,7 +6,6 @@ use Backend\Controllers\EmailController;
 use Backend\Models\Payments;
 use Backend\Models\Requests;
 use Frontend\Models\Params;
-use Models\Meta;
 use Models\StoredQueries;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
@@ -64,7 +63,6 @@ class IndexController extends BaseController
 			'params'			=> $this->params,
 			'title'				=> $title,
 			'page'				=> 'main',
-            'meta'              => new Meta('', ''),
 		]);
 	}
 

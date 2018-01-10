@@ -1,0 +1,5 @@
+0,new,Новая,label-info
+1,booked,Забронирована,label-primary
+2,check,"На проверке",label-warning
+3,refuse,Отказ,label-danger
+4,approve,Подтверждена,label-success

@@ -114,4 +114,22 @@ class BlogBloggersMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('blog_bloggers', [
+                'id',
+                'name',
+                'link',
+                'uri',
+                'image',
+                'description',
+                'active'
+            ]
+        );
+     }
 }

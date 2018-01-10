@@ -4,6 +4,7 @@ namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
 use Models\Countries;
+use Models\Meta;
 use Models\SearchQuery;
 use Models\Tourvisor;
 use Models\StoredQueries;
@@ -69,7 +70,8 @@ class BaseController extends Controller
 			'formRegions' => $this->formRegions,
 			'formCountries' => $this->formCountries,
 			'lastQueries' => $this->lastQueries,
-			'countries' => $countries
+			'countries' => $countries,
+            'meta' => new Meta('', ''),
 		]);
 	}
 }

@@ -114,7 +114,7 @@ class PaymentsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '68',
+                    'AUTO_INCREMENT' => '1',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8_bin'
                 ],
@@ -141,5 +141,4 @@ class PaymentsMigration_100 extends Migration
     {
 
     }
-
 }

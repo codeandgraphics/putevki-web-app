@@ -158,7 +158,7 @@ class TouristsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '16',
+                    'AUTO_INCREMENT' => '1',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8_bin'
                 ],
@@ -185,5 +185,4 @@ class TouristsMigration_100 extends Migration
     {
 
     }
-
 }

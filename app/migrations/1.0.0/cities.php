@@ -229,4 +229,34 @@ class CitiesMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('cities', [
+                'id',
+                'name',
+                'nameRod',
+                'nameDat',
+                'nameVin',
+                'nameTvo',
+                'namePre',
+                'uri',
+                'lat',
+                'lon',
+                'zoom',
+                'flightCity',
+                'phone',
+                'main',
+                'active',
+                'popularCountries',
+                'metaDescription',
+                'metaKeywords',
+                'metaText'
+            ]
+        );
+     }
 }

@@ -149,4 +149,26 @@ class CountriesMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('countries', [
+                'tourvisorId',
+                'uri',
+                'title',
+                'preview',
+                'excerpt',
+                'about',
+                'metaKeywords',
+                'metaDescription',
+                'popular',
+                'visa',
+                'active'
+            ]
+        );
+     }
 }

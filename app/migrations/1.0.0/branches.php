@@ -216,4 +216,34 @@ class BranchesMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('branches', [
+                'id',
+                'name',
+                'address',
+                'addressDetails',
+                'timetable',
+                'phone',
+                'site',
+                'email',
+                'additionalEmails',
+                'lat',
+                'lon',
+                'cityId',
+                'main',
+                'active',
+                'metaDescription',
+                'metaKeywords',
+                'metaText',
+                'managerId',
+                'managerPassword'
+            ]
+        );
+     }
 }

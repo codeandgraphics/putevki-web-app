@@ -80,6 +80,7 @@ class RegionsMigration_100 extends Migration
                         'popular',
                         [
                             'type' => Column::TYPE_INTEGER,
+                            'default' => "0",
                             'size' => 1,
                             'after' => 'metaDescription'
                         ]
@@ -137,4 +138,25 @@ class RegionsMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('regions', [
+                'tourvisorId',
+                'uri',
+                'title',
+                'preview',
+                'about',
+                'metaKeywords',
+                'metaDescription',
+                'popular',
+                'active',
+                'hasInfo'
+            ]
+        );
+     }
 }

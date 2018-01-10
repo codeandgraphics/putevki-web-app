@@ -175,4 +175,28 @@ class TourvisorHotelsMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('tourvisor_hotels', [
+                'id',
+                'name',
+                'starsId',
+                'regionId',
+                'countryId',
+                'rating',
+                'active',
+                'relax',
+                'family',
+                'health',
+                'city',
+                'beach',
+                'deluxe'
+            ]
+        );
+     }
 }

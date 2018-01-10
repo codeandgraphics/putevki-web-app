@@ -91,4 +91,19 @@ class TourvisorDeparturesMigration_100 extends Migration
 
     }
 
+    /**
+     * This method is called after the table was created
+     *
+     * @return void
+     */
+     public function afterCreateTable()
+     {
+        $this->batchInsert('tourvisor_departures', [
+                'id',
+                'name',
+                'nameFrom',
+                'popular'
+            ]
+        );
+     }
 }
