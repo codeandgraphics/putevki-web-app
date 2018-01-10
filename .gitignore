@@ -29,5 +29,5 @@ Temporary Items
 .apdisk
 composer.phar
 /vendor/
-
+*.volt.php
 node_modules/

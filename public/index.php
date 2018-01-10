@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 define('PHALCON_MIN_VERSION', 30040);
 
 define('APP_START', microtime(true));
-define('APP_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR );
+define('APP_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR );
 
 if( !is_dir(APP_PATH . '/vendor')) {
 	echo 'Composer not initialized. ' . PHP_EOL;
