@@ -43,7 +43,7 @@ class PaymentsMigration_100 extends Migration
                             'type' => Column::TYPE_DOUBLE,
                             'notNull' => true,
                             'size' => 10,
-                            'scale' => 3,
+                            'scale' => 2,
                             'after' => 'requestId'
                         ]
                     ),
@@ -52,7 +52,7 @@ class PaymentsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_DOUBLE,
                             'size' => 10,
-                            'scale' => 3,
+                            'scale' => 2,
                             'after' => 'sum'
                         ]
                     ),
