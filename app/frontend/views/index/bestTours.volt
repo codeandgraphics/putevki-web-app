@@ -14,6 +14,18 @@
                 </div>
 
                 <div class="content">
+                    <h3 class="text-center">Туры от российских и международных туроператоров</h3>
+                    <div class="operators-links">
+                        <a target="_blank" href="//putevki.travel/coral"><img alt="Coral" src="//putevki.travel/images/11.png"></a>
+                        <a target="_blank" href="//putevki.travel/pegas"><img alt="Pegas" src="//putevki.travel/images/12.png"></a>
+                        <a target="_blank" href="//putevki.travel/anex"><img alt="Anex" src="//putevki.travel/images/13.png"></a>
+                        <a target="_blank" href="//putevki.travel/tez-tour"><img alt="TezTour" src="//putevki.travel/images/15.png"></a>
+                        <a target="_blank" href="//putevki.travel/sunmar"><img alt="Sunmar" src="//putevki.travel/images/16.png"></a>
+                        <a target="_blank" href="//putevki.travel/mouzenidis"><img alt="Mouzenidis" src="//putevki.travel/images/17.png"></a>
+                        <a target="_blank" href="//putevki.travel/biblio-globus"><img alt="Biblio-Globus" src="//putevki.travel/images/18.png"></a>
+                        <a target="_blank" href="//putevki.travel/tui"><img alt=TUI" src="//putevki.travel/images/25.png"></a>
+                    </div>
+
                     <p>
                         В современном мире развитых информационных технологий, обычному туристу, желающему подобрать
                         себе идеальное место для долгожданного отпуска, не всегда бывает легко разобраться в потоке
@@ -28,7 +40,7 @@
                         данных представлен у нас в самом простом и интуитивно понятном поисковике.
                     </p>
                     <p>
-                        Подбор туров наПутёвки.ру предельно прост. Понадобится всего минута, чтобы ввести в поисковую форму исходные
+                        Подбор туров на Путёвки.ру предельно прост. Понадобится всего минута, чтобы ввести в поисковую форму исходные
                         данные: курорт, даты предполагаемой поездки, количество дней, город вылета и сайт в режиме
                         реального времени представит Вам все имеющиеся предложения с удобной сортировкой по цене.
                         Более того, вы можете быть спокойны насчет надежности наших партнеров, потому что мы
