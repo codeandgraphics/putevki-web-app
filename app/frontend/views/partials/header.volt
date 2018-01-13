@@ -3,7 +3,7 @@
 	<nav>
 		<div class="header-bar">
 			<div class="color-bar"></div>
-			<div class="container">
+			<div class="container" style="position: relative;">
 				<ul class="links list-unstyled list-inline">
 					<li>
 						<a href="{{ url('') }}">Поиск путёвок</a>
@@ -24,7 +24,9 @@
 						<a href="{{ url('contacts') }}">Контакты</a>
 					</li>
 				</ul>
-				<a href="//putevki.travel" class="old-site">Старый поиск туров</a>
+				<a href="//putevki.travel" class="old-site" target="_blank">
+					Старый поиск туров<i class="ion-share"></i>
+				</a>
 			</div>
 		</div>
 		<div class="main-header">
