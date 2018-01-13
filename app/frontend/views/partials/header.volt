@@ -24,7 +24,7 @@
 						<a href="{{ url('contacts') }}">Контакты</a>
 					</li>
 				</ul>
-				<a href="//putevki.travel" class="old-site" target="_blank">
+				<a href="//tours.putevki.ru" class="old-site" target="_blank">
 					Старый поиск туров<i class="ion-share"></i>
 				</a>
 			</div>

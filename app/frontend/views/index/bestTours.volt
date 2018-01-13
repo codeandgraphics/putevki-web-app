@@ -16,14 +16,14 @@
                 <div class="content">
                     <h3 class="text-center">Туры от российских и международных туроператоров</h3>
                     <div class="operators-links">
-                        <a target="_blank" href="//putevki.travel/coral"><img alt="Coral" src="//putevki.travel/images/11.png"></a>
-                        <a target="_blank" href="//putevki.travel/pegas"><img alt="Pegas" src="//putevki.travel/images/12.png"></a>
-                        <a target="_blank" href="//putevki.travel/anex"><img alt="Anex" src="//putevki.travel/images/13.png"></a>
-                        <a target="_blank" href="//putevki.travel/tez-tour"><img alt="TezTour" src="//putevki.travel/images/15.png"></a>
-                        <a target="_blank" href="//putevki.travel/sunmar"><img alt="Sunmar" src="//putevki.travel/images/16.png"></a>
-                        <a target="_blank" href="//putevki.travel/mouzenidis"><img alt="Mouzenidis" src="//putevki.travel/images/17.png"></a>
-                        <a target="_blank" href="//putevki.travel/biblio-globus"><img alt="Biblio-Globus" src="//putevki.travel/images/18.png"></a>
-                        <a target="_blank" href="//putevki.travel/tui"><img alt=TUI" src="//putevki.travel/images/25.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/coral"><img alt="Coral" src="//tours.putevki.ru/images/11.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/pegas"><img alt="Pegas" src="//tours.putevki.ru/images/12.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/anex"><img alt="Anex" src="//tours.putevki.ru/images/13.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/tez-tour"><img alt="TezTour" src="//tours.putevki.ru/images/15.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/sunmar"><img alt="Sunmar" src="//tours.putevki.ru/images/16.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/mouzenidis"><img alt="Mouzenidis" src="//tours.putevki.ru/images/17.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/biblio-globus"><img alt="Biblio-Globus" src="//tours.putevki.ru/images/18.png"></a>
+                        <a target="_blank" href="//tours.putevki.ru/tui"><img alt=TUI" src="//tours.putevki.ru/images/25.png"></a>
                     </div>
 
                     <p>
