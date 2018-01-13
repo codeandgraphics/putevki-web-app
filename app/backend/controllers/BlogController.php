@@ -47,9 +47,13 @@ class BlogController extends ControllerBase
 	public function postAction()
 	{
 		$id = $this->dispatcher->getParam(0, 'int');
-		$post = Posts::findFirstById($id);
 
-		$form = new Form($post);
+		if($id) {
+            $post = Posts::findFirstById($id);
+		    $form = new Form($post);
+        } else {
+		    $form = new Form();
+        }
 
 		$form->add(new Text('uri'));
 		$form->add(new Text('title'));
@@ -59,8 +63,12 @@ class BlogController extends ControllerBase
 		$form->add(new Text('metaKeywords'));
 		$form->add(new TextArea('metaDescription'));
 		$form->add(new Select('active', [0 => 'Нет', 1 => 'Да']));
+		$form->add(new Select('createdBy', Bloggers::find(), ['using' => ['id', 'name']]));
 
 		if ($this->request->isPost()) {
+		    if(!$id) {
+		        $post = new Posts();
+            }
 			$form->bind($_POST, $post);
 
 			if ($form->isValid()) {
@@ -75,9 +83,16 @@ class BlogController extends ControllerBase
 						$post->preview = $fileName;
 					}
 				}
+				if(!$id) {
+				    $post->created = new \DateTime();
+				    $post->create();
+				    $this->response->redirect('admin/blog/post/'. $post->id);
+                } else {
 
-				$post->save();
-				$this->flashSession->success('Пост успешно сохранен');
+
+                    $post->save();
+                    $this->flashSession->success('Пост успешно сохранен');
+                }
 			}
 		}
 

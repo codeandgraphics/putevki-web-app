@@ -3,7 +3,6 @@
 namespace Models\Blog;
 
 use Models\BaseModel;
-use Models\Meta;
 use Phalcon\Mvc\Model;
 
 class Posts extends BaseModel {
@@ -20,6 +19,15 @@ class Posts extends BaseModel {
 	public $active;
 
 	public function initialize() {
+        $this->addBehavior(new Model\Behavior\Timestampable(
+            array(
+                'beforeCreate' => array(
+                    'field' => 'created',
+                    'format' => 'Y-m-d H:i:s'
+                )
+            )
+        ));
+
 		$this->hasOne('createdBy', Bloggers::name(), 'id', ['alias' => 'author']);
 	}
 

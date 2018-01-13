@@ -1,12 +1,12 @@
 <ol class="breadcrumb">
 	<li><a href="{{ backend_url('') }}"><i class="fa fa-home"></i>Главная</a></li>
 	<li><a href="{{ backend_url('blog') }}">Блог</a></li>
-	<li class="active">{{ post.title }}</li>
+	<li class="active">{% if post is empty %}Новый пост{% else %}{{ post.title }}{% endif %}</li>
 </ol>
 
 <div class="panel">
 	<div class="panel-heading">
-		<h4 class="panel-title">{{ post.title }}</h4>
+		<h4 class="panel-title">{% if post is empty %}Новый пост{% else %}{{ post.title }}{% endif %}</h4>
 		<p></p>
 	</div>
 	<div class="panel-body">
@@ -21,10 +21,16 @@
 				<span class="help-block">Латиницей, в нижнем регистре, используется в URL</span>
 			</div>
 			<div class="form-group">
+				<label for="createdBy">Блоггер</label>
+                {{ form.render('createdBy', ["class":"form-control"]) }}
+			</div>
+			<div class="form-group">
 				<label for="name">Превью-картинка</label>
 				<div class="row">
 					<div class="col-xs-3">
-						<img src="{{ images_url('blog/') }}{{ post.preview }}" class="img-responsive"/>
+                        {% if post is not empty %}
+							<img src="{{ images_url('blog/') }}{{ post.preview }}" class="img-responsive"/>
+						{% endif %}
 					</div>
 					<div class="col-xs-9">
                         {{ form.render('preview', ["class":"form-control"]) }}

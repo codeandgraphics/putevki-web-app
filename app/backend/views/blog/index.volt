@@ -5,7 +5,8 @@
 
 <div class="panel">
 	<div class="panel-heading">
-		<a href="{{ backend_url('blog/bloggers') }}" class="btn btn-success btn-stroke btn-sm pull-right">Блоггеры</a>
+		<a href="{{ backend_url('blog/post') }}" class="btn btn-success btn-stroke btn-sm pull-right" style="margin-left: 10px;">Создать пост</a>
+		<a href="{{ backend_url('blog/bloggers') }}" class="btn btn-default btn-stroke btn-sm pull-right">Блоггеры</a>
 		<h4 class="panel-title">Блог</h4>
 		<p>Все посты</p>
 	</div>
@@ -20,6 +21,7 @@
 			<tr>
 				<th>Заголовок поста</th>
 				<th>Автор</th>
+				<th>Опубликовано</th>
 				<th>Дата публикации</th>
 			</tr>
 			</thead>
@@ -36,6 +38,7 @@
 							<img src="{{ images_url('blog/bloggers/') }}{{ item.author.image }}" width="17" class="img-circle"/>{{ item.author.name }}
 						</a>
 					</td>
+					<td class="text-center">{% if item.post.active %}Да{% else %}Нет{% endif %}</td>
 					<td>{{ item.post.created }}</td>
 				</tr>
 			{% endfor %}
