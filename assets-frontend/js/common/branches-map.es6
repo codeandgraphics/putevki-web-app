@@ -45,7 +45,7 @@ export default class BranchesMap {
     this.cities.forEach((city) => {
       this.map.geoObjects.add(
         new global.ymaps.Placemark([parseFloat(city.lat), parseFloat(city.lon)], {
-          balloonContentHeader: `Путёвки из ${city.name_rod}`,
+          balloonContentHeader: `Путёвки из ${city.nameRod}`,
           balloonContentBody: renderBaloonBody(city),
           hintContent: `${city.name}`,
         }, {

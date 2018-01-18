@@ -19,8 +19,8 @@ export default class MainPage {
     }, {});
 
     const citiesWithCountries = cities.map((city) => {
-      if (city.popular_countries) {
-        const ids = city.popular_countries.split(',');
+      if (city.popularCountries) {
+        const ids = city.popularCountries.split(',');
               // eslint-disable-next-line no-param-reassign
         city.countries = ids.map(id => countriesByIds[id]);
       }
