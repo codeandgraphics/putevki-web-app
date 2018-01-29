@@ -340,6 +340,7 @@ export default class SearchForm {
 
     const datepicker = this.$.form.find('.when input')
       .datepicker({
+        toggleSelected: false,
         minDate: minDate.toDate(),
         maxDate: maxDate.toDate(),
         onRenderCell: (date, cellType) => {
