@@ -58,7 +58,7 @@
 			{{ partial('partials/search-form') }}
 		{% elseif page === 'search' %}
 			{{ partial('partials/search-form') }}
-		{% elseif page === 'country' %}
+		{% elseif page === 'country' and country.tourvisor.active %}
 			{{ partial('partials/search-form') }}
 		{% endif %}
 	</div>

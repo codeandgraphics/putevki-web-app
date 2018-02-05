@@ -7,7 +7,6 @@ import Humanize from '../utils/humanize.es6';
 import { IS_DEV } from '../../app.es6';
 
 export default class CountryPage {
-
   init() {
     this.$ = {
       hotRegion: $('#hotRegion'),

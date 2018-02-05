@@ -3,7 +3,7 @@
 		<section class="main left">
 			<div class="head">
 				<h1>
-					{{ country.title }}
+                    {{ country.title }}
 				</h1>
 			</div>
 			<div class="content">
@@ -12,20 +12,31 @@
 					<li class="active">{{ country.tourvisor.name }}</li>
 				</ol>
 				<div class="about">
-					{{ country.about }}
+                    {{ country.about }}
 				</div>
 
 				<div class="countryDepartures">
-					<h2>Популярные города вылета</h2>
-					<div class="row">
-						{% for departure in popularDepartures %}
-							<div class="col-xs-6">
-								<a href="{{ url('search') }}/{{ departure.name }}/{{ country.tourvisor.name }}">
-									{{ country.title }} из {{ departure.nameFrom }}
-								</a>
-							</div>
-						{% endfor %}
-					</div>
+
+                    {% if country.tourvisor.id == 1 %}
+						<h2>Когда откроют Египет?</h2>
+						{% if country.tourvisor.active %}
+							Ура! Египет открыт для туристов из России!
+						{% else %}
+							Пока что авиаперелеты в Египет не открыли :(<br/><br/>
+							Но мы можем предложить вам путёвки из <a href="https://putevki.travel" target="_blank">Беларуси</a>!
+						{% endif %}
+                    {% else %}
+						<h2>Популярные города вылета</h2>
+						<div class="row">
+                            {% for departure in popularDepartures %}
+								<div class="col-xs-6">
+									<a href="{{ url('search') }}/{{ departure.name }}/{{ country.tourvisor.name }}">
+                                        {{ country.title }} из {{ departure.nameFrom }}
+									</a>
+								</div>
+                            {% endfor %}
+						</div>
+                    {% endif %}
 				</div>
 			</div>
 		</section>
@@ -38,7 +49,7 @@
 			<div class="content">
 				<div class="wrap">
 					<div class="regions">
-						{% for item in regions %}
+                        {% for item in regions %}
 							<div class="region">
 								<a href="{{ url('countries/') }}{{ country.uri }}/{{ item.region.uri }}" title="{{ item.region.title }}">
 									<div class="image">
@@ -49,7 +60,7 @@
 									</div>
 								</a>
 							</div>
-						{% endfor %}
+                        {% endfor %}
 					</div>
 				</div>
 			</div>
