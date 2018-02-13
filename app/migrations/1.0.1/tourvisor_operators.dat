@@ -1,0 +1,87 @@
+0,"не указан","не указан","не указан",0,---,---
+11,Coral,"Coral Travel","Корал Тревел",1,NULL,NULL
+12,Pegas,"Pegas Touristik","Пегас Туристик",1,NULL,NULL
+13,Anex,"Anex Tour","Анекс Тур",1,NULL,NULL
+15,TezTour,"Tez Tour","Тез Тур",1,NULL,NULL
+16,Sunmar,"Sunmar Tour",Санмар,1,NULL,NULL
+17,Mouzenidis,"Mouzenidis Travel","Музенидис Трэвел",0,NULL,NULL
+18,Biblioglobus,BiblioGlobus,"Библио Глобус",1,NULL,NULL
+20,"Vilar Tours","Vilar Tours","Вилар Турс",0,NULL,NULL
+21,Panteon,"Panteon Travel",Пантеон,0,NULL,NULL
+23,Рус.Экспресс,"Русский Экспресс","Русский Экспресс",1,NULL,NULL
+24,"Веди Тургрупп","Веди Тургрупп","Веди Тургрупп",0,NULL,NULL
+25,TUI,"TUI Russia","TUI Russia",1,NULL,NULL
+27,Paks,PAKS,Пакс,1,NULL,NULL
+28,Амиго,"Амиго Турс","Амиго Турс",0,NULL,NULL
+29,Solvex,Solvex,Солвекс,0,NULL,NULL
+30,"Балкан Экспресс","Балкан Экспресс","Балкан Экспресс",0,NULL,NULL
+31,Алеан,Алеан,Алеан,0,NULL,NULL
+32,Финист,"Финист Трэвел","Финист Трэвел",1,NULL,NULL
+33,Amigo-S,Amigo-S,Amigo-S,0,NULL,NULL
+34,"Pegas (KZ)","Pegas (KZ)","Пегас (KZ)",0,NULL,NULL
+35,Raduga,"Raduga Travel","Радуга Трэвел",0,NULL,NULL
+36,PAC,"PAC Group","ПАК Груп",0,NULL,NULL
+37,Brisco,Brisco,Brisco,0,NULL,NULL
+38,"Карибский Клуб","Карибский Клуб","Карибский Клуб",0,NULL,NULL
+39,"Натали Турс","Натали Турс","Натали Турс",0,NULL,NULL
+40,"ICS Travel Group","ICS Travel Group","АЙ СИ ЭС Тревел ГРУПП",0,NULL,NULL
+41,Дельфин,Дельфин,Дельфин,0,NULL,NULL
+42,"Матрешка Тур","Матрешка Тур",Матрешка,0,NULL,NULL
+43,Интурист,Интурист,Интурист,0,NULL,NULL
+44,"More Travel","More Travel","Море Трэвел",0,NULL,NULL
+45,Глобус-Тур,Глобус-Тур,Глобус-Тур,0,NULL,NULL
+47,"Ривьера Сочи","Ривьера Сочи","Ривьера Сочи",0,NULL,NULL
+49,Данко,Данко,Данко,1,NULL,NULL
+50,ИнтерСпутник,ИнтерСпутник,ИнтерСпутник,0,NULL,NULL
+51,"Джет Тревел","Джет Тревел","Джет Тревел",0,NULL,NULL
+53,Арт-Тур,Арт-Тур,Арт-Тур,1,NULL,NULL
+55,"Русь Тур","Русь Тур","Русь Тур",0,NULL,NULL
+58,Evroport,Evroport,Европорт,0,NULL,NULL
+59,Spectrum,Spectrum,Спектрум,0,NULL,NULL
+60,"Роза Ветров","Роза Ветров","Роза Ветров",0,NULL,NULL
+62,Ambotis,"Ambotis Tours",Амботис,0,NULL,NULL
+63,Grand,Grand,Grand,0,NULL,NULL
+64,ЮгоСтар,ЮгоСтар,ЮгоСтар,0,NULL,NULL
+65,"De Visu","De Visu","Де Визу",0,NULL,NULL
+66,"Space Travel","Space Travel","Space Travel",0,NULL,NULL
+67,ITM,"ITM Group",ITM,0,NULL,NULL
+68,"Планета Сочи","Планета Сочи","Планета Сочи",0,NULL,NULL
+69,Intravel,"Intravel Stoleshniki","Интревел Столешники",0,NULL,NULL
+70,HIS,HIS,HIS,0,NULL,NULL
+71,Самараинтур,Самараинтур,Самараинтур,0,NULL,NULL
+73,"Фонд Мира","Фонд Мира","Фонд Мира",0,NULL,NULL
+74,Pitertour,Pitertour,Питертур,0,NULL,NULL
+75,СТА-Новосибирск,СТА-Новосибирск,СТА-Новосибирск,0,NULL,NULL
+77,UNEX,UNEX,UNEX,0,NULL,NULL
+78,"China Travel","China Travel","Чайна Тревел",0,NULL,NULL
+79,Мультитур,Мультитур,Мультитур,0,NULL,NULL
+80,Кандагар,Кандагар,Кандагар,0,NULL,NULL
+81,DSBW,DSBW,DSBW,0,NULL,NULL
+82,Экспресс-Турс,Экспресс-Турс,Экспресс-Турс,0,NULL,NULL
+83,Криптон,Криптон,Криптон,0,NULL,NULL
+84,"Спасские Ворота","Спасские Ворота","Спасские Ворота",0,NULL,NULL
+85,Робинзон,"Робинзон Турс","Робинзон Турс",0,NULL,NULL
+86,"ИнтерСити (BY)","ИнтерСити (BY)","ИнтерСити (BY)",0,NULL,NULL
+87,"АэроБелСервис (BY)","АэроБелСервис (BY)","АэроБелСервис (BY)",0,NULL,NULL
+88,"Ростинг (BY)","Ростинг (BY)","Ростинг (BY)",0,NULL,NULL
+89,"Kazunion (KZ)","Kazunion (KZ)","Казюнион (KZ)",0,NULL,NULL
+90,"Kompas (KZ)","Kompas (KZ)","Компас (KZ)",0,NULL,NULL
+91,"Пулково Сервис","Пулково Сервис","Пулково Сервис",0,NULL,NULL
+92,"Meridian Express","Meridian Express","Меридиан Экспресс",0,NULL,NULL
+93,Аврора-БГ,Аврора-БГ,Аврора-БГ,0,NULL,NULL
+94,"Good Time Travel","Good Time Travel","Гуд Тайм Тревел",0,NULL,NULL
+95,"Holiday Operator","Holiday Operator","Холидей Оператор",0,NULL,NULL
+96,Премьера,Премьера,Премьера,0,NULL,NULL
+115,Calypso,"Calypso M-Tour","Калипсо М-Тур",0,NULL,NULL
+116,"Элита Трэвел","Элита Трэвел","Элита Трэвел",0,NULL,NULL
+117,Адонис,Адонис,Адонис,0,NULL,NULL
+118,"Арт Тревел","Арт Тревел","Арт Тревел",0,NULL,NULL
+119,"Роза Ветров Юг","Роза Ветров Юг","Роза Ветров Юг",0,NULL,NULL
+120,Время-Тур,Время-Тур,Время-Тур,0,NULL,NULL
+121,Вояж-Сервис,Вояж-Сервис,Вояж-Сервис,0,NULL,NULL
+122,"Топ Тур (BY)","Топ Тур (BY)","Топ Тур (BY)",0,NULL,NULL
+123,"Ted Travel","Ted Travel","Тед Тревел",0,NULL,NULL
+124,"Acti Tour","Acti Tour","Акти Тур",0,NULL,NULL
+125,"JoinUP (UA)","JoinUP (UA)","JoinUP (UA)",0,NULL,NULL
+127,"ABK Tourism (KZ)","ABK Tourism (KZ)","ABK Tourism (KZ)",0,NULL,NULL
+128,"Calypso (KZ)","Calypso Tour (KZ)","Calypso (KZ)",0,NULL,NULL

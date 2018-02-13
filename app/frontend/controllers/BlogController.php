@@ -55,7 +55,7 @@ class BlogController extends BaseController
 
 		$morePosts = $this->modelsManager->createBuilder()
 			->addFrom(Posts::name())
-			->where('created_by = :authorId:', ['authorId' => $post->created_by])
+			->where('createdBy = :authorId:', ['authorId' => $post->createdBy])
 			->andWhere('id <> :postId:', ['postId' => $post->id])
 			->orderBy('created DESC')
 			->limit(5)
@@ -82,7 +82,7 @@ class BlogController extends BaseController
 
 		$builder = $this->modelsManager->createBuilder()
 			->from(Posts::name())
-			->where('created_by = :author:', ['author' => $author->id])
+			->where('createdBy = :author:', ['author' => $author->id])
 			->orderBy('created DESC');
 
 		$paginator = new PaginatorBuilder(

@@ -1,5 +1,5 @@
 {
   "migration": {
-    "config": "app/config/db.ini"
+    "config": "app/config.ini"
   }
 }
