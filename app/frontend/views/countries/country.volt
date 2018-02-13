@@ -16,17 +16,15 @@
 				</div>
 
 				<div class="countryDepartures">
-
+					<h2>Популярные города вылета</h2>
                     {% if country.tourvisor.id == 1 %}
-						<h2>Когда откроют Египет?</h2>
-						{% if country.tourvisor.active %}
+                        {% if country.tourvisor.active %}
 							Ура! Египет открыт для туристов из России!
-						{% else %}
-							Пока что авиаперелеты в Египет не открыли :(<br/><br/>
-							Но мы можем предложить вам путёвки из <a href="https://putevki.travel" target="_blank">Беларуси</a>!
-						{% endif %}
+                        {% else %}
+							К сожалению, мы не может предложить вам вылеты из городов России, но у нас есть
+							<a href="https://tez-tour.putevki.ru" target="_blank">путёвки и туры в Египет из Беларуси</a>!
+                        {% endif %}
                     {% else %}
-						<h2>Популярные города вылета</h2>
 						<div class="row">
                             {% for departure in popularDepartures %}
 								<div class="col-xs-6">
