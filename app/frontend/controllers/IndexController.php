@@ -54,7 +54,7 @@ class IndexController extends BaseController
 			$add = ' с вылетом из ' . $this->city->departure->nameFrom;
 		}
 
-		$title = 'Путёвки из ' . $this->city->nameRod . $add . ' по лучшим ценам на ';
+		$title = implode(', ', $popularCountries) .  ' из ' . $this->city->nameRod . $add . ' на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
@@ -190,6 +190,12 @@ class IndexController extends BaseController
 			echo 'Failed, reason: ', $e->getMessage();
 		}*/
 	}
+
+	public function searchFullAction() {
+	    $this->view->setVars([
+	        'page' => 'search-full'
+        ]);
+    }
 
 	public function contactsAction() {
 		$this->view->setVars([

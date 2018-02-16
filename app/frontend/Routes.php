@@ -21,6 +21,13 @@ $router->add(
 	]
 );
 $router->add(
+    '/search-full',
+    [
+        'controller' => 'index',
+        'action' => 'searchFull',
+    ]
+);
+$router->add(
 	'/agreement',
 	[
 		'controller' => 'index',

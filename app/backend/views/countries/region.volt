@@ -17,7 +17,7 @@
                 {{ form.render('title', ["class":"form-control"]) }}
 			</div>
 			<div class="form-group">
-				<label for="name">URI страны</label>
+				<label for="name">URI региона</label>
                 {{ form.render('uri', ["class":"form-control"]) }}
 				<span class="help-block">Латиницей, в нижнем регистре, используется в URL</span>
 			</div>

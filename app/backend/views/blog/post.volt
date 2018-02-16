@@ -76,7 +76,7 @@
             minHeight: 200,
             callbacks: {
                 onChange: function(contents) {
-                    document.getElementById('about').value = contents;
+                    document.getElementById('content').value = contents;
                 }
             }
         });
