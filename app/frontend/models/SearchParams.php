@@ -115,6 +115,19 @@ class SearchParams
 		return $queryString;
 	}
 
+    public function buildShortQueryString()
+    {
+        $queryString = $this->fromEntity()->name;
+
+        $queryString .= '/' . $this->countryEntity()->name;
+
+        if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
+            $queryString .= '(' . $this->regionEntity()->name . ')';
+        }
+
+        return $queryString;
+    }
+
 	public function isHotelQuery()
 	{
 		return (bool)$this->where->hotels;

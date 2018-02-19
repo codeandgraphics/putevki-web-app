@@ -164,7 +164,7 @@ $router->add(
 	'/tury/{region:[a-z\-]+}',
 	[
 		'controller' => 'countries',
-		'action' => 'region',
+		'action' => 'tury',
 	]
 );
 $router->add(
@@ -201,7 +201,7 @@ $router->add(
 	'/blog/entry/{post:[a-z0-9\-]+}',
 	[
 		'controller' => 'blog',
-		'action' => 'post',
+		'action' => 'entry',
 	]
 );
 

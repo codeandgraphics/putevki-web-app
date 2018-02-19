@@ -73,6 +73,19 @@ class CountriesController extends BaseController
 		]);
 	}
 
+	public function turyAction() {
+        $regionUri = $this->dispatcher->getParam('region');
+
+        $region = Regions::findFirstByUri($regionUri);
+
+        if(!$region) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $country = Countries::findFirstByTourvisorId($region->tourvisor->country->id);
+        $this->response->redirect('/countries/' . $country->uri . '/' . $regionUri, true, 301);
+    }
+
 	public function regionAction()
 	{
 		$regionUri = $this->dispatcher->getParam('region');

@@ -43,6 +43,11 @@ class BlogController extends BaseController
 		]);
 	}
 
+	public function entryAction() {
+        $postUri = $this->dispatcher->getParam('post');
+        $this->response->redirect('/blog/' . $postUri, true, 301);
+    }
+
 	public function postAction()
 	{
 		$postUri = $this->dispatcher->getParam('post');
