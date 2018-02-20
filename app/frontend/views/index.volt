@@ -24,9 +24,9 @@
 
 	<meta name="author" content="Путёвки.ру" />
 
-	<meta property="og:title" content="{{ title }} Путёвки.ру" />
+	<meta property="og:title" content="{{ title }} Путёвки.ру – интернет-магазин путёвок" />
 	<meta property="og:image" content="{{ static_url() }}static/yo.png" />
-	<meta property="og:description" content="Поиск и продажа путёвок по ценам ниже чем у туроператоров" />
+	<meta property="og:description" content="{{ meta.description }}" />
 
 	<script type="text/javascript">
         var env = '{{ config.frontend.env }}';
@@ -40,7 +40,7 @@
 
 	<script src="{{ static_url('bundle.js') }}"></script>
 
-	<title>{{ title }} Путёвки.ру</title>
+	<title>{{ title }} Путёвки.ру – интернет-магазин путёвок</title>
 </head>
 <body>
 

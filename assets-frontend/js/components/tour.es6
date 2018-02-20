@@ -219,7 +219,7 @@ export default class Tour {
 
   cannotActualize() {
     this.$.tour.find('.no-actualize').removeClass('hide');
-    this.cannotPay();
+    // this.cannotPay();
   }
 
   withoutFlight() {
@@ -228,7 +228,7 @@ export default class Tour {
 
   hasNoFlights() {
     this.$.flights.find('.no-flights').removeClass('hide');
-    this.cannotPay();
+    // this.cannotPay();
   }
 
   setActions() {

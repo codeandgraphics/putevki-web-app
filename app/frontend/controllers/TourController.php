@@ -6,8 +6,9 @@ use Utils\Tourvisor as TourvisorUtils;
 
 class TourController extends BaseController
 {
-	public function indexAction($tourId)
+	public function indexAction()
 	{
+	    $tourId = $this->dispatcher->getParam('id');
 		$result = TourvisorUtils::getMethod('actualize', array(
 			'tourid' => $tourId,
 			'flights' => 1

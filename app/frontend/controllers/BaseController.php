@@ -71,7 +71,10 @@ class BaseController extends Controller
 			'formCountries' => $this->formCountries,
 			'lastQueries' => $this->lastQueries,
 			'countries' => $countries,
-            'meta' => new Meta('', ''),
+            'meta' => new Meta(
+                'Путёвки, туры, покупка путёвок в интернет-магазине',
+                'Вы можете выбрать путевку или тур на сайте Путевки.ру'
+            ),
 		]);
 	}
 }

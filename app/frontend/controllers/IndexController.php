@@ -54,7 +54,7 @@ class IndexController extends BaseController
 			$add = ' с вылетом из ' . $this->city->departure->nameFrom;
 		}
 
-		$title = implode(', ', $popularCountries) .  ' из ' . $this->city->nameRod . $add . ' на ';
+		$title = 'Купить тур онлайн в ' . $this->city->nameDat . $add . ' на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
@@ -193,7 +193,8 @@ class IndexController extends BaseController
 
 	public function searchFullAction() {
 	    $this->view->setVars([
-	        'page' => 'search-full'
+	        'page' => 'search-full',
+            'title' => 'Поиск туров по всем туроператорам'
         ]);
     }
 
@@ -266,5 +267,20 @@ class IndexController extends BaseController
 
 	}
 
+    public function hotAction() {
+        $this->response->redirect('/#hot', true, 301);
+    }
+
+    public function withoutFlightAction() {
+        $this->response->redirect('/search/Без%20перелета/Турция', true, 301);
+    }
+
+    public function kontaktyAction() {
+        $this->response->redirect('/contacts', true, 301);
+    }
+
+    public function mobileHtmlAction() {
+        $this->response->redirect('/', true, 301);
+    }
 	
 }

@@ -18,13 +18,52 @@ $router->add(
 	[
 		'controller' => 'index',
 		'action' => 'city',
+        'excluded' => true
 	]
+);
+$router->add(
+    '/sitemap.xml',
+    [
+        'controller' => 'sitemap',
+        'action' => 'index',
+        'excluded' => true
+    ]
 );
 $router->add(
     '/search-full',
     [
         'controller' => 'index',
         'action' => 'searchFull',
+    ]
+);
+$router->add(
+    '/goryashchie-tury',
+    [
+        'controller' => 'index',
+        'action' => 'hot',
+    ]
+);
+$router->add(
+    '/tury-bez-pereleta',
+    [
+        'controller' => 'index',
+        'action' => 'withoutFlight',
+    ]
+);
+$router->add(
+    '/kontakty',
+    [
+        'controller' => 'index',
+        'action' => 'kontakty',
+        'excluded' => true
+    ]
+);
+$router->add(
+    '/mobile.html',
+    [
+        'controller' => 'index',
+        'action' => 'mobileHtml',
+        'excluded' => true
     ]
 );
 $router->add(
@@ -60,6 +99,7 @@ $router->add(
 	[
 		'controller' => 'index',
 		'action' => 'migrate',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -88,13 +128,15 @@ $router->add(
 	[
 		'controller' => 'tour',
 		'action' => 'index',
+        'excluded' => true
 	]
 );
 $router->add(
-	'/pay/{requestId:[0-9]+}',
+	'/pay/{paymentId:[0-9]+}',
 	[
 		'controller' => 'pay',
 		'action' => 'index',
+        'excluded' => true
 	]
 );
 
@@ -104,6 +146,7 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'short',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -111,6 +154,7 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'index',
+        'excluded' => true
 	]
 );
 
@@ -119,6 +163,7 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'hotel',
+        'excluded' => true
 	]
 );
 
@@ -128,6 +173,7 @@ $router->add(
 	[
 		'controller' => 'hotel',
 		'action' => 'index',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -135,6 +181,7 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'hotelShort',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -142,6 +189,7 @@ $router->add(
 	[
 		'controller' => 'search',
 		'action' => 'hotel',
+        'excluded' => true
 	]
 );
 
@@ -158,6 +206,7 @@ $router->add(
 	[
 		'controller' => 'countries',
 		'action' => 'country',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -165,6 +214,7 @@ $router->add(
 	[
 		'controller' => 'countries',
 		'action' => 'tury',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -172,6 +222,7 @@ $router->add(
 	[
 		'controller' => 'countries',
 		'action' => 'region',
+        'excluded' => true
 	]
 );
 
@@ -188,6 +239,7 @@ $router->add(
 	[
 		'controller' => 'blog',
 		'action' => 'post',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -195,6 +247,7 @@ $router->add(
 	[
 		'controller' => 'blog',
 		'action' => 'author',
+        'excluded' => true
 	]
 );
 $router->add(
@@ -202,6 +255,7 @@ $router->add(
 	[
 		'controller' => 'blog',
 		'action' => 'entry',
+        'excluded' => true
 	]
 );
 
@@ -211,6 +265,7 @@ $router->add(
 	[
 		'controller' => 'index',
 		'action' => 'robots',
+        'excluded' => true
 	]
 );
 

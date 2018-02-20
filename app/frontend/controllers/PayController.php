@@ -11,8 +11,10 @@ use Phalcon\Text;
 
 class PayController extends BaseController
 {
-	public function indexAction($paymentId = 0)
+	public function indexAction()
 	{
+	    $paymentId = $this->dispatcher->getParam('paymentId');
+
 		$payment = Payments::findFirst('id="' . $paymentId . '"');
 
 		$uniteller = new Uniteller();
