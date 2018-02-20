@@ -32,7 +32,6 @@ class CountriesController extends ControllerBase
 		$countries = $builder->getQuery()->execute();
 
 		$this->view->setVar('countries', $countries);
-
 	}
 
 	public function countryAction()

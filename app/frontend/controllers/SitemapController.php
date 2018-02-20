@@ -2,9 +2,13 @@
 
 namespace Frontend\Controllers;
 
+use Models\Countries;
+use Models\Blog\Posts;
+use Models\Entities\Country;
+use Models\Regions;
+
 class SitemapController extends BaseController
 {
-
     public function indexAction() {
         $this->view->disable();
 
@@ -34,9 +38,27 @@ class SitemapController extends BaseController
             }
         }
 
+        $countries = Countries::find('uri IS NOT NULL');
+        foreach ($countries as $country) {
+            $this->addUrl($sitemap, $urlset, 'countries/' . $country->uri, 'weekly', '0.5');
+        }
+
+        $posts = Posts::find('uri IS NOT NULL');
+        foreach ($posts as $post) {
+            $this->addUrl($sitemap, $urlset, 'blog/' . $post->uri, 'weekly', '0.5');
+        }
+
         $sitemap->appendChild($urlset);
 
         echo $sitemap->saveXML();
+    }
+
+    private function addUrl(&$sitemap, &$urlset, $path, $changefreq, $priority) {
+        $url = $sitemap->createElement('url');
+        $url->appendChild($sitemap->createElement('loc', $this->url->get($path)));
+        $url->appendChild($sitemap->createElement('changefreq', $changefreq));
+        $url->appendChild($sitemap->createElement('priority', $priority));
+        $urlset->appendChild($url);
     }
 
 }
