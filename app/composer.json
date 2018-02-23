@@ -12,7 +12,8 @@
   "require": {
 	"mpdf/mpdf": "v6.1.2",
 	"mobiledetect/mobiledetectlib": "^2.8",
-    "roave/security-advisories": "dev-master"
+    "roave/security-advisories": "dev-master",
+    "paragraph1/php-fcm": "^0.7.0"
   },
   "require-dev": {
 	"phalcon/devtools": "~3.2",

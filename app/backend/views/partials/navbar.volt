@@ -13,6 +13,11 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="#" id="subscribe">
+						<i class="glyphicon glyphicon-send"></i> Подписаться на уведомления
+					</a>
+				</li>
 				<li><a href="{{ backend_url('users/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Выйти</a></li>
 			</ul>
 		</div>

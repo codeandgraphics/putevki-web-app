@@ -2,6 +2,7 @@
 
 namespace Backend\Controllers;
 
+use Backend\Plugins\FCM;
 use Backend\Models\Requests;
 use Backend\Models\Payments;
 use Backend\Models\Tourists;
@@ -124,6 +125,45 @@ class IndexController extends ControllerBase
 			$post->create();
 		}*/
 	}
+
+	public function subscribeFCMAction() {
+	    $this->view->disable();
+	    $token = $this->request->getPost('token');
+
+	    $user = $this->user;
+	    if(!is_array($user->fcmTokens)) {
+	        $user->fcmTokens = [];
+        }
+
+	    if(!in_array($token, $user->fcmTokens)) {
+            array_push($user->fcmTokens, $token);
+            return json_encode(['saved' => $user->save()]);
+        }
+
+        return json_encode(['saved' => true]);
+
+    }
+
+    public function unsubscribeFCMAction() {
+        $this->view->disable();
+        $token = $this->request->getPost('token');
+
+        $user = $this->user;
+
+        if(in_array($token, $user->fcmTokens)) {
+            if (($key = array_search($token, $user->fcmTokens)) !== false) {
+                unset($user->fcmTokens[$key]);
+            }
+            return json_encode(['saved' => $user->save()]);
+        }
+
+        return json_encode(['saved' => true]);
+    }
+
+    public function trySendAction() {
+	    $fcm = new FCM();
+	    $fcm->send('test', 'test body', $this->user->fcmTokens[0]);
+    }
 
 }
 

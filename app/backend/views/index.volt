@@ -76,4 +76,19 @@ $current->action = $this->dispatcher->getActionName();
 <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
 
+<script src="https://www.gstatic.com/firebasejs/4.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.10.0/firebase-messaging.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBSKwGCj0xVyPPKvzo1pR0Q_q5iNz5t1mk",
+        authDomain: "putevki-169214.firebaseapp.com",
+        databaseURL: "https://putevki-169214.firebaseio.com",
+        projectId: "putevki-169214",
+        storageBucket: "putevki-169214.appspot.com",
+        messagingSenderId: "85446875719"
+    };
+    firebase.initializeApp(config);
+</script>
+
 </html>

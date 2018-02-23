@@ -25,6 +25,7 @@ class Users extends BaseModel
 	public $role;
 	public $company;
 	public $imageUrl;
+	public $fcmTokens = [];
 	public $lastLogin = null;
 	public $creationDate = null;
 	public $deleted = Users::NOT_DELETED;
@@ -65,5 +66,13 @@ class Users extends BaseModel
 
 		return $this->validate($validator);
 	}
+
+	public function beforeSave() {
+	    $this->fcmTokens = json_encode($this->fcmTokens);
+    }
+
+    public function afterFetch() {
+        $this->fcmTokens = json_decode($this->fcmTokens);
+    }
 
 }
