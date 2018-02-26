@@ -59,7 +59,7 @@
 
 {{ partial('partials/modals') }}
 
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <!--LiveInternet counter-->
 <script type="text/javascript">
     new Image().src = "//counter.yadro.ru/hit?r"+

@@ -32,7 +32,7 @@ export default class BranchesMap {
   createMap() {
     this.map = new this.ymaps.Map('mainMap', {
       center: [parseFloat(this.city.lat), parseFloat(this.city.lon)],
-      zoom: parseInt(this.city.zoom, 10),
+      zoom: parseInt(this.city.zoom, 4),
       controls: ['zoomControl'],
     });
 
@@ -55,9 +55,10 @@ export default class BranchesMap {
           iconImageOffset: [-18, -44],
         }),
       );
-      this.map.setBounds(this.map.geoObjects.getBounds());
-      this.map.setZoom(this.map.getZoom() - 0.4);
     });
+
+    this.map.setBounds(this.map.geoObjects.getBounds());
+    this.map.setZoom(this.map.getZoom());
 
     $('.block.map .loader').hide();
   }

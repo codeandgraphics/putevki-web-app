@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	var env = 'production';
 </script>
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script src="{{ static_url() }}js/libraries.min.js"></script>
 <script src="{{ static_url() }}js/common.min.js"></script>
 
