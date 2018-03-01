@@ -54,7 +54,7 @@ class IndexController extends BaseController
 			$add = ' с вылетом из ' . $this->city->departure->nameFrom;
 		}
 
-		$title = 'Купить тур онлайн в ' . $this->city->nameDat . $add . ' на ';
+		$title = 'Купить тур онлайн в ' . $this->city->namePre . $add . ' на ';
 
 		$this->view->setVars([
 			'populars'			=> $popularItems,
