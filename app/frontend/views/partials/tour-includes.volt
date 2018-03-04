@@ -1,5 +1,5 @@
 <div class="tour-includes">
-    В стоимость каждой путёвки обычно входит:
+    В стоимость каждой путевки обычно входит:
     <dl class="dl-horizontal">
         <dt><i class="ion-key"></i></dt>
         <dd>Проживание в отеле</dd>

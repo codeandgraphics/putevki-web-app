@@ -22,7 +22,7 @@
 							Ура! Египет открыт для туристов из России!
                         {% else %}
 							К сожалению, мы не может предложить вам вылеты из городов России, но у нас есть
-							<a href="https://tez-tour.putevki.ru" target="_blank">путёвки и туры в Египет из Беларуси</a>!
+							<a href="https://tez-tour.putevki.ru" target="_blank">путевки и туры в Египет из Беларуси</a>!
                         {% endif %}
                     {% else %}
 						<div class="row">

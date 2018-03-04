@@ -9,7 +9,7 @@
 			<div class="wrap">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="callBackModalLabel">Поможем найти путёвку</h4>
+					<h4 class="modal-title" id="callBackModalLabel">Поможем найти путевку</h4>
 					<div class="free">Бесплатно!</div>
 				</div>
 				<div class="modal-body">
@@ -27,7 +27,7 @@
 						</div>
 
 						<div class="submit">
-							<button type="submit" class="btn btn-lg btn-primary">Подберите мне путёвку!</button>
+							<button type="submit" class="btn btn-lg btn-primary">Подберите мне путевку!</button>
 						</div>
 
 						{% if lastQueries|length > 0 %}
@@ -41,7 +41,7 @@
 							</div>
 						{% endif %}
 
-						<p>Наши менеджеры свяжутся с вами и помогут подобрать лучшую путёвку.<br/>Абсолютно бесплатно!</p>
+						<p>Наши менеджеры свяжутся с вами и помогут подобрать лучшую путевку.<br/>Абсолютно бесплатно!</p>
 					</form>
 
 					<div class="message">

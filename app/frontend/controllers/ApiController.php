@@ -88,6 +88,14 @@ class ApiController extends BaseController
 		return new JSONResponse(Error::NO_ERROR);
 	}
 
+	public function citiesAndCountriesAction() : JSONResponse
+    {
+        return new JSONResponse(Error::NO_ERROR, [
+            'cities' => $this->cities,
+            'countries' => $this->countries
+        ]);
+    }
+
 	public function requestAction()
 	{
 		if ($this->request->isPost()) {

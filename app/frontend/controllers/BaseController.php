@@ -20,6 +20,7 @@ class BaseController extends Controller
 	public $departure;
 	public $cities;
 	public $branches;
+	public $countries;
 	public $formCountries = '';
 	public $formRegions = '';
 	public $lastQueries = [];
@@ -58,7 +59,7 @@ class BaseController extends Controller
 			->where('country.active = 1')
 			->orderBy('tourvisor.name');
 
-		$countries = $builder->getQuery()->execute();
+		$this->countries = $builder->getQuery()->execute();
 
 		$this->city = Cities::findFirst('id=' . $this->params->city);
 		$this->departure = Departures::findFirst('id=' . $this->params->search->from);
@@ -70,7 +71,7 @@ class BaseController extends Controller
 			'formRegions' => $this->formRegions,
 			'formCountries' => $this->formCountries,
 			'lastQueries' => $this->lastQueries,
-			'countries' => $countries,
+			'countries' => $this->countries,
             'meta' => new Meta(
                 'Путёвки, туры, покупка путёвок в интернет-магазине',
                 'Вы можете выбрать путевку или тур на сайте Путевки.ру'

@@ -22,37 +22,36 @@ $(document).ready(() => {
   moment.locale('ru');
 
   let page = null;
+  $.get('/api/citiesAndCountries', citiesAndCountries => {
+    switch (global.route) {
+      case 'main':
+        page = new MainPage(citiesAndCountries);
+        break;
+      case 'search':
+        page = new SearchPage();
+        break;
+      case 'tour':
+        page = new TourPage();
+        break;
+      case 'hotel':
+        page = new HotelPage();
+        break;
+      case 'country':
+        page = new CountryPage();
+        break;
+      default:
+        break;
+    }
 
-  switch (global.route) {
-    case 'main':
-      page = new MainPage();
-      break;
-    case 'search':
-      page = new SearchPage();
-      break;
-    case 'tour':
-      page = new TourPage();
-      break;
-    case 'hotel':
-      page = new HotelPage();
-      break;
-    case 'country':
-      page = new CountryPage();
-      break;
-    default:
-      break;
-  }
+    initActions();
 
-  initActions();
+    mobileOverlay();
 
-  mobileOverlay();
+    const modals = new Modals();
+    modals.init();
 
-  const modals = new Modals();
-  modals.init();
+    if (page) page.init();
 
-  if (page) page.init();
-
-  if (IS_DEV) console.log(`Current route: ${global.route}`);
+    if (IS_DEV) console.log(`Current route: ${global.route}`);
+  });
 });
-
-export default {};

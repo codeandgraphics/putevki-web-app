@@ -39,7 +39,9 @@
 					служба поддержки клиентов
 				</div>
 				<div class="request">
-					<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal"><i class="ion-map"></i> Подберите мне путёвку</button>
+					<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal">
+						<i class="ion-map"></i> Подберите мне путевку
+					</button>
 				</div>
 				<div class="location">
 					<i class="ion-location"></i>

@@ -10,7 +10,7 @@
 
 	<meta name="mobile-web-app-capable" content="yes">
 
-	<title>{{ title }} – Путевки.ру</title>
+	<title>{{ title }} – Путёвки.ру</title>
 
 	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />
 
@@ -18,7 +18,7 @@
 <body>
 <div style='font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; width: 500px; margin: 50px auto; text-align: center;'>
 	Перенаправляем вас на страницу оплаты...<br/><br/>
-	<a href="{{ url() }}" style="font-size: 11px;">Путевки.ру</a>
+	<a href="{{ url() }}" style="font-size: 11px;">Путёвки.ру</a>
 </div>
 <form action="https://wpay.uniteller.ru/pay/" method="POST" id="buy" style="display:none;">
 	<input type="hidden" name="Shop_IDP" value="{{ uniteller.Shop_IDP }}">

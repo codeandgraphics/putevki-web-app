@@ -10,11 +10,15 @@ const env = config.frontend.env;
 const version = config.frontend.version;
 const staticPath = config.app.staticPath;
 
-const publicPath = `//${
-  config.app.staticDomain
-  }${config.frontend.staticUri.replace('%version%', version)}`;
+const isProduction = env === 'production';
 
-const assetsPath = env === 'production' ? `${staticPath + version}/` : path.resolve(__dirname, "build");
+const publicPath = isProduction ? `//${
+  config.app.staticDomain
+  }${config.frontend.staticUri.replace('%version%', version)}`: `/build/`;
+
+const assetsPath = isProduction
+  ? `${staticPath + version}/`
+  : path.resolve(__dirname, "../public/build");
 
 module.exports = {
   entry: ['./app.es6'],

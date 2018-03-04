@@ -266,8 +266,6 @@ class FindTourModal {
       this.$.modal.find(`#selected dd.${key}`).addClass('hide');
     }
 
-    if (IS_DEV) console.log(['beach', 'excursion', 'skiing'].indexOf(key));
-
     if (['beach', 'excursion', 'skiing'].indexOf(key) !== -1) {
       if (this.data.beach || this.data.excursion || self.data.skiing) {
         this.$.modal.find('#selected dt.text-types').removeClass('hide');
