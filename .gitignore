@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+assets-frontend/build/
 *.iws
 /out/
 .idea_modules/

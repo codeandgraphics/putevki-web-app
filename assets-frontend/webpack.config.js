@@ -1,18 +1,20 @@
 const webpack = require('webpack');
+const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const fs = require('fs');
 const ini = require('ini');
 
 const config = ini.parse(fs.readFileSync('../app/config.ini', 'utf-8'));
-const staticPath = config.app.staticPath;
+const env = config.frontend.env;
 const version = config.frontend.version;
+const staticPath = config.app.staticPath;
 
 const publicPath = `//${
   config.app.staticDomain
   }${config.frontend.staticUri.replace('%version%', version)}`;
 
-const assetsPath = `${staticPath + version}/`;
+const assetsPath = env === 'production' ? `${staticPath + version}/` : path.resolve(__dirname, "build");
 
 module.exports = {
   entry: ['./app.es6'],
@@ -34,10 +36,13 @@ module.exports = {
         to: 'static/',
       },
     ]),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),
   ],
   resolve: {
     alias: {
       './dependencyLibs/inputmask.dependencyLib': './dependencyLibs/inputmask.dependencyLib.jquery',
+      lodash: path.resolve(__dirname, 'node_modules/lodash'),
+      jquery: path.resolve(__dirname, 'node_modules/jquery'),
     },
   },
   module: {

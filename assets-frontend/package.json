@@ -1,7 +1,10 @@
 {
 	"name": "putevki-assets",
 	"version": "2.6.1",
+	"license": "GPL-3.0",
+	"author": "George Viazemsky <code@and.graphics>",
 	"scripts": {
+		"analyze": "source-map-explorer build/bundle.js",
 		"start": "webpack --progress",
 		"build": "webpack -p --progress",
 		"watch": "webpack -w"
@@ -22,8 +25,9 @@
 		"file-loader": "^0.11.2",
 		"imports-loader": "^0.7.1",
 		"ini": "^1.3.4",
-		"less": "^2.7.2",
+		"less": "^2.7.3",
 		"less-loader": "^4.0.4",
+		"source-map-explorer": "^1.5.0",
 		"style-loader": "^0.18.2",
 		"url-loader": "^0.5.9",
 		"webpack": "^3.0.0"
@@ -37,7 +41,7 @@
 		"form-serialize": "^0.7.2",
 		"inputmask": "^3.3.7",
 		"ion-rangeslider": "^2.2.0",
-		"ionicons": "^2.0.1",
+		"ionicons": "^3.0.0",
 		"jquery": "^3.2.1",
 		"jquery.scrollto": "^2.1.2",
 		"lesshat": "^4.1.0",
