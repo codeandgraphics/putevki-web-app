@@ -28,6 +28,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 composer.phar
-/vendor/
-
+vendor/
+*.volt.php
 node_modules/

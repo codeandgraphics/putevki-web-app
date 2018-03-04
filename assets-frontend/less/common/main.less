@@ -9,8 +9,10 @@ main {
 
 	.page{
 
-		& > .container > .row{
+		& > .container.flex{
 			.display(flex);
+			padding-right: 5px;
+			padding-left: 5px;
 
 			.sidebar{
 				.flex(1);
@@ -53,7 +55,7 @@ main {
 				z-index: 1;
 				position: relative;
 
-				.wrap{
+				> .wrap{
 					position: relative;
 					background: @color-white;
 				}
@@ -125,34 +127,37 @@ main {
 		}
 	}
 
-	.countries{
-		margin-top: 40px;
+	.bottomCountries{
+		 margin-top: 40px;
 
-		.row{
-			margin: 20px auto;
-			width: 90%;
-		}
+		 .row{
+			 margin: 20px auto;
+			 width: 90%;
+		 }
 
-		.country{
-			padding: 3px 6px;
+		 .country{
+			 padding: 3px 6px;
 
-			img{
-				width: auto;
-				margin-top: -7px;
-			}
+			 img{
+				 width: auto;
+				 margin-top: -7px;
+			 }
 
-			a{
-				color: @color-text-gray;
-				display: inline-block;
-				width: 105px;
-				height: 22px;
-				line-height: 28px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
-	}
+			 a{
+				 color: @color-text-gray;
+				 display: inline-block;
+				 width: 103px;
+				 height: 22px;
+				 line-height: 28px;
+				 margin-left: 4px;
+				 overflow: hidden;
+				 white-space: nowrap;
+				 text-overflow: ellipsis;
+
+				 .animateLink;
+			 }
+		 }
+	 }
 
 	#upButton{
 		position: fixed;
@@ -179,4 +184,25 @@ main {
 			opacity: 0.5;
 		}
 	}
+
+  &.best-tours {
+    .operators-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      :first-child {
+        margin-left: 0;
+      }
+      :last-child {
+        margin-right: 0;
+      }
+
+      a {
+        margin: 0 10px;
+      }
+    }
+  }
 }

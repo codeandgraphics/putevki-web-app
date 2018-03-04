@@ -42,6 +42,7 @@ export default class Tour {
 
     this.$.loader = this.$.tour.find('.actualize');
     this.$.flights = this.$.tour.find('.flights');
+    this.$.part = this.$.flights.find('.part.template');
     this.$.tourists = this.$.tour.find('.tourists');
     this.$.payVariants = this.$.tour.find('.pay-variants');
     this.$.later = this.$.tourists.find('#tourists-later');
@@ -88,27 +89,28 @@ export default class Tour {
 
     $.getJSON(this.$.flights.data('url'), (data) => {
       this.$.loader.addClass('hide');
+      const details = data.details;
 
-      if (data.iserror) {
+      if (data.error.code !== 0 || details.actualized === false) {
         this.cannotActualize();
       } else {
         this.$.flights.removeClass('hide');
 
-        if (data.flights.length === 0) {
+        if (details.flights.length === 0) {
           this.hasNoFlights();
         } else {
-          this.basePrice = data.flights[0].price.value;
-          const $firstFlight = this.buildFlight(data.flights[0]);
+          this.basePrice = details.flights[0].price;
+          const $firstFlight = this.buildFlight(details.flights[0]);
 
           if ($firstFlight) {
             $firstFlight.click();
             $items.append($firstFlight);
 
-            if (data.flights.length > 1) {
+            if (details.flights.length > 1) {
               const $moreItems = this.$.flights.find('#more-flights');
               $variants.removeClass('hide');
-              for (let i = 1; i < data.flights.length; i += 1) {
-                const $flight = this.buildFlight(data.flights[i]);
+              for (let i = 1; i < details.flights.length; i += 1) {
+                const $flight = this.buildFlight(details.flights[i]);
                 $moreItems.append($flight);
               }
             }
@@ -117,13 +119,11 @@ export default class Tour {
           }
         }
 
-        if (data.tourinfo.flags != null) {
-          const flags = data.tourinfo.flags;
-          for (const flag in flags) {
-            if (flags.hasOwnProperty(flag)) {
-              if (flags[flag]) {
-                $includes.find(`.${flag}`).addClass('none');
-              }
+        const flags = details.info.flags;
+        for (const flag in flags) {
+          if (flags.hasOwnProperty(flag)) {
+            if (!flags[flag]) {
+              $includes.find(`.flag-${flag}`).addClass('none');
             }
           }
         }
@@ -142,48 +142,59 @@ export default class Tour {
     $flight.removeClass('template');
 
     const directions = {
-      forward: flight.forward[0],
-      backward: flight.backward[0],
+      forward: flight.forward,
+      backward: flight.backward,
     };
+
+    $flight.css('height', 70 * Math.max(directions.forward.length, directions.backward.length));
 
     for (const dir in directions) {
       const $direction = $flight.find(`.${dir}`);
-      const direction = directions[dir];
+      const flights = directions[dir];
 
-      $direction.prop('title', `${direction.company.name}, рейс ${direction.number}, ${direction.plane}`);
-      $direction.tooltip();
+      flights.forEach((part) => {
+        const $part = this.$.part.clone();
+        $part.removeClass('template');
 
-      const date = moment(flight[`date${dir}`], 'DD.MM.YYYY');
+        $part.prop('title', `${part.company.name}, рейс ${part.number}, ${part.plane}`);
+        $part.tooltip();
 
-      const $departure = $direction.find('.departure');
-      const $arrival = $direction.find('.arrival');
+        const date = moment(flight[`date${dir}`], 'DD.MM.YYYY');
 
-      if (date.isValid()) {
-        $departure.find('.date').text(date.format('D MMMM'));
-        $arrival.find('.date').text(date.format('D MMMM'));
-      } else {
-        $departure.find('.date').text('Уточняется');
-        $arrival.find('.date').text('Уточняется');
-      }
+        const $departure = $part.find('.departure');
+        const $arrival = $part.find('.arrival');
 
-      const departureTime = moment(direction.departure.time, 'HH:mm');
-      $departure.find('.time').text(departureTime.format('HH:mm'));
-      $departure.find('.airport').text(`${direction.departure.port.id}, ${direction.departure.port.name}`);
+        if (date.isValid()) {
+          $departure.find('.date').text(date.format('D MMMM'));
+          $arrival.find('.date').text(date.format('D MMMM'));
+        } else {
+          $departure.find('.date').text('Уточняется');
+          $arrival.find('.date').text('Уточняется');
+        }
 
-      const arrivalTime = moment(direction.arrival.time, 'HH:mm');
-      $arrival.find('.time').text((arrivalTime.isValid()) ? arrivalTime.format('HH:mm') : '??:??');
-      $arrival.find('.airport').text(`${direction.arrival.port.id}, ${direction.arrival.port.name}`);
+        const departureTime = moment(part.departure.time, 'HH:mm');
+        $departure.find('.time').text(departureTime.format('HH:mm'));
+        $departure.find('.airport').text(`${part.departure.port.id}, ${part.departure.port.name}`);
+
+        const arrivalTime = moment(part.arrival.time, 'HH:mm');
+        $arrival.find('.time').text((arrivalTime.isValid()) ? arrivalTime.format('HH:mm') : '??:??');
+        $arrival.find('.airport').text(`${part.arrival.port.id}, ${part.arrival.port.name}`);
+
+        $direction.append($part);
+      });
     }
 
-    $flight.find('.charge').html(`${flight.fuelcharge.value} <span>руб.</span>`);
+    $flight.find('.charge').html(`${flight.fuel.value} <span>руб.</span>`);
 
     const $fuel = $flight.find('.fuel');
-    if (this.basePrice < flight.price.value) {
-      $fuel.find('.changed .more').removeClass('hide');
+    const diff = (this.basePrice + this.price.fuel) - flight.price;
+
+    if (diff < 0) {
+      $flight.find('.changed .more').removeClass('hide').text(`Дороже на ${Humanize.price(Math.abs(diff))} руб.`);
       $fuel.find('.data').addClass('is-changed');
     }
-    if (this.basePrice > flight.price.value) {
-      $fuel.find('.changed .less').removeClass('hide');
+    if (diff > 0) {
+      $flight.find('.changed .less').removeClass('hide').text(`Дешевле на ${Humanize.price(Math.abs(diff))} руб.`);
       $fuel.find('.data').addClass('is-changed');
     }
 
@@ -191,8 +202,8 @@ export default class Tour {
       this.$.flights.find('.flight').removeClass('active');
       $flight.addClass('active');
 
-      this.setPrice('fuel', flight.fuelcharge.value);
-      this.setPrice('price', flight.price.value);
+      this.setPrice('fuel', flight.fuel.value);
+      this.setPrice('price', flight.price);
 
       this.flight = flight;
     });
@@ -208,7 +219,7 @@ export default class Tour {
 
   cannotActualize() {
     this.$.tour.find('.no-actualize').removeClass('hide');
-    this.cannotPay();
+    // this.cannotPay();
   }
 
   withoutFlight() {
@@ -217,7 +228,7 @@ export default class Tour {
 
   hasNoFlights() {
     this.$.flights.find('.no-flights').removeClass('hide');
-    this.cannotPay();
+    // this.cannotPay();
   }
 
   setActions() {
@@ -253,15 +264,16 @@ export default class Tour {
     this.$.forms.online.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('online');
+      return false;
     });
 
-    this.$.forms.office.on('submit', function submitOffice(e) {
+    this.$.forms.office.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('office');
       return false;
     });
 
-    this.$.forms.request.on('submit', function submitRequest(e) {
+    this.$.forms.request.on('submit', (e) => {
       e.preventDefault();
       this.checkForm('request');
       return false;
@@ -271,24 +283,6 @@ export default class Tour {
       const $el = $(e.target);
       $el.hide();
       $('#more-flights').collapse('show');
-      return false;
-    });
-
-    this.$.flights.find('.flight').off('click').on('click', (e) => {
-      const $el = $(e.target);
-      if ($el.not('.active')) {
-        this.$.flights.find('.flight').removeClass('active');
-        $el.addClass('active');
-
-        const fuel = parseInt($el.data('fuel'), 10);
-        const price = parseInt($el.data('price'), 10) - fuel;
-
-        this.setPrice('fuel', fuel);
-        this.setPrice('price', price);
-
-        this.flight = $el.data('flight-id');
-      }
-
       return false;
     });
 
@@ -321,9 +315,9 @@ export default class Tour {
 
       const formData = serializeForm($form);
 
-      formData.price = this.tourData.price;
+      formData.price = this.getFullPrice();
       formData.tour = this.tourData;
-      formData.flight = this.flight;
+      formData.flight = this.transformFlight();
 
       if (type === 'online') {
         this.sendOnline(formData, type);
@@ -341,7 +335,6 @@ export default class Tour {
   }
 
   sendOnline(data, type) {
-
     $('#onlineStatusModal').modal({
       backdrop: 'static',
       keyboard: false,
@@ -400,4 +393,51 @@ export default class Tour {
 
     this.$.prices.find('.tour-sum strong').text(`${Humanize.price(sum)} руб.`);
   }
+
+  getFullPrice() {
+    let sum = this.price.price + this.price.fuel;
+    sum += this.price.visa * this.tour.visa;
+
+    return sum;
+  }
+
+  transformFlight() {
+    const newFlight = Object.assign({}, this.flight);
+
+    if(!this.flight) {
+      return false;
+    }
+
+    if (this.flight.forward.length > 0 && this.flight.backward.length > 0) {
+      newFlight.forward = [];
+      newFlight.backward = [];
+
+      const setItem = (item, isForward) => ({
+        number: item.number,
+        plane: item.plane,
+        company: `${item.company.name} (${item.company.id})`,
+        departure: {
+          date: isForward ? this.flight.forwardDate : this.flight.backwardDate,
+          time: item.departure.time,
+          port: `${item.departure.port.name} (${item.departure.port.id})`,
+        },
+        arrival: {
+          date: isForward ? this.flight.forwardDate : this.flight.backwardDate,
+          time: item.arrival.time,
+          port: `${item.arrival.port.name} (${item.arrival.port.id})`,
+        },
+      });
+
+      this.flight.forward.forEach((item) => {
+        newFlight.forward.push(setItem(item, true));
+      });
+
+      this.flight.backward.forEach((item) => {
+        newFlight.backward.push(setItem(item, false));
+      });
+    }
+
+    return newFlight;
+  }
+
 }

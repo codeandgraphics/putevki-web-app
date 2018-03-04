@@ -1,3 +1,4 @@
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&subset=cyrillic");
 
 body {
 	 padding-top: 50px;
@@ -939,9 +940,9 @@ pre code {
 	background: #259dab;
 	padding: 7px 9px;
 }
-.panel-body .icon.tourists{
+.panel-body .icon.apps{
 	background: #5bc0de;
-	padding: 7px 16px;
+	padding: 7px 24px;
 }
 .panel-body .panel-title {
 	color: #818da7;
@@ -1024,7 +1025,7 @@ pre code {
 	background-color: #e9f3fa;
 }
 .table-success {
-	background-color: #e9f8fa;
+	background-color: #dcf2df;
 }
 .table-warning {
 	background-color: #fdf9f2;
@@ -3205,8 +3206,7 @@ a.label:focus {
 }
 @media (max-width: 767px) {
 	.signpanel {
-		background-image: none;
-		background-color: #262b36;
+		background: none #262b36;
 		opacity: 1;
 	}
 }
@@ -3394,4 +3394,71 @@ a.label:focus {
 	right: 10px;
 	top: 5px;
 	padding: 14px 6px;
+}
+
+.editable {
+	max-height:500px;
+	height: 500px;
+	overflow: hidden;
+}
+
+.ql-snow .ql-editor {
+	font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+	font-size: 15px;
+}
+.ql-snow .ql-editor img {
+	float: right;
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+.ql-snow .ql-editor h2 {
+	font-size: 24px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor h3 {
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor h4 {
+	font-size: 18px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+.ql-snow .ql-editor p {
+	margin: 0 0 10px;
+	font-size: 15px;
+	width: 828px;
+}
+.ql-snow .ql-editor ul {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.icon-origin {
+	font-size: 20px;
+}
+
+.icon-origin .fa-mobile {
+	margin-left: 6px;
+	font-size: 24px;
+}
+
+.icon-origin .fa-apple {
+	margin-left: 4px;
+}
+
+.icon-origin .fa-android {
+	margin-left: 4px;
+}
+
+#unsubscribe {
+	padding: 15px;
+	line-height: 20px;
+	display: block;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	vertical-align: middle;
 }

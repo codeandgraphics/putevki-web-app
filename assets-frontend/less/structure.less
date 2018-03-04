@@ -7,6 +7,10 @@ html, body {
 	width: 100%;
 	color: @color-text-main;
 	min-width: 960px;
+	font-size: 15px;
+
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-text-stroke:1px transparent;
 
 	.font-light;
 }
@@ -48,7 +52,7 @@ h2{
 	font-size: 20px;
 
 	small{
-		font-size: 14px;
+		font-size: 15px;
 	}
 }
 
@@ -146,12 +150,13 @@ a{
 	cursor:pointer;
 	text-decoration:underline;
 	color: @color-blue;
+	outline: none;
 
-	.transition(all 0.1s ease-in-out);
+	.animateLink;
+}
 
-	&:hover{
-		color: @color-orange;
-	}
+button {
+	outline: none;
 }
 
 .no-gutter > [class*='col-'] {
@@ -186,7 +191,7 @@ a.internal {
 	text-decoration: none;
 	text-align: left;
 
-	.transition(all 0.05s ease-in-out);
+	.transition(all 0.2s ease-in-out);
 
 	&:disabled,
 	&.disabled,
@@ -198,7 +203,7 @@ a.internal {
 		outline: none !important;
 		margin: 0;
 
-		.transition(all 0.05s ease-in-out);
+		.transition(all 0.2s ease-in-out);
 	}
 
 	&.btn-default{
@@ -319,4 +324,26 @@ a.internal {
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+.pagination {
+	> li {
+		> a,
+		> span {
+			color: @color-blue;
+			border-color: @color-border;
+		}
+	}
+
+	> .active {
+		> a,
+		> span,
+		> a:hover,
+		> span:hover,
+		> a:focus,
+		> span:focus {
+			background-color: @color-blue;
+			border-color: @color-blue;
+		}
+	}
 }

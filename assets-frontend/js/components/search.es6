@@ -88,10 +88,10 @@ export default class Search {
 
       this.$.loader.show();
 
-      if (IS_DEV) console.log('[ПОИСК] Запускаем поиск', self.startDate);
+      if (IS_DEV) console.log('[ПОИСК] Запускаем поиск', this.startDate);
     } else {
       this.notFound();
-      if (IS_DEV) console.log('[ПОИСК] Нет данных для поиска', self.startDate);
+      if (IS_DEV) console.log('[ПОИСК] Нет данных для поиска', this.startDate);
     }
 
     $(window).on('scroll', () => {
@@ -135,7 +135,7 @@ export default class Search {
         this.first.toursTotal = status.tours;
         this.first.minPrice = status.price.min;
 
-        if (IS_DEV) console.log(`[ПОИСК] Нашел туры, получаем первые результаты. Прошло с начала: ${new Date() - self.startDate}мс`);
+        if (IS_DEV) console.log(`[ПОИСК] Нашел туры, получаем первые результаты. Прошло с начала: ${new Date() - this.startDate}мс`);
 
         this.getResults(this.first.hotelsTotal, (data) => {
           if (IS_DEV) console.log(`[ПОИСК] Получили первые результаты, ${this.first.hotelsTotal}${Humanize.hotelsFound(status.hotels)}. Прошло с начала: ${new Date() - this.startDate}мс`);

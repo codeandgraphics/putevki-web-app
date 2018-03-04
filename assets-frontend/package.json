@@ -1,6 +1,6 @@
 {
 	"name": "putevki-assets",
-	"version": "2.5.1",
+	"version": "2.6.1",
 	"scripts": {
 		"start": "webpack --progress",
 		"build": "webpack -p --progress",

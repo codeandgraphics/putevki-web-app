@@ -12,7 +12,6 @@ body{
 
 .search{
 
-
 	.sidebar{
 
 		.head{
@@ -154,7 +153,7 @@ body{
 						color: @color-text-gray;
 						display: block;
 						font-weight: @font-light;
-						margin-bottom: 0px;
+						margin-bottom: 0;
 					}
 
 					input{
@@ -194,7 +193,8 @@ body{
 						color: @color-text-gray;
 						display: block;
 						font-weight: @font-light;
-						margin-bottom: 0px;
+						margin-bottom: 0;
+						cursor: pointer;
 					}
 
 					ul{
@@ -293,10 +293,12 @@ body{
 				position: relative;
 				border-radius: 4px;
 
+				.transition(0.13s all ease);
+
 				.caret{
 					position: absolute;
 					right: 8px;
-					top: 11px;
+					top: 12px;
 					.transition(transform 0.2);
 				}
 
@@ -308,6 +310,12 @@ body{
 
 				div{
 					display: inline-block;
+				}
+
+				&:hover {
+					border-color: @color-blue;
+
+					.transition(0.13s all ease);
 				}
 			}
 
@@ -471,7 +479,7 @@ body{
 
 				.place {
 					display: block;
-					font-size: 13px;
+					font-size: 14px;
 					margin: 4px 0;
 
 					i {
@@ -488,7 +496,7 @@ body{
 					.type{
 						background: @color-blue;
 						border-radius: 4px;
-						font-size: 11px;
+						font-size: 13px;
 						margin-right: 5px;
 						color: @color-bg;
 
@@ -530,7 +538,7 @@ body{
 						.transition(all 0.05s ease-out);
 
 						&:hover{
-							background-size: 110% 110%;
+							background-size: 104% 104%;
 							.transition(all 0.3s ease);
 						}
 					}
@@ -552,6 +560,8 @@ body{
 							text-decoration: none;
 							color: @color-text-dark;
 							font-weight: @font-light;
+
+							.animateLink;
 						}
 					}
 
@@ -586,7 +596,8 @@ body{
 					}
 
 					.description{
-						font-size: 13px;
+						font-size: 14px;
+						line-height: 18px;
 					}
 
 				}
@@ -706,7 +717,7 @@ body{
 
 					.other{
 						margin-top: 10px;
-						font-size: 12px;
+						font-size: 14px;
 						text-align: center;
 
 						.variants-open{
@@ -755,32 +766,32 @@ body{
 						height:45px;
 
 						&.operator{
-							width: 145px;
+							width: 130px;
 							left: 0;
 
 							.data{
 								margin-left: 35px;
 
 								span{
-									width: 110px;
+									width: 95px;
 								}
 							}
 						}
 
 						&.date{
-							width: 100px;
-							left: 145px;
+							width: 110px;
+							left: 135px;
 
 							.data {
 								span{
-									width: 70px;
+									width: 80px;
 								}
 							}
 						}
 
 						&.room{
 							width: 170px;
-							left: 255px;
+							left: 245px;
 
 							.data {
 								span{
@@ -792,7 +803,7 @@ body{
 
 						&.meal{
 							width: 130px;
-							right: 130px;
+							right: 115px;
 
 							.data {
 								span{
@@ -826,7 +837,7 @@ body{
 								display: block;
 								height: 20px;
 								overflow: hidden;
-								word-wrap: break-word;
+								white-space: nowrap;
 								text-overflow: ellipsis;
 							}
 							small{

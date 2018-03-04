@@ -2,6 +2,33 @@
 	display: none;
 }
 
+#hot {
+	.items {
+		.item {
+			width: 235px;
+
+			&.hotel {
+				.about {
+					.where {
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
+					.info {
+						div.length {
+							width: 40%;
+						}
+
+						div.price {
+							width: 60%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 .block{
 	margin-bottom: 40px;
 
@@ -34,7 +61,7 @@
 				cursor: pointer;
 				
 				.image .bg{
-					background-size: 110% 110%;
+					background-size: 105% 105%;
 					.transition(all 0.3s ease);
 				}
 					

@@ -20,6 +20,7 @@ export default class SearchForm {
     this.$.people = this.$.form.find('.popup-people');
     this.$.from = this.$.form.find('.from');
     this.$.popup = $('.popup');
+    this.$.whereInput = this.$.form.find('.where input');
 
     this.popularCountries = this.$.form.data('countries').split(',');
     this.popularRegions = this.$.form.data('regions').split(',');
@@ -40,6 +41,23 @@ export default class SearchForm {
     };
 
     this.data = {};
+
+    this.bloodhounds = {
+      regions: new Bloodhound({
+          initialize: false,
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'countryName'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          identify: obj =>  obj.name
+      }),
+        countries: new Bloodhound({
+            initialize: false,
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            identify: obj =>  obj.name
+        })
+    };
+
+    this.destinationsData = null;
   }
 
   init() {
@@ -94,6 +112,11 @@ export default class SearchForm {
         const isVisible = (id !== 99);
         $fromText.toggle(isVisible);
 
+        if(this.data.from !== id) {
+          this.regenerateBloodhounds(id);
+          //this.$.whereInput.typeahead('val', '');
+        }
+
         this.data.from = id;
         this.$.from.find('.value').text(gen);
 
@@ -103,6 +126,38 @@ export default class SearchForm {
       })
       .find(`option[value=${this.data.from}]`)
       .prop('selected', true);
+  }
+
+  filterCountries(from) {
+    const { countries, departuresToCountries } = this.destinationsData;
+    const countriesFromDeparture = departuresToCountries[from];
+
+    return countries.filter(country => countriesFromDeparture.includes(country.id));
+  }
+
+  filterRegions(from) {
+      const { regions, departuresToCountries } = this.destinationsData;
+      const countriesFromDeparture = departuresToCountries[from];
+
+      return regions.filter(region => countriesFromDeparture.includes(region.country));
+  }
+
+  regenerateBloodhounds(from) {
+
+    if(!this.destinationsData)
+      return false;
+
+    if(this.bloodhounds.countries) {
+        this.bloodhounds.countries.initialize();
+        this.bloodhounds.countries.clear();
+        this.bloodhounds.countries.add(this.filterCountries(from));
+    }
+
+    if(this.bloodhounds.regions) {
+        this.bloodhounds.regions.initialize();
+        this.bloodhounds.regions.clear();
+        this.bloodhounds.regions.add(this.filterRegions(from));
+      }
   }
 
   whereActions() {
@@ -125,6 +180,10 @@ export default class SearchForm {
       const countriesList = [];
       const regionsList = [];
 
+      this.destinationsData = data;
+
+      this.regenerateBloodhounds(this.data.from);
+
       data.countries.forEach((country) => {
         countriesList[country.id] = country;
         countriesList[country.id].isCountry = true;
@@ -135,19 +194,6 @@ export default class SearchForm {
         regionsList[region.id].isRegion = true;
       });
 
-      const countries = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        identify(obj) { return obj.name; },
-        local: data.countries,
-      });
-
-      const regions = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'countryName'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        identify(obj) { return obj.name; },
-        local: data.regions,
-      });
 
       const hotelsQuery = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -170,17 +216,17 @@ export default class SearchForm {
 
       const countriesDefault = (q, sync) => {
         if (q === '') {
-          sync(countries.get(this.popularCountries));
+          sync(this.bloodhounds.countries.get(this.popularCountries));
         } else {
-          countries.search(q, sync);
+          this.bloodhounds.countries.search(q, sync);
         }
       };
 
       const regionsDefault = (q, sync) => {
         if (q === '') {
-          sync(regions.get(this.popularRegions));
+          sync(this.bloodhounds.regions.get(this.popularRegions));
         } else {
-          regions.search(q, sync);
+          this.bloodhounds.regions.search(q, sync);
         }
       };
 
@@ -256,8 +302,8 @@ export default class SearchForm {
         $where.removeClass('error');
 
         if (
-          countries.get(value).length === 0 &&
-          regions.get(value).length === 0 &&
+          this.bloodhounds.countries.get(value).length === 0 &&
+          this.bloodhounds.regions.get(value).length === 0 &&
           !this.data.where.hotels
         ) {
           this.data.where.country = null;
@@ -284,7 +330,7 @@ export default class SearchForm {
   }
 
   whenActions() {
-    const minDate = moment().add(1, 'days');
+    const minDate = moment().add(2, 'days');
     const maxDate = moment().add(1, 'year');
     const dateFrom = moment(this.data.when.dateFrom, DATE_FORMAT);
 
@@ -294,6 +340,7 @@ export default class SearchForm {
 
     const datepicker = this.$.form.find('.when input')
       .datepicker({
+        toggleSelected: false,
         minDate: minDate.toDate(),
         maxDate: maxDate.toDate(),
         onRenderCell: (date, cellType) => {
@@ -303,7 +350,7 @@ export default class SearchForm {
 
           if (
             cellType === 'day' &&
-            (currentDate.isSameOrAfter(minDate) && currentDate.isBefore(maxDate)) &&
+            (currentDate.isSameOrAfter(minDate) && currentDate.isSameOrBefore(maxDate)) &&
             (currentDate.isSameOrAfter(startDate) && currentDate.isSameOrBefore(endDate))
           ) {
             return {
@@ -344,10 +391,13 @@ export default class SearchForm {
       datepicker.selectDate(datepicker.selectedDates[0]);
     });
 
-    const selectedDate = moment(dateFrom);
+    let selectedDate = moment(dateFrom).add(this.range, 'days');
 
-    // TODO: add datepicker range
-    datepicker.selectDate(selectedDate.add(this.range, 'days').toDate());
+    if (selectedDate.diff(minDate, 'days') < 0) {
+      selectedDate = minDate;
+    }
+
+    datepicker.selectDate(selectedDate.toDate());
   }
 
   nightsActions() {
@@ -436,8 +486,11 @@ export default class SearchForm {
   peopleActions() {
     const limits = this.limits.people;
     let adults = parseInt(this.data.people.adults, 10);
-    const kids = this.data.people.children;
+    let kids = this.data.people.children;
     let people = parseInt(adults, 10);
+
+    if (typeof kids === 'number') kids = [];
+    kids = kids.map(item => parseInt(item, 10));
     if (kids.length) people += kids.length;
 
     const $popup = this.$.people.find('.popup');
@@ -450,9 +503,11 @@ export default class SearchForm {
       const $el = $(e.target);
 
       kids.splice($.inArray(parseInt($el.parent().data('age'), 10), kids), 1);
+
       people -= 1;
       this.setText('people', people);
       $el.parent().remove();
+      this.data.people.children = kids;
 
       if (kids.length >= limits.kids) {
         $kidsSelect.hide();
@@ -558,6 +613,8 @@ export default class SearchForm {
 
         kids.push(age);
         people += 1;
+
+        this.data.people.children = kids;
 
         this.setText('people', people);
 

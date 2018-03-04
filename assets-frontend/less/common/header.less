@@ -1,20 +1,21 @@
 header {
 	width: 100%;
-	height: 160px;
-	background: url('../../img/hero-bg.png') center bottom no-repeat;
+	height: 200px;
+	background: url('../../img/hero-bg.jpg') center bottom no-repeat;
 	background-size: cover;
 	position: relative;
 
 	&.main {
-		height: 700px;
+		height: 740px;
 
 		nav {
 			margin-bottom: 0;
 		}
 	}
 
+	&.country,
 	&.search {
-		height: 270px;
+		height: 310px;
 
 		nav {
 			margin-bottom: 20px;
@@ -34,14 +35,55 @@ header {
 
 	nav {
 		position: relative;
-		background: url(../../img/top-bg.jpg) no-repeat @color-clear;
-		height: 100px;
+		height: 140px;
 		z-index: 1;
 		border-radius: 0;
 		border: none;
 
 		&.affix-top {
 			opacity: 1;
+		}
+
+		.header-bar {
+			position: relative;
+			background: @color-black-opacity-35;
+			height: 40px;
+
+			.color-bar {
+				background: url(../../img/top-bg.jpg) no-repeat @color-clear;
+				height: 4px;
+			}
+
+			.links {
+
+				margin: 6px 0;
+
+				a {
+					color: @color-white;
+					text-decoration: none;
+					font-size: 15px;
+					margin-right: 20px;
+
+					.font-thin;
+
+					.animateLink;
+				}
+			}
+
+      .old-site {
+        float: right;
+        position: absolute;
+        top: 7px;
+        right: 10px;
+        font-size: 14px;
+        color: @color-white;
+
+        .animateLink;
+
+        > i {
+          margin-left: 5px;
+        }
+      }
 		}
 
 		.brand {
@@ -65,6 +107,8 @@ header {
 			a{
 				text-decoration: none;
 				color: @color-white;
+
+				.animateLink;
 			}
 
 			.number{
@@ -74,7 +118,7 @@ header {
 		}
 
 		.request{
-			margin: 32px 0 0 0;
+			margin: 30px 0 0 0;
 			width: 27%;
 			min-width: 220px;
 			float:left;
@@ -89,13 +133,30 @@ header {
 			min-width: 200px;
 			text-align: right;
 			float:right;
+			position: relative;
+
+			i {
+				margin-right: 2px;
+			}
 
 			a{
 				font-size: 18px;
 				font-weight: @font-thin;
 				color: @color-white;
 				text-decoration: none;
-				border-bottom: 1px dashed @color-white;
+				outline: none;
+
+				span {
+					border-bottom: 1px dashed @color-white;
+				}
+
+				&:hover {
+					span {
+						border-color: @color-orange;
+					}
+				}
+
+				.animateLink;
 			}
 		}
 	}

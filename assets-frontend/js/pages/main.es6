@@ -10,13 +10,29 @@ import SearchForm from '../components/search-form.es6';
 export default class MainPage {
 
   constructor() {
-    this.map = new BranchesMap();
+    const { countries, cities } = global;
+
+    const countriesByIds = countries.reduce((result, country) => {
+          // eslint-disable-next-line no-param-reassign
+      result[country.tourvisor.id] = country.tourvisor;
+      return result;
+    }, {});
+
+    const citiesWithCountries = cities.map((city) => {
+      if (city.popularCountries) {
+        const ids = city.popularCountries.split(',');
+              // eslint-disable-next-line no-param-reassign
+        city.countries = ids.map(id => countriesByIds[id]);
+      }
+      return city;
+    });
+
+    this.map = new BranchesMap(citiesWithCountries);
     this.map.init();
 
     this.form = new SearchForm();
     this.form.init();
 
-    this.hotCity = $('#searchForm').data('departure');
 
     this.$ = {
       hot: $('#hot'),
@@ -25,6 +41,9 @@ export default class MainPage {
       mobilePromo: $('#mobile-promo'),
       map: $('.block.map'),
     };
+
+    this.hotCity = $('#searchForm').data('from');
+    this.hotUrl = this.$.hot.data('url');
   }
 
   init() {
@@ -51,16 +70,14 @@ export default class MainPage {
   }
 
   initHot() {
-    $.getJSON(`//tourvisor.ru/xml/hottours.php?format=json&items=8&city=${this.hotCity}&callback=?`, (response) => {
+    $.getJSON(`${this.hotUrl}?items=8&departure=${this.hotCity}`, (response) => {
       if (IS_DEV) {
         console.log('[HOT TOURS] Response:', response);
       }
       const $tourTemplate = this.$.hot.find('.hotel.template');
       const $items = this.$.hot.find('.items');
 
-      const tours = (response.hottours !== undefined && response.hottours.hotcount !== 0) ?
-        response.hottours.tour :
-        [];
+      const tours = (response.length !== 0) ? response : [];
 
       $.each(tours, (i, tour) => {
         const $tour = $tourTemplate.clone();

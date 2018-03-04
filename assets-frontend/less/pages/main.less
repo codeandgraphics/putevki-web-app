@@ -5,7 +5,44 @@ main.main {
 	background-color: @color-white;
 }
 
+header.search-full {
+  height: 300px;
+}
+
+main.search-full {
+  margin-top: -130px;
+
+	.tv-search-form {
+		width: 980px;
+		margin: 0 auto;
+	}
+
+  .TVSearchResults {
+    width: 900px !important;
+    margin: 0 20px !important;
+    background: white !important;
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+.page.search-full {
+  min-height: 500px;
+}
+
 .block{
+
+	&.about {
+
+		.content {
+
+			> .container {
+				padding: 10px 30px;
+				background: @color-white;
+			}
+		}
+	}
 
 	&.benefits {
 		margin-top: 0;
@@ -89,6 +126,9 @@ main.main {
 						overflow: hidden;
 						min-width: 148px;
 						height: 24px;
+						width: 100%;
+						white-space: nowrap;
+						text-overflow: ellipsis;
 					}
 					.country{
 						font-size: 14px;
@@ -113,30 +153,7 @@ main.main {
 		}
 
 		.content {
-			.items {
-				.item {
-					width: 235px;
 
-					&.hotel {
-						.about {
-							.where {
-								overflow: hidden;
-								white-space: nowrap;
-								text-overflow: ellipsis;
-							}
-							.info {
-								div.length {
-									width: 40%;
-								}
-
-								div.price {
-									width: 60%;
-								}
-							}
-						}
-					}
-				}
-			}
  		}
 
 		.loader{

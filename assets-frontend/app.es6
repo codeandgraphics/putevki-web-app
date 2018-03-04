@@ -12,6 +12,7 @@ import MainPage from './js/pages/main.es6';
 import SearchPage from './js/pages/search.es6';
 import TourPage from './js/pages/tour.es6';
 import HotelPage from './js/pages/hotel.es6';
+import CountryPage from './js/pages/country.es6';
 
 export const IS_DEV = global.env === 'development';
 export const DATE_FORMAT = 'DD.MM.YYYY';
@@ -34,6 +35,9 @@ $(document).ready(() => {
       break;
     case 'hotel':
       page = new HotelPage();
+      break;
+    case 'country':
+      page = new CountryPage();
       break;
     default:
       break;

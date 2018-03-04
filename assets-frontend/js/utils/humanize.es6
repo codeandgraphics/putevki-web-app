@@ -26,6 +26,13 @@ export function nights(value) {
   return `${value} ночей`;
 }
 
+export function tourists(value) {
+  if (value >= 5 && value <= 20) return `${value} туристов`;
+  if (value % 10 === 1) return `${value} турист`;
+  if (value % 10 >= 2 && value % 10 < 5) return `${value} туриста`;
+  return `${value} туристов`;
+}
+
 export function people(value) {
   if (value >= 5 && value <= 20) return `${value} человек`;
   if (value % 10 === 1) return `${value} человек`;
