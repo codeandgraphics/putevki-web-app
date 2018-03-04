@@ -39,8 +39,13 @@ $(document).ready(function() {
             }, function(response){
                 if(response.saved === true) {
                     setTokenSentToServer(currentToken);
+                    $('#subscribe').addClass('hidden');
+                    $('#unsubscribe').removeClass('hidden');
                 }
             }, 'json');
+        } else {
+            $('#subscribe').addClass('hidden');
+            $('#unsubscribe').removeClass('hidden');
         }
     }
 
@@ -51,8 +56,6 @@ $(document).ready(function() {
                 // получаем ID устройства
                 messaging.getToken()
                     .then(function(currentToken) {
-                        console.log(currentToken);
-
                         if (currentToken) {
                             sendTokenToServer(currentToken);
                         } else {

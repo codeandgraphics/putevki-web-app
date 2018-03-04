@@ -137,6 +137,7 @@ class IndexController extends ControllerBase
 
 	    if(!in_array($token, $user->fcmTokens)) {
             array_push($user->fcmTokens, $token);
+            FCM::subscribeTopic('requests', $token);
             return json_encode(['saved' => $user->save()]);
         }
 
@@ -162,7 +163,7 @@ class IndexController extends ControllerBase
 
     public function trySendAction() {
 	    $fcm = new FCM();
-	    $fcm->send('test', 'test body', $this->user->fcmTokens[0]);
+	    $fcm->send('test', 'test body', 'requests');
     }
 
 }

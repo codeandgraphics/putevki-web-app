@@ -3206,8 +3206,7 @@ a.label:focus {
 }
 @media (max-width: 767px) {
 	.signpanel {
-		background-image: none;
-		background-color: #262b36;
+		background: none #262b36;
 		opacity: 1;
 	}
 }
@@ -3439,7 +3438,6 @@ a.label:focus {
 
 .icon-origin {
 	font-size: 20px;
-	padding-top: 15px !important;
 }
 
 .icon-origin .fa-mobile {
@@ -3453,4 +3451,14 @@ a.label:focus {
 
 .icon-origin .fa-android {
 	margin-left: 4px;
+}
+
+#unsubscribe {
+	padding: 15px;
+	line-height: 20px;
+	display: block;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	vertical-align: middle;
 }

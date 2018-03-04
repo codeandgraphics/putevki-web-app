@@ -5,7 +5,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4 mb20">
 				<div class="pull-left">
 					<a href="{{ backend_url('requests') }}">
 						<div class="icon fa fa-desktop requests"></div>
@@ -21,7 +21,7 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4 mb20">
 				<div class="pull-left">
 					<a href="{{ backend_url('tourists') }}">
 						<div class="icon fa fa-mobile apps"></div>
@@ -35,7 +35,7 @@
 					<h5>сегодня заявок не было</h5>
 				{% endif %}
 			</div>
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4">
 				<div class="pull-left">
 					<a href="{{ backend_url('payments') }}">
 						<div class="icon fa fa-credit-card payments"></div>
@@ -59,7 +59,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4 mb20">
 				<div class="pull-left">
 					<a href="{{ backend_url('requests') }}">
 						<div class="icon fa fa-desktop requests"></div>
@@ -75,7 +75,7 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4 mb20">
 				<div class="pull-left">
 					<a href="{{ backend_url('tourists') }}">
 						<div class="icon fa fa-mobile apps"></div>
@@ -89,7 +89,7 @@
 					<h5>на неделе заявок из приложений не было</h5>
 				{% endif %}
 			</div>
-			<div class="col-xs-6 col-sm-4">
+			<div class="col-xs-12 col-sm-4">
 				<div class="pull-left">
 					<a href="{{ backend_url('payments') }}">
 						<div class="icon fa fa-credit-card payments"></div>

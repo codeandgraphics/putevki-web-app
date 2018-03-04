@@ -24,17 +24,20 @@
 	<div class="panel-heading">
 		<h4 class="panel-title">Все платежи</h4>
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-xs-12 col-sm-8 mb20">
 				<p>
 					Для создания ссылки на оплату введите сумму платежа в поле справа и нажмите "Создать"
 				</p>
 			</div>
-			<div class="col-sm-4">
-				<form class="form-inline pull-right" method="post">
-					<div class="form-group">
+			<div class="col-xs-12 col-sm-4">
+				<form class="form-inline row" method="post">
+					<div class="form-group col-xs-6">
 						<input class="form-control" type="text" name="paymentSum" id="paymentSum" placeholder="10000.00" />
 					</div>
-					<button type="submit" class="btn btn-success btn-stroke btn-sm">Создать</button>
+
+					<div class="form-group col-xs-6">
+					<button type="submit" class="btn btn-success btn-stroke btn-sm btn-block">Создать</button>
+					</div>
 				</form>
 			</div>
 		</div>
