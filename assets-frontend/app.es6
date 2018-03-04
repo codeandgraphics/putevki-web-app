@@ -21,6 +21,8 @@ export const DATE_VISIBLE_FORMAT = 'D MMM';
 $(document).ready(() => {
   moment.locale('ru');
 
+  $('[data-toggle="tooltip"]').tooltip();
+
   let page = null;
   $.get('/api/citiesAndCountries', citiesAndCountries => {
     switch (global.route) {

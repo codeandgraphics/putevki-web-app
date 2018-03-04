@@ -24,6 +24,14 @@
 						<a href="{{ url('contacts') }}">Контакты</a>
 					</li>
 				</ul>
+				<div class="socials pull-right">
+					<a href="https://fb.com/putevkionline" target="_blank" data-toggle="tooltip" data-title="Путевки в Facebook" data-placement="bottom">
+						<i class="social-facebook-squared"></i></a>
+					<a href="https://vk.com/onlineputevki" target="_blank" data-toggle="tooltip" data-title="Путевки Вконтакте" data-placement="bottom">
+						<i class="social-vkontakte"></i></a>
+					<a href="https://ok.ru/putevkiru" target="_blank" data-toggle="tooltip" data-title="Путевки в Одноклассниках" data-placement="bottom">
+						<i class="social-odnoklassniki"></i></a>
+				</div>
 				<a href="{{ url('search-full') }}" class="old-site" target="_blank">
 					Старый поиск туров<i class="ion-share"></i>
 				</a>
