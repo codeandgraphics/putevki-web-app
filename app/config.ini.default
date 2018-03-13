@@ -1,0 +1,97 @@
+[app]
+domain			= putevki.ru
+staticDomain	= static.putevki.ru
+staticPath		= /var/www/www-root/data/www/static.putevki.ru/assets/
+https			= true
+timezone		= UTC
+
+[images]
+domain			= static.putevki.ru
+path			= /var/www/www-root/data/www/static.putevki.ru/images/
+baseUri			= /images/
+
+[frontend]
+;env types: production, development
+env				= production
+version			= 3.6.1
+baseUri			= /
+staticUri		= /assets/%version%/
+viewsDir		= frontend/views/
+
+[backend]
+;env types: production, development
+env				= production
+version			= 1.6.0
+baseUri			= /admin/
+viewsDir		= backend/views/
+
+[defaults]
+city			= 1
+from    		= 1
+country         = 4
+adults          = 2
+nights          = 7
+phone			= "+7 (495) 777-79-53"
+phoneLink		= "+74957777953"
+mainEmail		= online@putevki.ru
+requestsEmail	= online@putevki.ru
+paymentsEmail	= online@putevki.ru
+appStore		= "https://appsto.re/ru/FaXohb.i"
+googlePlay		= "https://play.google.com/store/apps/details?id=graphics.and.code.putevki"
+
+[uniteller]
+orderPrefix		= PTVK
+shopId			= '00012893'
+lifeTime		= 3600
+meanType		=
+moneyType		=
+urlOk			= pay/success/
+urlNo			= pay/fail/
+login			= 996
+password		= oMGKUvVs771GFvW9yr9qjvNPMw5rwUdsxJZ0qiwt5tEHDIjGwUvMY01CJmHsQ8Kr2jhDDdNvK6OcQUXT
+preAuth			= 1
+
+[common]
+cookieTimeout	= 2592000
+cryptKey		= ">d#p>aDW[2mQQX 3{"
+cacheDir		= cache/
+
+[smtp]
+login			= dubna105@mail.ru
+password		= 
+host			= ssl://smtp.mail.ru
+name			= Putevki.ru
+to				= online@putevki.ru
+
+[database] #31.186.96.210
+adapter			= mysql
+host			= localhost
+username		= putevki.ru
+password		=
+dbname			= putevki.ru
+charset			= utf8
+
+[loader]
+namespaces[Interfaces]				= interfaces/
+namespaces[Models\Tourvisor]		= models/tourvisor/
+namespaces[Models\Entities]			= models/entities/
+namespaces[Models\Blog]				= models/blog/
+namespaces[Models\Api]				= models/api/
+namespaces[Models]					= models/
+namespaces[Utils\Email]				= utils/email/
+namespaces[Utils]					= utils/
+
+backend[Backend\Controllers]		= backend/controllers/
+backend[Backend\Models]				= backend/models/
+backend[Backend\Plugins]			= backend/plugins/
+backend[Backend\Utils]				= backend/utils/
+
+frontend[Frontend\Controllers]		= frontend/controllers/
+frontend[Frontend\Models\Search]	= frontend/models/search/
+frontend[Frontend\Models]			= frontend/models/
+frontend[Backend\Controllers]		= backend/controllers/
+frontend[Backend\Models]			= backend/models/
+frontend[Backend\Plugins]			= backend/plugins/
+
+composer							= vendor/autoload.php
+
