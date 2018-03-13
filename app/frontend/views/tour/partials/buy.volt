@@ -31,6 +31,17 @@
 				</div>
 			</a>
 		</li>
+		<!--<li class="variant">
+			<a href="#buy-office">
+				<div class="icon">
+					<i class="ion-location"></i>
+				</div>
+				<div class="data">
+					<span>Купить в офисе</span>
+					<small>За наличные</small>
+				</div>
+			</a>
+		</li>-->
 	</ul>
 
 	<div class="tab-content">
@@ -86,6 +97,14 @@
 					<p>Отправляя запрос, Вы подтверждаете согласие на обработку персональных данных.</p>
 				</div>
 
+			</form>
+		</div>
+		<div class="tab-pane" id="buy-office">
+			<form method="POST" id="office-form" data-toggle="validator" action="{{ url('ajax/formOffice') }}">
+
+                {{ partial('tour/partials/person', ['type': 'office']) }}
+
+                {{ partial('tour/partials/buy-office') }}
 			</form>
 		</div>
 	</div>
