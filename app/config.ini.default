@@ -58,7 +58,7 @@ cacheDir		= cache/
 
 [smtp]
 login			= dubna105@mail.ru
-password		= 
+password		=
 host			= ssl://smtp.mail.ru
 name			= Putevki.ru
 to				= online@putevki.ru
