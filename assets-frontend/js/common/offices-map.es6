@@ -4,17 +4,18 @@ import partnerPin from '../../img/pin-partner.png';
 
 export default class OfficesMap {
 
-  constructor() {
+  constructor(cities, branches) {
     this.map = null;
     this.ymaps = global.ymaps;
     this.$mapCities = $('#officesMap');
 
     this.city = global.currentCity;
-    this.branches = global.branches;
+    this.branches = branches;
+    this.cities = cities;
   }
 
   init() {
-    // this.ymaps.ready(() => this.createMap());
+    this.ymaps.ready(() => this.createMap());
   }
 
   createMap() {
@@ -31,6 +32,7 @@ export default class OfficesMap {
   }
 
   addBranches() {
+    console.log(this.branches);
     this.branches.forEach((branch) => {
       let branchText = '';
       if (branch.phone) branchText += `Телефон: ${branch.phone}<br/>`;
@@ -57,7 +59,7 @@ export default class OfficesMap {
   }
 
   addCities() {
-    global.cities.forEach((city) => {
+    this.cities.forEach((city) => {
       const $city = $('<option/>');
       $city.val([city.lat, city.lon, city.zoom].join(';'));
       $city.text(city.name);

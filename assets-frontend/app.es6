@@ -33,7 +33,7 @@ $(document).ready(() => {
         page = new SearchPage();
         break;
       case 'tour':
-        page = new TourPage();
+        page = new TourPage(citiesAndCountries);
         break;
       case 'hotel':
         page = new HotelPage();

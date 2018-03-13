@@ -10,7 +10,6 @@ import SearchForm from '../components/search-form.es6';
 export default class MainPage {
 
   constructor({ countries, cities }) {
-
     const countriesByIds = countries.reduce((result, country) => {
       result[country.tourvisor.id] = country.tourvisor;
       return result;
@@ -53,7 +52,6 @@ export default class MainPage {
       $(window).scrollTo(this.$.map, 300, {
         offset: -80,
       });
-
       return false;
     });
 
@@ -61,7 +59,6 @@ export default class MainPage {
       $(window).scrollTo(this.$.mobilePromo, 300, {
         offset: -80,
       });
-
       return false;
     });
   }

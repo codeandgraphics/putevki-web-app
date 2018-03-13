@@ -22,6 +22,7 @@ export default class BranchesMap {
     this.city = global.currentCity;
 
     this.cities = citiesWithCountries;
+    console.log(this.city)
   }
 
   init() {
@@ -29,15 +30,16 @@ export default class BranchesMap {
   }
 
   createMap() {
+    $('.block.map .loader').hide();
     this.map = new this.ymaps.Map('mainMap', {
       center: [parseFloat(this.city.lat), parseFloat(this.city.lon)],
-      zoom: parseInt(this.city.zoom, 4),
+      zoom: parseInt(this.city.zoom, 5),
       controls: ['zoomControl'],
     });
 
-    this.map.behaviors.disable('scrollZoom');
+    // this.map.behaviors.disable('scrollZoom');
 
-    this.addCities();
+    // this.addCities();
   }
 
   addCities() {
@@ -56,9 +58,6 @@ export default class BranchesMap {
       );
     });
 
-    this.map.setBounds(this.map.geoObjects.getBounds());
-    this.map.setZoom(this.map.getZoom());
-
-    $('.block.map .loader').hide();
+    // this.map.setBounds(this.map.geoObjects.getBounds());
   }
 }

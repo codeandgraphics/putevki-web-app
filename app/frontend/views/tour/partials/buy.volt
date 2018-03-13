@@ -31,7 +31,7 @@
 				</div>
 			</a>
 		</li>
-		<!--<li class="variant">
+		<li class="variant">
 			<a href="#buy-office">
 				<div class="icon">
 					<i class="ion-location"></i>
@@ -41,7 +41,7 @@
 					<small>За наличные</small>
 				</div>
 			</a>
-		</li>-->
+		</li>
 	</ul>
 
 	<div class="tab-content">
