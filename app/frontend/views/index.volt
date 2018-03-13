@@ -1,3 +1,4 @@
+{% set env = config.frontend.env %}
 {% set version = config.frontend.version %}
 <!DOCTYPE html>
 <html lang="ru">
@@ -32,15 +33,15 @@
         var env = '{{ config.frontend.env }}';
         var version = '{{ config.frontend.version }}';
         var route = '{{ page }}';
-        var branches = {{ branches|json_encode }};
-        var cities = {{ cities|json_encode }};
-        var countries = {{ countries|json_encode }};
         var currentCity = {{ city|json_encode }};
 	</script>
 
-	<script src="{{ static_url('bundle.js') }}"></script>
-
-	<title>{{ title }} Путёвки.ру – интернет-магазин путёвок</title>
+    {% if(env==='production') %}
+	    <script src="{{ static_url('bundle.js') }}"></script>
+    {% else %}
+        <script src="/build/bundle.js"></script>
+    {% endif %}
+	<title>{{ title }} Путёвки.ру – интернет-магазин путевок</title>
 </head>
 <body>
 

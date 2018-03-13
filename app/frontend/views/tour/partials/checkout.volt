@@ -1,7 +1,7 @@
 <div class="checkout">
 	{% if small %}
 		<div class="prices inline tour-price">
-			<small>Цена путёвки:</small>
+			<small>Цена путевки:</small>
 			<span></span>
 		</div>
 
@@ -20,7 +20,7 @@
 		</div>
 	{% else %}
 		<div class="params tour-name">
-			<small>Путёвка:</small>
+			<small>Путевка:</small>
 			<span>{{ tour.departurename }} &mdash; {{ tour.hotelregionname }}</span>
 		</div>
 
@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="prices tour-price">
-			<small>Цена путёвки:</small>
+			<small>Цена путевки:</small>
 			<span></span>
 		</div>
 

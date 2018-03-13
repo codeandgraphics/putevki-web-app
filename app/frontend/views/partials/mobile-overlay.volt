@@ -6,7 +6,7 @@
 		<div class="content">
 			<div class="logo"></div>
 
-			<p>Все путёвки в твоём смартфоне!</p>
+			<p>Все путевки в твоём смартфоне!</p>
 
 			<a href="{{ url('app') }}" class="btn btn-primary">
 				<i class="ion-iphone"></i>&nbsp;&nbsp;Установить приложение

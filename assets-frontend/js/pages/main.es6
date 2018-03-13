@@ -9,19 +9,16 @@ import SearchForm from '../components/search-form.es6';
 
 export default class MainPage {
 
-  constructor() {
-    const { countries, cities } = global;
+  constructor({ countries, cities }) {
 
     const countriesByIds = countries.reduce((result, country) => {
-          // eslint-disable-next-line no-param-reassign
       result[country.tourvisor.id] = country.tourvisor;
       return result;
     }, {});
 
     const citiesWithCountries = cities.map((city) => {
       if (city.popularCountries) {
-        const ids = city.popularCountries.split(',');
-              // eslint-disable-next-line no-param-reassign
+        const ids = city.popularCountries;
         city.countries = ids.map(id => countriesByIds[id]);
       }
       return city;

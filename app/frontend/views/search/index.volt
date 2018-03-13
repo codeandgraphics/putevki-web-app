@@ -74,7 +74,7 @@
 						</div>
 
 						<div class="form-block">
-							<label>Цена путёвки</label>
+							<label>Цена путевки</label>
 							<input id="price" name="price" value="" />
 						</div>
 
@@ -82,7 +82,7 @@
 				</div>
 
 				<div class="tour-includes">
-					В стоимость каждой путёвки входит:
+					В стоимость каждой путевки входит:
 					<dl class="dl-horizontal">
 						<dt><i class="ion-plane"></i></dt>
 						<dd>Перелет</dd>
@@ -102,7 +102,7 @@
 		<section class="main right">
 			<div class="steps head">
 				<ul class="list-inline">
-					<li class="current">Выбор путёвки</li>
+					<li class="current">Выбор путевки</li>
 					<li>&rarr;</li>
 					<li>Перелет и оформление</li>
 				</ul>
@@ -195,12 +195,12 @@
 								</a>
 							</div>
 							<div class="price">
-								<div class="text">Стоимость путёвки в этот отель:</div>
+								<div class="text">Стоимость путевки в этот отель:</div>
 								<div class="sum">
 									от <span></span> р.
 								</div>
 								<div class="other">
-									<a href="#" class="variants-open internal"><span>показать путёвки</span></a>
+									<a href="#" class="variants-open internal"><span>показать путевки</span></a>
 									<a href="#" class="variants-close internal"><span>скрыть</span></a>
 								</div>
 							</div>
@@ -275,7 +275,7 @@
 							</div>
 							<div class="more">
 								<a href="#" class="internal">
-									<span>Показать еще путёвки</span>
+									<span>Показать еще путевки</span>
 								</a>
 							</div>
 						</div>
@@ -290,13 +290,13 @@
 					<div class="loader">
 						<div class="wrap">
 							<div class="object"></div>
-							<span>Ищем лучшие путёвки для вас...</span>
+							<span>Ищем лучшие путевки для вас...</span>
 						</div>
 					</div>
 				</div>
 
 				<div class="help block">
-					<h4>Не удается найти нужную путёвку? Мы поможем!</h4>
+					<h4>Не удается найти нужную путевку? Мы поможем!</h4>
 					<p>
 						Просто оставьте нам свой номер телефона,
 						и наши опытные менеджеры подберут для вас путешествие мечты!

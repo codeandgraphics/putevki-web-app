@@ -10,7 +10,7 @@
 
     <meta name="mobile-web-app-capable" content="yes">
 
-    <title>{{ title }} Путевки.ру</title>
+    <title>{{ title }} Путёвки.ру</title>
 
     <link rel="stylesheet" type="text/css" href="{{ static_url() }}css/common.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />

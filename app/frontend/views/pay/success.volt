@@ -14,7 +14,7 @@
 
 	<meta name="mobile-web-app-capable" content="yes">
 
-	<title>{{ title }} – Путевки.ру</title>
+	<title>{{ title }} – Путёвки.ру</title>
 
 	<link rel="stylesheet" type="text/css" href="{{ static_url() }}css/putevki.min.css" />
 </head>
@@ -30,7 +30,7 @@
 		Если платеж не проходит, свяжитесь с менеджером по телефону
 		<a href="tel:{{ config.frontend.phoneLink }}">{{ config.frontend.phone }}</a> и назовите номер заказа.<br/><br/>
 	{% endif %}
-	<a href="{{ url() }}" style="font-size: 11px;">Путевки.ру</a>
+	<a href="{{ url() }}" style="font-size: 11px;">Путёвки.ру</a>
 </div>
 </body>
 </html>

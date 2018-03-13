@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import 'jquery.scrollto';
 
 import OfficesMap from '../common/offices-map.es6';
@@ -15,8 +14,6 @@ export default class TourPage {
     this.tour = new Tour();
 
     if (IS_DEV) console.log(this.tour);
-
-    $('[data-toggle="tooltip"]').tooltip();
 
     this.map = new OfficesMap();
     this.map.init();

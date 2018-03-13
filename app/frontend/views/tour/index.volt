@@ -19,7 +19,7 @@ $date = DateTime::createFromFormat('d.m.Y',$tour->flydate);
 				<ul class="list-inline">
 					<li>Выбор направления</li>
 					<li>&rarr;</li>
-					<li>Выбор путёвки</li>
+					<li>Выбор путевки</li>
 					<li>&rarr;</li>
 					<li class="current">Перелет и оформление</li>
 				</ul>
