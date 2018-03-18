@@ -25,7 +25,7 @@ export default class BranchesMap {
   }
 
   init() {
-    this.ymaps.ready(() => this.createMap());
+    // this.ymaps.ready(() => this.createMap());
   }
 
   createMap() {
