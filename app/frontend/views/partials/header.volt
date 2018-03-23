@@ -32,7 +32,7 @@
 					<a href="https://ok.ru/putevkiru" target="_blank" data-toggle="tooltip" data-title="Путевки в Одноклассниках" data-placement="bottom">
 						<i class="social-odnoklassniki"></i></a>
 				</div>
-				<a href="https://tours.putevki.ru" class="old-site" target="_blank">
+				<a href="https://putevki.ru/search-full" class="old-site" target="_blank">
 					Старый поиск туров<i class="ion-share"></i>
 				</a>
 			</div>
