@@ -73,7 +73,7 @@ class BaseController extends Controller
 			'lastQueries' => $this->lastQueries,
 			'countries' => $this->countries,
             'meta' => new Meta(
-                'Путёвки, туры, покупка путёвок в интернет-магазине',
+                'Путевки, туры, покупка путевок в интернет-магазине',
                 'Вы можете выбрать путевку или тур на сайте Путевки.ру'
             ),
 		]);

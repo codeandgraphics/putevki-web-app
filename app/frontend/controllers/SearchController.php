@@ -21,7 +21,7 @@ class SearchController extends BaseController
 		$searchQuery->fromParams($params->search);
 		$searchId = $searchQuery->run();
 
-		$title = 'Путёвки ' . $params->search->fromEntity()->name .
+		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
 		$meals = Tourvisor\Meals::find([
@@ -64,7 +64,7 @@ class SearchController extends BaseController
 		$searchQuery->fromParams($params->search);
 		$searchId = $searchQuery->run();
 
-		$title = 'Путёвки ' . $params->search->fromEntity()->name .
+		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
 		$meals = Tourvisor\Meals::find([

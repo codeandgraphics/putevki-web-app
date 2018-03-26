@@ -6,7 +6,7 @@
 			<div class="container" style="position: relative;">
 				<ul class="links list-unstyled list-inline">
 					<li>
-						<a href="{{ url('/search/Москва/Турция') }}">Поиск путёвок</a>
+						<a href="{{ url('/search/Москва/Турция') }}">Поиск туров</a>
 					</li>
 					<li>
 						<a href="{{ url('countries') }}">Страны</a>
