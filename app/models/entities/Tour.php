@@ -46,7 +46,7 @@ class Tour
 
 			$this->operator = new \stdClass();
 			$this->operator->id = (int) $tour->operatorcode;
-			$this->operator->name = $tour->operatorname;
+			$this->operator->name = str_replace('TezTour', 'TEZ TOUR', $tour->operatorname);
 		}
 	}
 }

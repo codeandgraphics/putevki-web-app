@@ -116,10 +116,7 @@
 					</div>
 					<div class="col-xs-6">
 						<i class="ion-map"></i>
-						Мы отправляем туристов
-						<a href="#" class="offices internal">
-							<span>по всей России</span>
-						</a>
+						Мы отправляем туристов по всей России
 					</div>
 				</div>
 			</div>

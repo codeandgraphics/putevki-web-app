@@ -9,6 +9,9 @@
 						<a href="{{ url('/search/Москва/Турция') }}">Поиск туров</a>
 					</li>
 					<li>
+						<a href="http://hotel.putevki.ru/" target="_blank">Отели</a>
+					</li>
+					<li>
 						<a href="{{ url('countries') }}">Страны</a>
 					</li>
 					<li>
@@ -47,9 +50,9 @@
 					служба поддержки клиентов
 				</div>
 				<div class="request">
-					<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal">
+					<a href="//tours.putevki.ru" class="btn btn-default" target="_blank">
 						<i class="ion-map"></i> Подберите мне путевку
-					</button>
+					</a>
 				</div>
 				<div class="location">
 					<i class="ion-location"></i>
