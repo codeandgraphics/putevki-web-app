@@ -21,7 +21,7 @@
 				<input title="Куда едете?" class="form-control" placeholder="Страна, регион или отель">
 			</div>
 			<div class="when input">
-				<span class="range">± 2 дня</span>
+				<span class="range">± 5 дней</span>
 				<div class="value"></div>
 				<input title="Когда?" />
 			</div>

@@ -9,7 +9,7 @@
 						<a href="{{ url('/search/Москва/Турция') }}">Поиск туров</a>
 					</li>
 					<li>
-						<a href="http://hotel.putevki.ru/" target="_blank">Отели</a>
+						<a href="{{ url('/search/Без перелета/Турция') }}">Отели</a>
 					</li>
 					<li>
 						<a href="{{ url('countries') }}">Страны</a>
@@ -51,7 +51,7 @@
 				</div>
 				<div class="request">
 					<a href="//tours.putevki.ru" class="btn btn-default" target="_blank">
-						<i class="ion-map"></i> Подберите мне путевку
+						<i class="ion-map"></i> Купить тур в офисе
 					</a>
 				</div>
 				<div class="location">
