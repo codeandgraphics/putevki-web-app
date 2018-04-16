@@ -6,7 +6,10 @@
 			<div class="container" style="position: relative;">
 				<ul class="links list-unstyled list-inline">
 					<li>
-						<a href="{{ url('') }}">Поиск путёвок</a>
+						<a href="{{ url('/search/Москва/Турция') }}">Поиск туров</a>
+					</li>
+					<li>
+						<a href="{{ url('/search/Без перелета/Турция') }}">Отели</a>
 					</li>
 					<li>
 						<a href="{{ url('countries') }}">Страны</a>
@@ -32,7 +35,7 @@
 					<a href="https://ok.ru/putevkiru" target="_blank" data-toggle="tooltip" data-title="Путевки в Одноклассниках" data-placement="bottom">
 						<i class="social-odnoklassniki"></i></a>
 				</div>
-				<a href="{{ url('search-full') }}" class="old-site" target="_blank">
+				<a href="https://putevki.ru/search-full" class="old-site" target="_blank">
 					Старый поиск туров<i class="ion-share"></i>
 				</a>
 			</div>
@@ -47,9 +50,9 @@
 					служба поддержки клиентов
 				</div>
 				<div class="request">
-					<button class="btn btn-default" data-toggle="modal" data-target="#findTourModal">
-						<i class="ion-map"></i> Подберите мне путевку
-					</button>
+					<a href="//tours.putevki.ru" class="btn btn-default" target="_blank">
+						<i class="ion-map"></i> Купить тур в офисе
+					</a>
 				</div>
 				<div class="location">
 					<i class="ion-location"></i>

@@ -10,7 +10,6 @@ const DATE_RANGE = 2;
 const NIGHTS_RANGE = 2;
 
 export default class SearchForm {
-
   constructor() {
     this.$ = {
       form: $('#searchForm'),

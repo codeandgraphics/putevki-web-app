@@ -280,7 +280,7 @@ class IndexController extends BaseController
     }
 
     public function mobileHtmlAction() {
-        $this->response->redirect('/', true, 301);
+        $this->response->redirect('https://m.putevki.ru', true, 301);
     }
 	
 }

@@ -17,24 +17,15 @@
 
 				<div class="countryDepartures">
 					<h2>Популярные города вылета</h2>
-                    {% if country.tourvisor.id == 1 %}
-                        {% if country.tourvisor.active %}
-							Ура! Египет открыт для туристов из России!
-                        {% else %}
-							К сожалению, мы не может предложить вам вылеты из городов России, но у нас есть
-							<a href="https://tez-tour.putevki.ru" target="_blank">путевки и туры в Египет из Беларуси</a>!
-                        {% endif %}
-                    {% else %}
-						<div class="row">
-                            {% for departure in popularDepartures %}
-								<div class="col-xs-6">
-									<a href="{{ url('search') }}/{{ departure.name }}/{{ country.tourvisor.name }}">
-                                        {{ country.title }} из {{ departure.nameFrom }}
-									</a>
-								</div>
-                            {% endfor %}
-						</div>
-                    {% endif %}
+					<div class="row">
+                        {% for departure in popularDepartures %}
+							<div class="col-xs-6">
+								<a href="{{ url('search') }}/{{ departure.name }}/{{ country.tourvisor.name }}">
+                                    {{ country.title }} из {{ departure.nameFrom }}
+								</a>
+							</div>
+                        {% endfor %}
+					</div>
 				</div>
 			</div>
 		</section>

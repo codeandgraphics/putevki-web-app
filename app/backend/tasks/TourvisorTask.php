@@ -83,7 +83,7 @@ class TourvisorTask extends Task
 
 		$transaction->commit();
 
-		$this->departureToCountries($countries);
+		$this->departureToCountriesAction($countries);
 
 		echo PHP_EOL . 'Countries count: ' . count($items) . PHP_EOL;
 	}

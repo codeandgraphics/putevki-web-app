@@ -5,14 +5,14 @@
 	<div class="info">
 		<div class="touroperator">
 			<img src="//tourvisor.ru/pics/operators/searchlogo/{{ tour.operatorcode }}.gif"/>
-			{{ tour.operatorname }}
+            {{ tour.operatorname }}
 		</div>
 		<div class="rating">
-										<span class="stars">
-										{% for i in 0..4 %}
-											<i class="star ion-ios-star{% if i >= tour.hotelstars %}-outline{% endif %}"></i>
-										{% endfor %}
-										</span>
+			<span class="stars">
+			{% for i in 0..4 %}
+				<i class="star ion-ios-star{% if i >= tour.hotelstars %}-outline{% endif %}"></i>
+            {% endfor %}
+			</span>
 		</div>
 		<h2>
 			<a href="{{ hotelLink }}" target="_blank">{{ tour.hotelname|lower }}</a>
@@ -21,7 +21,7 @@
 			<i class="ion-ios-location"></i> <span>{{ tour.hotelregionname }}, {{ tour.countryname }}</span>
 		</div>
 		<div class="description">
-			{{ tour.hoteldescription }}
+            {{ tour.hoteldescription }}
 		</div>
 		<div class="icons">
 			<div class="date">

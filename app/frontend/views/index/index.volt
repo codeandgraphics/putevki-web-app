@@ -63,7 +63,7 @@
 		</div>
 	</section>
 
-	<section class="block map">
+	<!--<section class="block map">
 		<div class="container header">
 			<h2 style="text-align: center;">
 				Вылеты из {{ cities|length }} городов<br/><small>Мы отправляем туристов по всей России</small>
@@ -78,7 +78,7 @@
 
 		<div id="mainMap"></div>
 
-	</section>
+	</section>-->
 
 	<section class="block benefits" id="benefits">
 		<div class="container header">
@@ -116,10 +116,7 @@
 					</div>
 					<div class="col-xs-6">
 						<i class="ion-map"></i>
-						Мы отправляем туристов
-						<a href="#" class="offices internal">
-							<span>по всей России</span>
-						</a>
+						Мы отправляем туристов по всей России
 					</div>
 				</div>
 			</div>
