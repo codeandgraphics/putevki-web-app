@@ -6,7 +6,7 @@ import 'air-datepicker';
 import { IS_DEV, DATE_FORMAT, DATE_VISIBLE_FORMAT } from '../../app.es6';
 import * as Humanize from '../utils/humanize.es6';
 
-const DATE_RANGE = 5;
+const DATE_RANGE = 2;
 const NIGHTS_RANGE = 2;
 
 export default class SearchForm {
@@ -370,7 +370,7 @@ export default class SearchForm {
     const $rangePicker = $('<div class="range-checkbox" />');
     $rangePicker.append(
       `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.range === DATE_RANGE) ? 'checked="checked"' : ''}> 
-       <label for="date-range-days">± ${DATE_RANGE} дней</label>`,
+       <label for="date-range-days">± ${DATE_RANGE} дня</label>`,
     );
 
     datepicker.$datepicker.append($rangePicker);
