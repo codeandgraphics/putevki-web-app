@@ -67,7 +67,16 @@ class SearchParams
 		$this->where->fromForm((object)$object->where);
 		$this->when->fromStored((object)$object->when);
 		$this->people->fromForm((object)$object->people);
-		$this->filters->fromStored((object)$object->filters);
+		$filters = (object) $object->filters;
+
+		$changed = $object->changed;
+
+		if($changed === 'true') {
+		    $filters->stars = Filters::STARS;
+		    $filters->meal = Filters::MEAL;
+        }
+
+        $this->filters->fromStored($filters);
 	}
 
 	/**

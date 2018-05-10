@@ -152,6 +152,33 @@
 						</form>
 					</div>
 
+					<div class="params">
+						<div class="dropdown meals">
+							Питание:
+							<button class="dropdown-toggle" type="button" id="mealMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								<i class="ion-fork"></i> <i class="ion-knife"></i> &nbsp;
+								<div class="text">
+                                    {% set meal = params.search.mealsEntity() %}
+                                    {{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
+								</div>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="mealMenu">
+                                {% for item in meals %}
+									<li>
+										<a href="#" data-meal="{{ item.id }}">
+                                            {{ item.name }} {% if item.name != 'UAI' %}и выше{% endif %}
+											<small>{{ item.russian }}</small>
+										</a>
+									</li>
+                                    {% if item.name == 'AI' %}
+										<li role="separator" class="divider"></li>
+                                    {% endif %}
+                                {% endfor %}
+							</ul>
+						</div>
+					</div>
+
 					<div class="results">
 
 						<div class="no-results">

@@ -452,6 +452,8 @@ export default class Search {
       self.formObject.data.filters.stars = star;
       self.formObject.$.form.find('.search-button button').click();
 
+      $stars.removeClass('open');
+
       return false;
     });
 
@@ -465,6 +467,8 @@ export default class Search {
 
       self.formObject.data.filters.meal = meal;
       self.formObject.$.form.find('.search-button button').click();
+
+      $meals.removeClass('open');
 
       return false;
     });

@@ -20,6 +20,7 @@ export default class HotelForm {
 
     this.$ = {
       el: $('.tours .results'),
+      params: $('.tours .params')
     };
 
     this.$.variants = this.$.el.find('.variants');
@@ -36,6 +37,8 @@ export default class HotelForm {
       this.$.more.hide();
       return false;
     });
+
+    this.bindFilters();
   }
 
   start(searchId) {
@@ -45,6 +48,25 @@ export default class HotelForm {
     this.hasFirst = false;
     this.isSearching = true;
     this.getStatus();
+  }
+
+  bindFilters() {
+    const self = this;
+
+    const $meals = this.$.params.find('.meals');
+
+    $meals.find('a').on('click', function mealsClick() {
+      const $el = $(this);
+      const html = $el.html();
+      const meal = $el.data('meal');
+      $meals.find('button .text').html(html).find('small').hide();
+
+      self.formObject.data.filters.meal = meal;
+      self.formObject.$.form.find('.search-button button').click();
+
+      $meals.removeClass('open');
+      return false;
+    });
   }
 
   getStatus() {
@@ -95,7 +117,13 @@ export default class HotelForm {
           if (this.allResults.length === this.firstResults.length) {
             this.$.more.hide();
           }
+
+          if(this.allResults.length === 0) {
+            this.$.no.show();
+          }
         }
+      } else {
+        this.$.no.show();
       }
     });
   }

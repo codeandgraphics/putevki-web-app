@@ -72,6 +72,8 @@ export default class SearchForm {
     this.data.filters = this.$.form.data('filters');
     this.data.operator = this.$.form.data('operator');
 
+    this.initialCountry = this.data.where.country;
+
     this.range = this.data.when.dateFrom === this.data.when.dateTo ? DATE_RANGE : 0;
   }
 
@@ -240,11 +242,12 @@ export default class SearchForm {
         source: countriesDefault,
         display: 'name',
         displayKey: 'id',
+        limit: 20,
         templates: {
           header: '<h3>Страны</h3>',
           suggestion(item) {
-            return `<div><span><img src="${countryImage.replace('%id%', item.id)}" /> ${item.name}</span></div>`;
-          },
+            return `<div class="country-block"><span><img src="${countryImage.replace('%id%', item.id)}" /> ${item.name}</span></div>`;
+          }
         },
       }, {
         name: 'regions',
@@ -648,6 +651,7 @@ export default class SearchForm {
           when: this.data.when,
           people: this.data.people,
           filters: this.data.filters,
+          changed: this.data.where.country !== this.initialCountry,
         };
 
         $.getJSON(`${this.endpoint}search/`, {

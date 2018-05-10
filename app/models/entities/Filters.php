@@ -4,11 +4,15 @@ namespace Models\Entities;
 
 class Filters
 {
+    const STARS = 3;
+    const MEAL = 3;
+    const RATING = 0;
+    const OPERATOR = 0;
 
-	public $stars = 3;
-	public $meal = 3;
-	public $rating = 0;
-	public $operator = 0;
+	public $stars = self::STARS;
+	public $meal = self::MEAL;
+	public $rating = self::RATING;
+	public $operator = self::OPERATOR;
 
 	public function __construct($filters = null)
 	{
