@@ -38,7 +38,16 @@ class BaseController extends Controller
 			'active = 1'
 		]);
 
-		$popularCountries = StoredQueries::popularCountries();
+        $popularBuilder = $this->modelsManager->createBuilder()
+            ->columns([
+                'tourvisor.*'
+            ])
+            ->addFrom(Tourvisor\Countries::name(), 'tourvisor')
+            ->join(Countries::name(), 'country.tourvisorId = tourvisor.id', 'country')
+            ->where('country.popular = 1')
+            ->orderBy('tourvisor.name');
+
+		$popularCountries = $popularBuilder->getQuery()->execute(); // StoredQueries::popularCountries();
 
 		foreach ($popularCountries as $country) {
 			$this->formCountries .= ',' . $country->name;

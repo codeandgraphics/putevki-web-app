@@ -69,6 +69,10 @@ class HotelController extends BaseController
             'order'	=> 'name'
         ]);
 
+        $meals = Tourvisor\Meals::find([
+            'order' => 'id DESC'
+        ]);
+
 		$title = 'Путевки и туры в отель ' . $hotel->name . ' из ' . $this->city->nameRod . ' по самым низким ценам на ';
 
 		$this->params->search->where->hotels = $hotel->db->id;
@@ -78,6 +82,7 @@ class HotelController extends BaseController
 			'params' => $this->params,
 			'hotel' => $hotel,
 			'title' => $title,
+			'meals' => $meals,
 			'page' => 'hotel',
 			'operator' => $operator
 		]);

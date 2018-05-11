@@ -146,6 +146,117 @@ body{
 				min-height: 300px;
 				position: relative;
 
+				.params{
+					border-bottom: 1px dashed @color-border;
+					padding: 10px;
+					height: 48px;
+					text-align: center;
+
+					.dropdown{
+						display: inline-block;
+						margin-right: 20px;
+
+						&.open{
+							.caret{
+								.rotate(180);
+								.transition(transform 0.2);
+							}
+						}
+
+						&.meals{
+							button{
+								width: 130px;
+							}
+						}
+
+						&.stars{
+							button{
+								width: 165px;
+							}
+						}
+
+						button{
+							background: @color-white;
+							border: 1px solid @color-border;
+							margin-left: 5px;
+							text-align: left;
+							position: relative;
+							border-radius: 4px;
+
+							.transition(0.13s all ease);
+
+							.caret{
+								position: absolute;
+								right: 8px;
+								top: 12px;
+								.transition(transform 0.2);
+							}
+
+							.label{
+								position: absolute;
+								right: 22px;
+								top: 5px;
+							}
+
+							div{
+								display: inline-block;
+							}
+
+							&:hover {
+								border-color: @color-blue;
+
+								.transition(0.13s all ease);
+							}
+						}
+
+						i{
+							color: @color-blue;
+						}
+
+						ul{
+							border: 1px solid @color-border;
+							border-radius: 4px;
+							padding: 0;
+							min-width: 170px;
+							overflow: hidden;
+
+							li{
+
+								&.active {
+									a {
+										background-color: @color-blue;
+
+										i,
+										small{
+											color: @color-white;
+										}
+									}
+								}
+
+								&.divider{
+									margin: 0;
+								}
+
+								a{
+									text-decoration: none;
+
+									small{
+										display: block;
+										color: @color-text-gray;
+									}
+
+									.label{
+										position: absolute;
+										right: 10px;
+										top: 5px;
+										margin-left: 100px;
+									}
+								}
+							}
+						}
+					}
+				}
+
 				.hotel-form{
 					padding: 10px 0;
 					background-color: @color-blue;
