@@ -410,6 +410,17 @@ export default class SearchForm {
     const $popup = this.$.nights.find('.popup');
     const $selector = $popup.find('.selector');
     const $range = $popup.find('.range-checkbox input');
+    const $days = $popup.find('.days');
+    const $day = $days.find('.day.template');
+
+    for(let i = 1; i <= 28; i++) {
+      const day = $day.clone().removeClass('template').html(i).attr('data-day', i);
+      if(i===20) {
+        day.addClass('selected');
+      }
+      $days.append(day);
+    }
+
 
     const setNights = (n, r) => {
       const { from, to } = SearchForm.rangeToNights(n, r);

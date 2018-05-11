@@ -115,7 +115,7 @@
 
         & > .twitter-typeahead {
           height: 100%;
-          
+
         }
 
         .close{
@@ -162,6 +162,33 @@
 
         .value {
           font-size: 17px;
+        }
+
+        .days {
+          width: 300px;
+          height: 200px;
+          padding: 10px;
+
+          .day {
+            width: 34px;
+            height: 34px;
+            border-radius: 17px;
+            float: left;
+            text-align: center;
+            padding: 6px 5px;
+            cursor: pointer;
+
+            &.selected {
+              background: @color-blue;
+              color: @color-white;
+              border-radius: 20px;
+            }
+
+            &:hover {
+              background-color: @color-blue-opacity;
+              border-radius: 20px;
+            }
+          }
         }
       }
 

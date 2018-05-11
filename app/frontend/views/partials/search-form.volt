@@ -30,6 +30,9 @@
 				<div class="value"></div>
 				<div class="popup nights">
 					<i class="popup-pointer"></i>
+					<div class="days">
+						<div class="day template"></div>
+					</div>
 					<div class="selector">
 						<div class="minus">–</div>
 						<div class="plus">+</div>
