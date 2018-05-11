@@ -4,8 +4,8 @@ namespace Models\Entities;
 
 class Filters
 {
-    const STARS = 3;
-    const MEAL = 3;
+    const STARS = 2;
+    const MEAL = 2;
     const RATING = 0;
     const OPERATOR = 0;
 
