@@ -20,6 +20,7 @@ export default class SearchForm {
     this.$.from = this.$.form.find('.from');
     this.$.popup = $('.popup');
     this.$.whereInput = this.$.form.find('.where input');
+    this.$.params = this.$.form.find('.params-container');
 
     this.popularCountries = this.$.form.data('countries').split(',');
     this.popularRegions = this.$.form.data('regions').split(',');
@@ -43,17 +44,17 @@ export default class SearchForm {
 
     this.bloodhounds = {
       regions: new Bloodhound({
-          initialize: false,
-          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'countryName'),
-          queryTokenizer: Bloodhound.tokenizers.whitespace,
-          identify: obj =>  obj.name
+        initialize: false,
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'countryName'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: obj =>  obj.name
       }),
-        countries: new Bloodhound({
-            initialize: false,
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            identify: obj =>  obj.name
-        })
+      countries: new Bloodhound({
+        initialize: false,
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: obj =>  obj.name
+      })
     };
 
     this.destinationsData = null;
@@ -74,6 +75,9 @@ export default class SearchForm {
 
     this.initialCountry = this.data.where.country;
 
+    this.data.when.nightsFrom = parseInt(this.data.when.nightsFrom, 10);
+    this.data.when.nightsTo = parseInt(this.data.when.nightsTo, 10);
+
     this.range = this.data.when.dateFrom === this.data.when.dateTo ? DATE_RANGE : 0;
   }
 
@@ -84,6 +88,7 @@ export default class SearchForm {
     this.nightsActions();
     this.peopleActions();
 
+    this.paramsActions();
 
     this.submitActions();
 
@@ -137,10 +142,10 @@ export default class SearchForm {
   }
 
   filterRegions(from) {
-      const { regions, departuresToCountries } = this.destinationsData;
-      const countriesFromDeparture = departuresToCountries[from];
+    const { regions, departuresToCountries } = this.destinationsData;
+    const countriesFromDeparture = departuresToCountries[from];
 
-      return regions.filter(region => countriesFromDeparture.includes(region.country));
+    return regions.filter(region => countriesFromDeparture.includes(region.country));
   }
 
   regenerateBloodhounds(from) {
@@ -149,16 +154,16 @@ export default class SearchForm {
       return false;
 
     if(this.bloodhounds.countries) {
-        this.bloodhounds.countries.initialize();
-        this.bloodhounds.countries.clear();
-        this.bloodhounds.countries.add(this.filterCountries(from));
+      this.bloodhounds.countries.initialize();
+      this.bloodhounds.countries.clear();
+      this.bloodhounds.countries.add(this.filterCountries(from));
     }
 
     if(this.bloodhounds.regions) {
-        this.bloodhounds.regions.initialize();
-        this.bloodhounds.regions.clear();
-        this.bloodhounds.regions.add(this.filterRegions(from));
-      }
+      this.bloodhounds.regions.initialize();
+      this.bloodhounds.regions.clear();
+      this.bloodhounds.regions.add(this.filterRegions(from));
+    }
   }
 
   whereActions() {
@@ -402,115 +407,76 @@ export default class SearchForm {
     datepicker.selectDate(selectedDate.toDate());
   }
 
-  nightsActions() {
-    let { range, nights } = SearchForm.nightsToRange(
-      this.data.when.nightsFrom,
-      this.data.when.nightsTo,
-    );
+  setNights() {
+    const { nightsFrom, nightsTo } = this.data.when;
+    const $popup = this.$.nights.find('.popup');
+    const $days = $popup.find('.days');
+    const $day = $days.find('.day:not(.template)');
 
-    const limits = this.limits.nights;
+    $.each($day, (i, item) => {
+      const $item = $(item);
+      $item.removeClass('selected-from selected-to selected-range');
+      const day = $item.data('day');
+      if(day === nightsFrom) {
+        $item.addClass('selected-from');
+      }
+      if(day === nightsTo) {
+        $item.addClass('selected-to');
+      }
+      if(nightsTo !== nightsFrom && day > nightsFrom && day < nightsTo) {
+        $item.addClass('selected-range');
+      }
+    });
+
+    this.setText('nights', SearchForm.nightsText(nightsFrom, nightsTo));
+  };
+
+  nightsActions() {
+    const { nightsFrom, nightsTo } = this.data.when;
 
     const $popup = this.$.nights.find('.popup');
-    const $selector = $popup.find('.selector');
-    const $range = $popup.find('.range-checkbox input');
     const $days = $popup.find('.days');
     const $day = $days.find('.day.template');
 
-    $popup.find('.slider').ionRangeSlider({
-      type: 'double',
-      grid: true,
-      min: 1,
-      max: 28,
-      from: 1,
-      to: 28,
-      postfix: ' р.',
-      hide_min_max: true,
-      onFinish: (data) => {
-        console.log(data)
-      },
-    });
-
-
     for(let i = 1; i <= 28; i++) {
       const day = $day.clone().removeClass('template').html(i).attr('data-day', i);
-      if(i===20) {
-        day.addClass('selected');
-      }
 
-      day.on('click', (e) => {
-        console.log(e.target)
+      day.on('click', e => {
+        const $item = $(e.target);
+        const dayNum = $item.data('day');
+
+        const { nightsFrom: from, nightsTo: to } = this.data.when;
+
+        if(from === to) {
+          this.data.when.nightsFrom = dayNum;
+          this.data.when.nightsTo = null;
+        } else if(from) {
+          if(to) {
+            if(dayNum < to) {
+              this.data.when.nightsFrom = dayNum;
+              this.data.when.nightsTo = null;
+            } else {
+              this.data.when.nightsTo = dayNum;
+            }
+          } else if(dayNum >= from){
+            this.data.when.nightsTo = dayNum;
+          } else {
+            this.data.when.nightsFrom = dayNum;
+            this.data.when.nightsTo = null;
+          }
+        }
+        this.setNights();
+        return false;
       });
       $days.append(day);
     }
 
+    this.setNights();
 
-    const setNights = (n, r) => {
-      const { from, to } = SearchForm.rangeToNights(n, r);
-      this.data.when.nightsFrom = from;
-      this.data.when.nightsTo = to;
-    };
-
-    this.$.nights.find('.range').toggle(range);
-    $range.prop('checked', range);
-    this.setText('nights', nights);
-
-    if (nights >= limits.max) {
-      $selector.find('.plus').addClass('disabled');
-    } else {
-      $selector.find('.plus').removeClass('disabled');
-    }
-
-    if (nights <= limits.min) {
-      $selector.find('.minus').addClass('disabled');
-    } else {
-      $selector.find('.minus').removeClass('disabled');
-    }
+    this.setText('nights', SearchForm.nightsText(nightsFrom, nightsTo));
 
     this.$.nights.find('.value, .range').click(() => {
       $popup.addClass('active');
-      $selector.find('.minus').off('click').on('click', (e) => {
-        const $el = $(e.target);
-        if (!$el.hasClass('disabled')) {
-          nights -= 1;
-          this.setText('nights', nights);
-          setNights(nights, range);
-        }
-        if (nights <= limits.min) {
-          $el.addClass('disabled');
-        } else {
-          $el.removeClass('disabled');
-        }
-        if (nights < limits.max) $selector.find('.plus').removeClass('disabled');
-        return false;
-      });
-
-      $selector.find('.plus').off('click').on('click', (e) => {
-        const $el = $(e.target);
-        if (!$el.hasClass('disabled')) {
-          nights += 1;
-          this.setText('nights', nights);
-          setNights(nights, range);
-        }
-        if (nights >= limits.max) {
-          $el.addClass('disabled');
-        } else {
-          $el.removeClass('disabled');
-        }
-        if (nights > limits.min) $selector.find('.minus').removeClass('disabled');
-        return false;
-      });
-
-      $range.off('change').on('change', () => {
-        if ($range.is(':checked')) {
-          range = true;
-          this.$.nights.find('.range').show();
-        } else {
-          range = false;
-          this.$.nights.find('.range').hide();
-        }
-        setNights(nights, range);
-      });
-
       return false;
     });
   }
@@ -666,6 +632,39 @@ export default class SearchForm {
     });
   }
 
+  paramsActions() {
+    const $stars = this.$.params.find('.stars');
+    const self = this;
+
+    $stars.find('a').on('click', function starsClick() {
+      const $el = $(this);
+      const html = $el.html();
+      const star = $el.data('stars');
+      $stars.find('button .text').html(html);
+
+      self.data.filters.stars = star;
+
+      $stars.removeClass('open');
+
+      return false;
+    });
+
+    const $meals = this.$.params.find('.meals');
+
+    $meals.find('a').on('click', function mealsClick() {
+      const $el = $(this);
+      const html = $el.html();
+      const meal = $el.data('meal');
+      $meals.find('button .text').html(html).find('small').hide();
+
+      self.data.filters.meal = meal;
+
+      $meals.removeClass('open');
+
+      return false;
+    });
+  }
+
   submitActions() {
     this.$.form.on('submit', () => false);
 
@@ -759,9 +758,8 @@ export default class SearchForm {
 
   setText(type, value) {
     if (type === 'nights') {
-      const nightsText = Humanize.nights(value);
-      this.$.nights.find('.value').text(nightsText);
-      this.$.nights.find('.popup .selector .param').text(nightsText);
+      this.$.nights.find('.value').text(value);
+      this.$.nights.find('.nights-range-text').text(value);
     }
 
     if (type === 'adults') {
@@ -780,19 +778,14 @@ export default class SearchForm {
     if (IS_DEV) console.log('[ФОРМА ПОИСКА] Форма загружена', new Date());
   }
 
-  static nightsToRange(from, to) {
-    const range = (from !== to);
-    return {
-      range,
-      nights: range ? from + DATE_RANGE : parseInt(from, 10),
-    };
-  }
-
-  static rangeToNights(nights, range) {
-    return {
-      from: (range) ? nights - NIGHTS_RANGE : nights,
-      to: (range) ? nights + NIGHTS_RANGE : nights,
-    };
+  static nightsText(from, to) {
+    if(!to) {
+      return `${Humanize.nights(from)}`
+    } else if(to === from) {
+      return `${Humanize.nights(to)}`
+    }else {
+      return `${from}-${Humanize.nights(to)}`
+    }
   }
 
   rangeToDate(momentDate) {

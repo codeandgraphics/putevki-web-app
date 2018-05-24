@@ -22,7 +22,6 @@ export default class BranchesMap {
     this.city = global.currentCity;
 
     this.cities = citiesWithCountries;
-    console.log(this.city)
   }
 
   init() {

@@ -17,8 +17,6 @@ export default class TourPage {
   init() {
     this.tour = new Tour();
 
-    if (IS_DEV) console.log(this.tour);
-
     this.map = new OfficesMap(this.cities, this.branches);
     this.map.init();
   }

@@ -32,7 +32,6 @@ export default class OfficesMap {
   }
 
   addBranches() {
-    console.log(this.branches);
     this.branches.forEach((branch) => {
       let branchText = '';
       if (branch.phone) branchText += `Телефон: ${branch.phone}<br/>`;

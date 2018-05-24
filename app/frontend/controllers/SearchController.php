@@ -24,9 +24,6 @@ class SearchController extends BaseController
 		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
-		$meals = Tourvisor\Meals::find([
-			'order' => 'id DESC'
-		]);
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
@@ -41,7 +38,6 @@ class SearchController extends BaseController
 		$this->view->setVars([
 			'searchId' => $searchId,
 			'params' => $params,
-			'meals' => $meals,
 			'departures' => $departures,
 			'title' => $title,
 			'page' => 'search'
@@ -67,9 +63,6 @@ class SearchController extends BaseController
 		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
-		$meals = Tourvisor\Meals::find([
-			'order' => 'id DESC'
-		]);
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
@@ -86,7 +79,6 @@ class SearchController extends BaseController
 		$this->view->setVars([
 			'searchId' => $searchId,
 			'params' => $params,
-			'meals' => $meals,
 			'departures' => $departures,
 			'title' => $title,
 			'page' => 'search'

@@ -79,8 +79,6 @@ class FindTourModal {
         keyboard: false,
       }).addClass('loading').addClass(type);
 
-      if (IS_DEV) console.log(dataString);
-
       $.post('/ajax/findTour', { data: dataString, type }, () => {
         setTimeout(() => {
           $('#onlineStatusModal').removeClass('loading').addClass('success');
@@ -278,8 +276,6 @@ class FindTourModal {
     } else {
       this.$.modal.find(`#selected dd.${key}`).text(value);
     }
-
-    if (IS_DEV) console.log(JSON.stringify(this.data), this.data);
   }
 }
 
