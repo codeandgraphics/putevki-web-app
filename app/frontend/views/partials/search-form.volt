@@ -30,6 +30,7 @@
 				<div class="value"></div>
 				<div class="popup nights">
 					<i class="popup-pointer"></i>
+					<div class="slider"></div>
 					<div class="days">
 						<div class="day template"></div>
 					</div>

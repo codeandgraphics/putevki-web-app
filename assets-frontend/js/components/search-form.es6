@@ -416,11 +416,30 @@ export default class SearchForm {
     const $days = $popup.find('.days');
     const $day = $days.find('.day.template');
 
+    $popup.find('.slider').ionRangeSlider({
+      type: 'double',
+      grid: true,
+      min: 1,
+      max: 28,
+      from: 1,
+      to: 28,
+      postfix: ' р.',
+      hide_min_max: true,
+      onFinish: (data) => {
+        console.log(data)
+      },
+    });
+
+
     for(let i = 1; i <= 28; i++) {
       const day = $day.clone().removeClass('template').html(i).attr('data-day', i);
       if(i===20) {
         day.addClass('selected');
       }
+
+      day.on('click', (e) => {
+        console.log(e.target)
+      });
       $days.append(day);
     }
 
