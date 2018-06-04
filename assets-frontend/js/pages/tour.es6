@@ -9,13 +9,15 @@ global.setOffice = function(id) {
 };
 
 export default class TourPage {
+  constructor({ branches, cities }) {
+    this.branches = branches;
+    this.cities = cities;
+  }
 
   init() {
     this.tour = new Tour();
 
-    if (IS_DEV) console.log(this.tour);
-
-    this.map = new OfficesMap();
+    this.map = new OfficesMap(this.cities, this.branches);
     this.map.init();
   }
 }

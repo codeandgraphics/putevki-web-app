@@ -92,7 +92,8 @@ class ApiController extends BaseController
     {
         return new JSONResponse(Error::NO_ERROR, [
             'cities' => $this->cities,
-            'countries' => $this->countries
+            'countries' => $this->countries,
+            'branches' => $this->branches
         ]);
     }
 

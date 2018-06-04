@@ -36,7 +36,7 @@
 						<i class="social-odnoklassniki"></i></a>
 				</div>
 				<a href="https://putevki.ru/search-full" class="old-site" target="_blank">
-					Старый поиск туров<i class="ion-share"></i>
+					Расширенный поиск туров
 				</a>
 			</div>
 		</div>

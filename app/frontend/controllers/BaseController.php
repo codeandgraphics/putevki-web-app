@@ -73,7 +73,11 @@ class BaseController extends Controller
 		$this->city = Cities::findFirst('id=' . $this->params->city);
 		$this->departure = Departures::findFirst('id=' . $this->params->search->from);
 
-		$this->view->setVars([
+        $this->meals = Tourvisor\Meals::find([
+            'order' => 'id DESC'
+        ]);
+
+        $this->view->setVars([
 			'branches' => $this->branches->toArray(),
 			'cities' => $this->cities->toArray(),
 			'city' => $this->city,
@@ -81,6 +85,7 @@ class BaseController extends Controller
 			'formCountries' => $this->formCountries,
 			'lastQueries' => $this->lastQueries,
 			'countries' => $this->countries,
+            'meals' => $this->meals,
             'meta' => new Meta(
                 'Путевки, туры, покупка путевок в интернет-магазине',
                 'Вы можете выбрать путевку или тур на сайте Путевки.ру'

@@ -12,7 +12,128 @@
     background: @color-white;
     border-radius: 10px 11px 11px 10px;
     position: relative;
-    // .box-shadow(0 0 10px 0 rgba(0,0,0,0.4));
+
+    .box-shadow(0 5px 10px 0 rgba(0,0,0,0.2));
+  }
+
+  .params-container {
+    margin: 0 auto;
+    width: 490px;
+    background-color: @color-shadow-alpha;
+    color: @color-white-opacity;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 36px;
+    text-align: left;
+    padding: 5px;
+
+    .dropdown{
+      display: inline-block;
+
+      &.open{
+        .caret{
+          .rotate(180);
+          .transition(transform 0.2);
+        }
+      }
+
+      &.meals{
+        button{
+          width: 130px;
+        }
+      }
+
+      &.stars{
+        margin-left: 2px;
+        margin-right: 20px;
+
+        button{
+          width: 165px;
+        }
+      }
+
+      button{
+        background: @color-white-opacity;
+        border: 1px solid @color-border;
+        margin-left: 5px;
+        text-align: left;
+        position: relative;
+        border-radius: 4px;
+        color: @color-text-main;
+
+        .transition(0.13s all ease);
+
+        .caret{
+          position: absolute;
+          right: 8px;
+          top: 12px;
+          .transition(transform 0.2);
+        }
+
+        .label{
+          position: absolute;
+          right: 20px;
+          top: 4px;
+        }
+
+        div{
+          display: inline-block;
+        }
+
+        &:hover {
+          border-color: @color-blue;
+
+          .transition(0.13s all ease);
+        }
+      }
+
+      i{
+        color: @color-blue;
+      }
+
+      ul{
+        border: 1px solid @color-border;
+        border-radius: 4px;
+        padding: 0;
+        min-width: 170px;
+        overflow: hidden;
+
+        li{
+
+          &.active {
+            a {
+              background-color: @color-blue;
+
+              i,
+              small{
+                color: @color-white;
+              }
+            }
+          }
+
+          &.divider{
+            margin: 0;
+          }
+
+          a{
+            text-decoration: none;
+
+            small{
+              display: block;
+              color: @color-text-gray;
+            }
+
+            .label{
+              position: absolute;
+              right: 10px;
+              top: 6px;
+              margin-left: 100px;
+            }
+          }
+        }
+      }
+    }
+
   }
 
   .transition(.3s ease all);
@@ -20,7 +141,7 @@
   &.affix {
     background: @color-blue;
     position: fixed;
-    height: calc(@small-search-height + 20px);
+    height: calc(@small-search-height + 56px);
     top: 0;
     width: 100%;
     z-index: 10;
@@ -28,7 +149,7 @@
     .box-shadow(0 0 40px 0 rgba(0,0,0,0.5));
 
     .form-container {
-      margin: 10px auto;
+      margin: 10px auto 0 auto;
       height: @small-search-height;
 
       .inputs {
@@ -115,7 +236,7 @@
 
         & > .twitter-typeahead {
           height: 100%;
-          
+
         }
 
         .country-block {
@@ -167,6 +288,57 @@
 
         .value {
           font-size: 17px;
+        }
+
+        .nights-range-text {
+          text-align: center;
+          margin-bottom: 10px;
+          color: @color-blue;
+        }
+
+        .days {
+          width: 292px;
+          height: 160px;
+          padding: 10px;
+
+          .day {
+            width: 34px;
+            height: 34px;
+            border-radius: 17px;
+            float: left;
+            text-align: center;
+            padding: 6px 5px;
+            cursor: pointer;
+            margin-bottom: 2px;
+
+            &.selected-from {
+              background: @color-blue;
+              color: @color-white;
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+
+            &.selected-to {
+              background: @color-blue;
+              color: @color-white;
+              border-top-left-radius: 0;
+              border-bottom-left-radius: 0;
+            }
+
+            &.selected-to.selected-from {
+              border-radius: 17px;
+            }
+
+            &.selected-range {
+              background: @color-blue-opacity;
+              color: @color-white;
+              border-radius: 0;
+            }
+
+            &:hover {
+              background-color: @color-blue-opacity;
+            }
+          }
         }
       }
 

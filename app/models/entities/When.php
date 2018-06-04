@@ -46,16 +46,6 @@ class When
 		return $date->add(new \DateInterval('P' . self::DATE_RANGE . 'D'))->format('d.m.Y');
 	}
 
-	public function notRangeNights()
-	{
-		return $this->nightsFrom + self::NIGHTS_RANGE;
-	}
-
-	public function isNightsRange()
-	{
-		return $this->nightsFrom !== $this->nightsTo;
-	}
-
 	public function getDbDateFrom()
 	{
 		return Date::toDbDate($this->dateFrom);

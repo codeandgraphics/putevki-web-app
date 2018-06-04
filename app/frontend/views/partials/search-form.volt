@@ -26,17 +26,14 @@
 				<input title="Когда?" />
 			</div>
 			<div class="length input popup-nights" title="На сколько?">
-				<span class="range">± 2</span>
 				<div class="value"></div>
 				<div class="popup nights">
 					<i class="popup-pointer"></i>
-					<div class="selector">
-						<div class="minus">–</div>
-						<div class="plus">+</div>
+					<div class="days">
+						<div class="day template"></div>
 					</div>
-					<div class="range-checkbox">
-						<input type="checkbox" id="nights-range-days" checked>
-						<label for="nights-range-days">± 2 ночи</label>
+					<div class="nights-range-text">
+						6-7 ночей
 					</div>
 				</div>
 			</div>
@@ -97,6 +94,77 @@
 			<div class="search-button">
 				<button class="btn btn-primary">Искать туры</button>
 			</div>
+		</div>
+	</div>
+	<div class="params-container">
+		<div class="dropdown stars">
+			Класс отеля:
+			<button class="dropdown-toggle" type="button" id="starsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<div class="text">
+                    {% set star = params.search.starsEntity() %}
+                    {% for i in 1..star.name %}<i class="ion-star"></i>{% endfor %}
+                    {% if star.id == 6 %}<span class="label label-warning">эксклюзив</span>{% else %}и выше{% endif %}
+				</div>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="starsMenu">
+				<li{% if star.id == 6 %} class="active"{% endif %}>
+					<a href="#" data-stars="6">
+						<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
+						<span class="label label-warning">эксклюзив</span>
+					</a>
+				</li>
+				<li role="separator" class="divider"></li>
+				<li{% if star.id == 5 %} class="active"{% endif %}>
+					<a href="#" data-stars="5">
+						<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
+						и выше
+					</a>
+				</li>
+				<li{% if star.id == 4 %} class="active"{% endif %}>
+					<a href="#" data-stars="4">
+						<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
+						и выше
+					</a>
+				</li>
+				<li{% if star.id == 3 %} class="active"{% endif %}>
+					<a href="#" data-stars="3">
+						<i class="ion-star"></i><i class="ion-star"></i><i class="ion-star"></i>
+						и выше
+					</a>
+				</li>
+				<li{% if star.id == 2 %} class="active"{% endif %}>
+					<a href="#" data-stars="2">
+						<i class="ion-star"></i><i class="ion-star"></i>
+						и выше
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="dropdown meals">
+			Питание:
+			<button class="dropdown-toggle" type="button" id="mealMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<i class="ion-fork"></i> <i class="ion-knife"></i> &nbsp;
+				<div class="text">
+                    {% set meal = params.search.mealsEntity() %}
+                    {{ meal.name }} {% if meal.name !== 'UAI' %}и выше{% endif %}
+				</div>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="mealMenu">
+                {% for item in meals %}
+					<li{% if item.name == meal.name %} class="active"{% endif %}>
+						<a href="#" data-meal="{{ item.id }}">
+                            {{ item.name }} {% if item.name != 'UAI' %}и выше{% endif %}
+							<small>{{ item.russian }}</small>
+						</a>
+					</li>
+                    {% if item.name == 'AI' %}
+						<li role="separator" class="divider"></li>
+                    {% endif %}
+                {% endfor %}
+			</ul>
 		</div>
 	</div>
 </form>
