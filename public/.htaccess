@@ -1,38 +1,39 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
+	RewriteCond %{HTTP_HOST} ^www.putevki\.ru [NC]
+RewriteRule ^(.*)$ http://putevki.ru/$1 [L,R=301]
+	
 	RewriteCond %{HTTPS} !=on
 	RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 	
 	RewriteCond %{REQUEST_URI} ^/sunmar$
-	RewriteRule ^.*$ https://tours.putevki.ru/sunmar? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/sunmar? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/coral$
-	RewriteRule ^.*$ https://tours.putevki.ru/coral? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/coral? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/pegas$
-	RewriteRule ^.*$ https://tours.putevki.ru/pegas? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/pegas? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/tez-tour$
-	RewriteRule ^.*$ https://tours.putevki.ru/tez-tour? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/tez-tour? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/mouzenidis$
-	RewriteRule ^.*$ https://tours.putevki.ru/mouzenidis? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/mouzenidis? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/biblio-globus$
-	RewriteRule ^.*$ https://tours.putevki.ru/biblio-globus? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/biblio-globus? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/tui$
-	RewriteRule ^.*$ https://tours.putevki.ru/tui? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/tui? [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} ^/anex$
-	RewriteRule ^.*$ https://tours.putevki.ru/anex? [R=301,L]
+	RewriteRule ^.*$ https://putevki.ru/operators/anex? [R=301,L]
 	
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
 </IfModule>
-
-Redirect 301 /anex https://tours.putevki.ru/anex
 
 <ifModule mod_gzip.c>
     mod_gzip_on Yes

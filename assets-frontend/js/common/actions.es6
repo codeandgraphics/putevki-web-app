@@ -27,7 +27,6 @@ export function initActions() {
 
 export function mobileOverlay() {
   if (isMobile && Cookies.get('mobile-overlay') !== 'closed') {
-    window.location.href = 'https://m.putevki.ru';
     $('body').addClass('disable-scroll');
     $('#mobile-overlay').removeClass('hidden').find('.close-overlay').on('click', () => {
       $('meta[name=viewport]').prop('content', 'width=1230');

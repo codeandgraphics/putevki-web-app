@@ -15,7 +15,8 @@ class Operators extends BaseModel implements ITourvisorEntity
 	public $russian;
 	public $onlineBooking;
 	public $legal;
-	public $guarantee;
+  public $guarantee;
+  public $about;
 
 	public function initialize()
 	{
@@ -41,7 +42,8 @@ class Operators extends BaseModel implements ITourvisorEntity
 		$operator->russian = $this->russian;
 		$operator->onlineBooking = $this->onlineBooking;
 		$operator->legal = $this->legal;
-		$operator->guarantee = $this->guarantee;
+    $operator->guarantee = $this->guarantee;
+    $operator->about = $this->about;
 
 		return $operator;
 	}
