@@ -75,6 +75,7 @@ $current->action = $this->dispatcher->getActionName();
 <script src="{{ static_url('static/admin/js/script.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script src="{{ static_url('static/admin/js/summernote-cleaner.js') }}"></script>
 
 <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase-messaging.js"></script>

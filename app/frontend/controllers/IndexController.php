@@ -7,6 +7,7 @@ use Backend\Models\Payments;
 use Backend\Models\Requests;
 use Frontend\Models\Params;
 use Models\StoredQueries;
+use Models\Blog\Posts;
 use Models\Tourvisor\Departures	as TourvisorDepartures;
 use Models\Cities;
 use Mobile_Detect;
@@ -46,7 +47,14 @@ class IndexController extends BaseController
 				'noId'		=> 99
 			],
 			'order'	=> 'name'
-		]);
+    ]);
+    
+    $posts = Posts::find(
+        [
+            "order" => "created DESC",
+            "limit" => 3,
+        ]
+    );
 
 		$add = '';
 		if($this->city->nameRod !== $this->city->departure->nameFrom)
@@ -59,7 +67,8 @@ class IndexController extends BaseController
 		$this->view->setVars([
 			'populars'			=> $popularItems,
 			'popularCountries'	=> implode(', ', $popularCountries),
-			'departures'		=> $departures,
+      'departures'		=> $departures,
+      'posts'       => $posts,
 			'params'			=> $this->params,
 			'title'				=> $title,
 			'page'				=> 'main',
