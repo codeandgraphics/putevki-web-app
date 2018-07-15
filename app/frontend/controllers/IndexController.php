@@ -51,6 +51,7 @@ class IndexController extends BaseController
     
     $posts = Posts::find(
         [
+            "active = 1",
             "order" => "created DESC",
             "limit" => 3,
         ]
