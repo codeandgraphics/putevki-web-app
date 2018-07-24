@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'bootstrap-webpack';
 import moment from 'moment';
 import 'moment/locale/ru';
+import './js/jStorage';
 
 import './less/main.less';
 

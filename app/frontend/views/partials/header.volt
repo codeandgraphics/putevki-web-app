@@ -75,6 +75,7 @@
 			{{ partial('partials/search-form') }}
 		{% endif %}
 	</div>
+  <!-- 
 		{% if page === 'main' %}
       <div class="blog-posts-container">
         <div class="blog-posts container">
@@ -104,4 +105,5 @@
         </div>
       </div>
 		{% endif %}
+  -->
 </header>
