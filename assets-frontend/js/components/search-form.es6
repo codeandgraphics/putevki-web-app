@@ -377,7 +377,7 @@ export default class SearchForm {
 
     const $rangePicker = $('<div class="range-checkbox" />');
     $rangePicker.append(
-      `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.range === DATE_RANGE) ? 'checked="checked"' : ''}> 
+      `<input type="checkbox" id="date-range-days" value="1" name="date-range-days" ${(this.range === DATE_RANGE) ? 'checked="checked"' : ''}>
        <label for="date-range-days">± ${DATE_RANGE} дня</label>`,
     );
 
@@ -683,6 +683,10 @@ export default class SearchForm {
           changed: this.data.where.country !== this.initialCountry,
         };
 
+        if(!data.when.nightsTo) {
+          data.when.nightsTo = data.when.nightsFrom;
+        }
+
         $.getJSON(`${this.endpoint}search/`, {
           params: data,
         }, (res) => {
@@ -783,7 +787,7 @@ export default class SearchForm {
       return `${Humanize.nights(from)}`
     } else if(to === from) {
       return `${Humanize.nights(to)}`
-    }else {
+    } else {
       return `${from}-${Humanize.nights(to)}`
     }
   }
