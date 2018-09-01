@@ -261,7 +261,7 @@ export default class Search {
   renderFirst() {
     this.first.shown = true;
     this.showMore(false);
-    this.renderHotels(this.first.hotels);
+    this.renderHotels(this.first.hotels.slice(0,15));
 
     this.$.filtersOverlay.hide();
   }
@@ -363,7 +363,7 @@ export default class Search {
     return $item;
   }
 
-  populateTours($item, tours) {
+  populateTours($item, tours = []) {
     $item.find('.variants .variant').not('.template').remove();
 
     $item.find('.more').removeClass('hidden').off('click').on('click', function more() {
@@ -438,7 +438,7 @@ export default class Search {
     const $stars = this.$.params.find('.stars');
 
     this.$.search.find('.sidebar .content').stick_in_parent({
-      offset_top: 60,
+      offset_top: 97,
     });
 
     const self = this;

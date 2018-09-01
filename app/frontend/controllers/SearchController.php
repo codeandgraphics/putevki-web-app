@@ -24,7 +24,6 @@ class SearchController extends BaseController
 		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
 
-
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',
 			'bind' => [
@@ -62,7 +61,6 @@ class SearchController extends BaseController
 
 		$title = 'Путевки и туры ' . $params->search->fromEntity()->name .
 			' &ndash; ' . $params->search->whereHumanized() . ' по ценам ниже чем у туроператора на ';
-
 
 		$departures = Tourvisor\Departures::find([
 			'id NOT IN (:moscowId:, :spbId:, :noId:)',

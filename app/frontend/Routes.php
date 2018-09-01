@@ -259,6 +259,16 @@ $router->add(
 	]
 );
 
+/** Operators */
+$router->add(
+	'/operators/{slug:[a-z0-9\-]+}',
+	[
+		'controller' => 'operators',
+		'action' => 'operator',
+    'excluded' => true
+	]
+);
+
 /** Other routes */
 $router->add(
 	'/robots.txt',

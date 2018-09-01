@@ -77,7 +77,7 @@ class BaseController extends Controller
             'order' => 'id DESC'
         ]);
 
-		$this->view->setVars([
+        $this->view->setVars([
 			'branches' => $this->branches->toArray(),
 			'cities' => $this->cities->toArray(),
 			'city' => $this->city,
