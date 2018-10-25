@@ -234,7 +234,7 @@ export default class Tour {
   setActions() {
     this.$.tour.find('.sidebar .content').stick_in_parent();
 
-    $('#buy a').click(function buyClick(e) {
+    $('#buy a').not('.operator').click(function buyClick(e) {
       if ($(this).parent().hasClass('disabled')) {
         e.preventDefault();
         return false;

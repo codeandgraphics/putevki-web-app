@@ -9,18 +9,18 @@
 	</div>
 
 	<ul class="nav nav-pills" id="buy">
-		<li class="variant active online">
-			<a href="#buy-online">
+		<li class="variant ">
+			<a class="operator" href="{{ tour.operatorlink }}" target="_blank">
 				<div class="icon">
 					<i class="ion-card"></i>
 				</div>
 				<div class="data">
-					<span>Оплатить онлайн</span>
-					<small>VISA, MasterCard</small>
+					<span>Купить у оператора</span>
+					<small>на сайте оператора</small>
 				</div>
 			</a>
 		</li>
-		<li class="variant request">
+		<!-- <li class="variant request">
 			<a href="#buy-request">
 				<div class="icon">
 					<i class="ion-ios-telephone"></i>
@@ -30,8 +30,8 @@
 					<small>Мы перезвоним вам</small>
 				</div>
 			</a>
-		</li>
-		<li class="variant">
+		</li> -->
+		<li class="variant ">
 			<a href="#buy-office">
 				<div class="icon">
 					<i class="ion-location"></i>
@@ -44,8 +44,10 @@
 		</li>
 	</ul>
 
+  <div class="hidden"><? var_dump($tour); ?></div>
+
 	<div class="tab-content">
-		<div class="tab-pane active" id="buy-online">
+		<!--<div class="tab-pane " id="buy-online">
 
 			<form method="POST" id="online-form" data-toggle="validator" action="{{ url('ajax/formOnline') }}">
 				<input type="hidden" name="flight" value="0" />
@@ -98,8 +100,8 @@
 				</div>
 
 			</form>
-		</div>
-		<div class="tab-pane" id="buy-office">
+		</div> -->
+		<div class="tab-pane active" id="buy-office">
 			<form method="POST" id="office-form" data-toggle="validator" action="{{ url('ajax/formOffice') }}">
 
                 {{ partial('tour/partials/person', ['type': 'office']) }}
