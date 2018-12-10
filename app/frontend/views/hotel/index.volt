@@ -79,14 +79,12 @@
 										<div class="value"></div>
 										<div class="popup nights">
 											<i class="popup-pointer"></i>
-											<div class="selector">
-												<div class="minus">–</div>
-												<div class="plus">+</div>
-											</div>
-											<div class="range-checkbox">
-												<input type="checkbox" id="nights-range-days" checked>
-												<label for="nights-range-days">± 2 ночи</label>
-											</div>
+                      <div class="days">
+                        <div class="day template"></div>
+                      </div>
+                      <div class="nights-range-text">
+                        6-7 ночей
+                      </div>
 										</div>
 									</div>
 									<div class="people input popup-people">

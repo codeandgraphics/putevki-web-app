@@ -93,6 +93,7 @@ class SearchQuery
         setcookie(self::LAST_QUERIES_KEY, json_encode($lastQueries), time() + $cookieTimeout, '/');
     }
 
+
     public function buildTourvisorQuery()
     {
         $query = array(
@@ -107,7 +108,8 @@ class SearchQuery
             'stars' => $this->filters->stars,
             'starsbetter' => 1,
             'meal' => $this->filters->meal,
-            'mealbetter' => 1
+            'mealbetter' => 1,
+            'hideregular' => 0
         );
 
         if (count($this->where->regions) > 0) {

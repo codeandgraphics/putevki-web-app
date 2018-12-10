@@ -94,6 +94,95 @@ $router->add(
 		'action' => 'app',
 	]
 );
+
+$router->add(
+	'/api',
+	[
+		'controller' => 'api',
+		'action' => 'index',
+	]
+);
+
+$router->add(
+	'/api/citiesAndCountries',
+	[
+		'controller' => 'api',
+		'action' => 'citiesAndCountries',
+	]
+);
+$router->add(
+	'/api/request',
+	[
+		'controller' => 'api',
+		'action' => 'request',
+	]
+);
+$router->add(
+	'/api/dictionaries',
+	[
+		'controller' => 'api',
+		'action' => 'dictionaries',
+	]
+);
+
+$router->add(
+	'/api/initSearch',
+	[
+		'controller' => 'api',
+		'action' => 'initSearch',
+	]
+);
+$router->add(
+	'/api/initSearchSigned',
+	[
+		'controller' => 'api',
+		'action' => 'initSearchSigned',
+	]
+);
+$router->add(
+	'/api/searchStatus',
+	[
+		'controller' => 'api',
+		'action' => 'searchStatus',
+	]
+);
+$router->add(
+	'/api/searchResult',
+	[
+		'controller' => 'api',
+		'action' => 'searchResult',
+	]
+);
+$router->add(
+	'/api/fullSearchResult',
+	[
+		'controller' => 'api',
+		'action' => 'fullSearchResult',
+	]
+);
+$router->add(
+	'/api/actualizeTour',
+	[
+		'controller' => 'api',
+		'action' => 'actualizeTour',
+	]
+);
+$router->add(
+	'/api/hotel',
+	[
+		'controller' => 'api',
+		'action' => 'hotel',
+	]
+);
+$router->add(
+	'/api/hotels',
+	[
+		'controller' => 'api',
+		'action' => 'hotels',
+	]
+);
+
+
 $router->add(
 	'/migrate',
 	[
