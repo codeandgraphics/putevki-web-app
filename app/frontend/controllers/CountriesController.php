@@ -19,15 +19,17 @@ class CountriesController extends BaseController
 
 	public function countryAction()
 	{
-		$countryUri = $this->dispatcher->getParam('country');
+    $countryUri = $this->dispatcher->getParam('country');
 
 		$country = Countries::findFirstByUri($countryUri);
 
 		if(!$country) {
 			return $this->response->setStatusCode(404);
-		}
+		} else {
+      return $this->response->redirect('https://putevki.ru/countries/' . $countryUri . '/', true, 301);
+    }
 
-		$builder = $this->modelsManager->createBuilder()
+		/* $builder = $this->modelsManager->createBuilder()
 			->columns([
 				'region.*',
 				'tourvisor.*',
@@ -70,7 +72,7 @@ class CountriesController extends BaseController
 			'country'       => $country,
 			'regions'       => $regions,
 			'meta'          => $country->getMeta()
-		]);
+		]); */
 	}
 
 	public function turyAction() {
