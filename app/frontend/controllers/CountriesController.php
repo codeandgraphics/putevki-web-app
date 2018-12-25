@@ -76,17 +76,18 @@ class CountriesController extends BaseController
 	}
 
 	public function turyAction() {
-        $regionUri = $this->dispatcher->getParam('region');
+    $regionUri = $this->dispatcher->getParam('region');
 
-        $region = Regions::findFirstByUri($regionUri);
+    $region = Regions::findFirstByUri($regionUri);
 
-        if(!$region) {
-            return $this->response->setStatusCode(404);
-        }
-
-        $country = Countries::findFirstByTourvisorId($region->tourvisor->country->id);
-        $this->response->redirect('/countries/' . $country->uri . '/' . $regionUri, true, 301);
+    if(!$region) {
+        return $this->response->setStatusCode(404);
     }
+
+    $country = Countries::findFirstByTourvisorId($region->tourvisor->country->id);
+
+    $this->response->redirect('https://putevki.ru/countries/' . $country->uri . '/' . $regionUri, true, 301);
+  }
 
 	public function regionAction()
 	{
@@ -99,8 +100,10 @@ class CountriesController extends BaseController
 		}
 
 		$country = Countries::findFirstByTourvisorId($region->tourvisor->country->id);
+    
+    $this->response->redirect('https://putevki.ru/countries/' . $country->uri . '/' . $regionUri, true, 301);
 
-		$params = Params::getInstance();
+		/* $params = Params::getInstance();
 
 		$params->search->where->country = $country->tourvisorId;
 		$params->search->where->regions = [$region->tourvisorId];
@@ -124,6 +127,6 @@ class CountriesController extends BaseController
 			'country'       => $country,
 			'region'        => $region,
 			'meta'          => $region->getMeta()
-		]);
+		]); */
 	}
 }
