@@ -41,9 +41,7 @@
 						{% if hotel.description is defined %}
 							{{ hotel.description }}
 						{% else %}
-							<div class="message">
-								К сожалению, описания отеля у нас пока нет :(
-							</div>
+                            {{ hotel.placement }}
 						{% endif %}
 					</div>
 				</div>

@@ -6,10 +6,10 @@
 			<div class="container" style="position: relative;">
 				<ul class="links list-unstyled list-inline">
 					<li>
-						<a href="{{ url('/search/Москва/Турция') }}">Поиск туров</a>
+						<a href="{{ url('search/Москва/Турция') }}">Поиск туров</a>
 					</li>
 					<li>
-						<a href="{{ url('/search/Без перелета/Турция') }}">Отели</a>
+						<a href="{{ url('search/Без перелета/Турция') }}">Отели</a>
 					</li>
 					<li>
 						<a href="{{ url('countries') }}">Страны</a>
@@ -46,11 +46,7 @@
 					</div>
 					служба поддержки клиентов
 				</div>
-				<div class="request">
-					<!-- <a href="//tours.putevki.ru" class="btn btn-default" target="_blank">
-						<i class="ion-map"></i> Купить тур в офисе
-					</a> -->
-				</div>
+				<div class="request"></div>
 				<div class="location">
 					<i class="ion-location"></i>
 
@@ -72,35 +68,4 @@
 			{{ partial('partials/search-form') }}
 		{% endif %}
 	</div>
-  <!-- 
-		{% if page === 'main' %}
-      <div class="blog-posts-container">
-        <div class="blog-posts container">
-          <div class="row">
-            {% for post in posts %}
-            <div class="col-xs-4">
-              <div class="post">
-              <div class="col-xs-4">
-							<a href="{{ url('blog/') }}{{ post.uri }}">
-								<img src="{{ images_url('blog') }}/{{ post.preview }}" />
-							</a>
-              </div>
-              <div class="col-xs-8 text">
-                <h4>
-                  <a href="{{ url('blog/') }}{{ post.uri }}">
-                    {{post.title}}
-                  </a>
-                </h4>
-                <p>
-                  {{post.excerpt}}
-                </p>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-		{% endif %}
-  -->
 </header>
