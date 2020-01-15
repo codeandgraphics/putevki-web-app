@@ -45,7 +45,7 @@ class SearchParams
     {
         $this->config = Di::getDefault()->get('config');
 
-        $this->from = (int)$this->config->defaults->from;
+        $this->from = (int) $this->config->defaults->from;
         $this->where = $this->defaultWhere();
         $this->when = $this->defaultWhen();
         $this->people = $this->defaultPeople();
@@ -54,19 +54,19 @@ class SearchParams
 
     public function fromStored($object)
     {
-        $this->from = $object->from ?: (int)$this->config->defaults->from;
-        $this->where->fromStored((object)$object->where);
-        $this->when->fromStored((object)$object->when);
-        $this->people->fromStored((object)$object->people);
-        $this->filters->fromStored((object)$object->filters);
+        $this->from = $object->from ?: (int) $this->config->defaults->from;
+        $this->where->fromStored((object) $object->where);
+        $this->when->fromStored((object) $object->when);
+        $this->people->fromStored((object) $object->people);
+        $this->filters->fromStored((object) $object->filters);
     }
 
     public function fromSearchForm($object)
     {
         $this->from = $object->from ?: $this->from;
-        $this->where->fromForm((object)$object->where);
-        $this->when->fromStored((object)$object->when);
-        $this->people->fromForm((object)$object->people);
+        $this->where->fromForm((object) $object->where);
+        $this->when->fromStored((object) $object->when);
+        $this->people->fromForm((object) $object->people);
         $filters = (object) $object->filters;
 
         /* $changed = $object->changed;
@@ -86,12 +86,24 @@ class SearchParams
     {
         $from = $dispatcher->getParam('from');
         $fromEntity = Departures::findFirst("name='$from'");
-        $this->from = $fromEntity ? (int)$fromEntity->id : $this->from;
+        $this->from = $fromEntity ? (int) $fromEntity->id : $this->from;
 
-        $this->whereFromQuery($dispatcher->getParam('where'), $dispatcher->getParam('hotelId'));
-        $this->whenFromQuery($dispatcher->getParam('date'), $dispatcher->getParam('nights'));
-        $this->peopleFromQuery($dispatcher->getParam('adults'), $dispatcher->getParam('children'));
-        $this->filtersFromQuery($dispatcher->getParam('stars'), $dispatcher->getParam('meal'));
+        $this->whereFromQuery(
+            $dispatcher->getParam('where'),
+            $dispatcher->getParam('hotelId')
+        );
+        $this->whenFromQuery(
+            $dispatcher->getParam('date'),
+            $dispatcher->getParam('nights')
+        );
+        $this->peopleFromQuery(
+            $dispatcher->getParam('adults'),
+            $dispatcher->getParam('children')
+        );
+        $this->filtersFromQuery(
+            $dispatcher->getParam('stars'),
+            $dispatcher->getParam('meal')
+        );
     }
 
     public function buildQueryString()
@@ -100,22 +112,32 @@ class SearchParams
 
         $queryString .= '/' . $this->countryEntity()->name;
 
-        if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
+        if (
+            is_array($this->where->regions) &&
+            array_key_exists(0, $this->where->regions)
+        ) {
             $queryString .= '(' . $this->regionEntity()->name . ')';
         }
 
         if ($this->where->hotels) {
-            $hotelName = str_replace(array(' ', '&'), array('_', 'AND'), $this->hotelEntity()->name);
+            $hotelName = str_replace(
+                array(' ', '&'),
+                array('_', 'AND'),
+                $this->hotelEntity()->name
+            );
             $queryString .= '/' . $hotelName . '-' . $this->where->hotels;
         }
 
         $queryString .= $this->when->isDateRange() ? '/~' : '/';
-        $queryString .= $this->when->isDateRange() ? $this->when->notRangeDate() : $this->when->dateFrom;
+        $queryString .= $this->when->isDateRange()
+            ? $this->when->notRangeDate()
+            : $this->when->dateFrom;
 
         $queryString .= '/';
-        $queryString .= $this->when->nightsFrom === $this->when->nightsTo ?
-            $this->when->nightsFrom :
-            $this->when->nightsFrom . '-' . $this->when->nightsTo;
+        $queryString .=
+            $this->when->nightsFrom === $this->when->nightsTo
+                ? $this->when->nightsFrom
+                : $this->when->nightsFrom . '-' . $this->when->nightsTo;
 
         $queryString .= '/' . $this->people->adults;
         $queryString .= '/' . $this->people->getChildrenString();
@@ -132,7 +154,10 @@ class SearchParams
 
         $queryString .= '/' . $this->countryEntity()->name;
 
-        if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
+        if (
+            is_array($this->where->regions) &&
+            array_key_exists(0, $this->where->regions)
+        ) {
             $queryString .= '(' . $this->regionEntity()->name . ')';
         }
 
@@ -141,14 +166,18 @@ class SearchParams
 
     public function isHotelQuery()
     {
-        return (bool)$this->where->hotels;
+        return (bool) $this->where->hotels;
     }
 
-    public function whereHumanized() {
+    public function whereHumanized()
+    {
         $where = $this->countryEntity()->name;
 
-        if (is_array($this->where->regions) && array_key_exists(0, $this->where->regions)) {
-            $where = $this->regionEntity()->name . ', '. $where;
+        if (
+            is_array($this->where->regions) &&
+            array_key_exists(0, $this->where->regions)
+        ) {
+            $where = $this->regionEntity()->name . ', ' . $where;
         }
 
         return $where;
@@ -187,7 +216,7 @@ class SearchParams
     public function fromFromQuery($from)
     {
         $fromEntity = Departures::findFirst("name='$from'");
-        $this->from = $fromEntity ? (int)$fromEntity->id : $this->from;
+        $this->from = $fromEntity ? (int) $fromEntity->id : $this->from;
     }
 
     public function whereFromQuery($where, $hotelId)
@@ -203,14 +232,14 @@ class SearchParams
         if ($regionName) {
             $region = Regions::findFirst("name='$regionName'");
             if ($region) {
-                $this->where->country = (int)$region->countryId;
-                $this->where->regions = [(int)$region->id];
+                $this->where->country = (int) $region->countryId;
+                $this->where->regions = [(int) $region->id];
             }
         } else {
             $countryName = $where;
             $country = Countries::findFirst("name='$countryName'");
             if ($country) {
-                $this->where->country = (int)$country->id;
+                $this->where->country = (int) $country->id;
                 $this->where->regions = [];
             }
         }
@@ -221,9 +250,16 @@ class SearchParams
     public function whenFromQuery($date, $nights)
     {
         if (strpos($date, '~') === 0) {
-            $date = \DateTime::createFromFormat('d.m.Y', str_replace('~', '', $date));
-            $this->when->dateFrom = $date->sub(new \DateInterval('P' . When::DATE_RANGE . 'D'))->format('d.m.Y');
-            $this->when->dateTo = $date->add(new \DateInterval('P' . (When::DATE_RANGE * 2) . 'D'))->format('d.m.Y');
+            $date = \DateTime::createFromFormat(
+                'd.m.Y',
+                str_replace('~', '', $date)
+            );
+            $this->when->dateFrom = $date
+                ->sub(new \DateInterval('P' . When::DATE_RANGE . 'D'))
+                ->format('d.m.Y');
+            $this->when->dateTo = $date
+                ->add(new \DateInterval('P' . When::DATE_RANGE * 2 . 'D'))
+                ->format('d.m.Y');
         } else {
             $this->when->dateFrom = $date;
             $this->when->dateTo = $date;
@@ -234,8 +270,8 @@ class SearchParams
             $this->when->nightsFrom = $nights[0];
             $this->when->nightsTo = $nights[1];
         } else {
-            $this->when->nightsFrom = (int)$nights;
-            $this->when->nightsTo = (int)$nights;
+            $this->when->nightsFrom = (int) $nights;
+            $this->when->nightsTo = (int) $nights;
         }
     }
 
@@ -245,12 +281,14 @@ class SearchParams
             $this->people->adults = $adults;
         }
 
-        if ((int)$children === 0) {
+        if ((int) $children === 0) {
             $this->people->children = 0;
         } else {
-            $this->people->children = explode(People::CHILDREN_SEPARATOR, $children);
+            $this->people->children = explode(
+                People::CHILDREN_SEPARATOR,
+                $children
+            );
         }
-
     }
 
     public function filtersFromQuery($stars, $meal)
@@ -266,7 +304,7 @@ class SearchParams
     private function defaultWhere()
     {
         $where = new Where();
-        $where->country = (int)$this->config->defaults->country;
+        $where->country = (int) $this->config->defaults->country;
         return $where;
     }
 
@@ -287,7 +325,7 @@ class SearchParams
     private function defaultPeople()
     {
         $people = new People();
-        $people->adults = (int)$this->config->defaults->adults;
+        $people->adults = (int) $this->config->defaults->adults;
         return $people;
     }
 

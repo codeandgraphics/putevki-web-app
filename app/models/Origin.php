@@ -2,7 +2,8 @@
 
 namespace Models;
 
-class Origin {
+class Origin
+{
     const WEB = 1;
     const MOBILE = 2;
     const MOBILE_IOS = 3;
@@ -12,8 +13,9 @@ class Origin {
      * @param $value int
      * @return string
      */
-    static public function toVerbal($value) {
-        switch($value) {
+    public static function toVerbal($value)
+    {
+        switch ($value) {
             case self::WEB:
                 return 'web';
             case self::MOBILE:

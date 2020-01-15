@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -18,48 +18,38 @@ class RequestTouristsMigration_101 extends Migration
     public function morph()
     {
         $this->morphTable('request_tourists', [
-                'columns' => [
-                    new Column(
-                        'id',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'autoIncrement' => true,
-                            'size' => 11,
-                            'first' => true
-                        ]
-                    ),
-                    new Column(
-                        'requestId',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'size' => 11,
-                            'after' => 'id'
-                        ]
-                    ),
-                    new Column(
-                        'touristId',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'size' => 11,
-                            'after' => 'requestId'
-                        ]
-                    )
-                ],
-                'indexes' => [
-                    new Index('PRIMARY', ['id'], 'PRIMARY'),
-                    new Index('requestId', ['requestId', 'touristId'], 'UNIQUE')
-                ],
-                'options' => [
-                    'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '1',
-                    'ENGINE' => 'InnoDB',
-                    'TABLE_COLLATION' => 'utf8_bin'
-                ],
+            'columns' => [
+                new Column('id', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'autoIncrement' => true,
+                    'size' => 11,
+                    'first' => true
+                ]),
+                new Column('requestId', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'size' => 11,
+                    'after' => 'id'
+                ]),
+                new Column('touristId', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'size' => 11,
+                    'after' => 'requestId'
+                ])
+            ],
+            'indexes' => [
+                new Index('PRIMARY', ['id'], 'PRIMARY'),
+                new Index('requestId', ['requestId', 'touristId'], 'UNIQUE')
+            ],
+            'options' => [
+                'TABLE_TYPE' => 'BASE TABLE',
+                'AUTO_INCREMENT' => '1',
+                'ENGINE' => 'InnoDB',
+                'TABLE_COLLATION' => 'utf8_bin'
             ]
-        );
+        ]);
     }
 
     /**
@@ -70,11 +60,10 @@ class RequestTouristsMigration_101 extends Migration
     public function up()
     {
         $this->batchInsert('request_tourists', [
-                'id',
-                'requestId',
-                'touristId'
-            ]
-        );
+            'id',
+            'requestId',
+            'touristId'
+        ]);
     }
 
     /**
@@ -86,5 +75,4 @@ class RequestTouristsMigration_101 extends Migration
     {
         $this->batchDelete('request_tourists');
     }
-
 }

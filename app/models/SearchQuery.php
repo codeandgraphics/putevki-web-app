@@ -32,8 +32,7 @@ class SearchQuery
     public function __construct($params = null)
     {
         if ($params) {
-
-            $this->from = (int)$params->from;
+            $this->from = (int) $params->from;
 
             $this->where = new Where($params->where);
 
@@ -62,9 +61,14 @@ class SearchQuery
         $existed = StoredQueries::checkExists($this);
 
         if (!$existed) {
-            $response = Tourvisor::getMethod('search', $this->buildTourvisorQuery());
-            if (property_exists($response, 'result') && property_exists($response->result, 'requestid')) {
-
+            $response = Tourvisor::getMethod(
+                'search',
+                $this->buildTourvisorQuery()
+            );
+            if (
+                property_exists($response, 'result') &&
+                property_exists($response->result, 'requestid')
+            ) {
                 $searchId = $response->result->requestid;
 
                 $this->addLastQuery();
@@ -79,20 +83,25 @@ class SearchQuery
         return $existed;
     }
 
-    public function addLastQuery() {
+    public function addLastQuery()
+    {
         $lastQueries = [];
 
         if (array_key_exists(self::LAST_QUERIES_KEY, $_COOKIE)) {
             $lastQueries = json_decode($_COOKIE[self::LAST_QUERIES_KEY]);
         }
 
-        $lastQueries = array_slice($lastQueries,0, 2);
+        $lastQueries = array_slice($lastQueries, 0, 2);
         array_unshift($lastQueries, $this->buildHumanizedQuery());
 
         $cookieTimeout = Di::getDefault()->get('config')->common->cookieTimeout;
-        setcookie(self::LAST_QUERIES_KEY, json_encode($lastQueries), time() + $cookieTimeout, '/');
+        setcookie(
+            self::LAST_QUERIES_KEY,
+            json_encode($lastQueries),
+            time() + $cookieTimeout,
+            '/'
+        );
     }
-
 
     public function buildTourvisorQuery()
     {
@@ -116,7 +125,9 @@ class SearchQuery
             $query['regions'] = implode(',', $this->where->regions);
         }
 
-        $childrenCount = is_array($this->people->children) ? count($this->people->children) : 0;
+        $childrenCount = is_array($this->people->children)
+            ? count($this->people->children)
+            : 0;
 
         if ($childrenCount > 0) {
             $query['child'] = $childrenCount;
@@ -130,10 +141,7 @@ class SearchQuery
         if ($this->where->hotels > 0) {
             $query['hotels'] = $this->where->hotels;
 
-            unset(
-                $query['rating'],
-                $query['starsbetter']
-            );
+            unset($query['rating'], $query['starsbetter']);
         }
 
         return $query;
@@ -145,15 +153,19 @@ class SearchQuery
 
         $bind = [
             'departure' => $this->from,
-            'country'   => $this->where->country,
-            'region'    => is_array($this->where->regions) && array_key_exists(0, $this->where->regions) ?
-                $this->where->regions[0] : 0,
-            'hotel'     => $this->where->hotels,
-            'meal'      => $this->filters->meal,
-            'stars'     => $this->filters->stars
+            'country' => $this->where->country,
+            'region' =>
+                is_array($this->where->regions) &&
+                array_key_exists(0, $this->where->regions)
+                    ? $this->where->regions[0]
+                    : 0,
+            'hotel' => $this->where->hotels,
+            'meal' => $this->filters->meal,
+            'stars' => $this->filters->stars
         ];
 
-        $builder = $modelsManager->createBuilder()
+        $builder = $modelsManager
+            ->createBuilder()
             ->columns([
                 'departure.name AS departureName',
                 'country.name AS countryName',
@@ -187,18 +199,24 @@ class SearchQuery
         }
 
         $queryString .= ', вылет ';
-        $queryString .= $this->when->isDateRange() ? $this->when->notRangeDate() : $this->when->dateFrom;
+        $queryString .= $this->when->isDateRange()
+            ? $this->when->notRangeDate()
+            : $this->when->dateFrom;
         $queryString .= $this->when->isDateRange() ? ' (±2 дня)' : '';
 
         $queryString .= ' на ';
         $queryString .= $this->nightsText($this->when);
 
-        $queryString .= ', ' . $this->people->adults . ' ' . Text::humanize('adults', $this->people->adults);
-
+        $queryString .=
+            ', ' .
+            $this->people->adults .
+            ' ' .
+            Text::humanize('adults', $this->people->adults);
 
         if (is_array($this->people->children)) {
             $kidsCount = count($this->people->children);
-            $queryString .= ', ' . $kidsCount . ' ' . Text::humanize('kids', $kidsCount);
+            $queryString .=
+                ', ' . $kidsCount . ' ' . Text::humanize('kids', $kidsCount);
         }
 
         $queryString .= ', ' . $info->starsName . ' звезд и выше';
@@ -207,13 +225,16 @@ class SearchQuery
         return $queryString;
     }
 
-    private function nightsText($when) {
+    private function nightsText($when)
+    {
         if (!$when->nightsTo) {
             return Text::humanize('nights', $when->nightsFrom);
-        } else if ($when->nightsTo == $when->nightsFrom) {
+        } elseif ($when->nightsTo == $when->nightsFrom) {
             return Text::humanize('nights', $when->nightsTo);
         } else {
-            return $when->nightsFrom . '-' . Text::humanize('nights', $when->nightsTo);
+            return $when->nightsFrom .
+                '-' .
+                Text::humanize('nights', $when->nightsTo);
         }
     }
 }

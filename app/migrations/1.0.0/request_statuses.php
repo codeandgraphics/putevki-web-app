@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -18,56 +18,41 @@ class RequestStatusesMigration_100 extends Migration
     public function morph()
     {
         $this->morphTable('request_statuses', [
-                'columns' => [
-                    new Column(
-                        'id',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'autoIncrement' => true,
-                            'size' => 11,
-                            'first' => true
-                        ]
-                    ),
-                    new Column(
-                        'key',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 20,
-                            'after' => 'id'
-                        ]
-                    ),
-                    new Column(
-                        'name',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 50,
-                            'after' => 'key'
-                        ]
-                    ),
-                    new Column(
-                        'class',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 50,
-                            'after' => 'name'
-                        ]
-                    )
-                ],
-                'indexes' => [
-                    new Index('PRIMARY', ['id'], 'PRIMARY')
-                ],
-                'options' => [
-                    'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '5',
-                    'ENGINE' => 'InnoDB',
-                    'TABLE_COLLATION' => 'utf8_bin'
-                ],
+            'columns' => [
+                new Column('id', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'autoIncrement' => true,
+                    'size' => 11,
+                    'first' => true
+                ]),
+                new Column('key', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 20,
+                    'after' => 'id'
+                ]),
+                new Column('name', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 50,
+                    'after' => 'key'
+                ]),
+                new Column('class', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 50,
+                    'after' => 'name'
+                ])
+            ],
+            'indexes' => [new Index('PRIMARY', ['id'], 'PRIMARY')],
+            'options' => [
+                'TABLE_TYPE' => 'BASE TABLE',
+                'AUTO_INCREMENT' => '5',
+                'ENGINE' => 'InnoDB',
+                'TABLE_COLLATION' => 'utf8_bin'
             ]
-        );
+        ]);
     }
 
     /**
@@ -77,7 +62,6 @@ class RequestStatusesMigration_100 extends Migration
      */
     public function up()
     {
-
     }
 
     /**
@@ -87,7 +71,6 @@ class RequestStatusesMigration_100 extends Migration
      */
     public function down()
     {
-
     }
 
     /**
@@ -95,14 +78,8 @@ class RequestStatusesMigration_100 extends Migration
      *
      * @return void
      */
-     public function afterCreateTable()
-     {
-        $this->batchInsert('request_statuses', [
-                'id',
-                'key',
-                'name',
-                'class'
-            ]
-        );
-     }
+    public function afterCreateTable()
+    {
+        $this->batchInsert('request_statuses', ['id', 'key', 'name', 'class']);
+    }
 }

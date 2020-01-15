@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -18,26 +18,19 @@ class TourvisorOperatorsMigration_102 extends Migration
     public function morph()
     {
         $this->morphTable('tourvisor_operators', [
-                'columns' => [
-                    new Column(
-                        'about',
-                        [
-                            'type' => Column::TYPE_TEXT,
-                            'size' => 1,
-                            'after' => 'guarantee'
-                        ]
-                    ),
-                    new Column(
-                        'slug',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 255,
-                            'after' => 'about'
-                        ]
-                    )
-                ],
+            'columns' => [
+                new Column('about', [
+                    'type' => Column::TYPE_TEXT,
+                    'size' => 1,
+                    'after' => 'guarantee'
+                ]),
+                new Column('slug', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'size' => 255,
+                    'after' => 'about'
+                ])
             ]
-        );
+        ]);
     }
 
     /**
@@ -47,7 +40,6 @@ class TourvisorOperatorsMigration_102 extends Migration
      */
     public function up()
     {
-
     }
 
     /**
@@ -57,7 +49,5 @@ class TourvisorOperatorsMigration_102 extends Migration
      */
     public function down()
     {
-
     }
-
 }

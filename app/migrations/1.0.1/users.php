@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -18,119 +18,85 @@ class UsersMigration_101 extends Migration
     public function morph()
     {
         $this->morphTable('users', [
-                'columns' => [
-                    new Column(
-                        'id',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'autoIncrement' => true,
-                            'size' => 11,
-                            'first' => true
-                        ]
-                    ),
-                    new Column(
-                        'name',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'id'
-                        ]
-                    ),
-                    new Column(
-                        'email',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'name'
-                        ]
-                    ),
-                    new Column(
-                        'password',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'email'
-                        ]
-                    ),
-                    new Column(
-                        'company',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'password'
-                        ]
-                    ),
-                    new Column(
-                        'imageUrl',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "//static.putevki.ru/images/common/yo.png",
-                            'size' => 255,
-                            'after' => 'company'
-                        ]
-                    ),
-                    new Column(
-                        'role',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "Manager",
-                            'notNull' => true,
-                            'size' => 10,
-                            'after' => 'imageUrl'
-                        ]
-                    ),
-                    new Column(
-                        'lastLogin',
-                        [
-                            'type' => Column::TYPE_DATETIME,
-                            'size' => 1,
-                            'after' => 'role'
-                        ]
-                    ),
-                    new Column(
-                        'creationDate',
-                        [
-                            'type' => Column::TYPE_DATETIME,
-                            'size' => 1,
-                            'after' => 'lastLogin'
-                        ]
-                    ),
-                    new Column(
-                        'branchId',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'size' => 11,
-                            'after' => 'creationDate'
-                        ]
-                    ),
-                    new Column(
-                        'deleted',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "N",
-                            'notNull' => true,
-                            'size' => 1,
-                            'after' => 'branchId'
-                        ]
-                    )
-                ],
-                'indexes' => [
-                    new Index('PRIMARY', ['id'], 'PRIMARY'),
-                    new Index('email', ['email'], 'UNIQUE')
-                ],
-                'options' => [
-                    'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '5',
-                    'ENGINE' => 'InnoDB',
-                    'TABLE_COLLATION' => 'utf8_bin'
-                ],
+            'columns' => [
+                new Column('id', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'autoIncrement' => true,
+                    'size' => 11,
+                    'first' => true
+                ]),
+                new Column('name', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 255,
+                    'after' => 'id'
+                ]),
+                new Column('email', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 255,
+                    'after' => 'name'
+                ]),
+                new Column('password', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 255,
+                    'after' => 'email'
+                ]),
+                new Column('company', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 255,
+                    'after' => 'password'
+                ]),
+                new Column('imageUrl', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'default' => '//static.putevki.ru/images/common/yo.png',
+                    'size' => 255,
+                    'after' => 'company'
+                ]),
+                new Column('role', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'default' => 'Manager',
+                    'notNull' => true,
+                    'size' => 10,
+                    'after' => 'imageUrl'
+                ]),
+                new Column('lastLogin', [
+                    'type' => Column::TYPE_DATETIME,
+                    'size' => 1,
+                    'after' => 'role'
+                ]),
+                new Column('creationDate', [
+                    'type' => Column::TYPE_DATETIME,
+                    'size' => 1,
+                    'after' => 'lastLogin'
+                ]),
+                new Column('branchId', [
+                    'type' => Column::TYPE_INTEGER,
+                    'size' => 11,
+                    'after' => 'creationDate'
+                ]),
+                new Column('deleted', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'default' => 'N',
+                    'notNull' => true,
+                    'size' => 1,
+                    'after' => 'branchId'
+                ])
+            ],
+            'indexes' => [
+                new Index('PRIMARY', ['id'], 'PRIMARY'),
+                new Index('email', ['email'], 'UNIQUE')
+            ],
+            'options' => [
+                'TABLE_TYPE' => 'BASE TABLE',
+                'AUTO_INCREMENT' => '5',
+                'ENGINE' => 'InnoDB',
+                'TABLE_COLLATION' => 'utf8_bin'
             ]
-        );
+        ]);
     }
 
     /**
@@ -141,19 +107,18 @@ class UsersMigration_101 extends Migration
     public function up()
     {
         $this->batchInsert('users', [
-                'id',
-                'name',
-                'email',
-                'password',
-                'company',
-                'imageUrl',
-                'role',
-                'lastLogin',
-                'creationDate',
-                'branchId',
-                'deleted'
-            ]
-        );
+            'id',
+            'name',
+            'email',
+            'password',
+            'company',
+            'imageUrl',
+            'role',
+            'lastLogin',
+            'creationDate',
+            'branchId',
+            'deleted'
+        ]);
     }
 
     /**
@@ -165,5 +130,4 @@ class UsersMigration_101 extends Migration
     {
         $this->batchDelete('users');
     }
-
 }

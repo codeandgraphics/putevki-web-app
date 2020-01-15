@@ -22,42 +22,42 @@ use Utils\Tourvisor as TourvisorUtils;
 
 class ApiController extends BaseController
 {
-	protected $_cache;
-	protected $_KEY = 'u67x9raC(Y|Mt;R|?3+1y|Vv:O|}5>r/JwBLtE>,E+y-Z>Hnf_J<<9.rkrbv~dMF';
-	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    protected $_cache;
+    protected $_KEY = 'u67x9raC(Y|Mt;R|?3+1y|Vv:O|}5>r/JwBLtE>,E+y-Z>Hnf_J<<9.rkrbv~dMF';
+    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-	public function initialize()
-	{
-		parent::initialize();
+    public function initialize()
+    {
+        parent::initialize();
 
-		$cacheData = new CacheData(
-			array(
-				'lifetime' => 172800
-			)
-		);
+        $cacheData = new CacheData(array(
+            'lifetime' => 172800
+        ));
 
-		$this->_cache = new Cache(
-			$cacheData,
-			array(
-				'cacheDir' => '../app/cache/'
-			)
-		);
-	}
-
-	public function onConstruct() {
-	    $this->view->disable();
+        $this->_cache = new Cache($cacheData, array(
+            'cacheDir' => '../app/cache/'
+        ));
     }
 
-	public function beforeExecuteRoute($dispatcher) {
-	    //Need to fix this
-	    $isLocal = $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
+    public function onConstruct()
+    {
+        $this->view->disable();
+    }
 
-	    if($isLocal) return true;
+    public function beforeExecuteRoute($dispatcher)
+    {
+        //Need to fix this
+        $isLocal =
+            $this->request->getHeader('X-Requested-With') === 'XMLHttpRequest';
+
+        if ($isLocal) {
+            return true;
+        }
 
         $clientSign = $this->request->getHeader('X-Request-Sign');
         $clientDate = (int) $this->request->getHeader('X-Request-Time');
 
-        if(!$clientSign || !$clientDate) {
+        if (!$clientSign || !$clientDate) {
             $response = new JSONResponse(Error::API_CREDENTIALS_MISSED);
             echo $response->getContent();
             return false;
@@ -67,14 +67,17 @@ class ApiController extends BaseController
 
         $body->date = $clientDate;
 
-        $string = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $string = json_encode(
+            $body,
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
 
         $sec = new Security();
         $serverSign = $sec->computeHmac($string, $this->_KEY, 'sha512');
 
         $isExpired = abs(time() - $clientDate) > 300;
 
-        if($serverSign !== $clientSign || $isExpired){
+        if ($serverSign !== $clientSign || $isExpired) {
             $response = new JSONResponse(Error::API_AUTH_ERROR);
             echo $response->getContent();
             return false;
@@ -83,12 +86,12 @@ class ApiController extends BaseController
         return true;
     }
 
-	public function indexAction() : JSONResponse
-	{
-		return new JSONResponse(Error::NO_ERROR);
-	}
+    public function indexAction(): JSONResponse
+    {
+        return new JSONResponse(Error::NO_ERROR);
+    }
 
-	public function citiesAndCountriesAction() : JSONResponse
+    public function citiesAndCountriesAction(): JSONResponse
     {
         return new JSONResponse(Error::NO_ERROR, [
             'cities' => $this->cities,
@@ -97,189 +100,192 @@ class ApiController extends BaseController
         ]);
     }
 
-	public function requestAction()
-	{
-		if ($this->request->isPost()) {
+    public function requestAction()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->getJsonRawBody();
 
-			$data = $this->request->getJsonRawBody();
+            $request = new Requests();
 
-			$request = new Requests();
+            $order = $data->order;
 
-			$order = $data->order;
+            switch ($order->origin) {
+                case Requests::ORIGIN_IOS:
+                    $request->origin = Requests::ORIGIN_IOS;
+                    break;
+                case Requests::ORIGIN_ANDROID:
+                    $request->origin = Requests::ORIGIN_ANDROID;
+                    break;
+                default:
+                    $request->origin = Requests::ORIGIN_MOBILE;
+                    break;
+            }
 
-			switch ($order->origin) {
-				case Requests::ORIGIN_IOS:
-					$request->origin = Requests::ORIGIN_IOS;
-					break;
-				case Requests::ORIGIN_ANDROID:
-					$request->origin = Requests::ORIGIN_ANDROID;
-					break;
-				default:
-					$request->origin = Requests::ORIGIN_MOBILE;
-					break;
-			}
+            //Клиент
+            $request->subjectName = $order->subject->name;
+            $request->subjectPhone = $order->subject->phone;
+            $request->subjectEmail = $order->subject->email;
 
-			//Клиент
-			$request->subjectName = $order->subject->name;
-			$request->subjectPhone = $order->subject->phone;
-			$request->subjectEmail = $order->subject->email;
+            //Данные тура
+            $request->setHotel($order->hotel);
 
-			//Данные тура
-			$request->setHotel($order->hotel);
+            if ($order->flights) {
+                $request->setFlights('To', $order->flights->to);
+                $request->setFlights('From', $order->flights->from);
+            }
 
-			if ($order->flights) {
-				$request->setFlights('To', $order->flights->to);
-				$request->setFlights('From', $order->flights->from);
-			}
+            $request->tourOperatorId = $order->tour->operator;
+            $request->tourOperatorLink = $order->tour->operatorLink;
+            $request->price = $order->tour->price;
+            $request->departureId = $order->tour->from;
 
-			$request->tourOperatorId = $order->tour->operator;
-			$request->tourOperatorLink = $order->tour->operatorLink;
-			$request->price = $order->tour->price;
-			$request->departureId = $order->tour->from;
+            if ($request->save()) {
+                //Отправляем email
+                $emailController = new EmailController();
+                $emailController->sendRequest('app', $request->id);
+                $emailController->sendAdminNotification($request->id);
 
-			if ($request->save()) {
+                return new JSONResponse(Error::NO_ERROR, ['success' => true]);
+            }
 
-				//Отправляем email
-				$emailController = new EmailController();
-				$emailController->sendRequest('app', $request->id);
-				$emailController->sendAdminNotification($request->id);
+            return new JSONResponse(Error::API_ERROR);
+        }
+    }
 
-				return new JSONResponse(Error::NO_ERROR, ['success' => true]);
-			}
+    public function dictionariesAction(): JSONResponse
+    {
+        $response = array(
+            'cities' => [],
+            'departures' => [],
+            'destinations' => [],
+            'stars' => [],
+            'meal' => [],
+            'rating' => [
+                new Entities\Rating(0, 'Любой'),
+                new Entities\Rating(2, '3 и выше'),
+                new Entities\Rating(3, '3.5 и выше'),
+                new Entities\Rating(4, '4 и выше'),
+                new Entities\Rating(5, '4.5 и выше')
+            ]
+        );
 
-			return new JSONResponse(Error::API_ERROR);
-		}
-	}
+        /* Offices */
+        $citiesBuilder = $this->modelsManager
+            ->createBuilder()
+            ->columns(['branch.*', 'city.*'])
+            ->addFrom(Cities::name(), 'city')
+            ->join(Branches::name(), 'branch.cityId = city.id', 'branch')
+            ->orderBy('city.main DESC, city.name')
+            ->where('city.active = 1 AND branch.active = 1');
 
-	public function dictionariesAction() : JSONResponse
-	{
-		$response = array(
-			'cities' => [],
-			'departures' => [],
-			'destinations' => [],
-			'stars' => [],
-			'meal' => [],
-			'rating' => [
-				new Entities\Rating(0, 'Любой'),
-				new Entities\Rating(2, '3 и выше'),
-				new Entities\Rating(3, '3.5 и выше'),
-				new Entities\Rating(4, '4 и выше'),
-				new Entities\Rating(5, '4.5 и выше')
-			]
-		);
+        $cityItems = $citiesBuilder->getQuery()->execute();
 
-		/* Offices */
-		$citiesBuilder = $this->modelsManager->createBuilder()
-			->columns([
-				'branch.*',
-				'city.*'
-			])
-			->addFrom(Cities::name(), 'city')
-			->join(
-				Branches::name(),
-				'branch.cityId = city.id',
-				'branch'
-			)
-			->orderBy('city.main DESC, city.name')
-			->where('city.active = 1 AND branch.active = 1');
+        $cities = [];
+        foreach ($cityItems as $item) {
+            if (!array_key_exists($item->city->id, $cities)) {
+                $cities[$item->city->id] = new Entities\City($item->city);
+            }
 
-		$cityItems = $citiesBuilder->getQuery()->execute();
+            $cities[$item->city->id]->offices[] = new Entities\Office(
+                $item->branch
+            );
+        }
 
-		$cities = [];
-		foreach ($cityItems as $item) {
-			if (!array_key_exists($item->city->id, $cities)) {
-				$cities[$item->city->id] = new Entities\City($item->city);
-			}
+        $response['cities'] = array_values($cities);
 
-			$cities[$item->city->id]->offices[] = new Entities\Office($item->branch);
-		}
+        /* Departures */
+        $departures = Tourvisor\Departures::find();
 
-		$response['cities'] = array_values($cities);
+        foreach ($departures as $departure) {
+            $response['departures'][] = new Entities\Departure($departure);
+        }
 
-		/* Departures */
-		$departures = Tourvisor\Departures::find();
+        /* Destinations */
+        $builder = $this->modelsManager
+            ->createBuilder()
+            ->columns([
+                'country.*',
+                'region.*',
+                'tourvisorRegion.*',
+                'tourvisorCountry.*'
+            ])
+            ->addFrom(Countries::name(), 'country')
+            ->innerJoin(
+                Tourvisor\Countries::name(),
+                'tourvisorCountry.id = country.tourvisorId',
+                'tourvisorCountry'
+            )
+            ->innerJoin(
+                Tourvisor\Regions::name(),
+                'tourvisorRegion.countryId = tourvisorCountry.id',
+                'tourvisorRegion'
+            )
+            ->innerJoin(
+                Regions::name(),
+                'region.tourvisorId = tourvisorRegion.id',
+                'region'
+            )
+            ->where('country.active = 1 AND region.active = 1')
+            ->orderBy(
+                'country.popular DESC, tourvisorCountry.name, region.popular DESC, tourvisorRegion.name'
+            );
 
-		foreach ($departures as $departure) {
-			$response['departures'][] = new Entities\Departure($departure);
-		}
+        $items = $builder->getQuery()->execute();
 
-		/* Destinations */
-		$builder = $this->modelsManager->createBuilder()
-			->columns([
-				'country.*',
-				'region.*',
-				'tourvisorRegion.*',
-				'tourvisorCountry.*'
-			])
-			->addFrom(Countries::name(), 'country')
-			->innerJoin(
-				Tourvisor\Countries::name(),
-				'tourvisorCountry.id = country.tourvisorId',
-				'tourvisorCountry')
-			->innerJoin(
-				Tourvisor\Regions::name(),
-				'tourvisorRegion.countryId = tourvisorCountry.id',
-				'tourvisorRegion'
-			)
-			->innerJoin(
-				Regions::name(),
-				'region.tourvisorId = tourvisorRegion.id',
-				'region'
-			)
-			->where('country.active = 1 AND region.active = 1')
-			->orderBy('country.popular DESC, tourvisorCountry.name, region.popular DESC, tourvisorRegion.name');
+        foreach ($items as $item) {
+            $country = $item->country;
+            $region = $item->region;
+            $tourvisorCountry = $item->tourvisorCountry;
+            $tourvisorRegion = $item->tourvisorRegion;
+            $countryId = (int) $tourvisorRegion->countryId;
 
-		$items = $builder->getQuery()->execute();
+            if (!array_key_exists($countryId, $response['destinations'])) {
+                $response['destinations'][$countryId] = new Entities\Country(
+                    $country,
+                    $tourvisorCountry
+                );
+            }
 
-		foreach ($items as $item) {
-			$country = $item->country;
-			$region = $item->region;
-			$tourvisorCountry = $item->tourvisorCountry;
-			$tourvisorRegion = $item->tourvisorRegion;
-			$countryId = (int)$tourvisorRegion->countryId;
+            $response['destinations'][
+                $countryId
+            ]->regions[] = new Entities\Region($region, $tourvisorRegion);
+        }
 
-			if (!array_key_exists($countryId, $response['destinations'])) {
-				$response['destinations'][$countryId] = new Entities\Country($country, $tourvisorCountry);
-			}
+        $response['destinations'] = array_values($response['destinations']);
 
-			$response['destinations'][$countryId]->regions[] = new Entities\Region($region, $tourvisorRegion);
-		}
+        $meals = Tourvisor\Meals::find();
+        foreach ($meals as $meal) {
+            $response['meal'][] = new Entities\Meal($meal);
+        }
 
-		$response['destinations'] = array_values($response['destinations']);
+        $stars = Tourvisor\Stars::find();
+        foreach ($stars as $star) {
+            $response['stars'][] = new Entities\Star($star);
+        }
 
-		$meals = Tourvisor\Meals::find();
-		foreach ($meals as $meal) {
-			$response['meal'][] = new Entities\Meal($meal);
-		}
+        return new JSONResponse(Error::NO_ERROR, $response);
+    }
 
-		$stars = Tourvisor\Stars::find();
-		foreach ($stars as $star) {
-			$response['stars'][] = new Entities\Star($star);
-		}
+    public function initSearchAction(): JSONResponse
+    {
+        $body = $this->request->getJsonRawBody();
 
-		return new JSONResponse(Error::NO_ERROR, $response);
-	}
+        $query = new SearchQuery($body->params);
 
-	public function initSearchAction() : JSONResponse
-	{
-		$body = $this->request->getJsonRawBody();
+        $searchId = $query->run();
 
-		$query = new SearchQuery($body->params);
+        if ($searchId) {
+            return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
+        }
 
-		$searchId = $query->run();
+        return new JSONResponse(Error::API_ERROR);
+    }
 
-		if ($searchId) {
-			return new JSONResponse(Error::NO_ERROR, ['searchId' => $searchId]);
-		}
+    public function initSearchSignedAction(): JSONResponse
+    {
+        $body = $this->request->getJsonRawBody();
 
-		return new JSONResponse(Error::API_ERROR);
-	}
-
-	public function initSearchSignedAction() : JSONResponse
-	{
-		$body = $this->request->getJsonRawBody();
-
-		$params = $body->params;
+        $params = $body->params;
 
         $query = new SearchQuery($params);
 
@@ -292,62 +298,67 @@ class ApiController extends BaseController
         return new JSONResponse(Error::API_ERROR);
     }
 
-	public function searchStatusAction() : JSONResponse
-	{
-		$searchId = $this->request->get('searchId');
+    public function searchStatusAction(): JSONResponse
+    {
+        $searchId = $this->request->get('searchId');
 
-		$params = array(
-			'requestid' => $searchId,
-			'type' => 'status'
-		);
+        $params = array(
+            'requestid' => $searchId,
+            'type' => 'status'
+        );
 
-		$result = TourvisorUtils::getMethod('result', $params);
+        $result = TourvisorUtils::getMethod('result', $params);
 
-		if (property_exists($result, 'data') && property_exists($result->data, 'status')) {
-			return new JSONResponse(Error::NO_ERROR, ['status' => new Entities\Status($result->data->status)]);
-		}
-
-		return new JSONResponse(Error::API_ERROR);
-	}
-
-	public function searchResultAction()
-	{
-		$searchId = $this->request->get('searchId');
-        $onPage = $this->request->get('limit') ? : false;
-		$page = $this->request->get('page') ? : false;
-
-		$params = array(
-			'requestid' => $searchId,
-			'type' => 'result'
-		);
-
-		if($onPage) {
-		    $params['onpage'] = $onPage;
-        }
-        if($page) {
-		    $params['page'] = $page;
+        if (
+            property_exists($result, 'data') &&
+            property_exists($result->data, 'status')
+        ) {
+            return new JSONResponse(Error::NO_ERROR, [
+                'status' => new Entities\Status($result->data->status)
+            ]);
         }
 
-		$result = TourvisorUtils::getMethod('result', $params);
+        return new JSONResponse(Error::API_ERROR);
+    }
 
-		if (
-			property_exists($result, 'data') &&
-			property_exists($result->data, 'status')
-		) {
+    public function searchResultAction()
+    {
+        $searchId = $this->request->get('searchId');
+        $onPage = $this->request->get('limit') ?: false;
+        $page = $this->request->get('page') ?: false;
 
-			$status = new Entities\Status($result->data->status);
-			$hotels = [];
+        $params = array(
+            'requestid' => $searchId,
+            'type' => 'result'
+        );
 
-			if (property_exists($result->data, 'result')) {
-				foreach ($result->data->result->hotel as $item) {
-				    $hotel = new Entities\Hotel($item);
-				    $hotelIds[] = $hotel->id;
-					$hotels[] = $hotel;
-				}
-			}
+        if ($onPage) {
+            $params['onpage'] = $onPage;
+        }
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $result = TourvisorUtils::getMethod('result', $params);
+
+        if (
+            property_exists($result, 'data') &&
+            property_exists($result->data, 'status')
+        ) {
+            $status = new Entities\Status($result->data->status);
+            $hotels = [];
+
+            if (property_exists($result->data, 'result')) {
+                foreach ($result->data->result->hotel as $item) {
+                    $hotel = new Entities\Hotel($item);
+                    $hotelIds[] = $hotel->id;
+                    $hotels[] = $hotel;
+                }
+            }
 
             if (!empty($hotelIds)) {
-                $items = $this->modelsManager->createBuilder()
+                $items = $this->modelsManager
+                    ->createBuilder()
                     ->from(Tourvisor\Hotels::name())
                     ->inWhere('id', $hotelIds)
                     ->getQuery()
@@ -356,10 +367,12 @@ class ApiController extends BaseController
                 $hotelTypes = [];
 
                 foreach ($items as $item) {
-                    $hotelTypes[$item->id] = Entities\HotelTypes::fromHotel($item);
+                    $hotelTypes[$item->id] = Entities\HotelTypes::fromHotel(
+                        $item
+                    );
                 }
 
-               $hotels = array_map(function($item) use ($hotelTypes) {
+                $hotels = array_map(function ($item) use ($hotelTypes) {
                     if (array_key_exists($item->id, $hotelTypes)) {
                         $item->types = $hotelTypes[$item->id];
                     }
@@ -367,125 +380,134 @@ class ApiController extends BaseController
                 }, $hotels);
             }
 
-			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels, 'typesMask' => Entities\HotelTypes::getMask()]);
-		}
+            return new JSONResponse(Error::NO_ERROR, [
+                'status' => $status,
+                'hotels' => $hotels,
+                'typesMask' => Entities\HotelTypes::getMask()
+            ]);
+        }
 
-		return new JSONResponse(Error::API_ERROR);
-	}
+        return new JSONResponse(Error::API_ERROR);
+    }
 
-	public function fullSearchResultAction() : JSONResponse
-	{
+    public function fullSearchResultAction(): JSONResponse
+    {
+        $searchId = $this->request->get('searchId');
 
-		$searchId = $this->request->get('searchId');
+        $params = array(
+            'requestid' => $searchId,
+            'type' => 'result',
+            'onpage' => 999
+        );
 
-		$params = array(
-			'requestid' => $searchId,
-			'type' => 'result',
-			'onpage' => 999
-		);
+        $result = TourvisorUtils::getMethod('result', $params);
 
-		$result = TourvisorUtils::getMethod('result', $params);
+        if (
+            property_exists($result, 'data') &&
+            property_exists($result->data, 'status')
+        ) {
+            $status = new Entities\Status($result->data->status);
+            $hotels = [];
 
-		if (
-			property_exists($result, 'data') &&
-			property_exists($result->data, 'status')
-		) {
+            if (property_exists($result->data, 'result')) {
+                foreach ($result->data->result->hotel as $hotel) {
+                    $hotels[] = new Entities\Hotel($hotel);
+                }
+            }
 
-			$status = new Entities\Status($result->data->status);
-			$hotels = [];
+            return new JSONResponse(Error::NO_ERROR, [
+                'status' => $status,
+                'hotels' => $hotels
+            ]);
+        }
 
-			if (property_exists($result->data, 'result')) {
-				foreach ($result->data->result->hotel as $hotel) {
-					$hotels[] = new Entities\Hotel($hotel);
-				}
-			}
+        return new JSONResponse(Error::API_ERROR);
+    }
 
-			return new JSONResponse(Error::NO_ERROR, ['status' => $status, 'hotels' => $hotels]);
-		}
+    public function actualizeTourAction(): JSONResponse
+    {
+        $tourId = $this->request->get('tourId');
 
-		return new JSONResponse(Error::API_ERROR);
-	}
+        $params = array(
+            'tourid' => $tourId
+        );
 
-	public function actualizeTourAction() : JSONResponse
-	{
-		$tourId = $this->request->get('tourId');
+        $actdetail = TourvisorUtils::getMethod('actdetail', $params);
+        $actualize = TourvisorUtils::getMethod('actualize', $params);
 
-		$params = array(
-			'tourid' => $tourId
-		);
+        return new JSONResponse(Error::NO_ERROR, [
+            'details' => new Entities\TourDetails(
+                $actdetail,
+                $actualize->data->tour
+            )
+        ]);
+    }
 
-		$actdetail = TourvisorUtils::getMethod('actdetail', $params);
-		$actualize = TourvisorUtils::getMethod('actualize', $params);
+    public function hotelAction(): JSONResponse
+    {
+        $hotelId = $this->request->get('hotelId');
 
+        $params = array(
+            'hotelcode' => $hotelId,
+            'removetags' => 1,
+            'reviews' => 1
+        );
 
-		return new JSONResponse(Error::NO_ERROR, [
-			'details' => new Entities\TourDetails($actdetail, $actualize->data->tour),
-		]);
-	}
+        $result = TourvisorUtils::getMethod('hotel', $params);
 
-	public function hotelAction() : JSONResponse
-	{
+        if (
+            property_exists($result, 'data') &&
+            property_exists($result->data, 'hotel')
+        ) {
+            $hotel = new Entities\HotelFull($result->data->hotel);
+            $hotel->id = (int) $hotelId;
+            return new JSONResponse(Error::NO_ERROR, ['hotel' => $hotel]);
+        }
 
-		$hotelId = $this->request->get('hotelId');
+        return new JSONResponse(Error::API_ERROR);
+    }
 
-		$params = array(
-			'hotelcode' => $hotelId,
-			'removetags' => 1,
-			'reviews' => 1
-		);
+    public function hotelsAction(): JSONResponse
+    {
+        $query = mb_strtoupper($this->request->get('query'), 'UTF-8');
 
-		$result = TourvisorUtils::getMethod('hotel', $params);
+        $hotels = [];
 
-		if (
-			property_exists($result, 'data') &&
-			property_exists($result->data, 'hotel')
-		) {
-			$hotel = new Entities\HotelFull($result->data->hotel);
-			$hotel->id = (int)$hotelId;
-			return new JSONResponse(Error::NO_ERROR, ['hotel' => $hotel]);
-		}
+        if (mb_strlen($query, 'UTF-8') >= 2) {
+            $builder = $this->modelsManager
+                ->createBuilder()
+                ->columns([
+                    'hotel.id',
+                    'hotel.name',
+                    'country.id AS country',
+                    'region.id AS region',
+                    'country.name AS countryName',
+                    'region.name AS regionName'
+                ])
+                ->addFrom(Tourvisor\Hotels::name(), 'hotel')
+                ->join(
+                    Tourvisor\Countries::name(),
+                    'country.id = hotel.countryId',
+                    'country'
+                )
+                ->join(
+                    Tourvisor\Regions::name(),
+                    'region.id = hotel.regionId',
+                    'region'
+                )
+                ->where('country.active = 1')
+                ->andWhere('hotel.name LIKE :query:')
+                ->limit(20);
 
-		return new JSONResponse(Error::API_ERROR);
-	}
+            $dbHotels = $builder
+                ->getQuery()
+                ->execute(['query' => '%' . $query . '%']);
 
-	public function hotelsAction() : JSONResponse
-	{
-		$query = mb_strtoupper($this->request->get('query'), 'UTF-8');
+            foreach ($dbHotels as $hotel) {
+                $hotels[] = new Entities\SearchHotel($hotel);
+            }
+        }
 
-		$hotels = [];
-
-		if (mb_strlen($query, 'UTF-8') >= 2) {
-			$builder = $this->modelsManager->createBuilder()
-				->columns([
-					'hotel.id',
-					'hotel.name',
-					'country.id AS country',
-					'region.id AS region',
-					'country.name AS countryName',
-					'region.name AS regionName'
-				])
-				->addFrom(Tourvisor\Hotels::name(), 'hotel')
-				->join(
-					Tourvisor\Countries::name(),
-					'country.id = hotel.countryId',
-					'country'
-				)
-				->join(
-					Tourvisor\Regions::name(),
-					'region.id = hotel.regionId',
-					'region'
-				)
-				->where('country.active = 1')
-				->andWhere('hotel.name LIKE :query:')
-				->limit(20);
-
-			$dbHotels = $builder->getQuery()->execute(['query' => '%' . $query . '%']);
-
-			foreach ($dbHotels as $hotel) {
-				$hotels[] = new Entities\SearchHotel($hotel);
-			}
-		}
-
-		return new JSONResponse(Error::NO_ERROR, ['hotels' => $hotels]);
-	}
+        return new JSONResponse(Error::NO_ERROR, ['hotels' => $hotels]);
+    }
 }

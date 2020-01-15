@@ -8,208 +8,226 @@ use Phalcon\Text;
 
 class Uniteller extends Plugin
 {
+    const PAY_URL = 'https://wpay.uniteller.ru/pay/';
+    const RESULTS_URL = 'https://wpay.uniteller.ru/results/';
+    const UNBLOCK_URL = 'https://wpay.uniteller.ru/unblock/';
+    const CONFIRM_URL = 'https://wpay.uniteller.ru/confirm/';
 
-	const PAY_URL = 'https://wpay.uniteller.ru/pay/';
-	const RESULTS_URL = 'https://wpay.uniteller.ru/results/';
-	const UNBLOCK_URL = 'https://wpay.uniteller.ru/unblock/';
-	const CONFIRM_URL = 'https://wpay.uniteller.ru/confirm/';
+    const FIELDS_STATUS = 'Status';
+    const FIELDS_APPROVAL_CODE = 'ApprovalCode';
+    const FIELDS_BILL_NUMBER = 'BillNumber';
+    const FIELDS_TOTAL = 'Total';
+    const FIELDS_CURRENCY = 'Currency';
+    const FIELDS_DATE = 'Date';
+    const FIELDS_EMAIL = 'Email';
 
+    private $Login;
+    private $Password;
 
-	const FIELDS_STATUS = 'Status';
-	const FIELDS_APPROVAL_CODE = 'ApprovalCode';
-	const FIELDS_BILL_NUMBER = 'BillNumber';
-	const FIELDS_TOTAL = 'Total';
-	const FIELDS_CURRENCY = 'Currency';
-	const FIELDS_DATE = 'Date';
-	const FIELDS_EMAIL = 'Email';
+    public $orderPrefix;
 
-	private $Login;
-	private $Password;
+    //Обязательные параметры
+    public $Shop_IDP;
+    public $Order_IDP;
+    public $Subtotal_P;
+    public $URL_RETURN_OK;
+    public $URL_RETURN_NO;
+    public $Currency;
 
-	public $orderPrefix;
+    //Необязательные параметры
+    public $Lifetime;
+    public $OrderLifetime;
+    public $Customer_IDP = '';
+    public $Card_IDP = '';
+    public $PT_Code = '';
+    public $MeanType = '';
+    public $EMoneyType = '';
+    public $BillLifetime;
+    public $Language = 'ru';
+    public $FirstName;
+    public $LastName;
+    public $MiddleName;
+    public $Phone;
+    public $Email;
+    public $Address;
+    public $IData = '';
+    public $Preauth = '1';
 
-	//Обязательные параметры
-	public $Shop_IDP;
-	public $Order_IDP;
-	public $Subtotal_P;
-	public $URL_RETURN_OK;
-	public $URL_RETURN_NO;
-	public $Currency;
+    public function __construct()
+    {
+        $this->orderPrefix = $this->config->uniteller->orderPrefix;
 
-	//Необязательные параметры
-	public $Lifetime;
-	public $OrderLifetime;
-	public $Customer_IDP = '';
-	public $Card_IDP = '';
-	public $PT_Code = '';
-	public $MeanType = '';
-	public $EMoneyType = '';
-	public $BillLifetime;
-	public $Language = 'ru';
-	public $FirstName;
-	public $LastName;
-	public $MiddleName;
-	public $Phone;
-	public $Email;
-	public $Address;
-	public $IData = '';
-	public $Preauth = '1';
+        $this->Preauth = $this->config->uniteller->preAuth;
 
-	public function __construct()
-	{
-		$this->orderPrefix = $this->config->uniteller->orderPrefix;
+        $this->Shop_IDP = str_replace(
+            '\'',
+            '',
+            $this->config->uniteller->shopId
+        );
+        $this->Lifetime = $this->config->uniteller->lifeTime;
+        $this->MeanType = $this->config->uniteller->meanType;
+        $this->EMoneyType = $this->config->uniteller->moneyType;
 
-		$this->Preauth = $this->config->uniteller->preAuth;
+        $this->Login = $this->config->uniteller->login;
+        $this->Password = $this->config->uniteller->password;
 
-		$this->Shop_IDP = str_replace('\'', '', $this->config->uniteller->shopId);
-		$this->Lifetime = $this->config->uniteller->lifeTime;
-		$this->MeanType = $this->config->uniteller->meanType;
-		$this->EMoneyType = $this->config->uniteller->moneyType;
+        $this->URL_RETURN_OK = $this->url->get($this->config->uniteller->urlOk);
+        $this->URL_RETURN_NO = $this->url->get($this->config->uniteller->urlNo);
+    }
 
-		$this->Login = $this->config->uniteller->login;
-		$this->Password = $this->config->uniteller->password;
+    public function setPayment($paymentId)
+    {
+        $this->Order_IDP = $this->orderPrefix . $paymentId;
+    }
 
-		$this->URL_RETURN_OK = $this->url->get($this->config->uniteller->urlOk);
-		$this->URL_RETURN_NO = $this->url->get($this->config->uniteller->urlNo);
-	}
+    public function setSum($sum)
+    {
+        $this->Subtotal_P = $sum;
+    }
 
-	public function setPayment($paymentId)
-	{
-		$this->Order_IDP = $this->orderPrefix . $paymentId;
-	}
+    public function getPaymentSignature()
+    {
+        return strtoupper(
+            md5(
+                md5($this->Shop_IDP) .
+                    '&' .
+                    md5($this->Order_IDP) .
+                    '&' .
+                    md5($this->Subtotal_P) .
+                    '&' .
+                    md5($this->MeanType) .
+                    '&' .
+                    md5($this->EMoneyType) .
+                    '&' .
+                    md5($this->Lifetime) .
+                    '&' .
+                    md5($this->Customer_IDP) .
+                    '&' .
+                    md5($this->Card_IDP) .
+                    '&' .
+                    md5($this->IData) .
+                    '&' .
+                    md5($this->PT_Code) .
+                    '&' .
+                    md5($this->Password)
+            )
+        );
+    }
 
-	public function setSum($sum)
-	{
-		$this->Subtotal_P = $sum;
-	}
+    public function notifySignature($Order_ID, $Status)
+    {
+        return strtoupper(md5($Order_ID . $Status . $this->Password));
+    }
 
-	public function getPaymentSignature()
-	{
-		return strtoupper(
-			md5(
-				md5($this->Shop_IDP) . '&' .
-				md5($this->Order_IDP) . '&' .
-				md5($this->Subtotal_P) . '&' .
-				md5($this->MeanType) . '&' .
-				md5($this->EMoneyType) . '&' .
-				md5($this->Lifetime) . '&' .
-				md5($this->Customer_IDP) . '&' .
-				md5($this->Card_IDP) . '&' .
-				md5($this->IData) . '&' .
-				md5($this->PT_Code) . '&' .
-				md5($this->Password)
-			)
-		);
-	}
+    public function getPaymentId($Order_ID)
+    {
+        return str_replace($this->orderPrefix, '', $Order_ID);
+    }
 
-	public function notifySignature($Order_ID, $Status)
-	{
-		return strtoupper(
-			md5(
-				$Order_ID . $Status . $this->Password
-			)
-		);
-	}
+    public function getPaymentResult($Order_ID)
+    {
+        $S_FIELDS = [
+            self::FIELDS_STATUS,
+            self::FIELDS_APPROVAL_CODE,
+            self::FIELDS_BILL_NUMBER,
+            self::FIELDS_TOTAL,
+            self::FIELDS_CURRENCY,
+            self::FIELDS_EMAIL
+        ];
 
-	public function getPaymentId($Order_ID)
-	{
-		return str_replace($this->orderPrefix, '', $Order_ID);
-	}
+        $postFields =
+            'Shop_ID=' .
+            $this->Shop_IDP .
+            '&Login=' .
+            $this->Login .
+            '&Password=' .
+            $this->Password .
+            '&Preauth=' .
+            $this->Preauth .
+            '&Format=1' .
+            '&ShopOrderNumber=' .
+            $Order_ID .
+            '&S_FIELDS=' .
+            implode(';', $S_FIELDS);
 
-	public function getPaymentResult($Order_ID)
-	{
-		$S_FIELDS = [
-			self::FIELDS_STATUS,
-			self::FIELDS_APPROVAL_CODE,
-			self::FIELDS_BILL_NUMBER,
-			self::FIELDS_TOTAL,
-			self::FIELDS_CURRENCY,
-			self::FIELDS_EMAIL
-		];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::RESULTS_URL);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
 
-		$postFields =
-			'Shop_ID=' . $this->Shop_IDP .
-			'&Login=' . $this->Login .
-			'&Password=' . $this->Password .
-			'&Preauth=' . $this->Preauth .
-			'&Format=1' .
-			'&ShopOrderNumber=' . $Order_ID .
-			'&S_FIELDS=' . implode(';', $S_FIELDS);
+        $curl_response = curl_exec($ch);
+        $curl_error = curl_error($ch);
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, self::RESULTS_URL);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($ch, CURLOPT_VERBOSE, 0);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-		curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+        if (!$curl_error) {
+            $arr = explode(';', $curl_response);
 
-		$curl_response = curl_exec($ch);
-		$curl_error = curl_error($ch);
+            if (count($arr) === count($S_FIELDS)) {
+                $data = [];
 
-		if (!$curl_error) {
-			$arr = explode(';', $curl_response);
+                foreach ($S_FIELDS as $i => $field) {
+                    $data[$field] = trim($arr[$i]);
+                }
 
-			if (count($arr) === count($S_FIELDS)) {
+                return $data;
+            }
+        }
 
-				$data = [];
+        return false;
+    }
 
-				foreach($S_FIELDS as $i => $field) {
-					$data[$field] = trim($arr[$i]);
-				}
+    public function confirmPayment($billNumber)
+    {
+        $postFields =
+            'Shop_ID=' .
+            $this->Shop_IDP .
+            '&Login=' .
+            $this->Login .
+            '&Password=' .
+            $this->Password .
+            '&Billnumber=' .
+            $billNumber .
+            '&S_FIELDS=Status;ApprovalCode;BillNumber';
 
-				return $data;
-			}
-		}
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::CONFIRM_URL);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
 
-		return false;
-	}
+        $curl_response = curl_exec($ch);
+        $curl_error = curl_error($ch);
 
-	public function confirmPayment($billNumber) {
-		$postFields =
-			'Shop_ID=' . $this->Shop_IDP .
-			'&Login=' . $this->Login .
-			'&Password=' . $this->Password .
-			'&Billnumber=' . $billNumber .
-			'&S_FIELDS=Status;ApprovalCode;BillNumber';
+        if (!$curl_error) {
+            $arr = explode(';', $curl_response);
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, self::CONFIRM_URL);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($ch, CURLOPT_VERBOSE, 0);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-		curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+            if ($arr[0] !== 'ErrorCode') {
+                $data = array(
+                    'Status' => $arr[0],
+                    'ApprovalCode' => $arr[1],
+                    'BillNumber' => $arr[2]
+                );
 
-		$curl_response = curl_exec($ch);
-		$curl_error = curl_error($ch);
+                return $data;
+            }
 
-		if (!$curl_error) {
-			$arr = explode(';', $curl_response);
+            return $arr[2];
+        }
 
-			if ($arr[0] !== 'ErrorCode') {
-				$data = array(
-					'Status' => $arr[0],
-					'ApprovalCode' => $arr[1],
-					'BillNumber' => $arr[2]
-				);
-
-				return $data;
-			}
-
-			return $arr[2];
-		}
-
-		return false;
-	}
+        return false;
+    }
 }

@@ -13,8 +13,7 @@ use Phalcon\Paginator\Adapter\Model as PaginatorModel;
 
 class SpecialController extends ControllerBase
 {
-
-	/* public function indexAction()
+    /* public function indexAction()
 	{
 		$builder = $this->modelsManager->createBuilder()
 			->columns([

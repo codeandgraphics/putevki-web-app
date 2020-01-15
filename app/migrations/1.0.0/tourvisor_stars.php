@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -18,37 +18,28 @@ class TourvisorStarsMigration_100 extends Migration
     public function morph()
     {
         $this->morphTable('tourvisor_stars', [
-                'columns' => [
-                    new Column(
-                        'id',
-                        [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
-                            'size' => 11,
-                            'first' => true
-                        ]
-                    ),
-                    new Column(
-                        'name',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 10,
-                            'after' => 'id'
-                        ]
-                    )
-                ],
-                'indexes' => [
-                    new Index('PRIMARY', ['id'], 'PRIMARY')
-                ],
-                'options' => [
-                    'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '',
-                    'ENGINE' => 'InnoDB',
-                    'TABLE_COLLATION' => 'utf8_bin'
-                ],
+            'columns' => [
+                new Column('id', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true,
+                    'size' => 11,
+                    'first' => true
+                ]),
+                new Column('name', [
+                    'type' => Column::TYPE_VARCHAR,
+                    'notNull' => true,
+                    'size' => 10,
+                    'after' => 'id'
+                ])
+            ],
+            'indexes' => [new Index('PRIMARY', ['id'], 'PRIMARY')],
+            'options' => [
+                'TABLE_TYPE' => 'BASE TABLE',
+                'AUTO_INCREMENT' => '',
+                'ENGINE' => 'InnoDB',
+                'TABLE_COLLATION' => 'utf8_bin'
             ]
-        );
+        ]);
     }
 
     /**
@@ -58,7 +49,6 @@ class TourvisorStarsMigration_100 extends Migration
      */
     public function up()
     {
-
     }
 
     /**
@@ -68,7 +58,6 @@ class TourvisorStarsMigration_100 extends Migration
      */
     public function down()
     {
-
     }
 
     /**
@@ -76,12 +65,8 @@ class TourvisorStarsMigration_100 extends Migration
      *
      * @return void
      */
-     public function afterCreateTable()
-     {
-        $this->batchInsert('tourvisor_stars', [
-                'id',
-                'name'
-            ]
-        );
-     }
+    public function afterCreateTable()
+    {
+        $this->batchInsert('tourvisor_stars', ['id', 'name']);
+    }
 }

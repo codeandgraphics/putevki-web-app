@@ -10,259 +10,278 @@ use Phalcon\Mvc\View;
 
 class BackendApplication extends \Phalcon\Mvc\Application
 {
-	const ENV_DEVELOPMENT = 'development';
-	const ENV_PRODUCTION = 'production';
+    const ENV_DEVELOPMENT = 'development';
+    const ENV_PRODUCTION = 'production';
 
-	protected $_ENV;
-	protected $_log;
-	protected $_config;
+    protected $_ENV;
+    protected $_log;
+    protected $_config;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->initDI();
+        $this->initDI();
 
-		setlocale(LC_TIME, 'ru_RU');
-	}
+        setlocale(LC_TIME, 'ru_RU');
+    }
 
-	protected function initDI()
-	{
-		$this->setDI(new \Phalcon\Di\FactoryDefault());
+    protected function initDI()
+    {
+        $this->setDI(new \Phalcon\Di\FactoryDefault());
 
-		$services = [
-			'config',
-			'loader',
-			'url',
-			'backendUrl',
-			'imagesUrl',
-			'managers',
-			'session',
-			'flashSession',
-			'db',
-			'view',
-			'dispatcher',
-		];
+        $services = [
+            'config',
+            'loader',
+            'url',
+            'backendUrl',
+            'imagesUrl',
+            'managers',
+            'session',
+            'flashSession',
+            'db',
+            'view',
+            'dispatcher'
+        ];
 
-		foreach ($services as $service) {
-			if (method_exists($this, $service)) {
-				$this->$service();
-			}
-		}
-	}
+        foreach ($services as $service) {
+            if (method_exists($this, $service)) {
+                $this->$service();
+            }
+        }
+    }
 
-	/** Methods */
+    /** Methods */
 
-	protected function config()
-	{
-		$config = new Config(APP_PATH . 'config.ini');
+    protected function config()
+    {
+        $config = new Config(APP_PATH . 'config.ini');
 
-		$this->setENV($config->backend->env);
-		date_default_timezone_set($config->app->timezone);
+        $this->setENV($config->backend->env);
+        date_default_timezone_set($config->app->timezone);
 
-		$this->di->set('config', $config);
-	}
+        $this->di->set('config', $config);
+    }
 
-	protected function managers()
-	{
-		$eventsManager = new EventsManager();
-		$eventsManager->attach('dispatch:beforeDispatch', new Backend\Plugins\Security);
+    protected function managers()
+    {
+        $eventsManager = new EventsManager();
+        $eventsManager->attach(
+            'dispatch:beforeDispatch',
+            new Backend\Plugins\Security()
+        );
 
-		$this->di->setShared('eventsManager', $eventsManager);
-		$this->di->setShared('modelsManager', new ModelsManager());
-		$this->di->setShared('transactionManager', new TransactionManager());
-	}
+        $this->di->setShared('eventsManager', $eventsManager);
+        $this->di->setShared('modelsManager', new ModelsManager());
+        $this->di->setShared('transactionManager', new TransactionManager());
+    }
 
-	protected function url()
-	{
-		$this->di->set('url', function () {
-			$url = new \Phalcon\Mvc\Url();
-
-			$config = $this->get('config');
-
-			$protocol = $config->app->https ? 'https://' : 'http://';
-			$baseUri = $protocol . $config->app->domain . $config->frontend->baseUri;
-
-			$staticUri = $protocol .
-				$config->app->staticDomain .
-				str_replace('%version%', $config->frontend->version, $config->frontend->staticUri);
-
-			$url->setBaseUri($baseUri);
-			$url->setStaticBaseUri($staticUri);
-
-			return $url;
-		});
-	}
-
-	protected function backendUrl()
-	{
-		$this->di->setShared('backendUrl', function () {
-			$url = new \Phalcon\Mvc\Url();
-
-			$config = $this->get('config');
-
-			$protocol = $config->app->https ? 'https://' : 'http://';
-			$baseUri = $protocol . $config->app->domain . $config->backend->baseUri;
-
-			$url->setBaseUri($baseUri);
-
-			return $url;
-		});
-	}
-
-	protected function imagesUrl() {
-		$this->di->setShared('imagesUrl', function() {
-			$url = new \Phalcon\Mvc\Url();
-
-			$config = $this->get('config');
-
-			$protocol = $config->app->https ? 'https://' : 'http://';
-			$baseUri = $protocol . $config->images->domain . $config->images->baseUri;
-
-			$url->setBaseUri($baseUri);
-
-			return $url;
-		});
-	}
-
-	protected function db()
-	{
-		$this->di->setShared('db', function () {
+    protected function url()
+    {
+        $this->di->set('url', function () {
+            $url = new \Phalcon\Mvc\Url();
 
             $config = $this->get('config');
 
-			$connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
-				'host' => $config->database->host,
-				'username' => $config->database->username,
-				'password' => $config->database->password,
-				'dbname' => $config->database->dbname,
-				'charset' => $config->database->charset
-			]);
-			$connection->setEventsManager($this->getShared('eventsManager'));
-			return $connection;
-		});
-	}
+            $protocol = $config->app->https ? 'https://' : 'http://';
+            $baseUri =
+                $protocol . $config->app->domain . $config->frontend->baseUri;
 
-	protected function flashSession()
-	{
-		$this->di->set('flashSession', function () {
-			return new FlashSession(
-				array(
-					'error'   => 'danger',
-					'success' => 'success',
-					'notice'  => 'info',
-					'warning' => 'warning'
-				)
-			);
-		});
-	}
+            $staticUri =
+                $protocol .
+                $config->app->staticDomain .
+                str_replace(
+                    '%version%',
+                    $config->frontend->version,
+                    $config->frontend->staticUri
+                );
 
-	protected function loader()
-	{
-		$loader = new \Phalcon\Loader();
-		$loaderConfig = $this->di->get('config')->loader;
+            $url->setBaseUri($baseUri);
+            $url->setStaticBaseUri($staticUri);
 
-		if (property_exists($loaderConfig, 'namespaces') && count($loaderConfig->namespaces) > 0) {
-			if (property_exists($loaderConfig, 'backend') && count($loaderConfig->backend) > 0) {
-				$namespaces = array_merge((array)$loaderConfig->namespaces, (array)$loaderConfig->backend);
-			} else {
-				$namespaces = (array)$loaderConfig->namespaces;
-			}
-			$loader->registerNamespaces(array_map(function ($item) {
-				return APP_PATH . $item;
-			}, (array)$namespaces));
-		}
+            return $url;
+        });
+    }
 
-		if (property_exists($loaderConfig, 'composer')) {
-			require APP_PATH . $loaderConfig->composer;
-		}
+    protected function backendUrl()
+    {
+        $this->di->setShared('backendUrl', function () {
+            $url = new \Phalcon\Mvc\Url();
 
-		$loader->register();
-	}
+            $config = $this->get('config');
 
-	protected function session()
-	{
-		$this->di->set(
-			'session',
-			function () {
-				$session = new SessionAdapter();
-				$session->start();
-				return $session;
-			}
-		);
-	}
+            $protocol = $config->app->https ? 'https://' : 'http://';
+            $baseUri =
+                $protocol . $config->app->domain . $config->backend->baseUri;
 
-	protected function dispatcher()
-	{
-		$this->di->set(
-			'dispatcher',
-			function () {
-				$dispatcher = new \Phalcon\Mvc\Dispatcher();
-				$dispatcher->setDefaultNamespace('Backend\Controllers');
-				$dispatcher->setEventsManager($this->getShared('eventsManager'));
-				return $dispatcher;
-			}
-		);
-	}
+            $url->setBaseUri($baseUri);
 
-	protected function view()
-	{
-		$this->di->set('view', function () {
+            return $url;
+        });
+    }
 
-			$config = $this->get('config');
-			$view = new View();
-			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
-			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
-				$volt = new View\Engine\Volt($view, $di);
-				$volt->setOptions(array(
-					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
-					'compiledSeparator' => '_'
-				));
-				$compiler = $volt->getCompiler();
+    protected function imagesUrl()
+    {
+        $this->di->setShared('imagesUrl', function () {
+            $url = new \Phalcon\Mvc\Url();
 
-				\Utils\Common::addCompilerActions($compiler);
+            $config = $this->get('config');
 
-				return $volt;
-			}));
-			return $view;
-		});
+            $protocol = $config->app->https ? 'https://' : 'http://';
+            $baseUri =
+                $protocol . $config->images->domain . $config->images->baseUri;
 
-		$this->di->set('simpleView', function () {
-			$config = $this->get('config');
+            $url->setBaseUri($baseUri);
 
-			$view = new Phalcon\Mvc\View\Simple();
-			$view->setViewsDir(APP_PATH . $config->backend->viewsDir);
-			$view->registerEngines(array('.volt' => function ($view, $di) use ($config) {
-				$volt = new View\Engine\Volt($view, $di);
-				$volt->setOptions(array(
-					'compiledPath' => APP_PATH . $config->common->cacheDir . 'volt/',
-					'compiledSeparator' => '_'
-				));
-				$compiler = $volt->getCompiler();
+            return $url;
+        });
+    }
 
-				\Utils\Common::addCompilerActions($compiler);
+    protected function db()
+    {
+        $this->di->setShared('db', function () {
+            $config = $this->get('config');
 
-				return $volt;
-			}));
-			return $view;
-		});
-	}
+            $connection = new \Phalcon\Db\Adapter\Pdo\Mysql([
+                'host' => $config->database->host,
+                'username' => $config->database->username,
+                'password' => $config->database->password,
+                'dbname' => $config->database->dbname,
+                'charset' => $config->database->charset
+            ]);
+            $connection->setEventsManager($this->getShared('eventsManager'));
+            return $connection;
+        });
+    }
 
-	/** Methods */
+    protected function flashSession()
+    {
+        $this->di->set('flashSession', function () {
+            return new FlashSession(array(
+                'error' => 'danger',
+                'success' => 'success',
+                'notice' => 'info',
+                'warning' => 'warning'
+            ));
+        });
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getENV()
-	{
-		return $this->_ENV;
-	}
+    protected function loader()
+    {
+        $loader = new \Phalcon\Loader();
+        $loaderConfig = $this->di->get('config')->loader;
 
-	/**
-	 * @param mixed $ENV
-	 */
-	public function setENV($ENV)
-	{
-		$this->_ENV = $ENV;
-	}
+        if (
+            property_exists($loaderConfig, 'namespaces') &&
+            count($loaderConfig->namespaces) > 0
+        ) {
+            if (
+                property_exists($loaderConfig, 'backend') &&
+                count($loaderConfig->backend) > 0
+            ) {
+                $namespaces = array_merge(
+                    (array) $loaderConfig->namespaces,
+                    (array) $loaderConfig->backend
+                );
+            } else {
+                $namespaces = (array) $loaderConfig->namespaces;
+            }
+            $loader->registerNamespaces(
+                array_map(function ($item) {
+                    return APP_PATH . $item;
+                }, (array) $namespaces)
+            );
+        }
+
+        if (property_exists($loaderConfig, 'composer')) {
+            require APP_PATH . $loaderConfig->composer;
+        }
+
+        $loader->register();
+    }
+
+    protected function session()
+    {
+        $this->di->set('session', function () {
+            $session = new SessionAdapter();
+            $session->start();
+            return $session;
+        });
+    }
+
+    protected function dispatcher()
+    {
+        $this->di->set('dispatcher', function () {
+            $dispatcher = new \Phalcon\Mvc\Dispatcher();
+            $dispatcher->setDefaultNamespace('Backend\Controllers');
+            $dispatcher->setEventsManager($this->getShared('eventsManager'));
+            return $dispatcher;
+        });
+    }
+
+    protected function view()
+    {
+        $this->di->set('view', function () {
+            $config = $this->get('config');
+            $view = new View();
+            $view->setViewsDir(APP_PATH . $config->backend->viewsDir);
+            $view->registerEngines(array(
+                '.volt' => function ($view, $di) use ($config) {
+                    $volt = new View\Engine\Volt($view, $di);
+                    $volt->setOptions(array(
+                        'compiledPath' =>
+                            APP_PATH . $config->common->cacheDir . 'volt/',
+                        'compiledSeparator' => '_'
+                    ));
+                    $compiler = $volt->getCompiler();
+
+                    \Utils\Common::addCompilerActions($compiler);
+
+                    return $volt;
+                }
+            ));
+            return $view;
+        });
+
+        $this->di->set('simpleView', function () {
+            $config = $this->get('config');
+
+            $view = new Phalcon\Mvc\View\Simple();
+            $view->setViewsDir(APP_PATH . $config->backend->viewsDir);
+            $view->registerEngines(array(
+                '.volt' => function ($view, $di) use ($config) {
+                    $volt = new View\Engine\Volt($view, $di);
+                    $volt->setOptions(array(
+                        'compiledPath' =>
+                            APP_PATH . $config->common->cacheDir . 'volt/',
+                        'compiledSeparator' => '_'
+                    ));
+                    $compiler = $volt->getCompiler();
+
+                    \Utils\Common::addCompilerActions($compiler);
+
+                    return $volt;
+                }
+            ));
+            return $view;
+        });
+    }
+
+    /** Methods */
+
+    /**
+     * @return mixed
+     */
+    public function getENV()
+    {
+        return $this->_ENV;
+    }
+
+    /**
+     * @param mixed $ENV
+     */
+    public function setENV($ENV)
+    {
+        $this->_ENV = $ENV;
+    }
 }

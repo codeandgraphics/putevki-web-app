@@ -8,140 +8,145 @@ use Backend\Models\Requests;
 use Frontend\Models\Params;
 use Models\StoredQueries;
 use Models\Blog\Posts;
-use Models\Tourvisor\Departures	as TourvisorDepartures;
+use Models\Tourvisor\Departures as TourvisorDepartures;
 use Models\Cities;
 use Mobile_Detect;
 
 class IndexController extends BaseController
 {
-	public function indexAction()
-	{
-		$popularRegions = StoredQueries::popularRegions(6);
+    public function indexAction()
+    {
+        $popularRegions = StoredQueries::popularRegions(6);
 
-		$popularItems = [];
-		$popularCountries = [];
+        $popularItems = [];
+        $popularCountries = [];
 
-		foreach($popularRegions as $region)
-		{
-			$pop = new \stdClass();
+        foreach ($popularRegions as $region) {
+            $pop = new \stdClass();
 
-			$pop->country = $region->country->name;
-			$pop->region = $region->name;
-			$pop->regionId = $region->id;
-			$pop->countryId = $region->country->id;
+            $pop->country = $region->country->name;
+            $pop->region = $region->name;
+            $pop->regionId = $region->id;
+            $pop->countryId = $region->country->id;
 
-			$from = $this->city->departure->name;
-			$to = $region->country->name . '(' . $region->name . ')';
+            $from = $this->city->departure->name;
+            $to = $region->country->name . '(' . $region->name . ')';
 
-			$pop->url = '/search/'. $from . '/' . $to;
+            $pop->url = '/search/' . $from . '/' . $to;
 
-			$popularItems[] = $pop;
-			$popularCountries[] = $pop->country;
-		}
+            $popularItems[] = $pop;
+            $popularCountries[] = $pop->country;
+        }
 
-		$departures = TourvisorDepartures::find([
-			'id NOT IN (:moscowId:, :spbId:, :noId:)',
-			'bind' => [
-				'moscowId'	=> 1,
-				'spbId'		=> 5,
-				'noId'		=> 99
-			],
-			'order'	=> 'name'
-    ]);
-    
-    $posts = Posts::find(
-        [
-            "active = 1",
-            "order" => "created DESC",
-            "limit" => 3,
-        ]
-    );
+        $departures = TourvisorDepartures::find([
+            'id NOT IN (:moscowId:, :spbId:, :noId:)',
+            'bind' => [
+                'moscowId' => 1,
+                'spbId' => 5,
+                'noId' => 99
+            ],
+            'order' => 'name'
+        ]);
 
-		$add = '';
-		if($this->city->nameRod !== $this->city->departure->nameFrom)
-		{
-			$add = ' с вылетом из ' . $this->city->departure->nameFrom;
-		}
+        $posts = Posts::find([
+            'active = 1',
+            'order' => 'created DESC',
+            'limit' => 3
+        ]);
 
-		$title = 'Купить тур онлайн в ' . $this->city->namePre . $add . ' на ';
+        $add = '';
+        if ($this->city->nameRod !== $this->city->departure->nameFrom) {
+            $add = ' с вылетом из ' . $this->city->departure->nameFrom;
+        }
 
-		$this->view->setVars([
-			'populars'			=> $popularItems,
-			'popularCountries'	=> implode(', ', $popularCountries),
-      'departures'		=> $departures,
-      'posts'       => $posts,
-			'params'			=> $this->params,
-			'title'				=> $title,
-			'page'				=> 'main',
-		]);
-	}
+        $title = 'Купить тур онлайн в ' . $this->city->namePre . $add . ' на ';
 
-	public function cityAction() {
-	    $this->view->disable();
+        $this->view->setVars([
+            'populars' => $popularItems,
+            'popularCountries' => implode(', ', $popularCountries),
+            'departures' => $departures,
+            'posts' => $posts,
+            'params' => $this->params,
+            'title' => $title,
+            'page' => 'main'
+        ]);
+    }
+
+    public function cityAction()
+    {
+        $this->view->disable();
         $cityUri = $this->dispatcher->getParam('city');
 
         $params = Params::getInstance();
-	    $city = Cities::findFirstByUri($cityUri);
-	    if($city) {
+        $city = Cities::findFirstByUri($cityUri);
+        if ($city) {
             $params->city = (int) $city->id;
             $params->search->from = (int) $city->flightCity;
         }
         $params->store();
 
-	    if(strpos($this->request->getHTTPReferer(), $this->url->get('')) !== false) {
-		    $this->response->redirect($this->request->getHTTPReferer());
-	    } else {
-	    	return $this->response->redirect('');
-	    }
+        if (
+            strpos($this->request->getHTTPReferer(), $this->url->get('')) !==
+            false
+        ) {
+            $this->response->redirect($this->request->getHTTPReferer());
+        } else {
+            return $this->response->redirect('');
+        }
     }
 
-	public function agreementAction()
-	{
-		$this->view->disable();
+    public function agreementAction()
+    {
+        $this->view->disable();
 
-		if($this->request->has('mobile')) {
-			echo $this->simpleView->render('index/agreement');
-		} else {
-			$pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
+        if ($this->request->has('mobile')) {
+            echo $this->simpleView->render('index/agreement');
+        } else {
+            $pdf = new \mPDF('BLANK', 'A4', 8, 'utf-8', 8, 8, 20, 20, 0, 0);
 
-			$request = new Requests();
+            $request = new Requests();
 
-			$this->simpleView->setVar('req', $request);
-			$this->simpleView->setVar('assetsUrl', $this->config->frontend->publicURL . 'assets');
-			$html = $this->simpleView->render('requests/pdf/agreement');
-			$css = file_get_contents(APP_PATH . '/backend/views/requests/pdf/style.css');
+            $this->simpleView->setVar('req', $request);
+            $this->simpleView->setVar(
+                'assetsUrl',
+                $this->config->frontend->publicURL . 'assets'
+            );
+            $html = $this->simpleView->render('requests/pdf/agreement');
+            $css = file_get_contents(
+                APP_PATH . '/backend/views/requests/pdf/style.css'
+            );
 
-			$header = $this->simpleView->render('requests/pdf/header');
-			$footer = $this->simpleView->render('requests/pdf/footer');
+            $header = $this->simpleView->render('requests/pdf/header');
+            $footer = $this->simpleView->render('requests/pdf/footer');
 
-			$pdf->WriteHTML($css, 1);
-			$pdf->SetHTMLHeader($header);
-			$pdf->SetHTMLFooter($footer);
-			$pdf->WriteHTML($html, 2);
+            $pdf->WriteHTML($css, 1);
+            $pdf->SetHTMLHeader($header);
+            $pdf->SetHTMLFooter($footer);
+            $pdf->WriteHTML($html, 2);
 
-			$pdf->Output('agreement-'.$request->getNumber().'.pdf', 'I');
-		}
-	}
+            $pdf->Output('agreement-' . $request->getNumber() . '.pdf', 'I');
+        }
+    }
 
-	public function appAction() {
-		$this->view->disable();
-		$detect = new Mobile_Detect();
+    public function appAction()
+    {
+        $this->view->disable();
+        $detect = new Mobile_Detect();
 
-		if($detect->isAndroidOS()) {
-			$this->response->redirect($this->config->defaults->googlePlay);
-		} else {
-			$this->response->redirect($this->config->defaults->appStore);
-		}
+        if ($detect->isAndroidOS()) {
+            $this->response->redirect($this->config->defaults->googlePlay);
+        } else {
+            $this->response->redirect($this->config->defaults->appStore);
+        }
+    }
 
-	}
-
-	public function unitellerAction()
-	{
-		$this->view->setVars([
-			'title' => 'Онлайн-оплата Uniteller',
-			'page' => 'uniteller'
-		]);
-	}
+    public function unitellerAction()
+    {
+        $this->view->setVars([
+            'title' => 'Онлайн-оплата Uniteller',
+            'page' => 'uniteller'
+        ]);
+    }
 
     public function bestToursAction()
     {
@@ -154,22 +159,25 @@ class IndexController extends BaseController
     public function personalAction()
     {
         $this->view->setVars([
-            'title' => 'Персональный подход к каждому клиенту и гарантия лучшей цены',
+            'title' =>
+                'Персональный подход к каждому клиенту и гарантия лучшей цены',
             'page' => 'personal'
         ]);
     }
 
-	public function aboutAction() {
-		$this->view->setVars([
-			'title' => 'О нас –',
-			'page' => 'about'
-		]);
-	}
+    public function aboutAction()
+    {
+        $this->view->setVars([
+            'title' => 'О нас –',
+            'page' => 'about'
+        ]);
+    }
 
-	public function migrateAction() {
-		$this->view->disable();
+    public function migrateAction()
+    {
+        $this->view->disable();
 
-		/*$countries = Countries::find();
+        /*$countries = Countries::find();
 
 			$tx = $this->transactionManager->get();
 
@@ -199,98 +207,113 @@ class IndexController extends BaseController
 		} catch (Failed $e) {
 			echo 'Failed, reason: ', $e->getMessage();
 		}*/
-	}
+    }
 
-	public function searchFullAction() {
-	    $this->view->setVars([
-	        'page' => 'search-full',
+    public function searchFullAction()
+    {
+        $this->view->setVars([
+            'page' => 'search-full',
             'title' => 'Поиск туров по всем туроператорам'
         ]);
     }
 
-	public function contactsAction() {
-		$this->view->setVars([
-			'title' => 'Контакты –',
-			'page' => 'contacts'
-		]);
-	}
+    public function contactsAction()
+    {
+        $this->view->setVars([
+            'title' => 'Контакты –',
+            'page' => 'contacts'
+        ]);
+    }
 
-	public function robotsAction()
-	{
-		$this->view->disable();
+    public function robotsAction()
+    {
+        $this->view->disable();
 
-		if($this->config->frontend->env === 'production') {
-			echo 'User-agent: *' . PHP_EOL;
-			echo 'Disallow: /admin/' . PHP_EOL;
-			echo 'Disallow: /pay/' . PHP_EOL;
-			echo 'Disallow: /api/' . PHP_EOL;
-			echo 'Disallow: /ajax/' . PHP_EOL;
-			echo 'Disallow: /exports/' . PHP_EOL;
-			echo PHP_EOL;
-			echo 'Crawl-delay: 20' . PHP_EOL;
-			echo PHP_EOL;
-			echo 'Host: ' . $this->url->get() . PHP_EOL;
-		} else {
-			echo 'User-agent: *' . PHP_EOL;
-			echo 'Disallow: /' . PHP_EOL;
-		}
-	}
+        if ($this->config->frontend->env === 'production') {
+            echo 'User-agent: *' . PHP_EOL;
+            echo 'Disallow: /admin/' . PHP_EOL;
+            echo 'Disallow: /pay/' . PHP_EOL;
+            echo 'Disallow: /api/' . PHP_EOL;
+            echo 'Disallow: /ajax/' . PHP_EOL;
+            echo 'Disallow: /exports/' . PHP_EOL;
+            echo PHP_EOL;
+            echo 'Crawl-delay: 20' . PHP_EOL;
+            echo PHP_EOL;
+            echo 'Host: ' . $this->url->get() . PHP_EOL;
+        } else {
+            echo 'User-agent: *' . PHP_EOL;
+            echo 'Disallow: /' . PHP_EOL;
+        }
+    }
 
-	public function testAction($type) {
-		$this->view->disable();
+    public function testAction($type)
+    {
+        $this->view->disable();
 
-		$requestId = 30;
+        $requestId = 30;
 
-		$emailController = new EmailController();
+        $emailController = new EmailController();
 
-		switch ($type) {
-			case 'online':
-				$emailController->sendRequest('online', $requestId, true);
-				break;
-			case 'request':
-				$emailController->sendRequest('request', $requestId, true);
-				break;
-			case 'admin':
-				$emailController->sendAdminNotification($requestId, true);
-				break;
-			case 'manager':
-				$emailController->sendManagerNotification($requestId, true);
-				break;
-			case 'branch':
-				$emailController->sendBranchNotification($requestId, true);
-				break;
-			case 'findTour':
-				$emailController->sendFindTour((object) ['name'=>'test', 'from'=>'asd'], true);
-				break;
-			case 'tourHelp':
-				$emailController->sendTourHelp('phone', (object) ['name'=>'test', 'from'=>'asd'], true);
-				break;
-			case 'password':
-				$emailController->sendPassword('test@test.com', 'asd', true);
-				break;
-			case 'payment':
-				$emailController->sendManagerPaymentNotification(Payments::findFirstById(50), true);
-				break;
-			default:
-				break;
-		}
+        switch ($type) {
+            case 'online':
+                $emailController->sendRequest('online', $requestId, true);
+                break;
+            case 'request':
+                $emailController->sendRequest('request', $requestId, true);
+                break;
+            case 'admin':
+                $emailController->sendAdminNotification($requestId, true);
+                break;
+            case 'manager':
+                $emailController->sendManagerNotification($requestId, true);
+                break;
+            case 'branch':
+                $emailController->sendBranchNotification($requestId, true);
+                break;
+            case 'findTour':
+                $emailController->sendFindTour(
+                    (object) ['name' => 'test', 'from' => 'asd'],
+                    true
+                );
+                break;
+            case 'tourHelp':
+                $emailController->sendTourHelp(
+                    'phone',
+                    (object) ['name' => 'test', 'from' => 'asd'],
+                    true
+                );
+                break;
+            case 'password':
+                $emailController->sendPassword('test@test.com', 'asd', true);
+                break;
+            case 'payment':
+                $emailController->sendManagerPaymentNotification(
+                    Payments::findFirstById(50),
+                    true
+                );
+                break;
+            default:
+                break;
+        }
+    }
 
-	}
-
-    public function hotAction() {
+    public function hotAction()
+    {
         $this->response->redirect('/#hot', true, 301);
     }
 
-    public function withoutFlightAction() {
+    public function withoutFlightAction()
+    {
         $this->response->redirect('/search/Без%20перелета/Турция', true, 301);
     }
 
-    public function kontaktyAction() {
+    public function kontaktyAction()
+    {
         $this->response->redirect('/contacts', true, 301);
     }
 
-    public function mobileHtmlAction() {
+    public function mobileHtmlAction()
+    {
         $this->response->redirect('https://m.putevki.ru', true, 301);
     }
-	
 }

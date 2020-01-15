@@ -12,101 +12,199 @@ use Utils;
 
 class IndexController extends ControllerBase
 {
-	public function indexAction()
-	{
-		$todayDate = new \DateTime();
-		$lastDayDate = new \DateTime('-1 day');
-		$today = new \stdClass();
+    public function indexAction()
+    {
+        $todayDate = new \DateTime();
+        $lastDayDate = new \DateTime('-1 day');
+        $today = new \stdClass();
 
-		$todayQuery = 'creationDate BETWEEN "' . $todayDate->format('Y-m-d') . ' 00:00:00" AND "' . $todayDate->format('Y-m-d') . ' 23:59:59"';
-		$todayPaymentsQuery = 'payDate BETWEEN "' . $todayDate->format('Y-m-d') . ' 00:00:00" AND "' . $todayDate->format('Y-m-d') . ' 23:59:59"';
-		$lastDayQuery = 'creationDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
-		$lastDayPaymentsQuery = 'payDate BETWEEN "' . $lastDayDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastDayDate->format('Y-m-d') . ' 23:59:59"';
+        $todayQuery =
+            'creationDate BETWEEN "' .
+            $todayDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $todayDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $todayPaymentsQuery =
+            'payDate BETWEEN "' .
+            $todayDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $todayDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $lastDayQuery =
+            'creationDate BETWEEN "' .
+            $lastDayDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $lastDayDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $lastDayPaymentsQuery =
+            'payDate BETWEEN "' .
+            $lastDayDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $lastDayDate->format('Y-m-d') .
+            ' 23:59:59"';
 
-		$webQuery = " AND origin = '" . Origin::WEB . "'";
-		$mobileQuery =  " AND (origin = '" . Origin::MOBILE_IOS . "' OR origin = '" . Origin::MOBILE_ANDROID . "' OR origin = '" . Origin::MOBILE . "')";
+        $webQuery = " AND origin = '" . Origin::WEB . "'";
+        $mobileQuery =
+            " AND (origin = '" .
+            Origin::MOBILE_IOS .
+            "' OR origin = '" .
+            Origin::MOBILE_ANDROID .
+            "' OR origin = '" .
+            Origin::MOBILE .
+            "')";
 
-		//Заявки
-		$todayRequests = new \stdClass();
-		$todayRequests->count = (int)Requests::count($todayQuery . $webQuery);
-		$lastDayRequestsCount = (int)Requests::count($lastDayQuery . $webQuery);
-		$todayRequests->diff = Utils\Text::countDiff($todayRequests->count, $lastDayRequestsCount);
-		$today->requests = $todayRequests;
-		//Заявки
+        //Заявки
+        $todayRequests = new \stdClass();
+        $todayRequests->count = (int) Requests::count($todayQuery . $webQuery);
+        $lastDayRequestsCount = (int) Requests::count(
+            $lastDayQuery . $webQuery
+        );
+        $todayRequests->diff = Utils\Text::countDiff(
+            $todayRequests->count,
+            $lastDayRequestsCount
+        );
+        $today->requests = $todayRequests;
+        //Заявки
 
-		//Деньги
-		$todayPayments = new \stdClass();
-		$todayPayments->count = round(Payments::sum([
-			'conditions' => $todayPaymentsQuery . " AND (status = '" . Payments::PAID . "' OR status = '" . Payments::AUTHORIZED . "')",
-			'column' => 'sum'
-		]));
-		$lastDayPaymentsCount = round(Payments::sum([
-			'conditions' => $lastDayPaymentsQuery . " AND (status = '" . Payments::PAID . "' OR status = '" . Payments::AUTHORIZED . "')",
-			'column' => 'sum'
-		]));
-		$todayPayments->diff = Utils\Text::countDiff($todayPayments->count, $lastDayPaymentsCount);
-		$today->payments = $todayPayments;
-		//Деньги
+        //Деньги
+        $todayPayments = new \stdClass();
+        $todayPayments->count = round(
+            Payments::sum([
+                'conditions' =>
+                    $todayPaymentsQuery .
+                    " AND (status = '" .
+                    Payments::PAID .
+                    "' OR status = '" .
+                    Payments::AUTHORIZED .
+                    "')",
+                'column' => 'sum'
+            ])
+        );
+        $lastDayPaymentsCount = round(
+            Payments::sum([
+                'conditions' =>
+                    $lastDayPaymentsQuery .
+                    " AND (status = '" .
+                    Payments::PAID .
+                    "' OR status = '" .
+                    Payments::AUTHORIZED .
+                    "')",
+                'column' => 'sum'
+            ])
+        );
+        $todayPayments->diff = Utils\Text::countDiff(
+            $todayPayments->count,
+            $lastDayPaymentsCount
+        );
+        $today->payments = $todayPayments;
+        //Деньги
 
-		//Заявки из приложения
-		$todayApps = new \stdClass();
-		$todayApps->count = (int)Requests::count($todayQuery  . $mobileQuery);
-		$lastDayAppsCount = (int)Requests::count($lastDayQuery  . $mobileQuery);
-		$todayApps->diff = Utils\Text::countDiff($todayApps->count, $lastDayAppsCount);
-		$today->apps = $todayApps;
-		//Заявки из приложения
+        //Заявки из приложения
+        $todayApps = new \stdClass();
+        $todayApps->count = (int) Requests::count($todayQuery . $mobileQuery);
+        $lastDayAppsCount = (int) Requests::count($lastDayQuery . $mobileQuery);
+        $todayApps->diff = Utils\Text::countDiff(
+            $todayApps->count,
+            $lastDayAppsCount
+        );
+        $today->apps = $todayApps;
+        //Заявки из приложения
 
-		$week = new \stdClass();
+        $week = new \stdClass();
 
-		$weekStartDate = new \DateTime('this week');
-		$weekEndDate = new \DateTime('next sunday');
+        $weekStartDate = new \DateTime('this week');
+        $weekEndDate = new \DateTime('next sunday');
 
-		$lastWeekStartDate = new \DateTime('last week');
-		$lastWeekEndDate = new \DateTime('last sunday');
+        $lastWeekStartDate = new \DateTime('last week');
+        $lastWeekEndDate = new \DateTime('last sunday');
 
-		$weekQuery = 'creationDate BETWEEN "' . $weekStartDate->format('Y-m-d') . ' 00:00:00" AND "' . $weekEndDate->format('Y-m-d') . ' 23:59:59"';
-		$weekPaymentsQuery = 'payDate BETWEEN "' . $weekStartDate->format('Y-m-d') . ' 00:00:00" AND "' . $weekEndDate->format('Y-m-d') . ' 23:59:59"';
-		$lastWeekQuery = 'creationDate BETWEEN "' . $lastWeekStartDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastWeekEndDate->format('Y-m-d') . ' 23:59:59"';
-		$lastWeekPaymentsQuery = 'payDate BETWEEN "' . $lastWeekStartDate->format('Y-m-d') . ' 00:00:00" AND "' . $lastWeekEndDate->format('Y-m-d') . ' 23:59:59"';
+        $weekQuery =
+            'creationDate BETWEEN "' .
+            $weekStartDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $weekEndDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $weekPaymentsQuery =
+            'payDate BETWEEN "' .
+            $weekStartDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $weekEndDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $lastWeekQuery =
+            'creationDate BETWEEN "' .
+            $lastWeekStartDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $lastWeekEndDate->format('Y-m-d') .
+            ' 23:59:59"';
+        $lastWeekPaymentsQuery =
+            'payDate BETWEEN "' .
+            $lastWeekStartDate->format('Y-m-d') .
+            ' 00:00:00" AND "' .
+            $lastWeekEndDate->format('Y-m-d') .
+            ' 23:59:59"';
 
-		//Заявки
-		$weekRequests = new \stdClass();
-		$weekRequests->count = (int)Requests::count($weekQuery. $webQuery);
-		$lastWeekRequestsCount = (int)Requests::count($lastWeekQuery. $webQuery);
-		$weekRequests->diff = Utils\Text::countDiff($weekRequests->count, $lastWeekRequestsCount);
-		$week->requests = $weekRequests;
-		//Заявки
+        //Заявки
+        $weekRequests = new \stdClass();
+        $weekRequests->count = (int) Requests::count($weekQuery . $webQuery);
+        $lastWeekRequestsCount = (int) Requests::count(
+            $lastWeekQuery . $webQuery
+        );
+        $weekRequests->diff = Utils\Text::countDiff(
+            $weekRequests->count,
+            $lastWeekRequestsCount
+        );
+        $week->requests = $weekRequests;
+        //Заявки
 
-		//Деньги
-		$weekPayments = new \stdClass();
-		$weekPayments->count = round(Payments::sum([
-			'conditions' => $weekPaymentsQuery . " AND status = '" . Payments::PAID . "'",
-			'column' => 'sum'
-		]));
-		$lastWeekPaymentsCount = round(Payments::sum([
-			'conditions' => $lastWeekPaymentsQuery . " AND status = '" . Payments::PAID . "'",
-			'column' => 'sum'
-		]));
-		$weekPayments->diff = Utils\Text::countDiff($weekPayments->count, $lastWeekPaymentsCount);
-		$week->payments = $weekPayments;
-		//Деньги
+        //Деньги
+        $weekPayments = new \stdClass();
+        $weekPayments->count = round(
+            Payments::sum([
+                'conditions' =>
+                    $weekPaymentsQuery .
+                    " AND status = '" .
+                    Payments::PAID .
+                    "'",
+                'column' => 'sum'
+            ])
+        );
+        $lastWeekPaymentsCount = round(
+            Payments::sum([
+                'conditions' =>
+                    $lastWeekPaymentsQuery .
+                    " AND status = '" .
+                    Payments::PAID .
+                    "'",
+                'column' => 'sum'
+            ])
+        );
+        $weekPayments->diff = Utils\Text::countDiff(
+            $weekPayments->count,
+            $lastWeekPaymentsCount
+        );
+        $week->payments = $weekPayments;
+        //Деньги
 
-		//Заявки из приложений
-		$weekApps = new \stdClass();
-		$weekApps->count = (int)Requests::count($weekQuery  . $mobileQuery);
-		$lastWeekAppsCount = (int)Requests::count($lastWeekQuery  . $mobileQuery);
-		$weekApps->diff = Utils\Text::countDiff($weekApps->count, $lastWeekAppsCount);
-		$week->apps = $weekApps;
-		//Заявки из приложений
+        //Заявки из приложений
+        $weekApps = new \stdClass();
+        $weekApps->count = (int) Requests::count($weekQuery . $mobileQuery);
+        $lastWeekAppsCount = (int) Requests::count(
+            $lastWeekQuery . $mobileQuery
+        );
+        $weekApps->diff = Utils\Text::countDiff(
+            $weekApps->count,
+            $lastWeekAppsCount
+        );
+        $week->apps = $weekApps;
+        //Заявки из приложений
 
-		$this->view->setVar('today', $today);
-		$this->view->setVar('week', $week);
+        $this->view->setVar('today', $today);
+        $this->view->setVar('week', $week);
+    }
 
-	}
-
-	public function blogAction() {
-
-		/*$this->view->disable();
+    public function blogAction()
+    {
+        /*$this->view->disable();
 		echo '<pre>';
 
 		$db = mysqli_connect('localhost', 'putevki', 'Oz2000Pvv2013', 'putevki_ru');
@@ -124,34 +222,35 @@ class IndexController extends ControllerBase
 			$post->fromJoomla($item);
 			$post->create();
 		}*/
-	}
+    }
 
-	public function subscribeFCMAction() {
-	    $this->view->disable();
-	    $token = $this->request->getPost('token');
+    public function subscribeFCMAction()
+    {
+        $this->view->disable();
+        $token = $this->request->getPost('token');
 
-	    $user = $this->user;
-	    if(!is_array($user->fcmTokens)) {
-	        $user->fcmTokens = [];
+        $user = $this->user;
+        if (!is_array($user->fcmTokens)) {
+            $user->fcmTokens = [];
         }
 
-	    if(!in_array($token, $user->fcmTokens)) {
+        if (!in_array($token, $user->fcmTokens)) {
             array_push($user->fcmTokens, $token);
             FCM::subscribeTopic('requests', $token);
             return json_encode(['saved' => $user->save()]);
         }
 
         return json_encode(['saved' => true]);
-
     }
 
-    public function unsubscribeFCMAction() {
+    public function unsubscribeFCMAction()
+    {
         $this->view->disable();
         $token = $this->request->getPost('token');
 
         $user = $this->user;
 
-        if(in_array($token, $user->fcmTokens)) {
+        if (in_array($token, $user->fcmTokens)) {
             if (($key = array_search($token, $user->fcmTokens)) !== false) {
                 unset($user->fcmTokens[$key]);
             }
@@ -161,10 +260,9 @@ class IndexController extends ControllerBase
         return json_encode(['saved' => true]);
     }
 
-    public function trySendAction() {
-	    $fcm = new FCM();
-	    $fcm->send('test', 'test body', 'requests');
+    public function trySendAction()
+    {
+        $fcm = new FCM();
+        $fcm->send('test', 'test body', 'requests');
     }
-
 }
-

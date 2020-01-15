@@ -4,7 +4,8 @@ namespace Models\Entities;
 
 use Models\Tourvisor\Hotels;
 
-class HotelTypes {
+class HotelTypes
+{
     const KEYS_SEPARATOR = ';';
 
     public $deluxe;
@@ -15,7 +16,8 @@ class HotelTypes {
     public $health;
     public $city;
 
-    public static function fromHotel(Hotels $hotel) {
+    public static function fromHotel(Hotels $hotel)
+    {
         $types = '';
         $types .= $hotel->deluxe;
         $types .= $hotel->beach;
@@ -27,7 +29,8 @@ class HotelTypes {
         return $types;
     }
 
-    public static function getMask() {
+    public static function getMask()
+    {
         $self = new HotelTypes();
         $keys = array_keys(get_object_vars($self));
         return implode(self::KEYS_SEPARATOR, $keys);

@@ -6,8 +6,8 @@ use Models\BaseModel;
 
 class RequestStatuses extends BaseModel
 {
-	public $id;
-	public $key;
-	public $name;
-	public $class;
+    public $id;
+    public $key;
+    public $name;
+    public $class;
 }

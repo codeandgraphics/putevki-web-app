@@ -10,20 +10,20 @@ use Phalcon\Paginator\Adapter\QueryBuilder as PaginatorBuilder;
 
 class OperatorsController extends BaseController
 {
-	public function operatorAction()
-	{
-		$operatorSlug = $this->dispatcher->getParam('slug');
+    public function operatorAction()
+    {
+        $operatorSlug = $this->dispatcher->getParam('slug');
 
-    $operator = Operators::findFirstBySlug($operatorSlug);
-    
-		if(!$operator) {
-			return $this->response->setStatusCode(404);
-		}
+        $operator = Operators::findFirstBySlug($operatorSlug);
 
-		$this->view->setVars([
-			'title'         => $operator->fullName . ' на ',
-			'operator'      => $operator,
-			'page'          => 'operator'
-		]);
-	}
+        if (!$operator) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $this->view->setVars([
+            'title' => $operator->fullName . ' на ',
+            'operator' => $operator,
+            'page' => 'operator'
+        ]);
+    }
 }

@@ -4,5 +4,5 @@ namespace Interfaces;
 
 interface IEmail
 {
-	public function send($to, $subject, $message, $additionalEmails = null);
+    public function send($to, $subject, $message, $additionalEmails = null);
 }
