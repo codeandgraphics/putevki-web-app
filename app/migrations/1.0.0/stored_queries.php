@@ -110,8 +110,8 @@ class StoredQueriesMigration_100 extends Migration
                     'after' => 'filtersRating'
                 ]),
                 new Column('searchId', [
-                    'type' => Column::TYPE_INTEGER,
-                    'size' => 11,
+                    'type' => Column::TYPE_BIGINTEGER,
+                    'size' => 8,
                     'after' => 'filtersOperator'
                 ]),
                 new Column('date', [

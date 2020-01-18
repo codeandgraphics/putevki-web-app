@@ -5,7 +5,6 @@ namespace Frontend\Controllers;
 use Frontend\Models\Params;
 use Models\Countries;
 use Models\Regions;
-use Models\SearchQuery;
 use Models\Tourvisor;
 
 class CountriesController extends BaseController
@@ -25,15 +24,9 @@ class CountriesController extends BaseController
 
         if (!$country) {
             return $this->response->setStatusCode(404);
-        } else {
-            return $this->response->redirect(
-                'https://putevki.ru/countries/' . $countryUri . '/',
-                true,
-                301
-            );
         }
 
-        /* $builder = $this->modelsManager->createBuilder()
+         $builder = $this->modelsManager->createBuilder()
 			->columns([
 				'region.*',
 				'tourvisor.*',
@@ -76,7 +69,7 @@ class CountriesController extends BaseController
 			'country'       => $country,
 			'regions'       => $regions,
 			'meta'          => $country->getMeta()
-		]); */
+		]);
     }
 
     public function turyAction()
@@ -94,7 +87,7 @@ class CountriesController extends BaseController
         );
 
         $this->response->redirect(
-            'https://putevki.ru/countries/' . $country->uri . '/' . $regionUri,
+            '/countries/' . $country->uri . '/' . $regionUri,
             true,
             301
         );
@@ -114,13 +107,7 @@ class CountriesController extends BaseController
             $region->tourvisor->country->id
         );
 
-        $this->response->redirect(
-            'https://putevki.ru/countries/' . $country->uri . '/' . $regionUri,
-            true,
-            301
-        );
-
-        /* $params = Params::getInstance();
+        $params = Params::getInstance();
 
 		$params->search->where->country = $country->tourvisorId;
 		$params->search->where->regions = [$region->tourvisorId];
@@ -144,6 +131,6 @@ class CountriesController extends BaseController
 			'country'       => $country,
 			'region'        => $region,
 			'meta'          => $region->getMeta()
-		]); */
+		]);
     }
 }

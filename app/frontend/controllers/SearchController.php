@@ -4,10 +4,8 @@ namespace Frontend\Controllers;
 
 use Frontend\Models\Params;
 use Phalcon\Http\Response;
-use Models\Origin;
 use Models\Tourvisor;
 use Models\SearchQuery;
-use Models\StoredQueries;
 
 class SearchController extends BaseController
 {

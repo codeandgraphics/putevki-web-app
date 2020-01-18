@@ -1,34 +1,10 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{HTTP_HOST} ^www.putevki\.ru [NC]
-RewriteRule ^(.*)$ http://putevki.ru/$1 [L,R=301]
+    RewriteRule ^(.*)$ http://putevki.ru/$1 [L,R=301]
 	
 	RewriteCond %{HTTPS} !=on
 	RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
-	
-	RewriteCond %{REQUEST_URI} ^/sunmar$
-	RewriteRule ^.*$ https://putevki.ru/operators/sunmar? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/coral$
-	RewriteRule ^.*$ https://putevki.ru/operators/coral? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/pegas$
-	RewriteRule ^.*$ https://putevki.ru/operators/pegas? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/tez-tour$
-	RewriteRule ^.*$ https://putevki.ru/operators/tez-tour? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/mouzenidis$
-	RewriteRule ^.*$ https://putevki.ru/operators/mouzenidis? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/biblio-globus$
-	RewriteRule ^.*$ https://putevki.ru/operators/biblio-globus? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/tui$
-	RewriteRule ^.*$ https://putevki.ru/operators/tui? [R=301,L]
-	
-	RewriteCond %{REQUEST_URI} ^/anex$
-	RewriteRule ^.*$ https://putevki.ru/operators/anex? [R=301,L]
 	
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
@@ -57,7 +33,6 @@ AddOutputFilterByType DEFLATE application/xhtml+xml
 AddOutputFilterByType DEFLATE application/rss+xml
 AddOutputFilterByType DEFLATE application/javascript
 AddOutputFilterByType DEFLATE application/x-javascript
-#AddOutputFilterByType DEFLATE application/json
 AddOutputFilterByType DEFLATE font/opentype
 AddOutputFilterByType DEFLATE font/truetype
 
@@ -70,7 +45,6 @@ AddOutputFilterByType DEFLATE font/truetype
     ExpiresByType image/png "access 1 year"
     ExpiresByType text/css "access 1 month"
     ExpiresByType text/html "now"
-    #ExpiresByType application/json "access 5 minutes"
     ExpiresByType application/pdf "access 1 month"
     ExpiresByType text/x-javascript "access 1 month"
     ExpiresByType application/x-shockwave-flash "access 1 month"
