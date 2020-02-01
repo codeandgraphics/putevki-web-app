@@ -47,7 +47,7 @@
 		"jquery.scrollto": "^2.1.2",
 		"lesshat": "^4.1.0",
 		"lightslider": "^1.1.6",
-		"lodash": "^4.17.5",
+		"lodash": "^4.17.13",
 		"masonry-layout": "^4.2.0",
 		"moment": "^2.18.1",
 		"sticky-kit": "^1.1.3",
