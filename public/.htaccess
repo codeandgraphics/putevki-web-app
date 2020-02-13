@@ -1,14 +1,14 @@
 <IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteCond %{HTTP_HOST} ^www.putevki\.ru [NC]
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^www.putevki\.ru [NC]
     RewriteRule ^(.*)$ http://putevki.ru/$1 [L,R=301]
-	
-	RewriteCond %{HTTPS} !=on
-	RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
-	
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
+
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
 </IfModule>
 
 <ifModule mod_gzip.c>

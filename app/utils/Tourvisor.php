@@ -4,7 +4,7 @@ namespace Utils;
 
 class Tourvisor
 {
-    const LOGIN = 'putevki';
+    const LOGIN = 'putevki.travel';
     const PASS = 'otpuskk';
     const ENDPOINT = 'https://tourvisor.ru/xml/';
 
