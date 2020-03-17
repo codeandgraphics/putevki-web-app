@@ -13,7 +13,7 @@
 			</a>
 		</div>
 
-		<a href="#" class="close-overlay">
+		<a href="https://m.putevki.ru" class="close-overlay">
 			Перейти к сайту
 		</a>
 	</div>

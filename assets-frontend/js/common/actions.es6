@@ -30,7 +30,7 @@ export function mobileOverlay() {
 
   if (isMobile && !isClosed) {
     $('body').addClass('disable-scroll');
-    $('#mobile-overlay').removeClass('hidden').find('.close-overlay').on('click', () => {
+    $('#mobile-overlay').removeClass('hidden').find('.close-overlay'); /*.on('click', () => {
       $('meta[name=viewport]').prop('content', 'width=1230');
       $('#mobile-overlay').addClass('hidden');
       $('body').removeClass('disable-scroll');
@@ -38,7 +38,7 @@ export function mobileOverlay() {
       $.jStorage.set('mobile-overlay', 'closed');
 
       return false;
-    });
+    }); */
     $('meta[name=viewport]').prop('content', 'initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no');
   }
 }
