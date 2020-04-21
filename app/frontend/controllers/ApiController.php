@@ -67,9 +67,11 @@ class ApiController extends BaseController
 
         $body->date = $clientDate;
 
-        $string = json_encode(
-            $body,
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        $string = rawurlencode(
+            json_encode(
+                $body,
+                JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE
+            )
         );
 
         $sec = new Security();
